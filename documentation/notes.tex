@@ -1,0 +1,93 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{url} 
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Notes},%
+		pdftex]{hyperref}
+		
+
+\title{BibTeX Bibliography Index Maker: Notes}
+\author{Ramon Xuriguera}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{BibTeX}
+Aspectes del format BibTeX a tenir en compte:
+\begin{itemize}
+\item{Com podem distingir entre diferents tipus d'entrada (article, book, inproceedings, etc.) a partir del fitxer?}
+\item{Format dels noms. Un nom consisteix de diferents parts: First, von, Last, Jr. El token \textit{von} o \textit{de la} cal posar-los
+en minúscules. Per tal que el nom es reconegui, cal que tingui el format: von Last, Jr, First. D'aquesta manera, si hi ha més d'un
+cognom no passa res.}
+\item{Caràcters Unicode entre claus per poder ser utilitzats correctament per l'estil \textit{alpha}. Per exemple \verb=Jos{\'{e}=}
+\item{Per prevenir que BibTeX canviï un text a minúscules, cal posar el text entre claus.}
+\item{Si hi ha massa autors, truncar la llista amb \textit{et al.}}
+\item{Utilitzar abreviatures de tres lletres per als mesos}
+\item{Utilitzar el camp \texttt{key} per a organitzacions amb un nom llarg, de manera que s'utilitzin les inicials de l'organització 
+al fer una cita}
+
+\end{itemize}
+
+\section{PDF}
+Si un fitxer PDF ha estat generat utilitzant el paquet \texttt{hyperref} o similar, podem obtenir les següents dades del fitxer sense
+haver-ne d'extreure el text: número de pàgines, títol, autor, assumpte i paraules clau. Si aquests camps no s'han omplert al 
+generar el fitxer, estaran en blanc.
+\\
+\\
+Aspectes a considerar:
+\begin{itemize}
+\item{Caràcters Unicode}
+\item{Glyphs com ara \textit{fi} corresponen a més d'una lletra}
+\end{itemize}
+
+\subsection{Text extraction}
+\subsubsection{PDFBox}
+Aquest projecte es troba a la incubadora d'Apache.
+\subsubsection{pyPDF}
+\subsubsection{PDFMiner}
+Programes desenvolupats en Python per etreure i analitzar dades de documents PDF.
+\subsubsection{jPod}
+
+\section{Articles Db}
+\subsection{DBLP}
+DBLP proporciona un 
+\subsection{Portal ACM}
+\subsection{Altres}
+\begin{itemize}
+\item{CiteSeerX}
+
+\item{Arxiv.org}
+	\url{http://arxiv.org/help/api/index}
+\end{itemize}
+
+\section{Software existent}
+\url{http://en.wikipedia.org/wiki/Comparison_of_reference_management_software}
+\subsection{JabRef}
+\begin{itemize}
+\item{Java}
+\item{Llicència: GPL}
+\item{És possible crear plug-ins amb \textit{Java Plug-in Framework}}
+\item{\url{http://jabref.sourceforge.net/}}
+\end{itemize}
+
+\subsection{Mendeley}
+\begin{itemize}
+\item{Propietari}
+\item{No accepta plug-ins}
+\item{\url{http://www.mendeley.com/}}
+\end{itemize}
+
+\subsection{BibDesk}
+\begin{itemize}
+\item{C, Objective C}
+\item{Llicència: BSD}
+\item{\url{http://bibdesk.sourceforge.net/}}
+\end{itemize}
+
+\end{document}
