@@ -1,0 +1,43 @@
+Resum de les coses que hem parlat:
+
+Projecte: "Bibtex bibliography index maker" .. i possiblement més coses
+
+La idea és generar automàticament un (o més) fitxer(s) ".bib" a partir d'una o vàries carpetes que contenen PDFs corresponents a articles publicats acadèmics. La tècnica serà recórrer la llista de fitxers pdf trobats als llocs indicats, i per cada un d'aquest fitxers farem el següent:
+
+llegir el contigut del pdf i extreure la informació necessària com titol, autor, revista, etc etc; en realitat el que volem és per cada pdf, trobar el codi bibtex associat a la publicació. Per això haurem de fer servir:
+       - eina per extraure el texte del document de PDF; en principi si també ens dona el format (per exemples, molts títols tendeixen a estar en negrita, però no sempre)
+       - eines tipus "NLP" (= natural language processing) per detectar quin és el possible nom, títol, abstract, nom de revista, volum, pàgines, etc etc etc...  potser no cal extreure tots els camps rellevants per generar la entrada bibtex, però sí ha de ser per utilitzar aquesta informació per cercar la publicació a les bases de dades públiques existents
+       - accedir a bases de dades públiques i obtenir la entrada bibtex corresponent al pdf analitzat; possibles BDs:
+               - una molt popular és la DBLP  http://www.informatik.uni-trier.de/~ley/db/  que conté publicacions del camp de la informàtica i similars; possiblement tinguin una API que permeti accedir directament a les seves dades, no sé si serà necessari fer còpia local de les dades o no.. això s'hauria de mirar...
+               - una altra és el portal de l'ACM digital library: http://portal.acm.org/dl.cfm
+       tant a la DBLP com a la de l'ACM, hi ha enllaços al codi bibtex ... la qüestió és averiguar com accedir a aquest codi automàticament desde dintre de la teva aplicació
+       una forma és utilitzar eines tipus "wget" que et permeten obtanir el codi html de l'adreça que passis, i fent un estudi del html obtingut anar fent crides fins trobar la pàgina que conté la informació, però potser si aquestes DBs ofereixen APIs o altres formes d'accedir a la informació sigui millor més que res perquè si canvien el format, hauriem de refer el codi perquè reconeixi el nou format
+
+També haurem de pensar en fer una petita aplicació que gestioni aquests fitxers bibtex tipus "JabRef". De fet, a mi m'agradaria que la funcionalitat s'integres amb el jabref i també amb el Mendeley http://www.mendeley.com/ però això s'haurà de mirar si és possible o no. JabRef és open source, però em sembla que Mendeley no, així que en principi seria mes dificil amb el Mendeley. Però de cara a fer un PFC, hauràs de fer la teva pròpia aplicació de gestió dels articles trobats; jo no perdria massa temps en fer-ho bonic, però ho hauràs de fer...   l'avantatge és que si tens la teva eina, podrem fàcilment implementar algorismes de clustering (per agrupar les referències que pertanyen al mateix tema, per exemple) per auto-organitzar les publicacions o fer coses semblants.
+
+Si vols fer coses més de recerca, una vegada tenim els articles a la base de dades podriem pensar en:
+
+1. Recomanació de lectura d'articles. Per això lo ideal seria tenir informació de quins articles troba interessant l'usuari, si es tenen "ratings" de l'usuari doncs molt be, però a falta d'aixó podriem veure els temes que interessen a una persona concreta (per exemple, aquesta informació la podem treure de la xarxa d'articles amb citacions de DBLP) -- això ho hauriem de pensar amb calma, veure que informació tenim disponible, quins tipus d'algorismes fem servir, etc etc etc però es pot pensar
+
+2. Classificació automàtica d'articles per temes -- podem utilitzar els "keywords" que algunes entrades bibtex dels articles, però a falta d'això podem utilitzar el contingut mateix dels articles (això correspon a la primera proposta de PFC que vaig enviar)
+
+3. Detecció de duplicats o de versions diferents que corresponen al mateix article (per exemple, un tech report i la versió d'acta de congres o de revista...)
+
+4. Estudi de l'evolució dels temes d'interes al llarg del temps [això es pot fer de nomes la base de dades de l'usuari o també de totes les publicacions d'una revista concreta o congres, o grups de publicacions, o de tot!]
+
+... ara mateix no se m'acut res mes però les possibilitats són bastant grans!
+
+
+Altres temes que haurem de resoldre:
+
+- plataforma? (windows, linux, .......?)
+- llenguatge de programació? (java pel jabref, python, ...?)
+
+
+
+Proposo que et llegueixis aquest mail amb calma, si tens qualsevol dubte em preguntes, i que vagis començant a familiaritzar-te amb
+
+1. format bibtex, també amb els camps especials que utilitza el jabref; et passo un fitxer que ha generat jabref d'exemple (de fet, aquest fitxer no l'ha generat el jabref sino un altre programa del MAC que és similar (BibDesk), però són similar i per ara és suficient amb que comencis a entendre el format bibtex; si vols mirar documentació del jabref, endavant!
+
+2. eines públiques d'acces a la ACM digital library o al DBLP; començar a pensar quina alternativa és millor
+
