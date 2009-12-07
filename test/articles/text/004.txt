@@ -1,0 +1,36 @@
+Steady-state superradiance with alkaline earth atoms
+D. Meiser and M. J. Holland
+JILA and Department of Physics, The University of Colorado, Boulder, Colorado 80309-0440, USA (Dated: December 3, 2009) Earth-alkaline-like atoms with ultra-narrow transitions open the door to a new regime of cavity quantum electrodynamics. That regime is characterized by a critical photon number that is many orders of magnitude smaller than what can be achieved in conventional systems. We show that it is possible to achieve superradiance in steady state with such systems. We discuss the basic underlying mechanisms as well as the key experimental requirements.
+PACS numbers: 42.50.Fx, 37.30.+i, 42.50.Pq, 42.50.Ct, 42.55.Ah, 42.50.Lc
+
+arXiv:0912.0690v1 [quant-ph] 3 Dec 2009
+
+Superradiance, first introduced by Dicke over 50 years ago [1], is one of the pillars of cavity quantum electrodynamics (CQED). Superradiance occurs due to the constructive interference of the probability amplitudes for spontaneous decay of several atoms. Due to its generality and conceptual simplicity it is a paradigm system for collective behavior. Usually superradiance is transient; atoms initially prepared in the excited state relax to the ground state rapidly and the collective emission terminates. To date superradiance has not been achieved in a continuous fashion. The goal of this letter is to show that steady-state superradiance can be achieved with ultracold alkaline earth atoms in high finesse cavities. Such systems are experimentally available in the form of optical lattice clocks [2, 3]. Recently Bose Einstein condensates of such atoms have also become available with Ca [4] and Sr atoms [5, 6]. Atoms with a two-electron level structure possess narrow inter-combination lines that, due to selection rules, are dipole-forbidden, and typically have lifetimes many orders of magnitude longer than dipole-allowed transitions. The long lived excited state is essential for superradiance in steady-state because it allows the buildup of population inversion even as the population of the excited state is drained by the collective decay. For dipoleallowed transitions, on the other hand, superradiant decay is so rapid that it would exhaust the supply of excited state atoms before it could be replenished by repumping, and consequently the superradiant emission must cease. Besides being of fundamental importance, steady state superradiant systems are also interesting because of their potential applications. The most immediate application is the possibility to build active optical clocks where the light serving as a frequency standard is derived directly from the atoms [7, 8]. Such systems have the potential to improve the stability of the best clocks by about two orders of magnitude. Another area of application is to strongly-correlated physics. The atoms in this system evolve into exotic many-particle states due to their collective interaction with the light field. These states could be of interest for quantum information purposes as well as for the exploration and study of many-particle phases of condensed matter. The model that we consider is depicted in Fig. 1(a). N two level atoms with excited state |e and ground state
+
+(a) 
+|g
+
+
+|e
+
+
+
+c
+
+6 4 Log10 n0 2 0 2 4
+
+b maser
+
+laser
+
+Group II 10 5 0
+
+CQED 5
+
+Log10 m0
+
+FIG. 1: (Color online) (a) Schematic of a coupled atom-cavity system leading to steady state superradiance. (b) The parameter space of CQED spanned by the critical atom number n0 and the critical photon number m0 . The collective behavior of the coupled atom-cavity system undergoes a cross-over from stimulated emission dominated (laser-like) at large m0 to collective spontaneous emission dominated (superradiance-like) for small m0 .
+
+|g decay with rate c = C through the mode of a cavity, where C = g 2 /() is the single atom cooperativity parameter. The transition from |e to |g is assumed to be a narrow inter-combination line. The atomic free space spontaneous emission rate is , the single photon Rabi frequency is g, and the cavity decay rate is . For simplicity we assume that all atoms couple identically to the cavity mode. The rate c is assumed to be much larger than the rates for non-collective decay processes and dephasing. That approximation requires that N C 1. At the same time the atoms are being non-collectively repumped to the excited state with an effective rate w. This could be achieved by resonantly driving a transition to a third state with Rabi frequency  that decays rapidly with rate  to |e .
+
+

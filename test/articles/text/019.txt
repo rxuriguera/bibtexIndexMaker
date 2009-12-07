@@ -1,0 +1,14 @@
+Optical Observations of the CBS HZ Her=Her X-1 c 2009 . Sazonov A.N. Sternberg Astronomical Institute, Universitetskii pr. 13, Moscow, 119992 Russia
+
+arXiv:0912.0706v2 [astro-ph.SR] 4 Dec 2009
+
+Introduction
+
+The high accuracy and long time span of photoelectric observations allow them to be used for multifactor analyses and refining some of the "fine" photometric effects in the light curves of close binary systems. The results obtained can be subsequently interpreted in terms of the model of mass flow from the optical component of the close binary systems onto the accretion disk of the neutron star, which can explain satisfactorily the irregularities of the gaseous flow, the "hot spot", and the presence of splashes moving in individual Keplerian trajectories about the outer parts of the accretion disk of the neutron star Her X-1.
+Photometric peculiarities of the accretion formation of the neutron star Her X-1 and its geometry in 1986-1990
+
+When analyzing the photometric data in during the 1986 season (fig01(a-d)), one must bear in mind that the scatter of individual measurements in the B, and especially, in the W filter at times exceeds, on the average, the corresponding standard errors (up to 0m .30m.5), most likely, due to the physical variability of the optical star, as we pointed out in our earlier papers [1], [2], [3]. During the 1988 season the accretion formation in the system increased in size, resulting in an increase of the duration of the secondary minimum Min , contrary to the conclusion made by Kiliachkov [4]. This discrepancy can be explained by the small number of observational data points used by the above authors compared to the data set that we use in this paper, and the lack of W- (or U-) and R-band in the former analysis.
+
+1
+
+

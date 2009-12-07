@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Title</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="generator" content="pdftohtml 0.36">
+<META name="author" content="Author">
+<META name="keywords" content="">
+<META name="date" content="2008-08-19T14:04:20+00:00">
+<META name="subject" content="Subject">
+</HEAD>
+<BODY bgcolor="#A0A0A0" vlink="blue" link="blue">
+<A name=1></a><b>Enhancing Prediction on Non-dedicated Clusters</b><br>
+Joseph Ll. L´erida1, F. Solsona1, F. Gin´e1, J.R. Garc´ia2,<br>
+M. Hanzich2, and P. Hern´andez2<br>
+1 Departamento de Inform´atica e Ingenier´ia Industrial, Universitat de Lleida, Spain<br>
+{jlerida,francesc,sisco}@diei.udl.cat<br>
+2 Departamento de Arquitectura y Sistemas Operativos,<br>
+Universitat Aut`onoma de Barcelona, Spain<br>
+{jrgarcia,mauricio,porfidio.hernandez}@aomail.uab.es<br>
+<b>Abstract. </b>In this paper, we present a scheduling scheme to estimate the<br>turnaround time of parallel jobs on a heterogeneous and non-dedicated cluster<br>or NoW(Network of Workstations). This scheme is based on an analytical pre-<br>diction model that establishes the processing and communication slowdown of<br>the execution times of the jobs based on the cluster nodes and links powerful and<br>occupancy. Preservation of the local application responsiveness is also a goal.<br>
+We address the impact of inaccuracies in these estimates on the overall system<br>
+performance. Furthermore, we demonstrate that job scheduling benefits from the<br>accuracy of these estimates. The applicability of our proposal has been proved<br>by measuring the efficiency of our method by comparing the predicted deviations<br>of the parallel jobs in a real environment with respect to the most representative<br>ones of the literature.<br>
+The additional cost of obtaining these was also evaluated and compared.<br>
+The present work is implemented within the CISNE project, a previously devel-<br>oped scheduling framework for non-dedicated and heterogeneous cluster<br>environments.<br>
+<b>1</b><br>
+<b>Introduction</b><br>
+Several studies [1] have revealed that a high percentage of the computing resources<br>in NoWs and Clusters environments are idle. The possibility of using this computing<br>power to execute parallel jobs without perturbing the performance of the local users<br>applications on each workstation has led to a proposal for new job schedulers [6, 7, 15].<br>
+With the aim of taking advantage of the idle computing resources available across<br>
+the cluster, in a previous work [6], we developed a new scheduling environment, named<br>CISNE. Entering jobs wait in an input queue to be scheduled and mapped into the<br>cluster. The Scheduler supports backfilling and mapping techniques based on predic-<br>tion of the turnaround time of parallel jobs. The prediction engine is a simulation<br>tool, integrated into the CISNE scheduling system. Estimation of the future state of<br>the NoW/Cluster is a critical component of our scheduling environment. It was also so<br>in other well-known systems, as in [2, 3, 12, 13].<br>
+The first step to estimate the future cluster state is to predict the job run times. In this<br>
+sense, there are a large number of proposals. The most widely used method is based on a<br>
+This work was supported by the MEyC-Spain under contract TIN2007-64974.<br>
+E. Luque, T. Margalef, and D. Ben´itez (Eds.): Euro-Par 2008, LNCS 5168, pp. 233­242, 2008.<br>
+c Springer-Verlag Berlin Heidelberg 2008<br>
+<hr>
+<A name="outline"></a><h1>Document Outline</h1>
+<ul><li>Enhancing Prediction on Non-dedicated Clusters
+<ul><li><A href="html/024.html#1">þÿ</A>
+<li><A href="html/024.html#2">þÿ</A>
+<ul><li><A href="html/024.html#4">þÿ</A>
+<li><A href="html/024.html#4">þÿ</A>
+<li><A href="html/024.html#5">þÿ</A>
+</ul><li><A href="html/024.html#6">þÿ</A>
+<ul><li><A href="html/024.html#6">þÿ</A>
+</ul><li><A href="html/024.html#9">þÿ</A>
+<li>References
+</ul></ul><hr>
+</BODY>
+</HTML>

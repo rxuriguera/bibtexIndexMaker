@@ -1,0 +1,13 @@
+Polarized Electrogowdy spacetimes censored
+Ernesto Nungesser Max-Planck-Institut f¨r Gravitationsphysik u Albert-Einstein-Institut Am M¨hlenberg 1 u 14476 Potsdam, Germany December 3, 2009
+Abstract A sketch of the proof of strong cosmic censorship is presented for a class of solutions of the Einstein-Maxwell equations, those with polarized Gowdy symmetry. A key element of the argument is the observation that by means of a suitable choice of variables the central equations in this problem can be written in a form where they are identical to the central equations for general (i.e. non-polarized) vacuum Gowdy spacetimes. Using this it is seen that the results of Ringstr¨m o on strong cosmic censorship in the vacuum case have implications for the Einstein-Maxwell case. Working out the geometrical meaning of these analytical results leads to the main conclusion.
+
+arXiv:0912.0643v1 [gr-qc] 3 Dec 2009
+
+1
+
+Strong Cosmic Censorship (SCC)
+
+From the singularity theorems of Hawking and Penrose we know that singularities appear under general physically reasonable assumptions, but we do not know what happens in the singularities without a theory of quantum gravity. So if the singularities can influence what is outside, there would be a breakdown of predictability. A conjecture to solve this problem is the strong cosmic censorship hypothesis of Penrose [1]. We will use the following definition of SCC taken from [2]: Definition 1 (SCC) The maximal Cauchy development of all initial data for the Einstein-matter system belonging to an open dense subset is inextendible provided the matter model is well-behaved. 1
+
+

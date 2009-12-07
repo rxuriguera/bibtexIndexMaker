@@ -1,0 +1,20 @@
+Approximate solutions of the Dirac equation for the Rosen-Morse potential including the spin-orbit centrifugal term
+Sameer M. Ikhdair1, ∗
+1
+
+Department of Physics, Near East University, Nicosia, North Cyprus, Turkey
+(Dated: December 4, 2009)
+
+arXiv:0912.0619v1 [quant-ph] 3 Dec 2009
+
+Abstract
+We give the approximate analytic solutions of the Dirac equations for the Rosen-Morse potential including the spin-orbit centrifugal term. In the framework of the spin and pseudospin symmetry concept, we obtain the analytic bound state energy spectra and corresponding two-component upper- and lower-spinors of the two Dirac particles, in closed form, by means of the NikiforovUvarov method. The special cases of the s-wave κ = ±1 (l = l = 0) Rosen-Morse potential, the Eckart-type potential, the PT-symmetric Rosen-Morse potential and non-relativistic limits are brieﬂy studied. Keywords: Dirac equation, spin and pseudospin symmetry, bound states, Rosen-Morse potential, Nikiforov-Uvarov method.
+PACS numbers: 03.65.Pm; 03.65.Ge; 02.30.Gp
+
+∗
+
+E-mail: sikhdair@neu.edu.tr; sikhdair@gmail.com
+
+1
+
+

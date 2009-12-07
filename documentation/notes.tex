@@ -3,13 +3,17 @@
 \usepackage[latin1]{inputenc}
 \usepackage[catalan]{babel}
 \usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{listings}
 \usepackage{url} 
 
 \usepackage[pdfauthor={Ramon Xuriguera Albareda},%
 		pdfsubject={BibTeX Bibliography Index Maker},%
 		pdftitle={BibTeX Bibliography Index Maker: Notes},%
 		pdftex]{hyperref}
-		
+
+\lstset{numbers=left,breaklines=true,fancyvrb=false}		
 
 \title{BibTeX Bibliography Index Maker: Notes}
 \author{Ramon Xuriguera}
@@ -34,7 +38,7 @@ al fer una cita.}
 
 \end{itemize}
 
-\section{PDF}
+\section{Extracció del contingut dels fitxers PDF}
 Aspectes a considerar:
 \begin{itemize}
 \item{Caràcters Unicode}
@@ -45,49 +49,110 @@ haver-ne d'extreure el text: número de pàgines, títol, autor, assumpte i paraule
 generar el fitxer, estaran en blanc.}
 \end{itemize}
 
-\subsection{Text extraction}
-\subsubsection{PDFBox}
+\subsection{Software}
+\begin{itemize}
+\item{xPDF}
+Proporciona eines executables des de la línia de comandes per extreure el text.
+Només converteix a text pla, però no separa els diferents paràgrafs en línies diferents. Permet obtenir el resultat en diferents
+codificacions de caràcters, però no conserva els text correcte. És a dir, continua tenint problemes per extreure accents, etc.
+Amb l'eina \texttt{pdftohtml} podem obtenir informació d'algunes de les paraules en negreta, però separa cada línia amb una etiqueta
+br.
+\item{PDFBox}
 Llibreria escrita en Java i publicada sota la llicència \textit{Apache License v2.0}. Actualment es troba a la incubadora d'Apache. 
-\subsubsection{PDFMiner}
-Programes desenvolupats en Python per extreure i analitzar dades de documents PDF.
-\subsubsection{jPod}
+Permet obtenir el text i les metadades d'un fitxer. Separa els resultats per línia segons es troben en el document, no per paràgrafs.
+\end{itemize}
+
+
+
+\subsection{Procediment}
+
 
 \section{Articles Db}
 \begin{description}
+\item{\textbf{Google Scholar/Google Search API}}\\
+Enllaç directe a la cita en format BibTeX. Actualment no proporcionen cap API per obtenir-ho. Caldria fer-ho amb \texttt{wget}.
 \item{\textbf{DBLP}}\\
 DBLP proporciona una API molt simple per cercar autors autors i obtenir les seves publicacions, però no al revés. Al cercar per autor, es mostren
 les claus de cada publicació, però no el títol.
 \item{\textbf{Portal ACM}}
-\item{\textbf{Google Scholar}}\\
-Enllaç directe a la cita en format BibTeX. Actualment no proporcionen cap API per obtenir-ho. Caldria fer-ho amb \texttt{wget}.
 \item{\textbf{CiteSeerX}}
 \item{\textbf{Arxiv.org}}\\
 	\url{http://arxiv.org/help/api/index}
 \end{description}
 
-\section{Software existent}
-\url{http://en.wikipedia.org/wiki/Comparison_of_reference_management_software}
-\begin{description}
-\item{\textbf{JabRef}}\\
-Java, llicència: GPL.
+\section{JabRef}
+Java, llicència: LGPL.
 \\
-És possible crear plug-ins amb \textit{Java Plug-in Framework}.\\
-\url{http://jabref.sourceforge.net/}
-
-\item{\textbf{Mendeley}}\\
-Propietari, no accepta plug-ins.\\
-\url{http://www.mendeley.com/}
-
-\item{\textbf{BibDesk}}\\
-Objective C, BSD. \\
-\url{http://bibdesk.sourceforge.net/}
-\end{description}
+És possible crear plug-ins amb \textit{Java Plug-in Framework}. L'última versió d'aquest framework és de fa més de dos anys, actualment es troba en
+estat \textit{frozen} i és pre-OSGi. En el fòrum i el tracker de \textit{JabRef} no hi ha cap missatge en el que es discuteixin canvis sobre aquest tema. \\
+Extension-points permesos:
+\begin{itemize}
+\item{\textbf{ImportFormat}} 
+Add importers to JabRef accessible from the 'Import into ... database'.
+\item{EntryFetcher}
+Add access to databases like Citeseer or Medline to the Web Search menu.
+\item{ExportFormatTemplate}
+Add a template based export like the ones accessible using the Manage Custom Exports.
+\item{ExportFormat}
+Add an export filter to JabRef's export dialog, that is more complicated than the simple template based one.
+\item{ExportFormatProvider}
+A more powerful way to add export formats to JabRef.
+\item{LayoutFormatter}
+Add formatters that can be used in the layout based exporters.
+\item{\textbf{SidePanePlugin}}
+Add a side pane component that can do any kinds of operations. The panel is accessed from a Plugins menu in JabRef's main window.
+\end{itemize}
 
 \section{Llenguatge}
+La idea seria desenvolupar una aplicació de línia de comandes amb \textit{Jython}, Python sobre la JVM i utilitzar 
+
+\appendix
+\section{Exemples de text extret}
+A continuació es mostren algunes capçaleres d'articles i el resultat obtingut a l'extreure'n el text:
 \begin{itemize}
-\item{Java}
-\item{Python}
-\item{Java + Python amb Jython}
-\item{C\# i IronPython}
+
+\item{Text 1}
+    PDF:
+    \begin{figure}[h]
+    \begin{center}
+    \includegraphics[scale=0.7]{images/article01Header.pdf}
+    \end{center}
+    \end{figure}
+    
+    Text pla:
+    \begin{minipage}{0.8\textwidth}
+    \begin{Verbatim}
+    arXiv:0912.0725v1 [astro-ph.CO] 3 Dec 2009
+
+    Lorentz symmetry violation, dark matter and dark energy
+    Luis Gonzalez-Mestresa
+    a
+
+    LAPP, Universit de Savoie, CNRS/IN2P3, B.P. 110, 74941 Annecy-le-Vieux Cedex, France e
+
+    Taking into account the experimental results of the HiRes and AUGER collaborations, the present status of bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although significant constraints will emerge, a wide range of models and values of parameters will still be left open. Cosmological implications of allowed LSV patterns are discussed focusing on the origin of our Universe, the cosmological constant, dark matter and dark energy. Superbradyons (superluminal preons) may be the actual constituents of vacuum and of standard particles, and form equally a cosmological sea leading to new forms of dark matter and dark energy.
+
+    1. Patterns of Lorentz symmetry violation A formulation of Planck-scale Lorentz symmetry violation (LSV) testable in ultra-high energy cosmic-ray (UHECR) 
+    \end{Verbatim}
+    \end{minipage}
+    
+    HTML:
+    \begin{minipage}{0.8\textwidth}
+    \begin{Verbatim}    
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><HTML>
+    <HEAD>
+    <TITLE></TITLE>
+    </HEAD>
+    <BODY>
+    <A name=1></a>Lorentz symmetry violation, dark matter and dark energy<br>
+    Luis Gonzalez-Mestresa<br>
+    aLAPP, Universite de Savoie, CNRS/IN2P3, B.P. 110, 74941 Annecy-le-Vieux Cedex, France<br>
+    Taking into account the experimental results of the HiRes and AUGER collaborations, the present status of<br>
+    bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although significant constraints will emerge,<br>a wide range of models and values of parameters will still be left open. Cosmological implications of allowed<br>LSV patterns are discussed focusing on the origin of our Universe, the cosmological constant, dark matter and<br>dark energy. Superbradyons (superluminal preons) may be the actual constituents of vacuum and of standard<br>particles, and form equally a cosmological sea leading to new forms of dark matter and dark energy.<br>
+    1. Patterns of Lorentz symmetry violation<br>
+    \end{Verbatim}
+    \end{minipage}
+\item{Text 2}    
 \end{itemize}
+
 \end{document}

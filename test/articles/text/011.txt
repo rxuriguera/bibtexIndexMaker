@@ -1,0 +1,17 @@
+CP3-Origins-2009-25
+
+Constraints on Conformal Windows from Holographic Duals
+O. Antipin∗ Department of Physics, University of Jyv¨skyl¨, a a P.O.Box 35, FIN-40014 Jyv¨skyl¨, Finland a a and Helsinki Institute of Physics, P.O.Box 64, FIN-00014 University of Helsinki, Finland K. Tuominen†‡ CP3 -Origins, Campusvej 55, 5230 Odense, Denmark and Helsinki Institute of Physics, P.O.Box 64, FIN-00014 University of Helsinki, Finland
+(Dated: December 3, 2009)
+
+Abstract
+We analyze a beta function with the analytic form of Novikov-Shifman-Vainshtein-Zakharov result in the ﬁve dimensional gravity-dilaton environment. We show how dilaton inherits poles and ﬁxed points of such beta function through the zeros and points of extremum in its potential. Super Yang-Mills and supersymmetric QCD are studied in detail and Seiberg’s electric-magnetic duality in the dilaton potential is explicitly demonstrated. Non-supersymmetric proposals of similar functional form are tested and new insights into the conformal window as well as determinations of scheme-independent value of the anomalous dimension at the ﬁxed point are presented.
+
+On leave of absence from Department of Physics, University of Jyv¨skyl¨ a a Electronic address: oleg.a.antipin@jyu.ﬁ ‡ Electronic address: kimmo.tuominen@jyu.ﬁ
+∗
+
+†
+
+1
+
+

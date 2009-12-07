@@ -1,0 +1,14 @@
+Query Learning and Certificates in Lattices
+M. Arias and J.L. Balczar a
+LARCA Research Group, Departament LSI Universitat Politcnica de Catalunya e {marias,balqui}@lsi.upc.edu
+
+Abstract. We provide an abstract version, in terms of lattices, of the Horn query learning algorithm of Angluin, Frazier, and Pitt. To validate it, we develop a proof that is independent of the propositional Horn logic structure. We also construct a certificate set for the class of lattices that generalizes and improves an earlier certificate construction and that relates very clearly with the new proof.
+
+1
+
+Introduction
+
+In the area of Learning via Queries, the most successful protocol so far is via Membership and Equivalence queries. Three major algorithms for this model are the L* algorithm for learning regular sets in terms of deterministic finite automata [1]; the algorithm that learns monotone DNF (closely related to its corresponding PAC version by Valiant [20]); and a sophisticated evolution of the latter which allows for learning Horn formulas [3] (the two variants of the algorithm were named HORN and HORN1 in [3] but most researchers chose to call it "AFP algorithm" after the initials of the authors' names). Each of these has had a number of interesting applications. In particular, the AFP algorithm turned out to be crucial for developments in other areas such as Knowledge Compilation [19], Intuitionistic Logic Programming [14] or even Databases [18], and similar algorithms exist for learning from entailment [11] and for learning certain description logics [12]. Related research questions, with answers to a couple of them, are proposed in [6] and [17]; one of these contributions is an alternative way of proving the correctness of the AFP algorithm. Several studies proceeded to analyze combinatorial dimensions of learnability problems (see the survey [4]); initially, they were ways of stating lower bounds aiming at nonlearnability results [2]; it was later found that these dimensions characterized polynomial query learnability, for specific protocols first ([9], [10], [15], [16]) and in more generality later on ([4], [7], [8]). Specifically, for Membership and Equivalence protocols, the certificate size was shown to characterize query complexity [16]. Certificates are, essentially, sets of labeled examples whose correct classification requires a certain size of the representation mechanism under study (precise definitions are given below). The algorithm for learning deterministic finite automata proceeds by gathering strings that lead to each of the states, plus additional strings showing how each pair of states must be distinguished: in essence, they show how many states
+Y. Freund et al. (Eds.): ALT 2008, LNAI 5254, pp. 303-315, 2008. c Springer-Verlag Berlin Heidelberg 2008
+
+
