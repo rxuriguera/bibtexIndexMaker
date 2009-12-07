@@ -13,7 +13,11 @@
 		pdftitle={BibTeX Bibliography Index Maker: Notes},%
 		pdftex]{hyperref}
 
-\lstset{numbers=left,breaklines=true,fancyvrb=false}		
+\lstset{%
+    numbers=none,%
+    breaklines=true,%
+    fancyvrb=false%
+}		
 
 \title{BibTeX Bibliography Index Maker: Notes}
 \author{Ramon Xuriguera}
@@ -39,47 +43,76 @@ al fer una cita.}
 \end{itemize}
 
 \section{Extracció del contingut dels fitxers PDF}
-Aspectes a considerar:
-\begin{itemize}
-\item{Caràcters Unicode}
-\item{Glyphs com ara \textit{fi} corresponen a més d'una lletra}
-\item{Les llibreries extreuen el text per línies}
-\item{Podem obtenir les següents dades del fitxer sense
-haver-ne d'extreure el text: número de pàgines, títol, autor, assumpte i paraules clau. Si aquests camps no s'han omplert al 
-generar el fitxer, estaran en blanc.}
-\end{itemize}
 
 \subsection{Software}
 \begin{itemize}
 \item{xPDF}
 Proporciona eines executables des de la línia de comandes per extreure el text.
 Només converteix a text pla, però no separa els diferents paràgrafs en línies diferents. Permet obtenir el resultat en diferents
-codificacions de caràcters, però no conserva els text correcte. És a dir, continua tenint problemes per extreure accents, etc.
+codificacions de caràcters, però no conserva el text correcte. És a dir, continua tenint problemes per extreure accents, etc.
 Amb l'eina \texttt{pdftohtml} podem obtenir informació d'algunes de les paraules en negreta, però separa cada línia amb una etiqueta
 br.
 \item{PDFBox}
 Llibreria escrita en Java i publicada sota la llicència \textit{Apache License v2.0}. Actualment es troba a la incubadora d'Apache. 
 Permet obtenir el text i les metadades d'un fitxer. Separa els resultats per línia segons es troben en el document, no per paràgrafs.
+
+Podem obtenir les següents dades del fitxer sense
+haver-ne d'extreure el text: número de pàgines, títol, autor, assumpte i paraules clau. Si aquests camps no s'han omplert al 
+generar el fitxer, estaran en blanc.
 \end{itemize}
 
 
 
 \subsection{Procediment}
 
+\subsection{Idees}
+Algunes idees sobre alguns dels problemes:
+\begin{itemize}
+\item{Caràcters Unicode:}\\
+El software que ens permet extreure el contingut dels fitxers PDF no treballa bé amb els caràcters Unicode. Com que la 
+majoria de cercadors permeten cercar amb ASCII, podem ometre i obtenir les dades correctes d'Internet.
 
-\section{Articles Db}
+\item{Reconeixement de les parts d'un document:}\\
+Com es pot veure a l'apèndix \ref{app:extractionExamples}, no hi ha gaires elements en comú entre les capçaleres dels 
+documents. L'element que sí que es repeteix en gairebé tots ells és l'\textit{abstract}. La solució proposada és utilitzar part 
+d'aquest resum per tal de cercar a quin article correspon cada fitxer. Agafant un número prou elevat de paraules consecutives
+del resum (a la pràctica, unes 7-8), els
+motors de cerca limiten la cerca a només resultats sobre l'article. Exemples de cerques: 
+\textit{"we discuss the use of boundary methods"},
+\textit{"critical juncture with regard to HPC"} o
+\textit{"Consider a strongly connected directed weighted"}
+\end{itemize}
+
+
+
+\section{Obtenció de referències}
 \begin{description}
-\item{\textbf{Google Scholar/Google Search API}}\\
-Enllaç directe a la cita en format BibTeX. Actualment no proporcionen cap API per obtenir-ho. Caldria fer-ho amb \texttt{wget}.
-\item{\textbf{DBLP}}\\
-DBLP proporciona una API molt simple per cercar autors autors i obtenir les seves publicacions, però no al revés. Al cercar per autor, es mostren
-les claus de cada publicació, però no el títol.
+\item{\textbf{DBLP++}}\\
+DBLP++ proporciona un servei web que amplia molt la funcionalitat de l'API de DBLP. Permet cercar per paraules clau. DBLP++ ofereix
+el fitxer WSDL necessari per generar les classes en 
 \item{\textbf{Portal ACM}}
 \item{\textbf{CiteSeerX}}
 \item{\textbf{Arxiv.org}}\\
 	\url{http://arxiv.org/help/api/index}
 \end{description}
-
+\subsection{Algunes opcions}
+    \begin{itemize}
+        \item{Utilitzar un cercador web (o \textit{Google Scholar}:}\\
+        Similar a cercar a totes les bases de dades a la vegada. El problema passa a ser com obtenir les referències de la multitud 
+        de pàgines diferents, en les quals hi pot haver el codi Bibtex entre les etiquetes HTML, o bé algun enllaç o acció Javascript
+        (la cosa es complica) que ens hi porti.
+        
+        \item{APIs o serveis web de les bases de dades més importants:}\\
+        Es tractaria de tenir una sèrie de classes implementant una interfície. Per cada nova base de dades, caldria 
+        
+        \item{Reaprofitar els imports de JabRef:}\\
+        Aquesta opció sorgeix una mica de la idea anterior, però no està exempta de problemes. 
+        Per què no aprofitem els \textit{imports} ja desenvolupats a Jabref? A mesura que se'n van afegint, el nostre plug-in els
+        podría anar utilitzant.\\
+        Problemes a tenir en compte: no totes les bases de dades permeten buscar a partir del resum dels articles, ens hem d'assegurar
+        que un plug-in pot accedir a les classes d'un altre.
+        
+    \end{itemize}
 \section{JabRef}
 Java, llicència: LGPL.
 \\
@@ -108,51 +141,98 @@ La idea seria desenvolupar una aplicació de línia de comandes amb \textit{Jython
 
 \appendix
 \section{Exemples de text extret}
+\label{app:extractionExamples}
 A continuació es mostren algunes capçaleres d'articles i el resultat obtingut a l'extreure'n el text:
 \begin{itemize}
 
 \item{Text 1}
-    PDF:
-    \begin{figure}[h]
-    \begin{center}
-    \includegraphics[scale=0.7]{images/article01Header.pdf}
-    \end{center}
-    \end{figure}
+    \begin{itemize}
+    \item{PDF:}
+        \begin{figure}[ht]
+        \begin{center}
+        \includegraphics[scale=0.7]{images/article01Header.pdf}
+        \end{center}
+        \end{figure}
+        
+    \item{Text:}
+        \begin{lstlisting}
+arXiv:0912.0725v1 [astro-ph.CO] 3 Dec 2009
+
+Lorentz symmetry violation, dark matter and dark energy
+Luis Gonzalez-Mestresa
+a
+
+LAPP, Universit de Savoie, CNRS/IN2P3, B.P. 110, 74941 Annecy-le-Vieux Cedex, France e
+
+Taking into account the experimental results of the HiRes and AUGER collaborations, the present status of bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although significant constraints will emerge, a wide range of models and values of parameters will still be left open. Cosmological implications of allowed LSV patterns are discussed focusing on the origin of our Universe, the cosmological constant, dark matter and dark energy. Superbradyons (superluminal preons) may be the actual constituents of vacuum and of standard particles, and form equally a cosmological sea leading to new forms of dark matter and dark energy.
+
+1. Patterns of Lorentz symmetry violation A formulation of Planck-scale Lorentz symmetry violation (LSV) testable in ultra-high energy cosmic-ray (UHECR) 
+        \end{lstlisting}
     
-    Text pla:
-    \begin{minipage}{0.8\textwidth}
-    \begin{Verbatim}
-    arXiv:0912.0725v1 [astro-ph.CO] 3 Dec 2009
-
-    Lorentz symmetry violation, dark matter and dark energy
-    Luis Gonzalez-Mestresa
-    a
-
-    LAPP, Universit de Savoie, CNRS/IN2P3, B.P. 110, 74941 Annecy-le-Vieux Cedex, France e
-
-    Taking into account the experimental results of the HiRes and AUGER collaborations, the present status of bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although significant constraints will emerge, a wide range of models and values of parameters will still be left open. Cosmological implications of allowed LSV patterns are discussed focusing on the origin of our Universe, the cosmological constant, dark matter and dark energy. Superbradyons (superluminal preons) may be the actual constituents of vacuum and of standard particles, and form equally a cosmological sea leading to new forms of dark matter and dark energy.
-
-    1. Patterns of Lorentz symmetry violation A formulation of Planck-scale Lorentz symmetry violation (LSV) testable in ultra-high energy cosmic-ray (UHECR) 
-    \end{Verbatim}
-    \end{minipage}
+    \item{HTML:}
+        \begin{lstlisting}[language=HTML]    
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<A name=1></a>Lorentz symmetry violation, dark matter and dark energy<br>
+Luis Gonzalez-Mestresa<br>
+aLAPP, Universite de Savoie, CNRS/IN2P3, B.P. 110, 74941 Annecy-le-Vieux Cedex, France<br>
+Taking into account the experimental results of the HiRes and AUGER collaborations, the present status of<br>
+bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although significant constraints will emerge,<br>a wide range of models and values of parameters will still be left open. Cosmological implications of allowed<br>LSV patterns are discussed focusing on the origin of our Universe, the cosmological constant, dark matter and<br>dark energy. Superbradyons (superluminal preons) may be the actual constituents of vacuum and of standard<br>particles, and form equally a cosmological sea leading to new forms of dark matter and dark energy.<br>
+1. Patterns of Lorentz symmetry violation<br>
+        \end{lstlisting}
+    \end{itemize}        
     
-    HTML:
-    \begin{minipage}{0.8\textwidth}
-    \begin{Verbatim}    
-    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><HTML>
-    <HEAD>
-    <TITLE></TITLE>
-    </HEAD>
-    <BODY>
-    <A name=1></a>Lorentz symmetry violation, dark matter and dark energy<br>
-    Luis Gonzalez-Mestresa<br>
-    aLAPP, Universite de Savoie, CNRS/IN2P3, B.P. 110, 74941 Annecy-le-Vieux Cedex, France<br>
-    Taking into account the experimental results of the HiRes and AUGER collaborations, the present status of<br>
-    bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although significant constraints will emerge,<br>a wide range of models and values of parameters will still be left open. Cosmological implications of allowed<br>LSV patterns are discussed focusing on the origin of our Universe, the cosmological constant, dark matter and<br>dark energy. Superbradyons (superluminal preons) may be the actual constituents of vacuum and of standard<br>particles, and form equally a cosmological sea leading to new forms of dark matter and dark energy.<br>
-    1. Patterns of Lorentz symmetry violation<br>
-    \end{Verbatim}
-    \end{minipage}
 \item{Text 2}    
-\end{itemize}
+    \begin{itemize}
+    \item{PDF:}
+        \begin{figure}[ht]
+        \begin{center}
+        \includegraphics[scale=0.7]{images/article02Header.pdf}
+        \end{center}
+        \end{figure}
+    \item{Text:}
+        \begin{lstlisting}   
+Journal of Computer and System Sciences 74 (2008) 775-795 www.elsevier.com/locate/jcss
 
+Compact roundtrip routing with topology-independent node names
+Marta Arias a,1 , Lenore J. Cowen b,2 , Kofi A. Laing b,,3
+a Center for Computational Learning Systems, Columbia University, New York, NY 10115, USA b Department of Computer Science, Tufts University, Medford, MA 02155, USA
+
+Received 9 November 2004; received in revised form 24 January 2007 Available online 14 September 2007
+<br/>
+Abstract Consider a strongly connected directed weighted network with n nodes. This paper presents compact roundtrip routing schemes   with O( n) sized local tables4 and stretch 6 for any strongly connected directed network with arbitrary edge weights. A scheme  with local tables of size O( -1 n2/k ) and stretch min((2k/2 - 1)(k + ), 8k 2 + 4k - 4), for any > 0 is also presented in the case where edge weights are restricted to be polynomially-sized
+        \end{lstlisting}
+    \item{HTML:}
+    \begin{lstlisting}[language=HTML]    
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>doi:10.1016/j.jcss.2007.09.001</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="generator" content="pdftohtml 0.36">
+<META name="date" content="2008-05-20T09:39:49+00:00">
+</HEAD>
+<BODY vlink="blue" link="blue">
+<A name=1></a>Journal of Computer and System Sciences 74 (2008) 775­795<br>
+www.elsevier.com/locate/jcss<br>
+Compact roundtrip routing with topology-independent node names<br>
+Marta Arias a,1, Lenore J. Cowen b,2, Kofi A. Laing b,,3<br>
+a <i>Center for Computational Learning Systems, Columbia University, New York, NY 10115, USA</i><br>
+b <i>Department of Computer Science, Tufts University, Medford, MA 02155, USA</i><br>
+Received 9 November 2004; received in revised form 24 January 2007<br>
+Available online 14 September 2007<br>
+<b>Abstract</b><br>
+Consider a strongly connected directed weighted network with n nodes. This paper presents compact roundtrip routing schemes<br>
+<br>
+with ~<br>
+O( n) sized local tables4 and stretch 6 for any strongly connected directed network with arbitrary edge weights. A scheme<br>
+with local tables of size ~<br>
+O( -1n2/k) and stretch min((2k/2 - 1)(k + ), 8k2 + 4k - 4), for any<br>
+&gt; 0 is also presented in the<br>
+    \end{lstlisting}
+    \end{itemize}
+\end{itemize}
 \end{document}
