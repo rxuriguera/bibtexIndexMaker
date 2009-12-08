@@ -46,16 +46,15 @@ al fer una cita.}
 
 \subsection{Software}
 \begin{itemize}
-\item{xPDF}
-Proporciona eines executables des de la línia de comandes per extreure el text.
+\item{xPDF}\\
+Proporciona eines executables des de la línia de comandes per extreure text i altres elements dels fitxers PDF.
 Només converteix a text pla, però no separa els diferents paràgrafs en línies diferents. Permet obtenir el resultat en diferents
 codificacions de caràcters, però no conserva el text correcte. És a dir, continua tenint problemes per extreure accents, etc.
 Amb l'eina \texttt{pdftohtml} podem obtenir informació d'algunes de les paraules en negreta, però separa cada línia amb una etiqueta
-br.
-\item{PDFBox}
+\texttt{br}.
+\item{PDFBox}\\
 Llibreria escrita en Java i publicada sota la llicència \textit{Apache License v2.0}. Actualment es troba a la incubadora d'Apache. 
 Permet obtenir el text i les metadades d'un fitxer. Separa els resultats per línia segons es troben en el document, no per paràgrafs.
-
 Podem obtenir les següents dades del fitxer sense
 haver-ne d'extreure el text: número de pàgines, títol, autor, assumpte i paraules clau. Si aquests camps no s'han omplert al 
 generar el fitxer, estaran en blanc.
@@ -104,7 +103,7 @@ motors de cerca limiten la cerca a només resultats sobre l'article. Exemples de 
 \section{Obtenció de referències}
 \begin{description}
 \item{\textbf{DBLP++}}\\
-DBLP++ proporciona un servei web que amplia molt la funcionalitat de l'API de DBLP. Permet cercar per paraules clau. DBLP++ ofereix
+DBLP++ proporciona un servei web que amplia la funcionalitat de l'API de DBLP. Permet cercar per paraules clau. DBLP++ ofereix
 el fitxer WSDL necessari per generar les classes en Java o Python.
 \item{\textbf{Portal ACM}}\\
 Es poden obtenir construint les URLs adequades.
@@ -117,13 +116,13 @@ Es poden obtenir construint les URLs adequades.
     \begin{itemize}
         \item{Utilitzar un cercador web (o \textit{Google Scholar}:}\\
         Similar a cercar a totes les bases de dades a la vegada. El problema passa a ser com obtenir les referències de la multitud 
-        de pàgines diferents, en les quals hi pot haver el codi Bibtex entre les etiquetes HTML, o bé algun enllaç o acció Javascript
-        (la cosa es complica) que ens hi porti.
+        de pàgines diferents (veure apèndix \ref{app:screenshotExamples}), en les quals hi pot haver el codi Bibtex 
+        entre les etiquetes HTML, o bé algun enllaç o acció Javascript (la cosa es complica) que ens hi porti.
         
         \item{APIs o serveis web de les bases de dades més importants:}\\
         Es tractaria de tenir una sèrie de classes implementant una interfície. Per cada nova base de dades, caldria 
         
-        \item{Reaprofitar els imports de JabRef:}\\
+        \item{Reaprofitar els \textit{imports} de JabRef:}\\
         Aquesta opció sorgeix una mica de la idea anterior, però no està exempta de problemes. 
         Per què no aprofitem els \textit{imports} ja desenvolupats a Jabref? A mesura que se'n van afegint, el nostre plug-in els
         podría anar utilitzant.\\
@@ -157,10 +156,10 @@ Add a side pane component that can do any kinds of operations. The panel is acce
 
 \section{Llenguatge}
 La idea seria desenvolupar una aplicació de línia de comandes en \textit{Jython}, (Python sobre la JVM). Pel que fa al plug-in de
-JabRef, si és possible també podria ser interessant utilitzar Jython (per motius de consistència).
+JabRef, si és possible també podria ser interessant utilitzar Jython.
 \\
 \\
-El toolkit NLTK pot ser bastant útil a l'hora de tractar els textos amb Python. Actualment hi ha alguns problemes per 
+El toolkit NLTK pot ser útil a l'hora de tractar els textos amb Python. Actualment hi ha alguns problemes per 
 executar-lo sobre Jython, però sembla ser que hi ha \textit{workarounds}.
 
 \appendix
@@ -303,4 +302,29 @@ Universitat Aut`onoma de Barcelona, Spain<br>
     \end{lstlisting}
     \end{itemize}    
 \end{itemize}
+
+\newpage
+\section{Exemples de les diferents bases de dades on-line}
+\label{app:screenshotExamples}
+
+    \begin{figure}[ht]
+    \begin{center}
+    \includegraphics[scale=0.4]{images/screenshot01.pdf}
+    \caption{Referència BibTex a la mateixa pàgina}
+    \end{center}
+    \end{figure}
+    
+    \begin{figure}[ht]
+    \begin{center}
+    \includegraphics[scale=0.4]{images/screenshot02.pdf}
+    \caption{Enllaç amb codi Javascript per obtenir la referència}
+    \end{center}
+    \end{figure}
+
+    \begin{figure}[ht]
+    \begin{center}
+    \includegraphics[scale=0.4]{images/screenshot03.pdf}
+    \caption{Enllaç a una altra pàgina HTML}
+    \end{center}
+    \end{figure}    
 \end{document}
