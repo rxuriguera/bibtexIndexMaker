@@ -64,6 +64,22 @@ generar el fitxer, estaran en blanc.
 
 
 \subsection{Procediment}
+\begin{enumerate}
+\item{L'usuari indica un directori}
+\item{L'aplicació obté la llista de tots els documents del directori (i subdirectoris)}
+\item{Per cada document:}
+    \begin{enumerate}
+        \item{Extreu les metadades del fitxer, en cas que en tingui}
+        \item{Extreu el contingut en forma de text o HTML}
+        \item{Utilitza la informació per cercar la referència Bibtex a Internet}
+        \item{Executa una sèrie de tests (a establir) per comprovar la correctesa de les dades obtingudes}
+        \begin{itemize}
+            \item{Si es passen els tests, s'afegeix la referència al fitxer BibTex o a la base de dades de JabRef}
+            \item{En cas de dubte, indica a l'usuari que hauria de revisar la referència}
+            \item{En cas de no poder obtenir cap tipus d'informació, n'informa a l'usuari}
+        \end{itemize}
+    \end{enumerate}
+\end{enumerate}
 
 \subsection{Idees}
 Algunes idees sobre alguns dels problemes:
@@ -89,9 +105,11 @@ motors de cerca limiten la cerca a només resultats sobre l'article. Exemples de 
 \begin{description}
 \item{\textbf{DBLP++}}\\
 DBLP++ proporciona un servei web que amplia molt la funcionalitat de l'API de DBLP. Permet cercar per paraules clau. DBLP++ ofereix
-el fitxer WSDL necessari per generar les classes en 
-\item{\textbf{Portal ACM}}
-\item{\textbf{CiteSeerX}}
+el fitxer WSDL necessari per generar les classes en Java o Python.
+\item{\textbf{Portal ACM}}\\
+Es poden obtenir construint les URLs adequades.
+\item{\textbf{CiteSeerX}}\\
+    OAIHarvester en Java
 \item{\textbf{Arxiv.org}}\\
 	\url{http://arxiv.org/help/api/index}
 \end{description}
@@ -109,15 +127,16 @@ el fitxer WSDL necessari per generar les classes en
         Aquesta opció sorgeix una mica de la idea anterior, però no està exempta de problemes. 
         Per què no aprofitem els \textit{imports} ja desenvolupats a Jabref? A mesura que se'n van afegint, el nostre plug-in els
         podría anar utilitzant.\\
-        Problemes a tenir en compte: no totes les bases de dades permeten buscar a partir del resum dels articles, ens hem d'assegurar
+        Punts problemàtics: no totes les bases de dades permeten buscar a partir del resum dels articles, ens hem d'assegurar
         que un plug-in pot accedir a les classes d'un altre.
         
     \end{itemize}
+    
 \section{JabRef}
 Java, llicència: LGPL.
 \\
-És possible crear plug-ins amb \textit{Java Plug-in Framework}. L'última versió d'aquest framework és de fa més de dos anys, actualment es troba en
-estat \textit{frozen} i és pre-OSGi. En el fòrum i el tracker de \textit{JabRef} no hi ha cap missatge en el que es discuteixin canvis sobre aquest tema. \\
+És possible crear plug-ins amb \textit{Java Plug-in Framework}. L'última versió d'aquest framework és de fa més de dos anys (pre OSGi), actualment es troba en
+estat \textit{frozen}. En el fòrum i el tracker de \textit{JabRef} no hi ha cap missatge en el que es discuteixin canvis sobre aquest tema.\\
 Extension-points permesos:
 \begin{itemize}
 \item{\textbf{ImportFormat}} 
@@ -137,7 +156,12 @@ Add a side pane component that can do any kinds of operations. The panel is acce
 \end{itemize}
 
 \section{Llenguatge}
-La idea seria desenvolupar una aplicació de línia de comandes amb \textit{Jython}, Python sobre la JVM i utilitzar 
+La idea seria desenvolupar una aplicació de línia de comandes en \textit{Jython}, (Python sobre la JVM). Pel que fa al plug-in de
+JabRef, si és possible també podria ser interessant utilitzar Jython (per motius de consistència).
+\\
+\\
+El toolkit NLTK pot ser bastant útil a l'hora de tractar els textos amb Python. Actualment hi ha alguns problemes per 
+executar-lo sobre Jython, però sembla ser que hi ha \textit{workarounds}.
 
 \appendix
 \section{Exemples de text extret}
@@ -145,7 +169,7 @@ La idea seria desenvolupar una aplicació de línia de comandes amb \textit{Jython
 A continuació es mostren algunes capçaleres d'articles i el resultat obtingut a l'extreure'n el text:
 \begin{itemize}
 
-\item{Text 1}
+\item{\textbf{Text 1}}
     \begin{itemize}
     \item{PDF:}
         \begin{figure}[ht]
@@ -185,7 +209,7 @@ bounds on Lorentz symmetry violation (LSV) patterns is discussed. Although signi
         \end{lstlisting}
     \end{itemize}        
     
-\item{Text 2}    
+\item{\textbf{Text 2}}
     \begin{itemize}
     \item{PDF:}
         \begin{figure}[ht]
@@ -234,5 +258,49 @@ O( -1n2/k) and stretch min((2k/2 - 1)(k + ), 8k2 + 4k - 4), for any<br>
 &gt; 0 is also presented in the<br>
     \end{lstlisting}
     \end{itemize}
+    
+\item{\textbf{Text 3}}
+    \begin{itemize}
+    \item{PDF:}
+        \begin{figure}[ht]
+        \begin{center}
+        \includegraphics[scale=0.7]{images/article03Header.pdf}
+        \end{center}
+        \end{figure}
+    \item{Text:}
+        \begin{lstlisting}   
+Enhancing Prediction on Non-dedicated Clusters
+Joseph Ll. L rida1 , F. Solsona1 , F. Gin 1 , J.R. Garca2 , e e i a M. Hanzich2 , and P. Hern ndez2
+1
+
+Departamento de Inform tica e Ingeniera Industrial, Universitat de Lleida, Spain a i {jlerida,francesc,sisco}@diei.udl.cat 2 Departamento de Arquitectura y Sistemas Operativos, Universitat Aut noma de Barcelona, Spain o {jrgarcia,mauricio,porfidio.hernandez}@aomail.uab.es
+
+Abstract. In this paper, we present a scheduling scheme to estimate the turnaround time of parallel jobs on a heterogeneous and non-dedicated cluster or NoW(Network of Workstations). This scheme is based on an analytical prediction model that establishes the processing and communication slowdown of the execution times of the jobs based on the cluster nodes and links powerful and occupancy.
+        \end{lstlisting}
+    \item{HTML:}
+    \begin{lstlisting}[language=HTML]  
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Title</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="generator" content="pdftohtml 0.36">
+<META name="author" content="Author">
+<META name="keywords" content="">
+<META name="date" content="2008-08-19T14:04:20+00:00">
+<META name="subject" content="Subject">
+</HEAD>
+<BODY bgcolor="#A0A0A0" vlink="blue" link="blue">
+<A name=1></a><b>Enhancing Prediction on Non-dedicated Clusters</b><br>
+Joseph Ll. L´erida1, F. Solsona1, F. Gin´e1, J.R. Garc´ia2,<br>
+M. Hanzich2, and P. Hern´andez2<br>
+1 Departamento de Inform´atica e Ingenier´ia Industrial, Universitat de Lleida, Spain<br>
+{jlerida,francesc,sisco}@diei.udl.cat<br>
+2 Departamento de Arquitectura y Sistemas Operativos,<br>
+Universitat Aut`onoma de Barcelona, Spain<br>
+{jrgarcia,mauricio,porfidio.hernandez}@aomail.uab.es<br>
+<b>Abstract. </b>In this paper, we present a scheduling scheme to estimate the<br>turnaround time of parallel jobs on a heterogeneous and non-dedicated cluster<br>or NoW(Network of Workstations). This scheme is based on an analytical pre-<br>diction model that establishes the processing and communication slowdown of<br>the execution times of the jobs based on the cluster nodes and links powerful and<br>occupancy.
+    \end{lstlisting}
+    \end{itemize}    
 \end{itemize}
 \end{document}
