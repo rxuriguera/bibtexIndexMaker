@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# This script is intended to be executed from a launcher or desktop icon. 
+# It sets some environment variables, check if there is a local python 
+# interpreter available and and launches a new terminal.
+# You should pass the project root as the first parameter of this script.
+
+export BIMAKER_TITLE=BibtexIndexMaker
+export BIMAKER_HOME=$1
+export PATH=$BIMAKER_HOME/public/bin:$PATH
+
+if ! test -e $BIMAKER_HOME/public/bin/python
+then
+    cd $BIMAKER_HOME/infrastructure/environment
+    echo $PWD
+    ./setup-devenv
+    cd $BIMAKER_HOME
+fi
+
+gnome-terminal --working-directory=$BIMAKER_HOME --title=$BIMAKER_TITLE
+exit
