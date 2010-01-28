@@ -1,0 +1,4 @@
+#!/bin/sh
+cd infrastructure/buildout
+python bootstrap.py
+bin/buildout -v
