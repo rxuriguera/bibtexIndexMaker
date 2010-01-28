@@ -1,0 +1,3 @@
+#!/bin/sh
+python createBootstrap.py 
+python bootstrap.py ../../public --no-site-packages
