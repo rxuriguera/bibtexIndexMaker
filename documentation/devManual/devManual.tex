@@ -1,0 +1,79 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{hyphenat}
+\usepackage{url} 
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Developer Manual},%
+		pdftex]{hyperref}
+
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,	                % sets default tabsize to 2 spaces
+    language=sh,                %
+    captionpos=b                % sets the caption-position to bottom
+}		
+
+\newcommand{\bimhome}{\$BIMAKER\_HOME }
+
+
+\title{BibTeX Bibliography Index Maker: Developer Manual}
+\author{Ramon Xuriguera}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Setting up the environment}
+\begin{itemize}
+    \item{}
+    Make sure that your box fulfils the following software requirements:
+    \begin{itemize}
+        \item{Python 2.6: }
+            \url{http://www.python.org/download/releases/}
+        \item{Git: }
+            \url{http://git-scm.com/}
+    \end{itemize}
+    Any other tool should be automatically downloaded and installed using the provided bootstrap scripts.
+
+    \item{Checkout the project from \textit{github}:}
+    Open a terminal, go to your enlistments folder (e.g. \texttt{/home/rxuriguera/enlistments}) and run
+    \begin{lstlisting}
+cd <path-to-enlistments>
+git clone git://github.com/rxuriguera/bibtexIndexMaker.git <enlistment-dir>
+    \end{lstlisting}
+    From now on, we will refer to \texttt{<path-to-enlistments>/<enlistment-dir>} as \bimhome
+
+    \item{}
+    Run the environment set-up script:
+    \begin{lstlisting}
+cd bimaker/infrastructure/environment
+./setup-devenv
+    \end{lstlisting}
+
+    \item{}
+    Create a desktop icon or a launcher that invokes \bimhome/infrastructure/enlistments/devenvlauncher. Make sure to pass \bimhome as a parameter to the script.
+\end{itemize}
+
+\section{Project Structure}
+The project's source has been divided into different packages each of which uses \texttt{buildout}. They can be found at \bimhome/packages. Build scripts and the like are placed under \bimhome/infrastructure.
+
+\section{Build Infrastructure}
+The builds should be scheduled and tracked using \texttt{Buildbot}, which can be easily installed with the following code:
+    \begin{lstlisting}
+cd bimaker/infrastructure/buildbot
+./setup
+./start
+    \end{lstlisting}
+In order to deploy \texttt{Buildbot}, \texttt{Twisted} has to be installed on your system. If you allow \texttt{buildmaster} to be accessed from the Internet, you can hook up a script to GitHub so every check-in triggers a new build.
+
+\end{document}
