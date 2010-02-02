@@ -28,8 +28,8 @@ import urllib #@UnresolvedImport
 
 from htmlentitydefs import name2codepoint #@UnresolvedImport
 
-from beautifulSoup import BeautifulSoup
-from browser import Browser, BrowserError
+from bimaker.ir.beautifulSoup import BeautifulSoup
+from bimaker.ir.browser import Browser, BrowserError
 
 
 class SearchError(Exception):
@@ -37,8 +37,6 @@ class SearchError(Exception):
     """
     Base class for search exceptions.
     """
-    
-    pass
 
 
 class ParseError(SearchError):
@@ -46,7 +44,8 @@ class ParseError(SearchError):
     """
     Parse error in search results.
     self.msg attribute contains explanation why parsing failed
-    self.tag attribute contains BeautifulSoup object with the most relevant tag that failed to parse
+    self.tag attribute contains BeautifulSoup object with the most relevant tag
+    that failed to parse
     Thrown only in debug mode
     """
      
@@ -69,7 +68,6 @@ class SearchResult(object):
     def __init__(self, title, url):
         self.title = title
         self.url = url
-        
 
     def __str__(self):
         return 'Search Result: "%s"' % self.title
@@ -229,29 +227,35 @@ class GoogleSearch(Searcher):
     
     @property
     def search_engine_url(self):
-        return "http://www.google.com/search?hl=en&q=%(query)s&num=%(num)d&start=%(start)d"    
+        return ('http://www.google.com/search?hl=en&q=%(query)s&num=%(num)d&st'
+                'art=%(start)d')    
 
     def _get_safe_url(self):
-        return self.search_engine_url % {'query': urllib.quote_plus(self.query),
-                                         'start': self._page * self._results_per_page,
-                                         'num': self._results_per_page }
+        return self.search_engine_url % {'query':urllib.quote_plus(self.query),
+                                'start':self._page * self._results_per_page,
+                                'num'  :self._results_per_page }
 
     def _extract_info(self, soup):
         empty_info = {'from': 0, 'to': 0, 'total': 0}
         div_ssb = soup.find('div', id='ssb')
         if not div_ssb:
-            self._maybe_raise(ParseError, "Div with number of results was not found on Google search page", soup)
+            self._maybe_raise(ParseError, ('Div with number of results was not'
+                ' found on Google search page'), soup)
             return empty_info
         p = div_ssb.find('p')
         if not p:
-            self._maybe_raise(ParseError, """<p> tag within <div id="ssb"> was not found on Google search page""", soup)
+            self._maybe_raise(ParseError, ('<p> tag within <div id="ssb"> was'
+                ' not found on Google search page'), soup)
             return empty_info
         txt = ''.join(p.findAll(text=True))
         txt = txt.replace(',', '')
-        matches = re.search(r'Results (\d+) - (\d+) of (?:about )?(\d+)', txt, re.U)
+        matches = re.search(r'Results (\d+) - (\d+) of (?:about )?(\d+)',
+                            txt, re.U)
         if not matches:
             return empty_info
-        return {'from': int(matches.group(1)), 'to': int(matches.group(2)), 'total': int(matches.group(3))}
+        return {'from': int(matches.group(1)),
+                'to': int(matches.group(2)),
+                'total': int(matches.group(3))}
     
     def _extract_raw_results_list(self, soup):
         return soup.findAll('li', {'class': 'g'})
@@ -270,7 +274,8 @@ class GoogleSearch(Searcher):
         #title_a = result.find('a', {'class': re.compile(r'\bl\b')})
         title_a = result.find('a')
         if not title_a:
-            self._maybe_raise(ParseError, "Title tag in Google search result was not found", result)
+            self._maybe_raise(ParseError, ('Title tag in Google search result '
+                                           'was not found'), result)
             return None, None
         title = ''.join(title_a.findAll(text=True))
         title = self._html_unescape(title)
@@ -283,7 +288,8 @@ class GoogleSearch(Searcher):
     def _extract_description(self, result):
         desc_div = result.find('div', {'class': re.compile(r'\bs\b')})
         if not desc_div:
-            self._maybe_raise(ParseError, "Description tag in Google search result was not found", result)
+            self._maybe_raise(ParseError, ('Description tag in Google search '
+                                           'result was not found'), result)
             return None
 
         desc_strs = []
@@ -314,30 +320,36 @@ class ScholarSearch(Searcher):
     
     @property
     def search_engine_url(self):
-        return "http://scholar.google.com/scholar?hl=en&q=%(query)s&num=%(num)d&start=%(start)d"
+        return ('http://scholar.google.com/scholar?hl=en&q=%(query)s&num=%'
+                '(num)d&start=%(start)d')
     
     def _get_safe_url(self):
-        return self.search_engine_url % {'query': urllib.quote_plus(self.query),
-                                         'start': self._page * self._results_per_page,
-                                         'num'  : self._results_per_page }
+        return self.search_engine_url % {'query':urllib.quote_plus(self.query),
+                                'start':self._page * self._results_per_page,
+                                'num'  :self._results_per_page }
         
     def _extract_info(self, soup):
         empty_info = {'from': 0, 'to': 0, 'total': 0}
         td_cell = soup.find('td', bgcolor='#dcf6db', align='right')
         if not td_cell:
-            self._maybe_raise(ParseError, "Cell with number of results was not found on Google Scholar search page", soup)
+            self._maybe_raise(ParseError, ('Cell with number of results was '
+                'not found on Google Scholar search page'), soup)
             return empty_info
         font = td_cell.find('font')     
         if not font:
-            self._maybe_raise(ParseError, """<font> tag within <td> was not found on Google Scholar search page""", soup)
+            self._maybe_raise(ParseError, ('<font> tag within <td> was not '
+                'found on Google Scholar search page'), soup)
             return empty_info
         txt = ''.join(font.findAll(text=True))
         txt = txt.replace(',', '').split('.')[0]
-        matches = re.search(r'Results (\d+) - (\d+) of (?:about )?(\d+)', txt, re.U)
+        matches = re.search(r'Results (\d+) - (\d+) of (?:about )?(\d+)',
+                            txt, re.U)
         if not matches:
             return empty_info
                 
-        return {'from': int(matches.group(1)), 'to': int(matches.group(2)), 'total': int(matches.group(3))}
+        return {'from': int(matches.group(1)),
+                'to': int(matches.group(2)),
+                'total': int(matches.group(3))}
   
     def _extract_raw_results_list(self, soup):
         return soup.findAll('div', {'class': 'gs_r'})    
@@ -356,7 +368,8 @@ class ScholarSearch(Searcher):
         #title_a = result.find('a', {'class': re.compile(r'\bl\b')})
         title_a = result.find('a')
         if not title_a:
-            self._maybe_raise(ParseError, "Title tag in Google Scholar search result was not found", result)
+            self._maybe_raise(ParseError, ('Title tag in Google Scholar search'
+                                           ' result was not found'), result)
             return None, None
         title = ''.join(title_a.findAll(text=True))
         title = self._html_unescape(title)
@@ -376,8 +389,10 @@ class ScholarSearch(Searcher):
 
     def _get_results_additional_info(self, result):
         """
-        This method returns the information that appears on the first line of a result's text.
-        This information usually includes authors' names, year of publication, etc.
+        This method returns the information that appears on the first line of 
+        a result's text.
+        This information usually includes authors' names, year of publication, 
+        etc.
         """
         result_text = self._get_result_text(result)
         if not result_text:
@@ -394,12 +409,14 @@ class ScholarSearch(Searcher):
         """
         add_info = self._get_results_additional_info(result)
         if not add_info:
-            self._maybe_raise(ParseError, "Additional information in Google Scholar search result was not found", result)
+            self._maybe_raise(ParseError, ('Additional information in Google '
+                'Scholar search result was not found'), result)
             return []
         authors_info = ''.join(add_info.findAll(text=True)).split(' - ')[0]
         
         # Remove last author if it contains an ellipsis "..."
-        authors = [self._html_unescape(author.strip()) for author in authors_info.split(',') if author.count(' &hellip') == 0]
+        authors = [self._html_unescape(author.strip()) for author in 
+                   authors_info.split(',') if author.count(' &hellip') == 0]
         return authors
     
     def _extract_year(self, result):
@@ -409,7 +426,8 @@ class ScholarSearch(Searcher):
         """
         add_info = self._get_results_additional_info(result)
         if not add_info:
-            self._maybe_raise(ParseError, "Additional information in Google Scholar search result was not found", result)
+            self._maybe_raise(ParseError, ('Additional information in Google '
+                'Scholar search result was not found'), result)
             return None
         add_info_text = ''.join(add_info.findAll(text=True))
         matches = re.search(r"(\d{4})", add_info_text)
@@ -424,7 +442,8 @@ class ScholarSearch(Searcher):
         """
         result_text = self._get_result_text(result) 
         if not result_text:
-            self._maybe_raise(ParseError, "Description tag in Google Scholar search result was not found", result)
+            self._maybe_raise(ParseError, ('Description tag in Google Scholar '
+                'search result was not found'), result)
             return None
         
         # Remove irrelevant information.

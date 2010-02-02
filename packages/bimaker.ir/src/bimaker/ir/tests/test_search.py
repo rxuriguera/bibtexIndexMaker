@@ -26,13 +26,13 @@ class TestGoogleSearch(unittest.TestCase):
 
     def setUp(self):
         self.gs = GoogleSearch('query text')
-        fixture_path = normpath(join(dirname(__file__), '../../../../tests/fixtures/search/googleSearch.html'))
+        fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
+                                     'fixtures/search/googleSearch.html')))
         self.fixture = open(fixture_path)
         self.page = BeautifulSoup(self.fixture.read())
 
     def tearDown(self):
         self.fixture.close()
-        pass
 
     def test_extract_info(self):
         search_info = self.gs._extract_info(self.page)
@@ -45,14 +45,14 @@ class TestScholarSearch(unittest.TestCase):
     
     def setUp(self):
         self.ss = ScholarSearch('query text')
-        fixture_path = normpath(join(dirname(__file__), '../../../../tests/fixtures/search/scholarSearch.html'))
+        fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
+            'fixtures/search/scholarSearch.html')))
         self.fixture = open(fixture_path)
         self.page = BeautifulSoup(self.fixture.read())
         self.results = self.ss._extract_raw_results_list(self.page)
 
     def tearDown(self):
         self.fixture.close()
-        pass
 
     def test_extract_info(self):
         search_info = self.ss._extract_info(self.page)
@@ -62,8 +62,10 @@ class TestScholarSearch(unittest.TestCase):
     
     def test_extract_desc(self):
         desc = self.ss._extract_description(self.results[0])
-        self.failUnless(desc.startswith('Witten and Frank\'s textbook'), 'Description does not start were it should')
-        self.failUnless(desc.endswith('representation that can  ...'), 'Description does not end were it should')
+        self.failUnless(desc.startswith('Witten and Frank\'s textbook'),
+                        'Description does not start were it should')
+        self.failUnless(desc.endswith('representation that can  ...'),
+                        'Description does not end were it should')
 
     def test_extract_authors(self):
         authors = self.ss._extract_authors(self.results[0])
