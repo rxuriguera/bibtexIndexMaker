@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script is intended to be executed from a launcher or desktop icon. 
 # It sets some environment variables, check if there is a local python 
@@ -12,10 +12,10 @@ export PYLINTRC=$BIMAKER_HOME/infrastructure/buildout/.pylintrc
 
 if ! test -e $BIMAKER_HOME/public/bin/python
 then
-    cd $BIMAKER_HOME/infrastructure/environment
+    pushd $BIMAKER_HOME/infrastructure/environment
     echo $PWD
     ./setup-devenv
-    cd $BIMAKER_HOME
+    popd
 fi
 
 gnome-terminal --working-directory=$BIMAKER_HOME --title=$BIMAKER_TITLE
