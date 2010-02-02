@@ -16,6 +16,7 @@
 
 
 import unittest #@UnresolvedImport
+from os.path import join, dirname, normpath
 
 from bimaker.ir.beautifulSoup import BeautifulSoup
 from bimaker.ir.search import GoogleSearch, ScholarSearch
@@ -25,7 +26,8 @@ class TestGoogleSearch(unittest.TestCase):
 
     def setUp(self):
         self.gs = GoogleSearch('query text')
-        self.fixture = open('../../../../tests/fixtures/search/googleSearch.html')
+        fixture_path = normpath(join(dirname(__file__), '../../../../tests/fixtures/search/googleSearch.html'))
+        self.fixture = open(fixture_path)
         self.page = BeautifulSoup(self.fixture.read())
 
     def tearDown(self):
@@ -43,7 +45,8 @@ class TestScholarSearch(unittest.TestCase):
     
     def setUp(self):
         self.ss = ScholarSearch('query text')
-        self.fixture = open('../../../../tests/fixtures/search/scholarSearch.html')
+        fixture_path = normpath(join(dirname(__file__), '../../../../tests/fixtures/search/scholarSearch.html'))
+        self.fixture = open(fixture_path)
         self.page = BeautifulSoup(self.fixture.read())
         self.results = self.ss._extract_raw_results_list(self.page)
 
