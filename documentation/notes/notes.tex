@@ -45,21 +45,36 @@ al fer una cita.}
 \section{Extracció del contingut dels fitxers PDF}
 
 \subsection{Software}
+\textbf{xPDF} proporciona eines executables des de la línia de comandes per extreure text i altres elements dels fitxers PDF. Es distribueixen binaris de la utilitat tant per Windows com per Linux (que també funcionen per MAC OS).
+El principal motiu pel qual hem escollit xPDF és la qualitat dels resultats, en especial, el fet que no separa els paràgrams en diferents línies i que obté el text segons l'ordre de lectura i no l'ordre en que es troben en el document (e.g. dues columnes). També serà útil la possibilitat d'extreure les metadades del fitxer de forma fàcil.
+
+Altres opcions que s'han tingut en compte:
 \begin{itemize}
-\item{xPDF}\\
-Proporciona eines executables des de la línia de comandes per extreure text i altres elements dels fitxers PDF.
-Només converteix a text pla, però no separa els diferents paràgrafs en línies diferents. Permet obtenir el resultat en diferents
-codificacions de caràcters, però no conserva el text correcte. És a dir, continua tenint problemes per extreure accents, etc.
-Amb l'eina \texttt{pdftohtml} podem obtenir informació d'algunes de les paraules en negreta, però separa cada línia amb una etiqueta
-\texttt{br}.
-\item{PDFBox}\\
-Llibreria escrita en Java i publicada sota la llicència \textit{Apache License v2.0}. Actualment es troba a la incubadora d'Apache. 
-Permet obtenir el text i les metadades d'un fitxer. Separa els resultats per línia segons es troben en el document, no per paràgrafs.
-Podem obtenir les següents dades del fitxer sense
-haver-ne d'extreure el text: número de pàgines, títol, autor, assumpte i paraules clau. Si aquests camps no s'han omplert al 
-generar el fitxer, estaran en blanc.
+\item{PyPDF}
+\item{PDFMiner}
+\item{PDFBox}
 \end{itemize}
 
+
+\subsection{Alguns punts a considerar}
+A continuació es comenten alguns punts sobre els quals cal prendre decisions:
+\begin{itemize}
+    \item{Caràcters Unicode:}\\
+    Tan el programari seleccionat com la resta d'alternatives no permeten extreure de forma correcta els caràcters unicode. En la majoria dels casos, els articles estaran publicats en anglès i només trobarem caràcters especials en els noms dels autors, universitats, etc.
+        \begin{itemize}
+        \item{Lletres amb signes diacrítics: }
+        Si aconseguim obtenir la lletra, no hi ha problema perquè els cercadors permeten buscar amb l'equivalent ASCII. Altrament, caldrà idear alguna manera de buscar. Idees:
+            \begin{itemize}
+            \item{Cerques inexactes amb caràcters comodí: }Google permet utilitzar el caràcter *, però Google Scholar no.
+            \item{Google Fight: }fer cerques per diferents possibilitats dels caràcters que ens manquen i decidir segons el número de resultats obtinguts.
+            \end{itemize}
+        \item{Altres caràcters Unicode: }Els podem ometre ja que només estem interessats en cercar text.
+        \end{itemize}
+    \item{Text en negreta:}\\
+    Si realment ens interessa obtenir el text que en el fitxer es troba en negreta, podem utilitzar l'eina \texttt{pdftohtml}, que generarà etiquetes \verb=<b></b>=. A priori sembla que no ho necessitarem.
+    \item{Símbols de puntuació:}\\
+    Els podem ometre ja que les cerques exactes de Google Scholar retorna els mateixos resultats tant si s'inclouen a la consulta com no. Per exemple, la consulta \texttt{cluster or NoW(Network of Workstations).} retorna els mateixos resultats que \texttt{cluster or NoW Network of Workstations}.
+\end{itemize}
 
 
 \subsection{Procediment}
