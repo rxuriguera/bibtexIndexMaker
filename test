@@ -1,8 +1,13 @@
-#!/bin/sh
-script=./infrastructure/buildout/bin/test
+#!/bin/bash
+
+script_path=./infrastructure/buildout/bin
+script=test
+
+pushd $script_path
 if [ -f $script ]
 then
     ./$script
 else
-    echo "The script does not exist. Could not find: $script"
+    echo "The script does not exist. Could not find: $script_path/$script"
 fi
+popd
