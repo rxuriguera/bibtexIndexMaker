@@ -1,0 +1,13 @@
+#!/bin/bash
+
+script_path=./infrastructure/buildout/bin/
+script=pylint
+
+pushd $script_path
+if [ -f $script ]
+then
+    ./$script $*
+else
+    echo "The script does not exist. Could not find: $script_path/$script"
+fi
+popd

@@ -8,6 +8,7 @@
 export BIMAKER_TITLE=BibtexIndexMaker
 export BIMAKER_HOME=$1
 export PATH=$BIMAKER_HOME/public/bin:$PATH
+export PYLINTRC=$BIMAKER_HOME/infrastructure/buildout/.pylintrc
 
 if ! test -e $BIMAKER_HOME/public/bin/python
 then
