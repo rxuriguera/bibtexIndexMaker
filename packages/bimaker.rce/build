@@ -1,4 +1,6 @@
-#!/bin/sh
-cd buildout
+#!/bin/bash
+
+pushd buildout
 python bootstrap.py
-./bin/buildout
+bin/buildout
+popd
