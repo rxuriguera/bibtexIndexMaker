@@ -1,6 +1,0 @@
-#!/bin/bash
-
-pushd buildout
-python bootstrap.py
-bin/buildout
-popd
