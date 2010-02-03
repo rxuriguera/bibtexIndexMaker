@@ -3,13 +3,13 @@ import sys, os
 
 version = '0.0'
 
-setup(name='bimaker.ir',
+setup(name='bibim.ir',
       version=version,
       description="BibtexIndexMaker package to retrieve information from the web",
       long_description="""\
 """,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='information retrieval bimaker',
+      keywords='information retrieval bibim',
       author='',
       author_email='',
       url='',

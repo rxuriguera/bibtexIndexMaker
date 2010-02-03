@@ -23,7 +23,7 @@
     captionpos=b                % sets the caption-position to bottom
 }		
 
-\newcommand{\bimhome}{\$BIMAKER\_HOME }
+\newcommand{\bimhome}{\$BIBIM\_HOME }
 
 
 \title{BibTeX Bibliography Index Maker: Developer Manual}
@@ -56,7 +56,7 @@ git clone git://github.com/rxuriguera/bibtexIndexMaker.git <enlistment-dir>
     \item{}
     Run the environment set-up script:
     \begin{lstlisting}
-cd bimaker/infrastructure/environment
+cd bibim/infrastructure/environment
 ./setup-devenv
     \end{lstlisting}
 
@@ -70,7 +70,7 @@ The project's source has been divided into different packages each of which uses
 \section{Build Infrastructure}
 The builds should be scheduled and tracked using \texttt{Buildbot}, which can be easily installed with the following code:
     \begin{lstlisting}
-cd bimaker/infrastructure/buildbot
+cd bibim/infrastructure/buildbot
 ./setup
 ./start
     \end{lstlisting}
