@@ -1,0 +1,99 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url} 
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\title{BibTeX Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{03-02-2010}
+
+\setlength{\parindent}{0in}
+
+\begin{document}
+\maketitle
+
+\section{Estimació temporal per tasques/mòduls}
+Cada mòdul tindrà, com a mínim, les subtasques següents: disseny, tests, codi i documentació. Els següents mòduls són independents entre ells i per tant, es poden desenvolupar en qualsevol ordre o en paral·lel.
+\begin{itemize}
+\item{Mòdul IR: } Recuperació de la informació, cerques utilitzant Google Scholar.\\
+Punts a considerar:
+    \begin{itemize}
+        \item{Google retorna els diferents tipus de resultats segons la informació de la qual disposa.}
+    \end{itemize}
+Temps estimat: \textbf{7d}
+
+\item{Mòdul PDF: } Extracció de text de PDFs.\\
+Punts a considerar: 
+    \begin{itemize}
+        \item{Postprocés del text extret dels PDFs.}
+    \end{itemize}
+Temps estimat: \textbf{10d}
+
+\item{Mòdul IE: } Extracció de la informació de les pàgines bases de dades d'articles.\\
+Punts a considerar:
+    \begin{itemize}
+        \item{Coficiació de wrappers per cada possible pàgina a tenir en compte}
+        \item{Decisió del wrapper a utilitzar (només URL?)}
+        \item{Decisió del tipus de document (article/proceedings)}
+    \end{itemize}
+Temps estimat: \textbf{15d}
+
+\item{Mòdul Bibtex: } Generació de referències BibTex.\\
+Temps estimat: \textbf{8d}
+\end{itemize}
+
+
+Aquest mòdul depèn de tots els anteriors:
+\begin{itemize}
+\item{Mòdul principal: } Encarregat d'establir el flux de la informació.\\
+Punts a considerar:
+    \begin{itemize}
+        \item{Avaluació de la \textit{predicció}}
+        \item{Depenent del temps d'execució necessari per al conjunt de tasques anteriors degut a esperes per obtenir informació d'Internet pot ser necessari fer multithreading}
+    \end{itemize}
+Temps estimat: \textbf{6d}
+\end{itemize}
+
+
+Els següents punts depenen del mòdul principal, però es poden desenvolupar en paral·lel o en qualsevol ordre:
+\begin{itemize}
+\item{CLI: } Interfície de comandes.\\
+Punts a considerar:
+    \begin{itemize}
+        \item{Integració amb el sistema operatiu. Per exemple, text d'ajuda al fer un \texttt{man}}
+    \end{itemize}
+Temps estimat: \textbf{4d}
+
+\item{Plug-in JabRef: }\\
+Punts a considerar:
+    \begin{itemize}
+        \item{S'utilitza una tecnologia diferent que en la resta del projecte.}
+        \item{Interfície gràfica}
+    \end{itemize}
+Temps estimat: \textbf{8d}
+\end{itemize}
+
+
+Finalment:
+\begin{itemize}
+\item{Distribució: }\\
+Punts a considerar:
+    \begin{itemize}
+        \item{Empaquetar amb fitxers .egg i .jar respectivament.}
+    \end{itemize}
+Temps estimat: \textbf{3d}
+\end{itemize}
+
+
+Amb aquestes estimacions i tenint en compte els caps de setmana i setmana santa, el projecte estaria llest a principis de maig. Faltaria la memòria.
+
+\end{document}
