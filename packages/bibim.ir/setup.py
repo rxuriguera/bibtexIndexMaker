@@ -5,7 +5,7 @@ version = '0.0'
 
 setup(name='bibim.ir',
       version=version,
-      description="BibtexIndexMaker Information Retrieval package",
+      description="Bimaker Information Retrieval package",
       license='GPL',
       packages = find_packages('src'),
       package_dir = {'':'src'},

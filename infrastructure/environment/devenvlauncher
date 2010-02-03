@@ -5,18 +5,18 @@
 # interpreter available and and launches a new terminal.
 # You should pass the project root as the first parameter of this script.
 
-export BIMAKER_TITLE=BibtexIndexMaker
-export BIMAKER_HOME=$1
-export PATH=$BIMAKER_HOME/public/bin:$PATH
-export PYLINTRC=$BIMAKER_HOME/infrastructure/buildout/.pylintrc
+export BIBIM_TITLE=BibtexIndexMaker
+export BIBIM_HOME=$1
+export PATH=$BIBIM_HOME/public/bin:$PATH
+export PYLINTRC=$BIBIM_HOME/infrastructure/buildout/.pylintrc
 
-if ! test -e $BIMAKER_HOME/public/bin/python
+if ! test -e $BIBIM_HOME/public/bin/python
 then
-    pushd $BIMAKER_HOME/infrastructure/environment
+    pushd $BIBIM_HOME/infrastructure/environment
     echo $PWD
     ./setup-devenv
     popd
 fi
 
-gnome-terminal --working-directory=$BIMAKER_HOME --title=$BIMAKER_TITLE
+gnome-terminal --working-directory=$BIBIM_HOME --title=$BIBIM_TITLE
 exit
