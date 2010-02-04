@@ -1,8 +1,0 @@
-#!/bin/sh
-script=./buildout/bin/test
-if [ -f $script ]
-then
-    ./$script
-else
-    echo "Script does not exist. Could not find: $script"
-fi
