@@ -25,11 +25,7 @@ class TestPDFTextExtractor(unittest.TestCase):
     def setUp(self):
         self.extractor = PDFTextExtractor()
         self.article01 = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/extraction/001.pdf')))
-        self.article02 = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/extraction/002.pdf')))
-        self.article03 = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/extraction/003.pdf')))
+                                     'fixtures/extraction/article.pdf')))
         self.scanned = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/extraction/scanned.pdf')))
         self.corrupt = normpath(join(dirname(__file__), ('../../../../tests/'
@@ -43,7 +39,7 @@ class TestPDFTextExtractor(unittest.TestCase):
 
     def test_extract(self):
         content = self.extractor.extract(self.article01)
-        print content
+        pass
 
 
 if __name__ == "__main__":
