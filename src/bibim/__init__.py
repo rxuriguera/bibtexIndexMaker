@@ -1,5 +1,5 @@
-import logging
-import logging.config
+import logging #@UnresolvedImport
+import logging.config #@UnresolvedImport
 from os import path
 
 logging.config.fileConfig(
