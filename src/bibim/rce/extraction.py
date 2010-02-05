@@ -2,9 +2,6 @@
 #
 # This file is part of BibtexIndexMaker RCE. 
 #
-# Peteris Krumins (peter@catonmat.net)
-# http://www.catonmat.net -- good coders code, great reuse
-# http://www.catonmat.net/blog/python-library-for-google-search/
 #
 # BibtexIndexMaker RCE is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
