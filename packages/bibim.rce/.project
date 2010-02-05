@@ -3,6 +3,7 @@
 	<name>bibim.rce</name>
 	<comment></comment>
 	<projects>
+		<project>bibim.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
