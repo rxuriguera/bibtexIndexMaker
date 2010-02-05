@@ -24,4 +24,21 @@ class Document(object):
     def __init__(self):
         """
         """
-        self._metadata = [None]
+        self._metadata = {}
+        self._content = None
+        
+    def set_metadata_field(self, field, value):
+        self._metadata[field] = value
+    
+    def get_metadata_field(self, field):
+        if field not in self._metadata.keys():
+            return None
+        return self._metadata[field]
+    
+    def _set_content(self, content):
+        self._content = content
+    
+    def _get_content(self):
+        return self._content
+    
+    content = property(_get_content, _set_content)
