@@ -57,9 +57,9 @@ class PDFTextExtractor(TextExtractor):
     """
 
     _tool_path = {
-        'Darwin':'../../../xpdf/linux/pdftotext', #MAC OS 
-        'Linux':'../../../xpdf/linux/pdftotext',
-        'Windows':'../../../xpdf/windows/pdftotext.exe'
+        'Darwin':'../../../tools/xpdf/linux/pdftotext', #MAC OS 
+        'Linux':'../../../tools/xpdf/linux/pdftotext',
+        'Windows':'../../../tools/xpdf/windows/pdftotext.exe'
     }
     
     @property
