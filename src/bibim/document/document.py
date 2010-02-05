@@ -35,8 +35,8 @@ class Document(object):
             return None
         return self._metadata[field]
     
-    def _set_content(self, content):
-        self._content = content
+    def _set_content(self, cnt):
+        self._content = cnt
     
     def _get_content(self):
         return self._content
