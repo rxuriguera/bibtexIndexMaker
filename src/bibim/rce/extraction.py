@@ -19,10 +19,12 @@
 
 import platform #@UnresolvedImport
 import subprocess #@UnresolvedImport
-
+import xml.dom.minidom #@UnresolvedImport
 from os import path
 
 from bibim import log
+from bibim.document import Document
+from bibim.beautifulsoup import BeautifulSoup
 
 class Extractor(object):
     """
@@ -44,12 +46,12 @@ class Extractor(object):
         raise NotImplementedError()
     
 
-
 class TextExtractor(Extractor):
     """
     TextExtractor provides methods to extract text from other kind of 
     documents.  
     """
+
 
 class PDFTextExtractor(TextExtractor):
     """
@@ -77,7 +79,7 @@ class PDFTextExtractor(TextExtractor):
     def extract(self, input_file):
         input_file = self._check_input_file(input_file)
         
-        command = [self._pdf_extraction_tool, '-f', '1', '-l', '1', '-enc',
+        command = [self._pdf_extraction_tool, '-q', '-f', '1', '-l', '1', '-enc',
                    'UTF-8', '-htmlmeta', input_file, '-']
         try:
             pop = subprocess.Popen(command, stdout=subprocess.PIPE)
@@ -86,7 +88,15 @@ class PDFTextExtractor(TextExtractor):
                    + repr(cpe.returncode))
         except OSError:
             log.error ('PDF extraction tool not found')
-        else:
-            return pop.communicate()[0]
+        
+        document = Document()
+        parser = BeautifulSoup(pop.communicate()[0])
+        
+        metas = parser.findAll('meta')
+        for meta in metas:
+            document.set_metadata_field(meta['name'], meta['content'])
+        
+        return document
+        
 
         

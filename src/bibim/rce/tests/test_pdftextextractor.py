@@ -38,7 +38,7 @@ class TestPDFTextExtractor(unittest.TestCase):
         self.failUnlessRaises(IOError, self.extractor.extract, 'some_file.pdf')
 
     def test_extract(self):
-        content = self.extractor.extract(self.article01)
+        document = self.extractor.extract(self.article01)
         pass
 
 
