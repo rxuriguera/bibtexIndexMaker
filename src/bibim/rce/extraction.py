@@ -25,6 +25,7 @@ import subprocess #@UnresolvedImport
 
 from os import path
 
+from bibim import log
 
 class Extractor(object):
     """
@@ -84,10 +85,10 @@ class PDFTextExtractor(TextExtractor):
         try:
             pop = subprocess.Popen(command, stdout=subprocess.PIPE)
         except subprocess.CalledProcessError as cpe:
-            print ('Error executing PDF text extraction tool. Return code: ' 
+            log.error ('Error executing PDF text extraction tool. Return code: ' 
                    + repr(cpe.returncode))
         except OSError:
-            print('PDF extraction tool not found')
+            log.error ('PDF extraction tool not found')
         else:
             return pop.communicate()[0]
 
