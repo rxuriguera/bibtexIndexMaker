@@ -18,7 +18,7 @@
 import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 
-from bibim.ir.beautifulSoup import BeautifulSoup
+from bibim.beautifulsoup import BeautifulSoup
 from bibim.ir.search import GoogleSearch, ScholarSearch
 
 

@@ -28,7 +28,7 @@ import urllib #@UnresolvedImport
 
 from htmlentitydefs import name2codepoint #@UnresolvedImport
 
-from bibim.ir.beautifulSoup import BeautifulSoup
+from bibim.beautifulsoup import BeautifulSoup
 from bibim.ir.browser import Browser, BrowserError
 
 
