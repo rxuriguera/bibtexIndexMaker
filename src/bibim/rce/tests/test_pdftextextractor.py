@@ -17,7 +17,7 @@ import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 import subprocess #@UnresolvedImport
 
-from bibim.rce.extraction import ExtractionError, PDFTextExtractor
+from bibim.rce import ExtractionError, PDFTextExtractor
 
 class TestPDFTextExtractor(unittest.TestCase):
 
@@ -57,7 +57,6 @@ class TestPDFTextExtractor(unittest.TestCase):
             ' the use of boundary methods')) == 1)
         self.failUnless(self.document.content.count(('Army Research Lab '
             'Programming Environment and Training program')) == 1)
-
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
