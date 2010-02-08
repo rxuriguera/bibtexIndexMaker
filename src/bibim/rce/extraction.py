@@ -26,7 +26,15 @@ from bibim import log
 from bibim.document import Document
 from bibim.beautifulsoup import BeautifulSoup
 
+class ExtractionError(Exception):
+    
+    """
+    Raised when the content of the file cannot be extracted or the file is
+    corrupted.
+    """
+
 class Extractor(object):
+    
     """
     Extractor provides methods for content extraction.
     """
@@ -47,6 +55,7 @@ class Extractor(object):
     
 
 class TextExtractor(Extractor):
+    
     """
     TextExtractor provides methods to extract text from other kind of 
     documents.  
@@ -59,7 +68,7 @@ class PDFTextExtractor(TextExtractor):
     """
 
     _tool_path = {
-        'Darwin':'../../../tools/xpdf/linux/pdftotext', #MAC OS 
+        'Darwin':'../../../tools/xpdf/linux/pdftotext', # MAC OS 
         'Linux':'../../../tools/xpdf/linux/pdftotext',
         'Windows':'../../../tools/xpdf/windows/pdftotext.exe'
     }
@@ -78,25 +87,38 @@ class PDFTextExtractor(TextExtractor):
     
     def extract(self, input_file):
         input_file = self._check_input_file(input_file)
-        
         command = [self._pdf_extraction_tool, '-q', '-f', '1', '-l', '1', '-enc',
                    'UTF-8', '-htmlmeta', input_file, '-']
         try:
             pop = subprocess.Popen(command, stdout=subprocess.PIPE)
         except subprocess.CalledProcessError as cpe:
-            log.error ('Error executing PDF text extraction tool. Return code: ' 
+            log.error ('Error executing PDF text extraction tool. Return code: ' #@UndefinedVariable
                    + repr(cpe.returncode))
         except OSError:
-            log.error ('PDF extraction tool not found')
+            log.error ('PDF extraction tool not found') #@UndefinedVariable
         
         document = Document()
-        parser = BeautifulSoup(pop.communicate()[0])
+        # pop.communicate returns a tuple (stdout, stderror)
+        stdout = pop.communicate()[0]
+        if not stdout:
+            raise ExtractionError('Corrupted file')
+        parser = BeautifulSoup(stdout)
         
+        # Title
+        title = parser.find('title')
+        document.set_metadata_field('Title', title.find(text=True))
+        
+        # Metadata
         metas = parser.findAll('meta')
         for meta in metas:
             document.set_metadata_field(meta['name'], meta['content'])
         
-        return document
+        # Content
+        pre = parser.find('pre')
+        raw_content = pre.find(text=True).strip()
+        if not raw_content:
+            raise ExtractionError('Could not extract content') 
+        document.content = raw_content
         
-
+        return document
         

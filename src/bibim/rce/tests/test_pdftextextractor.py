@@ -17,7 +17,7 @@ import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 import subprocess #@UnresolvedImport
 
-from bibim.rce.extraction import PDFTextExtractor
+from bibim.rce.extraction import ExtractionError, PDFTextExtractor
 
 class TestPDFTextExtractor(unittest.TestCase):
 
@@ -30,6 +30,7 @@ class TestPDFTextExtractor(unittest.TestCase):
                                      'fixtures/extraction/scanned.pdf')))
         self.corrupt = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/extraction/corrupt.pdf')))
+        self.document = self.extractor.extract(self.article01)
 
     def tearDown(self):
         pass
@@ -37,9 +38,25 @@ class TestPDFTextExtractor(unittest.TestCase):
     def test_extract_non_existent_file(self):
         self.failUnlessRaises(IOError, self.extractor.extract, 'some_file.pdf')
 
-    def test_extract(self):
-        document = self.extractor.extract(self.article01)
-        pass
+    def test_extract_scanned_file(self):
+        self.failUnlessRaises(ExtractionError, self.extractor.extract,
+                              self.scanned)
+        
+    def test_extract_corrupt_file(self):
+        self.failUnlessRaises(ExtractionError, self.extractor.extract,
+                              self.corrupt)
+
+    def test_metadata_extraction(self):
+        self.failUnless(self.document.get_metadata_field('Title') == ('PII: '
+            'S0925-2312(00)00293-9'))
+        self.failUnless(self.document.get_metadata_field('CreationDate') == 
+            '20001019095743')
+
+    def test_content_extraction(self):
+        self.failUnless(self.document.content.count(('In this paper we discuss'
+            ' the use of boundary methods')) == 1)
+        self.failUnless(self.document.content.count(('Army Research Lab '
+            'Programming Environment and Training program')) == 1)
 
 
 if __name__ == "__main__":
