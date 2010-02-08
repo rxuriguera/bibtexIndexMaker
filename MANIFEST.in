@@ -1,0 +1,4 @@
+include LICENSE.txt
+include README.txt
+include config/*.cfg
+recursive-include tools *

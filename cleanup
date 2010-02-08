@@ -1,0 +1,16 @@
+#!/bin/bash
+
+file_patterns=('*.pyc' '*.pyo' '*~' '*.egg-info')
+dir_patterns=('bin' 'dist' 'eggs' 'develop-eggs' 'parts')
+
+for files in ${file_patterns[@]}
+do
+    echo 'Removing files that match: ' $files;
+    find . -name $files -exec rm -rvf {} \;
+done
+
+for dirs in ${dir_patterns[@]}
+do
+    echo 'Removing dirs that match: ' $dirs;
+    find . -name $dirs -exec rmdir -v --ignore-fail-on-non-empty {} \;
+done
