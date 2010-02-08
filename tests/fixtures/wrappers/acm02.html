@@ -1,0 +1,1207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+
+
+	
+		
+		
+
+
+ 
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+ 		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.note-header-text {font-family: Times, Times New Roman, serif;
+		color:#ff0000; font-size: .95em;
+		margin-left: .75em; margin-right: .75em;}
+</style> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+
+
+
+		
+	
+	
+  		
+		
+	
+
+
+
+
+
+
+
+
+  	 
+     
+
+
+
+	
+	
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+	
+		
+		
+   	 
+
+
+
+
+ 	
+ 	
+	
+
+
+
+
+
+<link rel="STYLESHEET" type="text/css" href="acm02_files/dl.css">
+
+
+<title>PEPITO</title>
+<style type="text/css"><!--
+    body {margin-left: 0em; margin-top: 0}
+    a:link {text-decoration: underline; 	Color: #006699;}
+    a:visited  { color: #990033; text-decoration: underline;}
+    a:hover {color: red; text-decoration: none}
+    a.dLink1:link {color:#336699}
+    a.dLink1:visited {color:#666666}
+	a.isblack:link {text-decoration: underline; 	Color: #000000;}
+    a.isblack:visited  { color: #000000; text-decoration: underline;}
+    a.isblack:hover {color: #000000; text-decoration: none}
+    h1 {font-size: 140%; margin-bottom: 0}
+	ul {margin-top: .25em; list-style-type: disc}
+	ol {margin-top: .25em;}
+	li {padding-bottom: .25em}
+    h2 {color: white; background-color: #069; 
+        font-size: 100%; padding-left: 1em;
+		margin: 0}
+	h3 {color: black; background-color: yellow; 
+    	font-size: 100%;
+		margin: 0}
+	 h4 {color: black; background-color: #99c5e8; 
+        font-size: 100%;
+		margin: 0}
+    hr {color: #39176d;}
+    form {margin-top: 10}
+    form.xrs {margin-top: 0}
+	
+	a {text-decoration: none; }
+	
+	input {font-size: 1em;}
+	.chevron {color: #ff0000;}
+	.light-blue {color:#336699;}
+	.black {color:#000000;}
+	
+	/* ### standard text styles, smallest to largest ### */
+	
+	.footer-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#336699; font-size: .75em; line-height: 1.33em;
+		text-indent: -.75 em; margin-left: 2em; margin-right: .75em;}
+		
+	.footer-copy-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .75em; line-height: 1.3em;
+		margin-left: .75em; margin-right: .75em;}
+		
+	.small-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em; padding-bottom : 2px;
+	  	padding-top : 2px;}
+
+	.smallerer-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .65em;}
+	.smaller-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .75em;}		
+	.small-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em;}
+	.small-textb {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em; font-weight: bold;}
+	.medium-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: 1em;}
+	.mediumb-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: 1em; font-weight: bold;}
+	.large-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: 1.3em;}		
+	.instr-text {font-family: Arial, Helvetica, sans-serif;
+		color:#666666; font-size: .83em;}
+		
+	.list-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#336699; font-size: .83em; line-height: 1.3em;}
+	.list-link-btext {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em; line-height: 1.3em;}
+	
+	.searchbox-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000066; font-size: 1em; font-weight: bold;}
+	.footer-header-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000066; font-size: 1em; font-weight: bold;
+		margin-left: .75em; margin-right: .75em;}
+	.medium-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000066; font-size: 1em; font-weight: bold; line-height: 1em;
+		text-indent: -1.25em; margin-left: 2em; margin-right: .75em;}
+	
+	
+	.small-copy-text {font-family: Times, Times New Roman, serif;
+		color:#000066; font-size: .75em; line-height: 1.2em;
+		margin-left: .75em; margin-right: .75em;}
+
+	.medium-copy-text {font-family: Times, Times New Roman, serif;
+		color:#000066; font-size: 1em; line-height: 1.2em;
+		margin-left: .75em; margin-right: .75em;}
+	
+	.large-copy-text {font-family: Times, Times New Roman, serif;
+		color:#000066; font-size: 1.3em; line-height: 1.5em;
+		margin-left: .75em; margin-right: .75em;}
+	
+	.medium-header-text {font-family: Times, Times New Roman, serif;
+		color:#ff0000; font-size: 1em;
+		margin-left: .75em; margin-right: .75em;}
+	
+	.large-header-text {font-family: Times, Times New Roman, serif;
+		color:#ff0000; font-size: 1.5em;
+		margin-left: .75em; margin-right: .75em;}
+
+		#side {
+			width: 10px;
+			float: left;
+			margin-left: -1px;
+			padding: 2px;
+			}
+							
+		#content {
+			padding: 2px;
+			margin-left: 25px;
+			
+		        
+		        }
+  --></style>
+ 
+<script language="JavaScript">
+ /* <!-- Begin
+	if(document.layers || document.all) {
+	a = 1;
+	setInterval("Jump()", 10);
+	}
+	function Jump() {
+	a = a + 1;
+	//self.moveBy((Math.random() * a * 2 - a), (Math.random() * a * 2) - a);
+	}
+//  End --> */
+</script>
+
+
+
+
+
+
+
+
+	
+	
+  
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+	 
+	
+	
+	
+	
+	
+	
+
+
+
+ 
+ 
+
+
+
+
+
+	
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+</head><body onload="window.focus(); " bgcolor="#ffffff">
+<div align="center">
+<a name="CIT"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="85%">
+<tbody><tr>
+<td>
+
+
+	
+		
+				
+				
+					
+				  
+		
+	 
+
+
+
+
+
+
+
+
+		
+
+	
+
+
+
+	
+
+
+	
+
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr valign="top">
+		<td class="small-link-text" align="center" background="acm02_files/horiz-bar.jpg" width="1%"><img src="acm02_files/logo_acm_portal2.jpg" alt="ACM Portal" usemap="#PORT" border="0" width="263" height="54">
+			
+			
+		</td>
+		<td class="small-link-text" align="left" width="99%">
+			<table border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td>&nbsp;</td>
+				
+					<td class="small-link-text"><a href="https://campus.acm.org/Public/login_genpubqj.cfm?rdr=http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584&amp;promo=QJPUB&amp;offering=200&amp;form_type=PUB&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">Subscribe</a><span class="small-link-text">&nbsp;(Full Service)</span>&nbsp;&nbsp;&nbsp;</td>
+					<td class="small-link-text"><a href="https://portal.acm.org/poplogin.cfm?dl=GUIDE&amp;coll=Portal&amp;want_href=citation%2Ecfm%3Fid%3D1388069%2E1388072%26coll%3DPortal%26dl%3DGUIDE%26CFID%3D77133158%26CFTOKEN%3D85956584&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">Register</a><span class="small-link-text">&nbsp;(Limited Service, <font color="Red">Free</font>)</span>&nbsp;&nbsp;&nbsp;</td>
+				
+				<td class="small-link-text" valign="bot">
+					
+					
+		 					<a href="https://portal.acm.org/poplogin.cfm?dl=GUIDE&amp;coll=Portal&amp;want_href=citation%2Ecfm%3Fid%3D1388069%2E1388072%26coll%3DPortal%26dl%3DGUIDE%26CFID%3D77133158%26CFTOKEN%3D85956584&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">Login</a>
+					
+				</td>			
+			</tr>
+			</tbody></table>
+			
+			
+			
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				
+					
+					
+					     
+					
+					<form name="qiksearch" action="results.cfm?coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" method="post"></form>
+					<tbody><tr>
+						<td height="5"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+					</tr>
+					<input name="parser" value="Internet" type="hidden">
+					<tr>
+						<td class="small-link-text">&nbsp;</td>
+						<td class="small-link-text">
+							 
+							  	
+							
+							
+							
+							<b>Search:</b>&nbsp;&nbsp;&nbsp;<input name="whichDL" value="acm" type="radio">The ACM Digital Library&nbsp;&nbsp;&nbsp;<input name="whichDL" value="guide" checked="checked" type="radio">The Guide
+
+							
+							<br><input class="pubdescr" name="query" size="60" value=" " type="text">&nbsp;&nbsp;
+							<input alt="Search" name="Go" src="acm02_files/search_small.jpg" border="0" type="image">
+<script type="text/javascript" src="acm02_files/wz_tooltip.js"></script> 
+
+
+						</td>
+					</tr>
+
+					
+				
+			</tbody></table>
+
+			
+		</td>
+	<!-- top nav END -->
+	</tr>
+	</tbody></table>
+	
+
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td height="12"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	</tbody></table>
+
+<map name="PORT"> 
+  <area shape="rect" coords="1,1,55,60" href="http://www.acm.org/" alt="ACM Home Page">
+  <area shape="rect" coords="65,1,300,78" href="http://portal.acm.org/portal.cfm?coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584">
+</map>
+
+	
+
+<table align="left" border="0" width="100%">
+	<col width="40%">
+	<col width="60%">
+	<tbody><tr>
+		<td>
+			
+				<a href="http://portal.acm.org/guide.cfm?coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584"><img src="acm02_files/acm_guide_bar_large2.jpg" alt="" border="0" width="350" height="25"></a>
+			
+		</td>
+ 		<td class="small-text" align="center">
+			<img src="acm02_files/feedback.gif" alt="Please provide us with feedback." border="0" width="20" height="19">&nbsp;<a href="http://portal.acm.org/feedback.cfm?CFID=77133158&amp;CFTOKEN=85956584">Feedback</a>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="medium-text" style="padding-top: 20px; padding-bottom: 20px;" height="6">
+         <a title="beta version" href="http://portal.acm.org/beta/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584"><img style="vertical-align: middle;" src="acm02_files/ACMDL_Symbol_new.jpg" alt="Digital Library logo" border="0"></a>Take a look at the new version of this page: [ <a title="beta version" href="http://portal.acm.org/beta/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584">beta version</a> ]. 
+        Tell us what you think.
+		</td>
+	</tr>
+</tbody></table>
+</td>
+</tr>
+
+
+ 	
+
+
+
+
+<tr>
+	<td colspan="3" background="acm02_files/horiz-bar-long.jpg" valign="top" height="1"></td>
+</tr>
+
+
+
+
+
+<tr>
+<td class="small-text">
+	<table border="0" cellpadding="2" width="100%">
+		<col width="1%">
+		<col width="8%">
+		<col width="91%">
+	<tbody><tr>
+		<td class="medium-text" colspan="3"><strong>PEPITO</strong></td>
+	</tr>
+			
+	
+		<tr valign="top">
+			
+			
+		</tr>
+		
+		
+		
+		
+		<tr valign="top">
+			
+            
+            
+                
+            
+                
+            
+            
+            
+            
+		</tr>
+
+		<tr valign="top">
+			<td class="small-text"><strong>Source</strong>
+				
+				
+						
+				
+				
+					
+
+					
+				
+				
+			</td>
+			<td class="small-text" colspan="2">
+			
+								
+										
+											
+											
+										
+											
+											
+										
+											
+											
+												
+										
+											
+											
+											
+											
+											
+											
+												
+												
+												
+													
+													
+												
+											
+											
+											
+													
+													
+													
+												    
+													
+														
+														
+															
+													
+														
+														
+														
+														
+														
+														<span class="mediumb-text">Bioinformatics </span>
+																			<a href="http://portal.acm.org/toc.cfm?id=J984&amp;type=periodical&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self" class="small-link-text">archive</a><br>
+														
+															 <span class="small-text"> Volume 24 ,&nbsp; Issue 12 &nbsp;(June 2008)</span>
+															 					  <a href="http://portal.acm.org/toc.cfm?id=1388069&amp;type=issue&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self" class="small-link-text">table of contents</a><br>
+																				  <span class="small-text"> </span>
+														   
+													
+												 
+										
+								
+		
+
+		
+		<div class="medium-text">
+			
+			
+			
+		</div>
+		
+		
+		    
+			
+			
+		
+
+			
+			
+			<div class="small-text">
+				 Pages: 1459-1460&nbsp;&nbsp;
+			</div>
+					
+			
+			
+			
+				<div class="small-text">
+					Year of Publication:&nbsp;2008
+				</div>
+			
+					
+			
+				<div class="small-text">
+					
+						
+						
+						  	
+						  	
+						
+					  
+					ISSN:1367-4803
+				</div>
+				
+
+			
+			
+				
+					
+					
+					
+				
+					
+					
+					
+				
+					
+					
+					
+				
+			
+			
+		
+			 
+			  	
+			 
+			 
+		
+		
+		
+			
+				
+			</td>
+		</tr>
+		
+		
+		
+			<tr valign="top">
+				<td class="small-text">							
+										  	<strong>Authors</strong>
+										
+				</td>
+				
+				
+					
+					
+				<td colspan="2">
+				<div class="authors">
+					<table cellpadding="0" cellspacing="0">		
+					
+							<tbody><tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81309491538&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Michael J. Sweredoski</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+										
+								</td>
+							</tr>
+					
+							<tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81100344423&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Pierre Baldi</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+										
+								</td>
+							</tr>
+					
+					</tbody></table>	
+				</div>
+				</td>
+			</tr>
+			
+		
+		
+		
+	    
+
+		
+		
+		
+		
+			
+		
+		
+		
+		
+			
+					<tr valign="top">
+						<td class="small-text"><strong>Publisher</strong></td>
+						<td colspan="2">
+							<div class="publishers">
+									
+									  	Oxford University Press&nbsp;
+									
+									
+										<small>Oxford, UK</small>
+									
+							</div>
+						</td>
+					</tr>
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+					<tr valign="top">
+						<td class="small-text"><strong>Bibliometrics</strong></td>
+						<td colspan="2">
+							<div class="publishers">
+									Downloads (6 Weeks): n/a,&nbsp;&nbsp;  Downloads (12 Months): n/a,&nbsp;&nbsp;  Citation Count: 0
+							</div>
+						</td>
+					</tr>
+			
+		
+		
+		
+		
+		</tbody></table>
+	
+ 
+ 
+  
+ 		
+</td>
+</tr>
+
+
+<tr>
+<td>
+
+<!-- third main table: main content START -->
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr>
+		<td height="6"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	<tr>
+		<td colspan="4" background="acm02_files/horiz-bar-long.jpg" valign="top" height="1"></td>
+	</tr>
+	<tr>
+		<td height="6"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+
+	
+
+	<tr valign="top">
+	<!-- buttons -->
+		<td colspan="4" width="100%">
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+		<col width="22%">
+	    <col width="78%">
+		<tbody><tr>
+			<td class="small-text"><b>Additional Information:</b></td>
+			<td>
+			<p class="small-text">
+				
+				
+				
+					<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#abstract">abstract</a>&nbsp;&nbsp;
+				
+				
+				
+				
+				
+				
+					<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#IndexTerms">index terms</a>&nbsp;&nbsp;
+				
+				
+				
+						<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#collab">collaborative colleagues</a>&nbsp;&nbsp;
+				
+				
+				</p>
+			</td>
+		</tr>
+		</tbody></table>
+		</td>
+	</tr>
+	<tr>
+		<td height="6"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	
+	<tr valign="top">
+	<!-- buttons -->
+		<form name="popbinder"></form>
+		<td colspan="4" width="100%">
+		
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+		  <col width="22%">
+		  <col width="78%">
+		  <tbody><tr valign="top">
+		  	<td class="small-text" style="padding-top: 0.75em;"><b>Tools and Actions:</b></td>
+			<td style="padding-top: 0.75em;">
+			
+			  	
+			
+			
+			
+			
+
+			
+			
+		    
+			
+			<a href="http://www.reviews.com/reviewer/quickreview/frameset_toplevel.cfm?bib_id=1388072" target="reviews" class="small-link-text">Review this Article</a>&nbsp;&nbsp;
+			<div style="margin-top: 0.5em; margin-bottom: 0pt;">
+			
+				
+				
+					<a href="https://portal.acm.org/poplogin.cfm?dl=GUIDE&amp;coll=Portal&amp;comp_id=COMPONENT034&amp;want_href=citation%2Ecfm%3Fid%3D1388069%2E1388072%26coll%3DPortal%26dl%3DGUIDE%26CFID%3D77133158%26CFTOKEN%3D85956584%26backfrombind%3D1&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">
+				
+				Save this Article to a Binder</a><img src="acm02_files/blanks.gif" name="saved" border="0">
+			  
+			&nbsp;&nbsp;
+			<span class="small-text">Display Formats:</span>
+			<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#" onclick="window.open('popBibTex.cfm?id=1388072&amp;ids=J984.1388069.1388072&amp;types=periodical.issue.article&amp;reqtype=article&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584','BibTex','width=800,height=100,top=100,left=100,scrollbars=Yes,resizable=yes');" class="small-link-text">
+			BibTeX</a>&nbsp;
+
+			<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#" onclick="window.open('testpopendnotes.cfm?id=1388072&amp;ids=J984.1388069.1388072&amp;types=periodical.issue.article&amp;reqtype=article&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584','BibTex','width=800,height=100,top=100,left=100,scrollbars=Yes,resizable=yes');" class="small-link-text">
+			EndNote</a>
+
+			
+			 
+				<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#" onclick="window.open('popacmref.cfm?id=1388072&amp;ids=J984.1388069.1388072&amp;types=periodical.issue.article&amp;reqtype=article&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584','BibTeX','width=800,height=100,top=100,left=100,scrollbars=Yes,resizable=yes');" class="small-link-text">
+			ACM Ref</a>
+			
+			
+			&nbsp;&nbsp;				
+			
+			</div>
+			
+			
+			
+			
+			</td>
+		</tr>
+		<tr>
+			<td height="10"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+		</tr>
+		
+		<tr valign="top">
+			<td class="small-text"><b>DOI Bookmark:</b></td>
+			<td class="small-text">
+				
+			    <a href="http://dx.doi.org/10.1093/bioinformatics/btn199">10.1093/bioinformatics/btn199</a>
+			</td>
+		</tr> 
+		
+		</tbody></table>
+		
+		</td>
+		
+	</tr>
+	<tr>
+		<td height="6"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	<tr>
+		<td colspan="4" background="acm02_files/horiz-bar-long.jpg" valign="top" height="1"></td>
+	</tr>
+	<tr>
+		<td height="6"><img src="acm02_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	</tbody></table>
+<!-- third main table: main content END -->
+	
+
+		
+		
+
+
+
+		
+		
+		  	<div class="abstract">
+			
+			
+			  	
+			 
+			 
+			
+			</div>
+		
+		
+		
+
+		
+			<br>
+			<div class="abstract">
+			
+			<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm02_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="abstract">ABSTRACT</a></span>
+			
+			  	
+			 
+			 
+			
+				<p class="abstract">
+				
+					 </p><p><b>Motivation:</b>
+Accurate prediction of B-cell epitopes is an important goal of
+computational immunology. Up to 90% of B-cell epitopes are
+discontinuous in nature, yet most predictors focus on linear epitopes.
+Even when the tertiary structure of the antigen is available, the
+accurate prediction of B-cell epitopes remains challenging.</p> <p><b>Results:</b>
+Our predictor, PEPITO, uses a combination of amino-acid propensity
+scores and half sphere exposure values at multiple distances to achieve
+state-of-the-art performance. PEPITO achieves an area under the curve
+(AUC) of 75.4 on the Discotope dataset. Additionally, we benchmark
+PEPITO as well as the Discotope predictor on the more recent Epitome
+dataset, achieving AUCs of 68.3 and 66.0, respectively.</p> <p><b>Availability:</b> PEPITO is available as part of the SCRATCH suite of protein structure predictors via www.igb.uci.edu.</p> <p> <b>Contact:</b> <email>pfbaldi@ics.uci.edu</email> </p> <p><b>Supplementary information:</b><ext-link ext-link-type="uri" href="http://bioinformatics.oxfordjournals.org/cgi/content/full/btn199/DC1" xmlns:xlink="http://www.w3.org/1999/xlink">Supplementary data are available at <i>Bioinformatics</i> online.</ext-link></p>
+					 
+				 
+				<p></p>
+			
+			
+			</div>
+		  
+			
+		
+		
+		
+
+		
+			
+			
+			  	
+			 
+			 
+			
+		
+		
+		
+		  	<br>
+			<div class="indterms">
+			
+			<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm02_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="IndexTerms">INDEX TERMS</a></span>
+			
+				
+					<p class="Categories">
+						<span class="heading"><a name="GenTerms">Primary Classification:</a></span>
+						
+						  	
+						
+						
+						
+							<br>&nbsp;
+							
+							
+								  
+									
+									
+									
+									<b>J.</b>
+									
+									
+									
+									<a href="http://portal.acm.org/results.cfm?query=PrimaryCCS%3AJ&amp;querydisp=PrimaryCCS%3AJ&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+									
+									Computer Applications</a><br>
+								  
+							
+								  
+									
+									
+										&nbsp;
+									
+									
+										<img src="acm02_files/tree.gif" border="0" width="20" height="20">
+									
+									<b>J.3</b>
+									
+									
+									
+									<a href="http://portal.acm.org/results.cfm?query=PrimaryCCS%3AJ3&amp;querydisp=PrimaryCCS%3AJ3&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+									
+									 LIFE AND MEDICAL SCIENCES</a><br>
+								  
+							
+								
+									  	
+										
+										
+											
+											
+												&nbsp;
+											
+												&nbsp;
+											
+												&nbsp;
+											
+											
+												<img src="acm02_files/tree.gif" border="0" width="20" height="20">
+											 
+											<b>Subjects:</b>
+										    
+												<a href="http://portal.acm.org/results.cfm?query=PrimarySubject%3A%22Biology%20and%20genetics%22&amp;querydisp=PrimarySubject%3A%22Biology%20and%20genetics%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Biology and genetics</a>											
+
+											
+										
+										<br>
+										
+								
+							
+						
+					 </p>
+				  
+				
+				  		
+						  	
+						
+						
+				
+			
+				
+				  	
+					  	
+					
+					
+				
+				
+				
+				  		
+						  	
+						
+						
+				
+				
+			
+			</div>
+		 
+		
+		
+				
+		
+			<div class="abstract">
+				
+				<a href="http://portal.acm.org/citation.cfm?id=1388069.1388072&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm02_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="collab">Collaborative Colleagues:</a></span>
+				
+				<table style="margin-left: 2em;" border="0" cellpadding="2">
+				
+				
+				
+				
+				
+				
+					<tbody><tr>
+						<td>
+							<div class="abstract">
+							
+							  	Michael J. Sweredoski: <a href="http://portal.acm.org/author_page.cfm?id=81309491538&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							<div class="abstract">
+							
+							  	Pierre Baldi: <a href="http://portal.acm.org/author_page.cfm?id=81100344423&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+				
+				</tbody></table>
+			</div>
+						
+		
+		
+		
+		
+		
+		
+		
+			
+				
+				
+				
+			
+				
+				
+				
+			
+				
+				
+				
+			
+		
+				
+			
+  	
+
+
+
+
+<br>
+<div class="footer-copy-text" align="center">
+	
+
+
+
+	The ACM Portal is published by the Association for Computing Machinery. Copyright © 2010 ACM, Inc.<br>
+	<a href="http://www.acm.org/publications/policies/usage">Terms of Usage</a>&nbsp;&nbsp;
+	<a href="http://www.acm.org/about/privacy-policy">Privacy Policy</a>&nbsp;&nbsp;
+	<a href="http://www.acm.org/about/code-of-ethics">Code of Ethics</a>&nbsp;&nbsp;	  
+	<a href="http://www.acm.org/about/contact-us">Contact Us</a>
+
+<br><br>
+Useful downloads: 
+<a href="http://www.adobe.com/products/acrobat/readstep2.html"><img src="acm02_files/pdf_logo.gif" alt="" border="0" width="16" height="16"> Adobe Acrobat</a>
+&nbsp;&nbsp;
+<a href="http://www.apple.com/quicktime/download/" target="_blank"><img src="acm02_files/qtlogo.gif" alt="" border="0" width="16" height="16"> QuickTime</a>
+&nbsp;&nbsp;
+<a href="http://www.microsoft.com/windows/windowsmedia/download/default.asp" target="_blank"><img src="acm02_files/wmv.gif" alt="" border="0" width="16" height="15"> Windows Media Player</a>
+&nbsp;&nbsp;
+<a href="http://www.real.com/" target="_blank"><img src="acm02_files/realplayer.gif" alt="" border="0" width="20" height="18"> Real Player</a>
+
+
+</div>
+
+</td>
+</tr>
+</tbody></table>
+</div><div style="padding: 0px; overflow: hidden; visibility: hidden; position: absolute; width: 0px; left: 0px; top: 0px;" id="WzTtDiV"></div>
+
+</body></html>
