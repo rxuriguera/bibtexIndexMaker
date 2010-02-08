@@ -27,10 +27,18 @@ class TestPDFTextExtractor(unittest.TestCase):
         pass
 
     def test_metadata_fields(self):
-        self.document.set_metadata_field('name', 'Document name')
-        self.failUnless(self.document.get_metadata_field('name') == 
+        self.document.set_metadata_field('Name', 'Document name')
+        self.failUnless(self.document.get_metadata_field('Name') == 
                         'Document name')
     
+    def test_available_metadata(self):
+        self.document.set_metadata_field('Name', 'Document name')
+        self.document.set_metadata_field('CreationDate', 'Today')
+        fields = self.document.available_metadata
+        self.failUnless(len(fields) == 2)
+        self.failUnless(fields.count('Name') == 1)
+        self.failUnless(fields.count('CreationDate') == 1)
+
     def test_content(self):
         self.document.content = "Some text content"
         self.failUnless(self.document.content == "Some text content")

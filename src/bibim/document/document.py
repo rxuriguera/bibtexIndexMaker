@@ -35,6 +35,10 @@ class Document(object):
             return None
         return self._metadata[field]
     
+    @property
+    def available_metadata(self):
+        return self._metadata.keys()
+    
     def _set_content(self, cnt):
         self._content = cnt
     
