@@ -87,6 +87,8 @@ class PDFTextExtractor(TextExtractor):
     
     def extract(self, input_file):
         input_file = self._check_input_file(input_file)
+        # Extraction command and its options. They may be parametrized in the
+        # future
         command = [self._pdf_extraction_tool, '-q', '-f', '1', '-l', '1', '-enc',
                    'UTF-8', '-htmlmeta', input_file, '-']
         try:
@@ -97,28 +99,30 @@ class PDFTextExtractor(TextExtractor):
         except OSError:
             log.error ('PDF extraction tool not found') #@UndefinedVariable
         
-        document = Document()
-        # pop.communicate returns a tuple (stdout, stderror)
         stdout = pop.communicate()[0]
         if not stdout:
             raise ExtractionError('Corrupted file')
-        parser = BeautifulSoup(stdout)
         
+        parser = BeautifulSoup(stdout)
+        document = Document()
+        self._extract_metadata(parser, document)
+        self._extract_content(parser, document)
+
+        return document
+    
+    def _extract_metadata(self, parser, document):
         # Title
         title = parser.find('title')
         document.set_metadata_field('Title', title.find(text=True))
-        
-        # Metadata
+        # Rest of metadata
         metas = parser.findAll('meta')
         for meta in metas:
             document.set_metadata_field(meta['name'], meta['content'])
-        
-        # Content
+    
+    def _extract_content(self, parser, document):
         pre = parser.find('pre')
         raw_content = pre.find(text=True).strip()
         if not raw_content:
             raise ExtractionError('Could not extract content') 
         document.content = raw_content
-        
-        return document
         

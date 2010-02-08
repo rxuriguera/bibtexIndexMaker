@@ -24,13 +24,13 @@ class TestPDFTextExtractor(unittest.TestCase):
 
     def setUp(self):
         self.extractor = PDFTextExtractor()
-        self.article01 = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/extraction/article.pdf')))
         self.scanned = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/extraction/scanned.pdf')))
         self.corrupt = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/extraction/corrupt.pdf')))
-        self.document = self.extractor.extract(self.article01)
+        self.article = normpath(join(dirname(__file__), ('../../../../tests/'
+                                     'fixtures/extraction/article.pdf')))
+        self.document = self.extractor.extract(self.article)
 
     def tearDown(self):
         pass

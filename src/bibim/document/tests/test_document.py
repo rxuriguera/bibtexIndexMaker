@@ -19,7 +19,6 @@ from bibim.document import Document
 
 class TestPDFTextExtractor(unittest.TestCase):
 
-
     def setUp(self):
         self.document = Document()
         
