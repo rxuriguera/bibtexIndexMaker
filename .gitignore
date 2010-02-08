@@ -2,6 +2,7 @@
 *.pyo
 *~
 *.egg-info
+*.log
 bin/
 dist/
 public/
