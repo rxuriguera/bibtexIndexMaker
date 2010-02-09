@@ -1,3 +1,4 @@
+
 # Copyright 2010 Ramon Xuriguera
 #
 # This file is part of BibtexIndexMaker. 
@@ -25,23 +26,37 @@ class TitleFieldWrapper(FieldWrapper):
     """
     
     _shortcuts = {
-        'portal.acm.org':'_do_title_tag'
+        'portal.acm.org':'_do_title_tag',
+        'www.springerlink.com':'_do_h2_in_td',
+        'www.sciencedirect.com':'_do_div_with_class',
+        'ieeexplore.ieee.org':'_do_title_tag',
+        'citeseerx.ist.psu.edu':'_do_title_tag'
     }
 
     def _do_title_tag(self, page):
+        # Some sites place the article title in the title tag, but with some
+        # additional text that has to be removed
+        to_remove = ['Welcome to IEEE Xplore 2.0: ', u'CiteSeerX \u2014 ']
         title = page.find('title')
-        if not title:
-            return None
-        text = title.find(text=True)
+        text = self._extract_text(title)
+        if text:
+            for string in to_remove:
+                text = text.replace(string, "")                
         return text
+
+    def _do_h2_in_td(self, page):
+        tds = page.findAll('td')
+        h2 = self._find_in('h2', tds)
+        return self._extract_text(h2)
     
     def _do_strong_in_colspan_td(self, page):
-        strong = text = None
         tds = page.findAll('td', {'colspan':True})
-        for td in tds:
-            strong = td.find('strong')
-            if strong:
-                break
-        if strong:
-            text = strong.find(text=True)
-        return text
+        strong = self._find_in('strong', tds)
+        return self._extract_text(strong)
+
+    def _do_div_with_class(self, page):
+        class_name = {'articleTitle':True}
+        div = page.find('div', {'class':class_name})
+        return self._extract_text(div)
+
+

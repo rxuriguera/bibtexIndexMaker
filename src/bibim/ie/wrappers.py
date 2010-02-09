@@ -1,3 +1,4 @@
+
 # Copyright 2010 Ramon Xuriguera
 #
 # This file is part of BibtexIndexMaker. 
@@ -28,7 +29,31 @@ class Wrapper(object):
         information. This method must be implemented by a subclass.
         """
         raise NotImplementedError()
-        
+
+    def _extract_text(self, tag=None):
+        """
+        Returns the concatenation of all the text from a given tag or None if
+        not applicable. 
+        """
+        text = None
+        if tag:
+            text = tag.findAll(text=True)
+        if text:
+            text = ''.join(text).strip()
+        return text
+    
+    def _find_in(self, tag, soup_list=None, attrs={}):
+        """
+        Finds a specific tag in a list of other tags. Returns a BeautifulSoup
+        object.
+        """
+        tag_soup = None
+        for soup in soup_list:
+            tag_soup = soup.find(tag, attrs)
+            if tag_soup:
+                break        
+        return tag_soup
+            
         
 class FieldWrapper(Wrapper):
     """
