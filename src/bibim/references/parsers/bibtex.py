@@ -61,12 +61,12 @@ class BibtexParser(BibliographyParser):
                                 'manual', 'mastersthesis', 'misc', 'phdthesis',
                                 'proceedings', 'techreport', 'unpublished',
                                 'collection', 'patent', 'webpublished'):
-                    return 0
-            return 1
+                    return False
+            return True
         else:
-            return 0
+            return False
 
-    def _preprocess(self, source):
+    def preprocess(self, source):
         """
         Expands LaTeX macros
         Removes LaTeX commands and special formating
