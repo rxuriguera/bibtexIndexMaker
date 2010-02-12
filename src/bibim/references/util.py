@@ -36,7 +36,6 @@ def split_name(name):
     comma_split = name.split(',', 2)
     if len(comma_split) == 1: 
         full_name = comma_split[0].split()
-        
     elif len(comma_split) == 2:
         full_name = comma_split[1].split()
         full_name.append(comma_split[0])
@@ -52,6 +51,8 @@ def split_name(name):
         name_representation['first_name'] = full_name[0].strip()
         name_representation['last_name'] = full_name[-1].strip()
         for middle_part in full_name[1:-1]:
-            name_representation['middle_name'] += middle_part.strip()
+            name_representation['middle_name'] += middle_part.strip() + ' '
+        name_representation['middle_name'] = (
+            name_representation['middle_name'].strip()) 
         
     return name_representation
