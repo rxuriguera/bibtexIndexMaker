@@ -73,7 +73,7 @@ class BibliographyParser(object):
     def check_format(self, source):
         """
         Checks whether source has the right format
-        Returns true (1) if so and false (0) otherwise
+        Returns True if so and False otherwise
         """
         pass # needs to be provided by the individual parsers
 
@@ -89,9 +89,7 @@ class BibliographyParser(object):
     def parse_entry(self, entry):
         """
         Parses a single entry
-
-        Returns a dictionary to be passed to
-        BibliographyEntry's edit method
+        Returns a dictionary
         """
         pass  # needs to be overwriten by the individual parser
 
