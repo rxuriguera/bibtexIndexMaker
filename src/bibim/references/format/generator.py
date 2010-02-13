@@ -61,7 +61,7 @@ class ReferenceFormatGenerator(object):
 
 class BibtexGenerator(ReferenceFormatGenerator):
     """
-    Defines the method for generating a bibtex reference. It only overrides
+    Defines the methods for generating a bibtex reference. It only overrides
     the methods that are applicable.
     """
     # In some formats, the order of the fields matters
