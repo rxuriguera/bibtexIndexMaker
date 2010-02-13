@@ -50,10 +50,12 @@ class ReferenceField(object):
         
 
 class Reference(object):
-
+    """
+    This class represents a bibliographic reference.
+    """
     def __init__(self):
         """
-        This class represents a bibliographic reference.
+        Constructs an empty Reference
         """
         self.fields = {}
         self.format = None
