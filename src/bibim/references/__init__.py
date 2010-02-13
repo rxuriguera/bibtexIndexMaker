@@ -1,1 +1,3 @@
-from bibim.references.reference import (ReferenceFormat, Reference)
+from bibim.references.reference import (Reference,
+                                        ReferenceFormat,
+                                        ReferenceField)

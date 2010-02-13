@@ -17,14 +17,22 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 import os
+
+from bibim.references import ReferenceFormat
  
 class ReferenceFormatGenerator(object):
     
     _key_order = []
     
     def __init__(self):
+        self.format = None
         pass
-    
+
+    def get_format(self):
+        return self._format
+
+    format = property(get_format)
+
     def setup_new_reference(self):
         pass
     
@@ -64,6 +72,9 @@ class BibtexGenerator(ReferenceFormatGenerator):
     Defines the methods for generating a bibtex reference. It only overrides
     the methods that are applicable.
     """
+    
+    _format = ReferenceFormat.BIBTEX
+    
     # In some formats, the order of the fields matters
     _key_order = ['title',
                   'author',
@@ -78,7 +89,7 @@ class BibtexGenerator(ReferenceFormatGenerator):
         """
         self._type = 'article'
         self._id = 'refid'
-        self.setup_new_reference()
+        self.setup_new_reference()     
 
     def _get_id(self):
         return self._id
