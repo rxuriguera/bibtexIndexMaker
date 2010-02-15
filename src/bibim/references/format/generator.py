@@ -25,12 +25,12 @@ class ReferenceFormatGenerator(object):
     _key_order = []
     
     def __init__(self):
-        self.format = None
+        self._format = None
         pass
 
     def get_format(self):
         return self._format
-
+    
     format = property(get_format)
 
     def setup_new_reference(self):
@@ -65,6 +65,7 @@ class ReferenceFormatGenerator(object):
 
     def generate_pages(self):
         pass
+    format = property(get_format, None, None, None)
 
 
 class BibtexGenerator(ReferenceFormatGenerator):
