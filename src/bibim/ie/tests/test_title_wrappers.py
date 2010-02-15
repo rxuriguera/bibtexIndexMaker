@@ -19,7 +19,6 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.beautifulsoup import BeautifulSoup
 from bibim.ie.tests import TestWrapper
 from bibim.ie import TitleFieldWrapper
 
@@ -28,14 +27,14 @@ class TestTitleWrapper(TestWrapper):
 
     def setUp(self):
         self.tfw = TitleFieldWrapper()
-        self.ieee = ('ieeexplore.ieee.org',
+        self.ieee = ('http://ieeexplore.ieee.org',
                      self._get_soup('ieee01.html'))
-        self.citeseer = ('citeseerx.ist.psu.edu',
+        self.citeseer = ('http://citeseerx.ist.psu.edu',
                          self._get_soup('citeseer01.html'))
-        self.acm = ('portal.acm.org', self._get_soup('acm01.html'))
-        self.springer = ('www.springerlink.com',
+        self.acm = ('http://portal.acm.org', self._get_soup('acm01.html'))
+        self.springer = ('http://www.springerlink.com',
                          self._get_soup('springer01.html'))
-        self.scienced = ('www.sciencedirect.com',
+        self.scienced = ('http://www.sciencedirect.com',
                          self._get_soup('sciencedirect01.html'))
         
     def tearDown(self):

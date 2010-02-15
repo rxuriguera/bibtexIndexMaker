@@ -26,11 +26,11 @@ class TitleFieldWrapper(FieldWrapper):
     """
     
     _shortcuts = {
-        'portal.acm.org':'_do_title_tag',
-        'www.springerlink.com':'_do_h2_in_td',
-        'www.sciencedirect.com':'_do_div_with_class',
-        'ieeexplore.ieee.org':'_do_title_tag',
-        'citeseerx.ist.psu.edu':'_do_title_tag'
+        'http://portal.acm.org':'_do_title_tag',
+        'http://www.springerlink.com':'_do_h2_in_td',
+        'http://www.sciencedirect.com':'_do_div_with_class',
+        'http://ieeexplore.ieee.org':'_do_title_tag',
+        'http://citeseerx.ist.psu.edu':'_do_title_tag'
     }
 
     def _do_title_tag(self, page):

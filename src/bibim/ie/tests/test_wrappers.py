@@ -19,8 +19,7 @@
 import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 
-from bibim.ie import FieldWrapper
-from bibim.beautifulsoup import BeautifulSoup
+from bibim.util import BeautifulSoup
 
 
 class TestWrapper(unittest.TestCase):

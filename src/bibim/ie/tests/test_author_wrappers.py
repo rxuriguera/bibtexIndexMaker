@@ -19,7 +19,7 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.beautifulsoup import BeautifulSoup
+from bibim.util.beautifulsoup import BeautifulSoup
 from bibim.ie.tests import TestWrapper
 from bibim.ie import AuthorFieldWrapper
 
