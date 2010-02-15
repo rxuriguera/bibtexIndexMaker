@@ -1,0 +1,599 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head profile="http://www.w3.org/2005/11/profile http://a9.com/-/spec/opensearch/1.1/">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="citeseer01_files/csxsecondary.css" type="text/css">
+  <!-- for mobile devices    <link type="text/css" rel="stylesheet" href="handheldstyle.css" media="handheld" /> -->
+  <link rel="shortcut icon" type="image/x-icon" href="http://citeseerx.ist.psu.edu/favicon.ico">
+  
+
+  <link rel="search" title="CiteSeerX" type="application/opensearchdescription+xml" href="http://citeseerx.ist.psu.edu/search_plugins/citeseerx_general.xml">
+  <link rel="search" title="CiteSeerX Author" type="application/opensearchdescription+xml" href="http://citeseerx.ist.psu.edu/search_plugins/citeseerx_author.xml">
+  <link rel="search" title="CiteSeerX Title" type="application/opensearchdescription+xml" href="http://citeseerx.ist.psu.edu/search_plugins/citeseerx_title.xml">
+  <!-- Next are the calls for nifty rounded corners -->
+  <link rel="stylesheet" type="text/css" href="citeseer01_files/niftyCorners.css">
+  <script type="text/javascript" src="citeseer01_files/niftycube.js"></script>
+  <script type="text/javascript" src="citeseer01_files/MetadataCartJS.js"></script>
+  <script type="text/javascript" src="citeseer01_files/GetContextJS.js"></script>
+  <script type="text/javascript" src="citeseer01_files/engine.js"></script>
+  <script type="text/javascript" src="citeseer01_files/metacart.js"></script>
+  <script type="text/javascript" src="citeseer01_files/mootools.js"></script>
+  <script type="text/javascript" src="citeseer01_files/mootabs.js"></script>
+  <script type="text/javascript" src="citeseer01_files/searchbox.js"></script>
+  <script type="text/javascript" src="citeseer01_files/citecontext.js"></script>
+  <!-- Next is a call for IE. It applies the 'sfhover' class to li elements in the 'secondary_nav' id'd ul element when they are 'moused over' and removes it, using a regular expression, when 'moused out'. -->
+  <script type="text/javascript" src="citeseer01_files/mousedout.js"></script>
+  
+  
+  
+    <link rel="stylesheet" href="citeseer01_files/wforms.css" type="text/css">
+    <script type="text/javascript" src="citeseer01_files/correctionutils.js"></script>
+  
+ 
+  <!-- Next is an Internet Explorer Conditional Comment (IECC) which will give the topic_heading the layout it needs to prevent the three pixel gap. This gap is caused by an inline declared item adjacent to a float making a 3px margin between the item and the float. The 3px margin disappears as soon as the content clears the float, causing a 3 pixel text jog. In other words a yucky gap. -->
+  <!--[if IE]><style type="text/css"> h2.topic_heading { zoom: 1;}</style><![endif]-->
+  
+  
+    <title>CiteSeerX — Dynamic source routing in ad hoc wireless networks</title>
+  
+  
+    <meta name="description" content="CiteSeerX - Document Details (Isaac Councill, Lee Giles): An ad hoc network is a collection of wireless mobile hosts forming a temporary network without the aid of any established infrastructure or centralized administration. In such an environment, it may be necessary for one mobile host to enlist the aid of other hosts in forwarding a packet to its destination, due to the limited range of each mobile host’s wireless transmissions. This paper presents a protocol for routing in ad hoc networks that uses dynamic source routing. The protocol adapts quickly to routing changes when host movement is frequent, yet requires little or no overhead during periods in which hosts move less frequently. Based on results from a packet-level simulation of mobile hosts operating in an ad hoc network, the protocol performs well over a variety of environmental conditions such as host density and movement rates. For all but the highest rates of host movement simulated, the overhead of the protocol is quite low, falling to just 1 % of total data packets transmitted for moderate movement rates in a network of 24 mobile hosts. In all cases, the difference in length between the routes used and the optimal route lengths is negligible, and in most cases, route lengths are on average within a factor of 1.01 of optimal. 1.">
+  
+  
+    <meta name="keywords" content="CiteSeerX, David B. Johnson, David A. Maltz">
+  
+<link media="screen" href="citeseer01_files/niftyCorners.css" rel="stylesheet" type="text/css"></head><body onload='Nifty("ul#secondary_nav a","transparent");Nifty("ul.button_nav a","transparent");'>
+  <!-- Begin header for the primary, secondary, tertiary, etc. pages, can be placed in one external file to be called by all pages. -->
+  
+<div id="top_nav_bar" class="top_nav clearfix">
+ <div id="top_nav_bar_main">
+  <ul><li><a class="lightlink" href="http://citeseerx.ist.psu.edu/" title="CiteSeerX Home page and Statistics">Home|Statistics</a></li><li><a class="lightlink" href="http://citeseerx.ist.psu.edu/about/site" title="About CiteSeerX">About</a></li><li><a class="lightlink" href="http://csxblog.ist.psu.edu/" title="Updates and New Features">Bulletin</a></li><li><a class="lightlink" href="http://citeseerx.ist.psu.edu/submit" title="Add Your Document">Submit Documents</a></li><li><a class="lightlink" href="http://citeseerx.ist.psu.edu/feedback" title="Submit Your Feedback">Feedback</a></li></ul>
+ </div>
+ <div id="top_nav_bar_user">
+   <span id="cartspan"><a class="lightlink" href="http://citeseerx.ist.psu.edu/metacart">MetaCart</a></span>
+   
+     
+      <span id="userspan">Sign in to <a class="lightlink" href="http://citeseerx.ist.psu.edu/myciteseer/action/accountHome">MyCiteSeerX</a></span>
+     
+   
+ </div>
+</div> <!-- End top_nav_bar -->
+
+  
+  <div id="logo"> <!-- Contains logo div -->
+    <a class="remove" href="http://citeseerx.ist.psu.edu/" title="CiteSeerX Home page and Statistics"><img src="citeseer01_files/blank.gif" alt="CiteSeerX logo"></a>
+  </div> <!-- End logo -->
+  <!-- First are the floating containers -->
+  
+<div id="search_meta_box">
+ <div style="height: 93px; width: 405px;" id="search_tabs">
+  <ul id="tabs_titles" class="mootabs_title">
+   <li title="docs_tab" class="active"><div>Documents</div></li>
+   <li class="" title="auth_tab"><div>Authors</div></li>
+   <li title="table_tab" class="yellow">
+   <div>Tables <span class="style1" style="color: rgb(255, 0, 0); font-style: italic; font-weight: bold;">!</span></div>
+   </li>
+  </ul><!-- remove extra whitespace by coding in-line lists on one line -->
+  
+  <div style="display: block;" id="docs_tab" class="mootabs_panel active">
+   <form method="get" action="/search" enctype="application/x-www-form-urlencoded" id="doc_search_form">
+    <!-- name not valid in XHTML, To get around this issue, use <form id="header_search_form" ... > and in my link use javascript:document.forms['header_search_form'].submit(); which validates correctly. -->
+    <fieldset class="rightAligned">
+     <p><input class="query csx" name="q" value="" size="50" type="text">
+        <input class="button csx" name="submit" value="Search" alt="Search" type="submit"></p>
+        <input name="sort" value="rel" type="hidden">
+     <p><input name="ic" value="1" type="checkbox"> Include Citations | <a href="http://citeseerx.ist.psu.edu/advanced_search" title="Search full text, title, abstract, date, author name, author affiliation, etc.">Advanced Search</a> | <a href="http://citeseerx.ist.psu.edu/help/search" title="Get Help">Help</a></p>             
+    </fieldset>
+   </form>
+  </div> <!-- End docs_tab -->
+  
+  <div style="display: none;" id="auth_tab" class="mootabs_panel">
+   <form method="get" action="/search" enctype="application/x-www-form-urlencoded" id="auth_search_form">
+    <!-- name not valid in XHTML, To get around this issue, use <form id="header_search_form" ... > and in my link use javascript:document.forms['header_search_form'].submit(); which validates correctly. -->
+    <fieldset class="rightAligned">
+     <p><input class="query csx" name="q" value="" size="50" type="text">
+        <input class="button csx" name="submit" value="Search" alt="Search" type="submit">
+        <input name="sort" value="cite" type="hidden">
+        <input name="t" value="auth" type="hidden"></p>
+     <p>
+	<input name="uauth" value="1" checked="checked" type="checkbox"> Disambiguated Search |
+	<input name="ic" value="1" type="checkbox"> Include Citations | 
+	<a href="http://citeseerx.ist.psu.edu/advanced_search" title="Search full text, title, abstract, date, author name, author affiliation, etc.">Advanced Search</a> | <a href="http://citeseerx.ist.psu.edu/help/search" title="Get Help">Help</a></p>             
+    </fieldset>
+   </form>
+  </div> <!-- End auth_tab -->
+  
+  <div style="display: none;" id="table_tab" class="mootabs_panel">
+   <form method="get" action="/search" enctype="application/x-www-form-urlencoded" id="table_search_form">
+    <!-- name not valid in XHTML, To get around this issue, use <form id="header_search_form" ... > and in my link use javascript:document.forms['header_search_form'].submit(); which validates correctly. -->
+    <fieldset class="rightAligned">
+     <p><input class="query csx" name="q" value="" size="50" type="text">
+        <input class="button csx" name="submit" value="Search" alt="Search" type="submit">        
+        <input name="t" value="table" type="hidden"></p>
+     <p><a href="http://citeseerx.ist.psu.edu/help/search" title="Get Help">Help</a></p>             
+    </fieldset>
+   </form>
+  </div> <!-- End table_tab -->
+
+ </div> <!-- End search_tabs -->
+</div> <!-- End search_meta_box -->
+<script type="text/javascript">
+ <!--
+  window.addEvent('domready', function(){
+   
+     startSearchTabs('docs_tab');
+   
+   
+   
+   
+  });
+ // -->
+</script>
+
+  <!-- End of the floating containers -->
+  <!-- End header for the primary, secondary, tertiary, etc. pages -->
+  <div id="page_wrapper" class="clearfix"> <!-- Contains all the divisions (div's) within the page (not including top navigation bar, search box and meta information) -->
+
+
+<div id="center_content" class="clearfix"> <!-- Contains header div -->
+  <div id="secondary_tabs_container">
+    <div id="secondary_tabs">
+    <!-- to make a tab highlighted, place id="currentpage" within li tag -->
+      <ul><li id="currentpage"><a class="page_tabs remove" href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.129.426"><span>Summary</span></a></li><li class="tab4sublist"><a class="page_tabs remove" href="http://citeseerx.ist.psu.edu/viewdoc/similar?doi=10.1.1.129.426" title="Find documents related to this document"><span class="clearfix">Related Documents</span></a><ul class="tab_sublist clearfix"><li><a class="sublist_links remove" href="http://citeseerx.ist.psu.edu/viewdoc/similar?doi=10.1.1.129.426&amp;type=ab" title="Documents that cite the same works"><span>Active Bibliography</span></a></li><li><a class="sublist_links remove" href="http://citeseerx.ist.psu.edu/viewdoc/similar?doi=10.1.1.129.426&amp;type=cc" title="Documents cited by the same works"><span>Co-citation</span></a></li></ul></li><li><a class="page_tabs remove" href="http://citeseerx.ist.psu.edu/viewdoc/versions?doi=10.1.1.129.426"><span>Version History</span></a></li><!--<li><a class="page_tabs remove" href="/viewdoc/clustered?doi=10.1.1.129.426"><span>Clustered Documents</span></a></li>--></ul>
+    </div> <!-- End secondary_tabs -->
+  </div> <!-- End secondary_tabs_container -->
+  <div id="primary_content">
+    <h1 class="primaryheader">
+     Dynamic source routing in ad hoc wireless networks
+      (1996) 
+     [<a class="citation remove" href="http://citeseerx.ist.psu.edu/showciting?doi=10.1.1.129.426" title="number of citations">1536 citations — 33 self</a>]
+    </h1>
+    <div id="introduction" class="clearfix">
+      <div id="downloads">
+        <span class="dlspan">Download:</span><br>
+        
+          
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=url&amp;i=0" title="http://www.cs.cornell.edu/people/egs/615/johnson-dsr.pdf">
+	http://www.cs.cornell.edu/people/egs/615/johnson-d</a>
+        
+           <br> 
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=url&amp;i=1" title="http://www.cs.cornell.edu/People/egs/615/johnson-dsr.pdf">
+	http://www.cs.cornell.edu/People/egs/615/johnson-d</a>
+        
+           <br> 
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=url&amp;i=2" title="http://www.cs.colorado.edu/~rhan/CSCI_7143_001_Fall_2002/Papers/Johnson96_DSR.pdf">
+	http://www.cs.colorado.edu/~rhan/CSCI_7143_001_Fal</a>
+        
+           <br> 
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=url&amp;i=3" title="http://www.comp.nus.edu.sg/~bleong/geographic/related/johnson96dsr.pdf">
+	http://www.comp.nus.edu.sg/~bleong/geographic/rela</a>
+        
+           <br> 
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=url&amp;i=4" title="http://piggy.cs.nthu.edu.tw/paper/Mobile/././PS/johns-adhoc2.ps.gz">
+	http://piggy.cs.nthu.edu.tw/paper/Mobile/././PS/jo</a>
+        
+        
+        <br>
+        <b>CACHED:</b><br>
+        
+          
+          
+            <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=pdf" title="View or Download this document as PDF"><img src="citeseer01_files/pdf.gif" alt="Download as a PDF"> </a>
+          
+          
+        
+      </div> <!-- End downloads -->
+      <div class="char_increased char_indented char_mediumvalue padded">
+        by
+        
+        
+          
+            
+                  
+              David B. Johnson       
+            
+            
+              ,&nbsp;            
+            
+          
+            
+                  
+              David A. Maltz       
+            
+            
+          
+        
+      </div>
+      
+        <div class="char_increased char_indented char6 padded">
+          Mobile Computing
+        </div>
+      
+      <div class="char_increased char_indented"><span class="actionspan" onclick="addToCartProxy(2722)">Add To MetaCart</span> <span id="cmsg_2722" class="cartmsg"></span></div>
+    </div> <!-- End introduction -->
+    <div class="information_bar clearfix"><ul class="button_nav"><li><a style="padding-top: 0pt; padding-bottom: 0pt;" class="remove" href="http://citeseerx.ist.psu.edu/myciteseer/action/addPaperCollection?doi=10.1.1.129.426" title="Add this document to your collection (Account required)"><b class="niftycorners" style="background: transparent none repeat scroll 0% 0%; margin-left: 0px; margin-right: 0px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-bottom: -5px;"><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t1"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t2"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t3"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t4"></b></b><span>Add to Collection</span><b class="niftycorners" style="background: transparent none repeat scroll 0% 0%; margin-left: 0px; margin-right: 0px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-top: -5px;"><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t4"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t3"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t2"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t1"></b></b></a></li><li><a style="padding-top: 0pt; padding-bottom: 0pt;" class="remove" href="http://citeseerx.ist.psu.edu/correct?doi=10.1.1.129.426" title="Submit corrections for this document (Account required)"><b class="niftycorners" style="background: transparent none repeat scroll 0% 0%; margin-left: 0px; margin-right: 0px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-bottom: -5px;"><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t1"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t2"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t3"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t4"></b></b><span>Correct Errors</span><b class="niftycorners" style="background: transparent none repeat scroll 0% 0%; margin-left: 0px; margin-right: 0px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-top: -5px;"><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t4"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t3"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t2"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t1"></b></b></a></li><li><a style="padding-top: 0pt; padding-bottom: 0pt;" class="remove" href="http://citeseerx.ist.psu.edu/myciteseer/action/editMonitors?doi=10.1.1.129.426" title="Monitor changes to this document (Account required)"><b class="niftycorners" style="background: transparent none repeat scroll 0% 0%; margin-left: 0px; margin-right: 0px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-bottom: -5px;"><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t1"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t2"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t3"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t4"></b></b><span>Monitor Changes</span><b class="niftycorners" style="background: transparent none repeat scroll 0% 0%; margin-left: 0px; margin-right: 0px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; margin-top: -5px;"><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t4"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t3"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t2"></b><b style="border-color: rgb(222, 222, 222); background-color: transparent;" class="t1"></b></b></a></li></ul></div>
+
+<div id="main_content">  
+  <div id="right-sidebar"> <!-- Contains left content -->
+    <div class="inside"> <!-- to give some room between columns -->
+      <div class="content_box">
+        <h2>Popular Tags</h2>
+        <div class="content">
+          <form method="post" action="/myciteseer/action/editTags" enctype="application/x-www-form-urlencoded" id="tag_form">
+            <fieldset class="noborder">
+              <p>Add a tag: <input class="tag_query" name="tag" value="" size="20" type="text">
+              <input class="button" name="submit" value="Submit" alt="submit" title="Enter a keyword for this document" type="submit"></p>
+              <input name="doi" value="10.1.1.129.426" type="hidden">
+            </fieldset>
+          </form>
+        </div>
+        <p>No tags have been applied to this document.</p>
+        
+      </div> <!-- End content box -->
+      
+        <div class="content_box">
+          <h2>BibTeX | <span class="actionspan" onclick="addToCartProxy(2722)">Add To MetaCart</span></h2>
+          <div class="content">
+            @INPROCEEDINGS{Johnson96dynamicsource,<br>&nbsp;&nbsp;&nbsp;&nbsp;author = {David B. Johnson and David A. Maltz},<br>&nbsp;&nbsp;&nbsp;&nbsp;title = {Dynamic source routing in ad hoc wireless networks},<br>&nbsp;&nbsp;&nbsp;&nbsp;booktitle = {Mobile Computing},<br>&nbsp;&nbsp;&nbsp;&nbsp;year = {1996},<br>&nbsp;&nbsp;&nbsp;&nbsp;pages = {153--181},<br>&nbsp;&nbsp;&nbsp;&nbsp;publisher = {Kluwer Academic Publishers}<br>}<br>
+          </div>
+        </div> <!-- End content box -->
+      
+      
+        <div class="content_box">
+          <h2>Years of Citing Articles</h2>
+	      <img src="citeseer01_files/chart.png" border="0">
+        </div> <!-- End content box -->
+      
+      <div class="content_box">
+        <h2>Bookmarks</h2>
+        <div class="content">
+          <a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/bookmark?doi=10.1.1.129.426&amp;title=Dynamic%20source%20routing%20in%20ad%20hoc%20wireless%20networks&amp;site=citeulike" title="CiteULike"><img src="citeseer01_files/citeulike.png" alt="citeulike"></a>
+          &nbsp;<a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/bookmark?doi=10.1.1.129.426&amp;site=connotea" title="Connotea"><img src="citeseer01_files/connotea.png" alt="Connotea"></a>
+          &nbsp;<a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/bookmark?doi=10.1.1.129.426&amp;site=bibsonomy&amp;title=Dynamic%20source%20routing%20in%20ad%20hoc%20wireless%20networks" title="BibSonomy"><img src="citeseer01_files/bibsonomy.png" alt="Bibsonomy"></a>
+          &nbsp;<a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/bookmark?doi=10.1.1.129.426&amp;title=Dynamic%20source%20routing%20in%20ad%20hoc%20wireless%20networks&amp;site=delicious" title="del.icio.us"><img src="citeseer01_files/delicious.gif" alt="Del.icio.us"></a>
+          &nbsp;<a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/bookmark?doi=10.1.1.129.426&amp;title=Dynamic%20source%20routing%20in%20ad%20hoc%20wireless%20networks&amp;site=digg" title="Digg it"><img src="citeseer01_files/digg.png" alt="Digg"></a>
+          &nbsp;<a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/bookmark?doi=10.1.1.129.426&amp;title=Dynamic%20source%20routing%20in%20ad%20hoc%20wireless%20networks&amp;site=reddit" title="Reddit"><img src="citeseer01_files/reddit.gif" alt="Reddit"></a>
+        </div>
+      </div>
+      
+        <div class="content_box">
+          <h2>OpenURL</h2>
+          <div class="content">
+            <span class="Z3988" title="url_ver=Z39.88-2004&amp;url_ctx_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Actx&amp;ctx_ver=Z39.88-2004&amp;ctx_enc=info%3Aofi%2Fenc%3AUTF-8&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft_id=http%3A%2F%2Fciteseerx.ist.psu.edu%2Fviewdoc%2Fsummary%3Fdoi%3D10.1.1.129.426&amp;rft.atitle=Dynamic+source+routing+in+ad+hoc+wireless+networks&amp;rft.jtitle=MOBILE+COMPUTING&amp;rft.date=1996&amp;rft.volume=353&amp;rft.spage=153&amp;rft.epage=181&amp;rft.pages=153--181&amp;rft.genre=article&amp;rft.aulast=Johnson&amp;rft.aufirst=+David+B.&amp;rft.au=Johnson%2C+David+B.&amp;rft.au=Maltz%2C+David+A.">&nbsp;</span>
+          </div>
+        </div>
+      
+    </div> <!--End inside -->
+  </div> <!-- End of right-sidebar --> 
+  <h2 class="topic_heading">Abstract:</h2>  
+  <p class="para4">An
+ad hoc network is a collection of wireless mobile hosts forming a
+temporary network without the aid of any established infrastructure or
+centralized administration. In such an environment, it may be necessary
+for one mobile host to enlist the aid of other hosts in forwarding a
+packet to its destination, due to the limited range of each mobile
+host’s wireless transmissions. This paper presents a protocol for
+routing in ad hoc networks that uses dynamic source routing. The
+protocol adapts quickly to routing changes when host movement is
+frequent, yet requires little or no overhead during periods in which
+hosts move less frequently. Based on results from a packet-level
+simulation of mobile hosts operating in an ad hoc network, the protocol
+performs well over a variety of environmental conditions such as host
+density and movement rates. For all but the highest rates of host
+movement simulated, the overhead of the protocol is quite low, falling
+to just 1 % of total data packets transmitted for moderate movement
+rates in a network of 24 mobile hosts. In all cases, the difference in
+length between the routes used and the optimal route lengths is
+negligible, and in most cases, route lengths are on average within a
+factor of 1.01 of optimal. 1.</p>
+  <h2 class="topic_heading">Citations</h2>
+  <!-- List as title - firstauth, secondauth, et al (year) -->
+  <!-- whitespace after number is visible on web page -->
+  
+  
+    <table class="citelist">
+      
+        <tbody><tr><td>
+          <span class="char_emphasized">528</span>
+        </td>
+        <td>
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?cid=5023">MACAW: A Media Access Protocol for Wireless LAN’s</a>
+          
+          – Bharghavan, Demers, et al.
+           - 1994
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">494</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=30335">OSPF Version 2</a>
+          – Moy
+           - 1998
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">410</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=5022">MACA - a new channel access method for packet radio</a>
+          – Karn
+           - 1990
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">279</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=55137">Requirements for Internet hosts - communication layers</a>
+          – Braden
+           - 1989
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">256</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=30316">An Ethernet Address Resolution Protocol,” RFC-826</a>
+          – Plummer
+           - 1982
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">232</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=9126">The new routing algorithm for the ARPANET</a>
+          – McQuillan, Richer, et al.
+           - 1980
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">218</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=59935">The DARPA Packet Radio Network Protocols</a>
+          – Jubin, Tarnow
+           - 1987
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">135</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=30738">and Pravin Bhagwat, “Highly dynamic destination-sequenced distance-vector routing (DSDV) for mobile computers</a>
+          – Perkins
+           - 1994
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">106</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=28461">Interconnections: Bridges and Routers</a>
+          – Perlman
+           - 1992
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">37</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=363761">Future directions in packet radio architectures and protocols</a>
+          – Shacham, Westcott
+           - 1987
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">32</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=322043">The ARPA network design decisions</a>
+          – McQuillan, Walden
+           - 1977
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">30</span>
+        </td>
+        <td>
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?cid=111130">FLIP: An internetwork protocol for supporting distributed systems</a>
+          
+          – Kaashoek, Renesse, et al.
+           - 1993
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">22</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1447431">Packet Radio in the Amateur Service</a>
+          – Karn, Price, et al.
+           - 1985
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">21</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1907555">Routing information protocol. Internet Request for Comments RFC 1058</a>
+          – HEDRICK
+           - 1988
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">20</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=80004">Wireless LAN design alternatives</a>
+          – Bantz, Bauchot
+           - 1994
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">18</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=758554">Packet-Radio Routing. In Routing in Communications Networks, edited by</a>
+          – Lauer
+           - 1995
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">15</span>
+        </td>
+        <td>
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?cid=1907552">Source demand routing: Packet format and forwarding specification (version 1). RFC</a>
+          
+          – Estrin, Li, et al.
+           - 1940
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">13</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=4991473">Inside AppleTalk</a>
+          – Sidhu, Andrews, et al.
+           - 1990
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">10</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1292644">Multi-LAN address resolution, Internet Request For Comments RFC</a>
+          – Postel
+           - 1984
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">7</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1907556">NetWare communications processes</a>
+          – Turner
+           - 1990
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">6</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1540529">Internet transport protocols. Xerox System Integration Standard 028112</a>
+          – Corporation
+           - 1981
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">5</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1447441">Transmission of IP datagrams Over NET/ROM Networks</a>
+          – Frank
+           - 1988
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">4</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1907551">Addressing, bridging, and source routing</a>
+          – Dixon, Pitt
+           - 1988
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">3</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1907553">Thoughts on the Issues of Address Resolution and Routing in Amateur Packet Radio TCP/IP Networks</a>
+          – Garbee
+           - 1987
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">3</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=1907554">Network Routing Techniques and Their Relevance to Packet Radio Networks</a>
+          – Geier, DeSimio, et al.
+           - 1990
+        </td></tr>
+      
+        <tr><td>
+          <span class="char_emphasized">2</span>
+        </td>
+        <td>
+          
+          <a class="citation_only" href="http://citeseerx.ist.psu.edu/showciting?cid=8021589">Yakov Rekhter. SDRP route construction</a>
+          – Varadhan, Estrin, et al.
+           - 1994
+        </td></tr>
+      
+    </tbody></table>
+  
+  <div class="parent_div_spacer"></div>
+</div> <!-- End main_content -->
+
+  <div class="information_bar">
+    <div class="para4"><a class="remove" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.426&amp;rep=rep1&amp;type=pdf" title="View or Download this Document">View or Download</a> | <a class="remove" href="http://citeseerx.ist.psu.edu/myciteseer/action/addPaperCollection?doi=10.1.1.129.426">Add to My Collection</a> | <a class="remove" href="http://citeseerx.ist.psu.edu/correct?doi=10.1.1.129.426" title="Submit corrections for this document">Correct Errors</a></div>
+  </div> <!-- End bottom information_bar -->
+  <div id="conclusion">
+    <div><a href="http://citeseerx.ist.psu.edu/viewdoc/similar?doi=10.1.1.129.426" title="Find documents related to this document">Related Documents</a>: <a href="http://citeseerx.ist.psu.edu/viewdoc/similar?doi=10.1.1.129.426&amp;type=ab" title="Documents that cite the same works">Active Bibliography</a> | <a href="http://citeseerx.ist.psu.edu/viewdoc/similar?doi=10.1.1.129.426&amp;type=cc" title="Documents cited by the same works">Co-citation</a><!-- &#124; <a href="#">Version History</a> --></div>					
+  </div> <!-- End conclusion -->
+  </div> <!-- End primary_content - Opened in viewdoc_header -->
+</div> <!-- End center_content - Opened in viewdoc_header -->
+
+  <div id="footer">
+    <p><a href="http://citeseerx.ist.psu.edu/" title="CiteSeerX Home Page">Home Page</a> |
+    <a href="http://citeseerx.ist.psu.edu/about/site" title="Learn more about this scientific literature digital library and search engine">About CiteSeer<sup>x</sup></a> |
+    <a href="http://csxblog.ist.psu.edu/" title="Updates and New Features">Bulletin</a> |
+    <a href="http://citeseerx.ist.psu.edu/myciteseer/action/submitUrl" title="Add Your Document">Submit Documents</a> |
+    <a href="http://citeseerx.ist.psu.edu/feedback" title="Submit Your Feedback">Feedback</a> |
+    <a href="http://citeseerx.ist.psu.edu/privacy" title="Privacy Policy">Privacy Policy</a> |
+    <a href="http://citeseerx.ist.psu.edu/about/metadata" title="CiteSeerX Data">CiteSeer<sup>x</sup> Data</a> |
+    <a href="http://sourceforge.net/projects/citeseerx/" title="Get SeerSuite Source Code">Source Code</a></p>
+    <p>© 2007-2010 <a href="http://www.psu.edu/">The Pennsylvania State University</a></p>
+    <p>Developed at and hosted by <a href="http://ist.psu.edu/">The College of Information Sciences and Technology</a> at Penn State</p>
+    <p><a class="remove" href="http://ist.psu.edu/" title="Penn State College of Information Sciences and Technology">
+    <img id="ist" src="citeseer01_files/istlogo.gif" alt="IST logo"></a></p>
+  </div>
+</div> <!-- page_wrapper opened on IncludeTop -->
+</body></html>

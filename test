@@ -6,7 +6,7 @@ script=test
 pushd $script_path
 if [ -f $script ]
 then
-    ./$script
+    ./$script $*
 else
     echo "The script does not exist. Could not find: $script_path/$script"
 fi
