@@ -220,7 +220,7 @@ class BibtexParser(BibliographyParser):
                     
             elif key == 'keywords':
                 if not result.has_key(key):
-                    result[key] = self._split_comma_separated(value) 
+                    result[key] = self._split_separated_values(value) 
                 else:
                     result[key].append(self._clean_line(value))
             else:
@@ -258,7 +258,7 @@ class BibtexParser(BibliographyParser):
         Splits multiple values separated by 'delim'. By default, delim is a 
         comma.
         """
-        value = self.clean(value)
+        value = self._clean(value)
         result = []
         for item in value.split(delim):
             item = item.strip()

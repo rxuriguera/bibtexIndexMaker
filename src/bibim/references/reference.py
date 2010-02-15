@@ -60,7 +60,7 @@ class Reference(object):
         self.fields = {}
         self.format = None
         self.entry = ""
-        
+
     def get_fields(self):
         """
         Returns a list of available keys
@@ -83,11 +83,18 @@ class Reference(object):
     def get_entry(self):
         return self.__entry
     
+    def get_format(self):
+        return self.__format
+
+    def set_format(self, value):
+        self.__format = value
+        
     fields = property(get_fields, _set_fields)    
     entry = property(get_entry, set_entry)
-    
+    format = property(get_format, set_format)
+        
     def has_format(self):
-        return self._format is not None
+        return self.format is not None
 
     def is_valid(self):
         """

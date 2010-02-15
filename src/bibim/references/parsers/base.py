@@ -82,8 +82,7 @@ class BibliographyParser(object):
         Splits a (text) file with several entries
         Returns a list of those entries
         """
-        if hasattr(self, '_preprocess'):
-            source = self._preprocess(source)
+        source = self.preprocess(source)
         return self.delimiter.split(source)
 
     def parse_entry(self, entry):
@@ -93,6 +92,14 @@ class BibliographyParser(object):
         """
         pass  # needs to be overwriten by the individual parser
 
+    def preprocess(self, source):
+        """
+        The behavior of this method will vary for each subclass. Basically, it
+        will include anything related to expanding macros, stripping comments, 
+        etc.
+        """
+        pass
+
     def get_entries(self, source):
         """
         Splits a (text) file with several entries
@@ -101,7 +108,7 @@ class BibliographyParser(object):
         """
         source = self.check_encoding(source)
         return [self.parse_entry(entry) \
-                for entry in self.splitSource(source)]
+                for entry in self.split_source(source)]
 
     def check_encoding(self, source):
         """
