@@ -18,8 +18,8 @@
 import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 
-from bibim.beautifulsoup import BeautifulSoup
-from bibim.ir.search import GoogleSearch, ScholarSearch
+from bibim.util import BeautifulSoup
+from bibim.ir import GoogleSearch, ScholarSearch
 
 
 class TestGoogleSearch(unittest.TestCase):
