@@ -112,7 +112,8 @@ class PDFTextExtractor(TextExtractor):
     def _extract_metadata(self, parser, document):
         # Title
         title = parser.find('title')
-        document.set_metadata_field('Title', title.find(text=True))
+        if title:
+            document.set_metadata_field('Title', title.find(text=True))
         # Rest of metadata
         metas = parser.findAll('meta')
         for meta in metas:
