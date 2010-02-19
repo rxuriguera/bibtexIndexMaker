@@ -17,7 +17,8 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 class FileFormat(object):
-    PDF = 0
+    TXT = 'txt'
+    PDF = 'pdf'
 
 class ReferenceFormat(object):
-    BIBTEX = 0
+    BIBTEX = 'bibtex'
