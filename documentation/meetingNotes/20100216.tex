@@ -1,0 +1,59 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url} 
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\title{BibTeX Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{16-02-2010}
+
+\setlength{\parindent}{0in}
+
+\begin{document}
+\maketitle
+
+\section{Parser}
+Pels casos que s'obté el BibTeX sencer d'Internet, hem de parsejar per tal de poder validar si es tracta o no del que estem buscant.
+Parser BibTeX de Zope adaptat al que necessitem.
+
+\section{Temps d'execució per fitxer}
+Mitjana del temps d'execució per 10 proves:
+    \begin{center}
+    \begin{tabular}{r}
+        Temps (s) \\
+        \hline
+        6.262790 \\
+        5.819088 \\
+        6.844721 \\
+        6.323499 \\
+        5.180516 \\
+        2.839878 \\
+        3.999373 \\
+        6.251935 \\
+        4.850283 \\
+        3.901083 \\
+        \hline
+        5.227300 \\
+    \end{tabular}
+    \end{center}
+De moment, només he provat a extreure referències de \textit{portal.acm} per les quals s'ha d'accedir a Internet tres vegades:
+\begin{enumerate}
+    \item{Consulta a Google Scholar}
+    \item{Obtenir pàgina del resultat escollit (mínim una vegada)}
+    \item{Obtenir la referència de dins la pàgina (cas especial de \textit{portal.acm})}
+\end{enumerate}
+Cal paral·lelitzar?
+
+\section{Articles d'exemple}
+\end{document}
+

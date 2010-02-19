@@ -16,10 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import absolute_import #@UnresolvedImport
 import os
 
-from bibim.references import ReferenceFormat
- 
+from bibim.util import ReferenceFormat
+
 class ReferenceFormatGenerator(object):
     
     _key_order = []
