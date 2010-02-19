@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
  
- 
-class ReferenceFormat(object):
-    BIBTEX = 0 
 
 class ReferenceField(object):
     def __init__(self, name, value, valid=True):
