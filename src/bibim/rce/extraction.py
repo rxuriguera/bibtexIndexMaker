@@ -46,7 +46,7 @@ class Extractor(object):
         Checks file existence and normalizes its path.
         """
         if not path.isfile(input_file):
-            raise IOError
+            raise IOError('%s does not exist or is not a file.' % input_file)
         return path.normpath(input_file)
         
     def extract(self, input_file):
