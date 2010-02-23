@@ -50,13 +50,13 @@ class Reference(object):
     """
     This class represents a bibliographic reference.
     """
-    def __init__(self):
+    def __init__(self, fields={}, format=None, entry=''):
         """
         Constructs an empty Reference
         """
-        self.fields = {}
-        self.format = None
-        self.entry = ""
+        self.fields = fields
+        self.format = format
+        self.entry = entry
 
     def get_fields(self):
         """
@@ -64,15 +64,18 @@ class Reference(object):
         """
         return self.__fields.keys()
     
-    def _set_fields(self, fields={}):
-        self.__fields = fields
+    def set_fields(self, fields={}):
+        self.__fields = {}
+        for field in fields.keys():
+            self.set_field(field, fields[field])
         
     def get_field(self, field_name):
         return self.__fields.get(field_name)
     
     def set_field(self, field_name, value, valid=True):
-        self.__fields[field_name] = ReferenceField(field_name, value)
-        pass
+        if not value:
+            valid = False
+        self.__fields[field_name] = ReferenceField(field_name, value, valid)
     
     def set_entry(self, entry):
         self.__entry = entry
@@ -86,7 +89,7 @@ class Reference(object):
     def set_format(self, value):
         self.__format = value
         
-    fields = property(get_fields, _set_fields)    
+    fields = property(get_fields, set_fields)    
     entry = property(get_entry, set_entry)
     format = property(get_format, set_format)
         
@@ -99,7 +102,18 @@ class Reference(object):
         """
         valid = True
         for field in self.fields:
-            if not self.fields[field].valid:
+            if not self.get_field(field).valid:
                 valid = False
-                break;
+                break
         return valid
+    
+    def has_non_empty_fields(self):
+        """
+        Checks if there is any field with a value (not None).
+        """
+        filled = False
+        for field in self.fields:
+            if self.get_field(field).value:
+                filled = True
+                break
+        return filled

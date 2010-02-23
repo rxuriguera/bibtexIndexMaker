@@ -39,6 +39,11 @@ class TestReference(unittest.TestCase):
         self.failUnless(len(self.ref.get_fields()) == 3)
         self.failUnless(self.ref.get_fields() == ['rf01', 'rf02', 'rf03'])
 
+    def test_set_field_to_none(self):
+        self.ref.set_field('some_field', None)
+        field = self.ref.get_field('some_field')
+        self.failUnless(field.valid == False)
+        
     def test_set_and_get_entry(self):
         self.ref.set_entry('This is an entry')
         self.failUnless(self.ref.get_entry() == 'This is an entry')
