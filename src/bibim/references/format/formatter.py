@@ -35,7 +35,8 @@ class ReferenceFormatter(object):
             field = reference.get_field(field)
             generate_method = 'generate_' + field.name
             generate_method = getattr(format_generator, generate_method)
-            generate_method(field.value)
+            if field.value:
+                generate_method(field.value)
         
         format_generator.generate_footer()
         reference.entry = format_generator.get_generated_reference()
