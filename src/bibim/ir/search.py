@@ -71,6 +71,10 @@ class SearchResult(object):
 
     def __str__(self):
         return 'Search Result: "%s"' % self.title
+    
+    @property
+    def base_url(self):
+        return 'http://' + self.url.split('/')[2]    
 
 
 class GoogleSearchResult(SearchResult):
@@ -88,7 +92,7 @@ class ScholarSearchResult(SearchResult):
     """
     """
     
-    def __init__(self, title, url, desc, authors=[], year=None):
+    def __init__(self, title, url, desc, authors=[], year=None, base=None):
         super(ScholarSearchResult, self).__init__(title, url)
         self.desc = desc
         self.authors = authors
@@ -96,12 +100,13 @@ class ScholarSearchResult(SearchResult):
     
 
 class Searcher(object):
-    
     """
     Base class for searching with a search engine
     """
+    GOOGLE = 0
+    SCHOLAR = 1
     
-    def __init__(self, query, random_agent=False, debug=False):
+    def __init__(self, query='', random_agent=False, debug=False):
         self.query = query
         self.debug = debug
         self.browser = Browser(debug=debug)
@@ -113,6 +118,14 @@ class Searcher(object):
 
         if random_agent:
             self.browser.set_random_user_agent() 
+
+    def get_query(self):
+        return self.__query
+
+    def set_query(self, value):
+        self.__query = value
+        
+    query = property(get_query, set_query)
             
     @property
     def num_results(self):
@@ -355,14 +368,33 @@ class ScholarSearch(Searcher):
         return soup.findAll('div', {'class': 'gs_r'})    
   
     def _extract_result(self, result):
+        if not self._check_result(result):
+            return None
+
         title, url = self._extract_title_url(result)
         # Warning: _extract_description removes some elements from the tree, 
         # so authors and year have to be extracted in advance
         authors = self._extract_authors(result)
         desc = self._extract_description(result)
+        year = self._extract_year(result)
         if not title or not url or not desc:
             return None
-        return ScholarSearchResult(title, url, desc, authors=authors) 
+        return ScholarSearchResult(title,
+                                   url,
+                                   desc,
+                                   authors=authors,
+                                   year=year) 
+
+    def _check_result(self, result):
+        """
+        Some results link to the actual article instead of a page with its 
+        reference. We disregard these results.
+        """
+        valid = True
+        link_type = result.find('span', {'class':'gs_ctc'})
+        if link_type:
+            valid = False
+        return valid
 
     def _extract_title_url(self, result):
         #title_a = result.find('a', {'class': re.compile(r'\bl\b')})
