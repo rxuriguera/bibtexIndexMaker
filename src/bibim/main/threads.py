@@ -16,13 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import #@UnresolvedImport
 import threading #@UnresolvedImport
 import Queue #@UnresolvedImport
 
-from bibim import log #@UnresolvedImport
-from bibim.main import ReferenceMaker #@UnresolvedImport
-from bibim.util import ReferenceFormat, FileFormat #@UnresolvedImport
+from bibim import log
+from bibim.main.refmaker import ReferenceMaker
+from bibim.util.helpers import ReferenceFormat
 
 
 MAX_THREADS = 5
@@ -166,6 +165,8 @@ class ReferenceMakerThread(threading.Thread):
         Runs indefinitely until it is asked to finish.
         Processes files from the 'input_queue' and supplies them to a 
         'ReferenceMaker' object.
+        Once the ReferenceMaker is done, it stores the results in tuples
+        (file, reference) to the output queue.
         """
         while not self.stop_event.isSet():
             file = None
@@ -175,7 +176,7 @@ class ReferenceMakerThread(threading.Thread):
                 except Queue.Empty:
                     continue
             if file:
-                ref_maker = ReferenceMaker(file, self.target_format)
-                reference = ref_maker.make_reference(file)
-                self.out_queue.put(reference)
+                reference = ReferenceMaker().make_reference(file,
+                                                            self.target_format)
+                self.out_queue.put((file, reference))
     
