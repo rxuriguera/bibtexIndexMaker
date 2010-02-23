@@ -19,7 +19,8 @@
 import re
 
 from bibim.ie.wrappers import Wrapper
-from bibim.util import BeautifulSoup, Browser, BrowserError
+from bibim.util import BeautifulSoup, Browser, BrowserError, ReferenceFormat
+
 
 class ReferenceWrapper(Wrapper):
     """
@@ -33,22 +34,26 @@ class ReferenceWrapper(Wrapper):
         Extracts a reference from the given page.
         """
         if source not in self._available_wrappers.keys():
-            return None
+            return (None, None)
         
         wrapper_method = getattr(self,
                                  '_do_' + self._available_wrappers[source])
         
         return wrapper_method(source, page) 
 
+    def get_available_wrappers(self):
+        return self._available_wrappers.keys()
+
     def _do_portal_acm(self, source, page):
         """
         Searches the page for a link to the reference, and then retrieves the
         reference.
+        Returns a tuple with the full reference and its format.
         """ 
-        anchor = page.find('a',
-            {'onclick':re.compile('popBibTex.cfm')})
+        ref = (None, None)
+        anchor = page.find('a', {'onclick':re.compile('popBibTex.cfm')})
         if not anchor:
-            return None
+            return ref
         jscript = anchor['onclick'].replace('window.open', '').strip('\(\)')
         ref_url = jscript.split(',')[0].strip('\'')
         ref_url = source + '/' + ref_url
@@ -56,10 +61,12 @@ class ReferenceWrapper(Wrapper):
         try:
             page = BeautifulSoup(self._browser.get_page(ref_url))
         except BrowserError:
-            return None
+            return ref
         
         pre = page.find('pre')
         if not pre:
-            return None
+            return ref
         
-        return pre.find(text=True).strip()
+        # As teh wrapper has been hardcoded, we already know what will be the
+        # format of the reference
+        return (pre.find(text=True).strip(), ReferenceFormat.BIBTEX)
