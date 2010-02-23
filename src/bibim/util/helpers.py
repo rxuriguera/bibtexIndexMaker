@@ -16,9 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-class FileFormat(object):
+class Format(object):
+    
+    def get_format(self, path):
+        format = None
+        elements = path.split('.')
+        if elements:
+            format = elements[-1]
+        return format
+
+class FileFormat(Format):
     TXT = 'txt'
     PDF = 'pdf'
 
-class ReferenceFormat(object):
+class ReferenceFormat(Format):
     BIBTEX = 'bibtex'
