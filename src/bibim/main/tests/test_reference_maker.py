@@ -15,37 +15,28 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
- 
+
 
 import unittest #@UnresolvedImport
-from os.path import join, dirname, normpath
+from os.path import normpath, join, dirname
 
-from bibim.main.files import FileManager
+from bibim.main.refmaker import ReferenceMaker
+from bibim.util.helpers import ReferenceFormat
 
-class TestFileManager(unittest.TestCase):
+class TestReferenceMaker(unittest.TestCase):
 
     def setUp(self):
-        self.fm = FileManager()
-        self.dir = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/main/filemanager')))
+        self.rm = ReferenceMaker()
         self.file = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/main/filemanager/a.bib')))
+                                     'fixtures/extraction/article.pdf')))
         
     def tearDown(self):
         pass
+    
+    def test_make_reference(self):
+        references = self.rm.make_reference(self.file, ReferenceFormat.BIBTEX)
 
-    def test_get_files_dir_path(self):
-        files = self.fm.get_files_list(self.dir, 'bib')
-        self.failUnless(len(files) == 2)
-        files = self.fm.get_files_list(self.dir, 'pdf')
-        self.failUnless(len(files) == 2)
-        files = self.fm.get_files_list(self.dir)
-        self.failUnless(len(files) == 4)
-    
-    def test_get_files_file_path(self):
-        files = self.fm.get_files_list(self.file)
-        self.failUnless(len(files) == 1)
-    
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

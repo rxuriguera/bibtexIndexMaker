@@ -18,8 +18,8 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.main import UtilFactory, UtilCreationError
-from bibim.util import FileFormat, ReferenceFormat
+from bibim.main.factory import UtilFactory, UtilCreationError
+from bibim.util import FileFormat
 
 class TestUtilFactory(unittest.TestCase):
 

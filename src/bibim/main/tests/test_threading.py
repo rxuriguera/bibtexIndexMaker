@@ -21,7 +21,7 @@ import unittest #@UnresolvedImport
 import Queue #@UnresolvedImport
 import threading #@UnresolvedImport
 
-from bibim.main import ThreadRunner
+from bibim.main.threads import ThreadRunner
 
 class TestThread(threading.Thread):
     """
