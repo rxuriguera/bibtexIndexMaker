@@ -11,7 +11,6 @@ import urllib #@UnresolvedImport
 import urllib2 #@UnresolvedImport
 import httplib #@UnresolvedImport
 
-
 BROWSERS = (
     # Top most popular browsers in my access.log on 2009.02.12
     # tail -50000 access.log |
@@ -83,7 +82,7 @@ class Browser(object):
         self.debug = debug
 
     def get_page(self, url, data=None):
-        handlers = [PoolHTTPHandler]
+        handlers = [PoolHTTPHandler, urllib2.HTTPCookieProcessor]
         opener = urllib2.build_opener(*handlers)
         if data: data = urllib.urlencode(data)
         request = urllib2.Request(url, data, self.headers)
