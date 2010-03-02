@@ -70,3 +70,4 @@ class ReferenceWrapper(Wrapper):
         # As teh wrapper has been hardcoded, we already know what will be the
         # format of the reference
         return (pre.find(text=True).strip(), ReferenceFormat.BIBTEX)
+       

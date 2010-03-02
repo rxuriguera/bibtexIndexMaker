@@ -36,6 +36,8 @@ class TestTitleWrapper(TestWrapper):
                          self._get_soup('springer01.html'))
         self.scienced = ('http://www.sciencedirect.com',
                          self._get_soup('sciencedirect01.html'))
+        self.scientcom = ('http://en.scientificcommons.com',
+                          self._get_soup('scientificcommons01.html'))
         
     def tearDown(self):
         pass
@@ -66,6 +68,10 @@ class TestTitleWrapper(TestWrapper):
         self.failUnless(self.tfw._do_div_with_class(self.scienced[1]) == 
             ('Rigid-layer lattice vibrations and van der waals bonding in '
              'hexagonal MoS2'))
+    
+    def test_extract_class_contains_title(self):
+        self.failUnless(self.tfw._do_class_contains_title(self.scientcom[1]).
+            startswith('New Closure Operators and Lattice'))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+import re
 
 from bibim.ie.wrappers import FieldWrapper
 
@@ -30,7 +31,9 @@ class TitleFieldWrapper(FieldWrapper):
         'http://www.springerlink.com':'_do_h2_in_td',
         'http://www.sciencedirect.com':'_do_div_with_class',
         'http://ieeexplore.ieee.org':'_do_title_tag',
-        'http://citeseerx.ist.psu.edu':'_do_title_tag'
+        'http://citeseerx.ist.psu.edu':'_do_title_tag',
+        'http://en.scientificcommons.org':'_do_class_contains_title',
+        'http://eprints.pascal-network.org':'_do_class_contains_title'
     }
 
     def _do_title_tag(self, page):
@@ -59,4 +62,7 @@ class TitleFieldWrapper(FieldWrapper):
         div = page.find('div', {'class':class_name})
         return self._extract_text(div)
 
-
+    def _do_class_contains_title(self, page):
+        element = page.find(True, {'class':re.compile('\w*_title\w*')})
+        return self._extract_text(element)
+        
