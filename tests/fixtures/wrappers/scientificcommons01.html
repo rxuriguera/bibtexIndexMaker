@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+
+
+
+    <title>Scientific Commons: New Closure Operators and Lattice
+Representations Representations for Multivalued Dependencies for
+Multivalued and Related Dependencies Expressions and Related
+Expressions (2008), 2008-04-01 [Jaume Baixeries, José Luis Balcázar,
+Jaume Baixeries, José Luis Balcázar]</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="DC.date" content="2009-06-04T00:13:58Z">
+    <meta name="DC.language" content="en">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,archive,follow">
+    <meta name="audience" content="all">
+
+    <link rel="stylesheet" href="scientificcommons01_files/scientificcommons.css">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://www.scientificcommons.org/opensearch" title="ScientificCommons.org">
+
+        
+    <script type="text/javascript" src="scientificcommons01_files/en.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/window.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/prototype.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/slider.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/effects.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/controls.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/content.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/search.js"></script>
+    <script type="text/javascript" src="scientificcommons01_files/preview.js"></script>
+    <style type="text/css" charset="utf-8">/* See license.txt for terms of usage */
+
+#firebugBody {
+    position: fixed;
+    top:0;
+    left:0;
+    margin:0;
+    padding:0;
+    width:1px;
+    height:1px;
+    overflow:visible;
+}
+
+.firebugCanvas {
+    position:fixed;
+    top: 0;
+    left: 0;
+    display:none;
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+.firebugHighlight {
+    z-index: 2147483647;
+    position: absolute;
+    background-color: #3875d7;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0 none;
+}
+
+.firebugLayoutBoxParent {
+    z-index: 2147483647;
+    position: absolute;
+    background-color: transparent;
+    border-top: 0 none;
+    border-right: 1px dashed #BBBBBB;
+    border-bottom: 1px dashed #BBBBBB;
+    border-left: 0 none;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+.firebugRuler {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0 none;
+}
+
+.firebugRulerH {
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 14px;
+    background: url(chrome://firebug/skin/rulerH.png) repeat-x;
+    border-top: 1px solid #BBBBBB;
+    border-right: 1px dashed #BBBBBB;
+    border-bottom: 1px solid #000000;
+}
+
+.firebugRulerV {
+    top: 0;
+    left: -15px;
+    width: 14px;
+    height: 100%;
+    background: url(chrome://firebug/skin/rulerV.png) repeat-y;
+    border-left: 1px solid #BBBBBB;
+    border-right: 1px solid #000000;
+    border-bottom: 1px dashed #BBBBBB;
+}
+
+.overflowRulerX > .firebugRulerV {
+    left: 0;
+}
+
+.overflowRulerY > .firebugRulerH {
+    top: 0;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBox {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    outline: 0;
+}
+
+.firebugLayoutBoxOffset {
+    z-index: 2147483647;
+    position: absolute;
+    opacity: 0.8;
+}
+
+.firebugLayoutBoxMargin {
+    background-color: #EDFF64;
+}
+
+.firebugLayoutBoxBorder {
+    background-color: #666666;
+}
+
+.firebugLayoutBoxPadding {
+    background-color: SlateBlue;
+}
+
+.firebugLayoutBoxContent {
+    background-color: SkyBlue;
+}
+
+/*.firebugHighlightGroup .firebugLayoutBox {
+    background-color: transparent;
+}
+
+.firebugHighlightBox {
+    background-color: Blue !important;
+}*/
+
+.firebugLayoutLine {
+    z-index: 2147483647;
+    background-color: #000000;
+    opacity: 0.4;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0 none;
+}
+
+.firebugLayoutLineLeft,
+.firebugLayoutLineRight {
+    position: fixed;
+    width: 1px;
+    height: 100%;
+}
+
+.firebugLayoutLineTop,
+.firebugLayoutLineBottom {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+}
+
+.firebugLayoutLineTop {
+    margin-top: -1px;
+    border-top: 1px solid #999999;
+}
+
+.firebugLayoutLineRight {
+    border-right: 1px solid #999999;
+}
+
+.firebugLayoutLineBottom {
+    border-bottom: 1px solid #999999;
+}
+
+.firebugLayoutLineLeft {
+    margin-left: -1px;
+    border-left: 1px solid #999999;
+}
+</style></head><body onload="javascript: registerElementObserver();" onunload="javascript: void(0);">
+
+<div id="page_header">
+    <a href="http://en.scientificcommons.org/"><div id="logo"></div></a>
+    <div id="main_top_search"><form name="frm" id="ajaxform"><input name="search_string" autocomplete="off" class="text" id="search_string" type="text"><div class="autocomplete" id="search_auto_complete"></div><input src="scientificcommons01_files/button_search_en.gif" id="submit" class="image" value="submit" alt="submit" type="image"></form>
+    </div>
+    <div id="language_selector">
+        <a href="http://de.scientificcommons.org/" hreflang="de">deutsch</a>&nbsp;
+        <a href="http://en.scientificcommons.org/" hreflang="en">english</a>
+    </div>
+</div>
+
+<div style="visibility: visible;" id="page_content">
+
+    <div id="content_nav_box">
+        <div id="content_title"><h1>Publication View</h1></div>
+    <div id="adbox"><iframe src="scientificcommons01_files/7.html" border="0" scrolling="auto" width="300" frameborder="0" height="270"></iframe></div><div id="content_prev_box"><h2>Export References</h2><p><a class="ris" href="http://en.scientificcommons.org/export/ris/43531017">EndNote Download</a> (RIS Format)</p><p><a class="bibtex" href="http://en.scientificcommons.org/export/bibtex/43531017">BibTex Download</a> (Tex Format)</p></div></div>
+    
+    <div style="height: 139px;" id="content_main_box">
+        <div id="content_elements">
+            <div id="publication_id" style="display: none;">43531017</div>
+                      
+            <table class="publication">
+                        
+                                                                                                                    <tbody><tr>
+                                <td colspan="2" class="dc_title">
+New Closure Operators and Lattice Representations Representations for
+Multivalued Dependencies for Multivalued and Related Dependencies
+Expressions and Related Expressions (2008) </td>
+                            </tr>
+                                                                                            <tr>
+                            <td colspan="2" class="dc_creator">
+                                <ul class="dc_creator">                                
+                                                                                                        <li><a href="http://en.scientificcommons.org/jaume_baixeries">Jaume Baixeries</a>,</li>
+<li><a href="http://en.scientificcommons.org/jos%C3%A9_luis_balc%C3%A1zar">José Luis Balcázar</a>,</li>
+<li><a href="http://en.scientificcommons.org/jaume_baixeries">Jaume Baixeries</a>,</li>
+<li><a href="http://en.scientificcommons.org/jos%C3%A9_luis_balc%C3%A1zar">José Luis Balcázar</a></li>                        
+                                                                                                    </ul>
+                            </td>
+                        </tr>
+                                                                                                                            <tr><td class="section" colspan="2"><br>Abstract</td></tr>
+                                                        <tr>
+                                <td colspan="2" class="dc_description">
+Abstract. In Database Theory, Multivalued Dependencies are the main
+tool to define the Fourth Normal Form and, as such, their inference
+problem has been deeply studied; two related notions appearing in that
+study are a syntactical analog in propositional logic and a restriction
+that maintains to this logic the same relationship as Functional
+Dependencies do to Horn logic. We present semantic, lattice-theoretic
+characterizations of such multivalued dependencies that hold in a given
+relation, as well as similar results for the related notions just
+mentioned. Our characterizations explain better some previously known
+facts by providing a unifying framework that is also consistent with
+the studies of Functional Dependencies. 1 </td>
+                            </tr>
+                                                                            
+                
+                                
+                        
+                                
+                                    <tr><td class="section" colspan="2"><br>Publication details</td></tr>
+                    <tr><td colspan="2"><table class="details">
+                                            <tbody><tr>
+                         
+                                                                                            <th class="dc_identifier">Download</th>
+                                                                                     
+                                                            <td class="dc_identifier">
+                                                                                                            <a rel="nofollow" href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.90.2204">http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.90.2204</a>                                                                                                    </td>                                                
+                                                                            </tr>
+                                            <tr>
+                         
+                                                                                            <th class="dc_source">Source</th>
+                                                                                     
+                                                            <td class="dc_source">
+                                                                                                            <a rel="nofollow" href="http://ftp.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-162/paper3.pdf">http://ftp.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-162/paper3.pdf</a>                                                                                                    </td>                                                
+                                                                            </tr>
+                                            <tr>
+                         
+                                                                                            <th class="dc_contributor">Contributors</th>
+                                                                                     
+                                                            <td class="dc_contributor">
+                                                                        
+                                        CiteSeerX 
+                                                                                                    </td>                                                
+                                                                            </tr>
+                                            <tr>
+                         
+                                                                                            <th class="dc_repository">Repository</th>
+                                                                                     
+                                                            <td class="dc_repository">
+                                                                                                            <a rel="nofollow" href="http://en.scientificcommons.org/repository/citeseerx_-_scientific_literature_digital_library_and_search_engine">CiteSeerX - Scientific Literature Digital Library and Search Engine (United States)</a>                                                                                                    </td>                                                
+                                                                            </tr>
+                                            <tr>
+                         
+                                                                                            <th class="dc_type">Type</th>
+                                                                                     
+                                                            <td class="dc_type">
+                                                                        
+                                        text 
+                                                                                                    </td>                                                
+                                                                            </tr>
+                                            <tr>
+                         
+                                                                                            <th class="dc_language">Language</th>
+                                                                                     
+                                                            <td class="dc_language">
+                                                                        
+                                        English 
+                                                                                                    </td>                                                
+                                                                            </tr>
+                                            <tr>
+                         
+                                                                                            <th class="dc_relation">Relation</th>
+                                                                                     
+                                                            <td class="dc_relation">
+                                                                        
+                                        10.1.1.62.5791, 
+                                                                                                            
+                                        10.1.1.74.5266, 
+                                                                                                            
+                                        10.1.1.78.1233, 
+                                                                                                            
+                                        10.1.1.80.1459, 
+                                                                                                            
+                                        10.1.1.6.9546 
+                                                                                                    </td>                                                
+                                                                            </tr>
+                                        </tbody></table></td></tr>
+                
+                                
+                        </tbody></table>
+
+        </div>
+    </div>
+
+    <div style="height: 139px;" id="content_scrollbar">
+        <div id="sb_button_up"></div>
+        <div style="height: 99px;" id="sb_slidebar"><div class="selected" style="top: 0px;" id="sb_slider">&nbsp;</div></div>
+        <div id="sb_button_down"></div>
+    </div>
+    
+</div>
+
+<div id="page_footer">
+    <div id="page_footer_margin">
+                <a href="http://en.scientificcommons.org/about">About ScientificCommons</a>&nbsp;&nbsp;&nbsp;                <a href="http://en.scientificcommons.org/imprint">Imprint</a>&nbsp;&nbsp;&nbsp;                <a href="http://en.scientificcommons.org/contact">Contact</a>&nbsp;&nbsp;&nbsp;                <a href="http://en.scientificcommons.org/register-repository">Register URL</a>&nbsp;&nbsp;&nbsp;                <a href="http://en.scientificcommons.org/help">Help</a>            </div>
+</div>
+
+</body></html>
