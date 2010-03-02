@@ -25,18 +25,22 @@
 
 import re
 import urllib #@UnresolvedImport
+import time
+import random #@UnresolvedImport
 
 from htmlentitydefs import name2codepoint #@UnresolvedImport
 
+from bibim import log
 from bibim.util import BeautifulSoup
 from bibim.util import Browser, BrowserError
 
 
 class SearchError(Exception):
-    
     """
     Base class for search exceptions.
     """
+    def __init__(self, error):
+        self.error = error
 
 
 class ParseError(SearchError):
@@ -70,7 +74,7 @@ class SearchResult(object):
         self.url = url
 
     def __str__(self):
-        return 'Search Result: "%s"' % self.title
+        return 'Search Result: "%s\n%s"' % (self.title, self.url)
     
     @property
     def base_url(self):
@@ -124,6 +128,7 @@ class Searcher(object):
 
     def set_query(self, value):
         self.__query = value
+        self.eor = False
         
     query = property(get_query, set_query)
             
@@ -190,10 +195,17 @@ class Searcher(object):
 
     def _get_results_page(self):
         safe_url = self._get_safe_url() 
+        
+        # Wait a random time between 0.5 and 1,5 seconds before doing the 
+        # search
+        time_to_wait = random.randrange(5, 15, 2) / 10.0
+        log.debug('Waiting %g before searching %s' % (time_to_wait, safe_url))
+        time.sleep(time_to_wait)
+        
         try:
             page = self.browser.get_page(safe_url)
         except BrowserError, e:
-            raise SearchError, "Failed getting %s: %s" % (e.url, e.error)
+            raise SearchError("Failed getting %s: %s" % (e.url, e.error))
         return BeautifulSoup(page)
 
     def _extract_info(self, soup):
