@@ -44,7 +44,6 @@ class ReferenceField(object):
     name = property(get_name, set_name)
     value = property(get_value, set_value)
     valid = property(is_valid, set_valid)
-        
 
 class Reference(object):
     """
@@ -117,3 +116,6 @@ class Reference(object):
                 filled = True
                 break
         return filled
+
+    def __repr__(self):
+        return 'format: %s\nentry:\n%s' % (self.format, self.entry)
