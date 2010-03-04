@@ -33,13 +33,16 @@ class TitleFieldWrapper(FieldWrapper):
         'http://ieeexplore.ieee.org':'_do_title_tag',
         'http://citeseerx.ist.psu.edu':'_do_title_tag',
         'http://en.scientificcommons.org':'_do_class_contains_title',
-        'http://eprints.pascal-network.org':'_do_class_contains_title'
+        'http://eprints.pascal-network.org':'_do_class_contains_title',
+        'http://www.citeulike.org': '_do_title_tag',
+        'http://www.ingentaconnect.com': '_do_title_tag'
     }
 
     def _do_title_tag(self, page):
         # Some sites place the article title in the title tag, but with some
         # additional text that has to be removed
-        to_remove = ['Welcome to IEEE Xplore 2.0: ', u'CiteSeerX \u2014 ']
+        to_remove = ['Welcome to IEEE Xplore 2.0: ', u'CiteSeerX \u2014 ',
+                     u'CiteSeerX &#8212; ', u'CiteULike: ', u'IngentaConnect ']
         title = page.find('title')
         text = self._extract_text(title)
         if text:
