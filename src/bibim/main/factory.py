@@ -20,9 +20,12 @@
 from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat)
 from bibim.rce import PDFTextExtractor
-from bibim.ir import (Searcher,
-                      GoogleSearch,
-                      ScholarSearch)
+from bibim.ir.search import (Searcher,
+                             GoogleSearch,
+                             ScholarSearch,
+                             BingSearch,
+                             YahooSearch,
+                             GoogleJSONSearch)
 from bibim.references.parsers import BibtexParser
 from bibim.references.format import BibtexGenerator
 
@@ -42,9 +45,13 @@ class UtilFactory(object):
 
     def create_searcher(self, engine):
         if engine == Searcher.GOOGLE:
-            return GoogleSearch()
+            return GoogleJSONSearch()
         elif engine == Searcher.SCHOLAR:
             return ScholarSearch()
+        elif engine == Searcher.BING:
+            return BingSearch()
+        elif engine == Searcher.YAHOO:
+            return YahooSearch()
         else:
             raise UtilCreationError('Requested searcher is not available')
 
