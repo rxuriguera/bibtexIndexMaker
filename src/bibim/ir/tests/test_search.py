@@ -17,9 +17,14 @@
 
 import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
+import simplejson #@UnresolvedImport
 
 from bibim.util import BeautifulSoup
-from bibim.ir import GoogleSearch, ScholarSearch
+from bibim.ir.search import (GoogleSearch,
+                             ScholarSearch,
+                             BingSearch,
+                             YahooSearch,
+                             GoogleJSONSearch)
 
 
 class TestGoogleSearch(unittest.TestCase):
@@ -80,6 +85,87 @@ class TestScholarSearch(unittest.TestCase):
         self.failUnless(year == '2002')
         
         
+class TestBingSearch(unittest.TestCase):
+     
+    def setUp(self):
+        self.bs = BingSearch('query text')
+        fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
+            'fixtures/search/bingSearch.json')))
+        self.fixture = open(fixture_path)
+        self.page = simplejson.load(self.fixture)
+        self.results = self.bs._extract_raw_results_list(self.page)
+        
+    def tearDown(self):
+        self.fixture.close() 
+    
+    def test_extract_info(self):
+        search_info = self.bs._extract_info(self.page)
+        self.failUnless(search_info['to'] == 2, 'Wrong "to" field')
+        self.failUnless(search_info['from'] == 1, 'Wrong "from" field')
+        self.failUnless(search_info['total'] == 2, 'Wrong total field')
+    
+    def test_extract_result(self):
+        result = self.bs._extract_result(self.results[0])
+        self.failUnless(result.title == ('Query Learning and Certificates '
+                                         'in Lattices'))
+        self.failUnless(result.url == 
+            ('http://www.lsi.upc.es/~balqui/postscript/latticesALT.pdf'))
+        self.failUnless(result.desc.startswith('Three major'))
+
+
+class TestYahooSearch(unittest.TestCase):
+     
+    def setUp(self):
+        self.ys = YahooSearch('"query text"')
+        fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
+            'fixtures/search/yahooSearch.json')))
+        self.fixture = open(fixture_path)
+        self.page = simplejson.load(self.fixture)
+        self.results = self.ys._extract_raw_results_list(self.page)
+        
+    def tearDown(self):
+        self.fixture.close() 
+    
+    def test_extract_info(self):
+        search_info = self.ys._extract_info(self.page)
+        self.failUnless(search_info['to'] == 5, 'Wrong "to" field')
+        self.failUnless(search_info['from'] == 1, 'Wrong "from" field')
+        self.failUnless(search_info['total'] == 15486, 'Wrong total field')
+    
+    def test_extract_result(self):
+        result = self.ys._extract_result(self.results[0])
+        self.failUnless(result.title.startswith('the_gdf : '))
+        self.failUnless(result.url == ('http://groups.yahoo.com/group/the_gdf'
+                                       '/message/21494?l=1'))
+        self.failUnless(result.desc.startswith('Re: <b>Some query'))
+
+class TestGoogleJSNSearch(unittest.TestCase):
+     
+    def setUp(self):
+        self.gjs = GoogleJSONSearch('"query text"')
+        fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
+            'fixtures/search/googleSearch.json')))
+        self.fixture = open(fixture_path)
+        self.page = simplejson.load(self.fixture)
+        self.results = self.gjs._extract_raw_results_list(self.page)
+        
+    def tearDown(self):
+        self.fixture.close() 
+    
+    def test_extract_info(self):
+        search_info = self.gjs._extract_info(self.page)
+        self.failUnless(search_info['to'] == 8, 'Wrong "to" field')
+        self.failUnless(search_info['from'] == 1, 'Wrong "from" field')
+        self.failUnless(search_info['total'] == 30, 'Wrong total field')
+    
+    def test_extract_result(self):
+        result = self.gjs._extract_result(self.results[0])
+        self.failUnless(result.title == ('Charlie Rose - A discussion about '
+                                         'George W. Bush&#39;s DWI'))
+        self.failUnless(result.url == 
+                        'http://www.charlierose.com/view/content/3432')
+        self.failUnless(result.desc.startswith('Then, Dionne and'))
+    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

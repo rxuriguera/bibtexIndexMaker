@@ -16,37 +16,32 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-import unittest #@UnresolvedImport
 
+import unittest #@UnresolvedImport
+from os.path import normpath, join, dirname
+from datetime import datetime
+
+from bibim.main.entry import IndexMaker
 from bibim.references import Reference
 
-class TestReference(unittest.TestCase):
+class TestIndexMaker(unittest.TestCase):
+
 
     def setUp(self):
-        self.ref = Reference()
+        self.bim = IndexMaker()
+        self.file = normpath(join(dirname(__file__), ('../../../../tests/'
+                                     'articles/010.pdf')))
+        self.path = normpath('/home/rxuriguera/Escriptori/lattice')
 
     def tearDown(self):
         pass
 
-    def test_set_and_get_field(self):
-        self.ref.set_field('random_field', 'random_value')
-        self.failUnless(self.ref.get_field('random_field').value == 'random_value')
+    def test_index_maker(self):
+        start = datetime.now() 
+        ref = self.bim.make_index(self.file)
+        now = datetime.now() 
+        print 'Temps: ', now - start
 
-    def test_get_fields(self):
-        self.ref.set_field('rf01', 'rv01')
-        self.ref.set_field('rf02', 'rv02')
-        self.ref.set_field('rf03', 'rv04')
-        self.failUnless(len(self.ref.get_fields()) == 3)
-        self.failUnless(self.ref.get_fields() == ['rf01', 'rf02', 'rf03'])
-
-    def test_set_field_to_none(self):
-        self.ref.set_field('some_field', None)
-        field = self.ref.get_field('some_field')
-        self.failUnless(field.valid == False)
-        
-    def test_set_and_get_entry(self):
-        self.ref.set_entry('This is an entry')
-        self.failUnless(self.ref.get_entry() == 'This is an entry')
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

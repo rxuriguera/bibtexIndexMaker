@@ -9,7 +9,7 @@ setup(name='bibim',
       license='GPL',
       packages = find_packages('src',exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
       package_dir = {'':'src'},
-      install_requires=['setuptools'],
+      install_requires=['setuptools','simplejson','sqlalchemy'],
       entry_points="""
       # -*- Entry points: -*-
       """,

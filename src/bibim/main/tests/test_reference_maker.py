@@ -16,18 +16,27 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-class Format(object):
+
+import unittest #@UnresolvedImport
+from os.path import normpath, join, dirname
+
+from bibim.main.refmaker import ReferenceMaker
+from bibim.util.helpers import ReferenceFormat
+
+class TestReferenceMaker(unittest.TestCase):
+
+    def setUp(self):
+        self.rm = ReferenceMaker()
+        self.file = normpath(join(dirname(__file__), ('../../../../tests/'
+                                     'fixtures/extraction/article.pdf')))
+        
+    def tearDown(self):
+        pass
     
-    def get_format(self, path):
-        format = None
-        elements = path.split('.')
-        if elements:
-            format = elements[-1]
-        return format
+    def test_make_reference(self):
+        references = self.rm.make_reference(self.file, ReferenceFormat.BIBTEX)
 
-class FileFormat(Format):
-    TXT = 'txt'
-    PDF = 'pdf'
 
-class ReferenceFormat(Format):
-    BIBTEX = 'bibtex'
+if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testName']
+    unittest.main()

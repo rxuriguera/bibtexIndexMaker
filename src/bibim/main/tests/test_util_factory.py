@@ -16,18 +16,24 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-class Format(object):
-    
-    def get_format(self, path):
-        format = None
-        elements = path.split('.')
-        if elements:
-            format = elements[-1]
-        return format
+import unittest #@UnresolvedImport
 
-class FileFormat(Format):
-    TXT = 'txt'
-    PDF = 'pdf'
+from bibim.main.factory import UtilFactory, UtilCreationError
+from bibim.util import FileFormat
 
-class ReferenceFormat(Format):
-    BIBTEX = 'bibtex'
+class TestUtilFactory(unittest.TestCase):
+
+    def setUp(self):
+        self.uf = UtilFactory()
+
+    def tearDown(self):
+        pass
+
+    def test_create_extractor(self):
+        extractor = self.uf.create_extractor(FileFormat.PDF, FileFormat.TXT)
+        self.assertRaises(UtilCreationError,
+            self.uf.create_extractor, FileFormat.TXT, FileFormat.PDF)
+
+if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testName']
+    unittest.main()

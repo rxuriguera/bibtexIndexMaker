@@ -46,7 +46,7 @@ class Extractor(object):
         Checks file existence and normalizes its path.
         """
         if not path.isfile(input_file):
-            raise IOError
+            raise IOError('%s does not exist or is not a file.' % input_file)
         return path.normpath(input_file)
         
     def extract(self, input_file):
@@ -112,7 +112,8 @@ class PDFTextExtractor(TextExtractor):
     def _extract_metadata(self, parser, document):
         # Title
         title = parser.find('title')
-        document.set_metadata_field('Title', title.find(text=True))
+        if title:
+            document.set_metadata_field('Title', title.find(text=True))
         # Rest of metadata
         metas = parser.findAll('meta')
         for meta in metas:
