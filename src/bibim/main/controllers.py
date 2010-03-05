@@ -26,17 +26,24 @@ from bibim.util import (Browser,
                         BrowserError,
                         BeautifulSoup)
 from bibim.rce import ExtractionError
-from bibim.ir import Searcher
+from bibim.ir.search import (Searcher,
+                             SearchError)
 from bibim.ie import (ReferenceWrapper,
                       TitleFieldWrapper,
                       AuthorFieldWrapper)
 from bibim.references import Reference
 from bibim.references.format import ReferenceFormatter
 from bibim.main.factory import UtilCreationError                  
+
+MIN_WORDS = 6
+MAX_WORDS = 10               
                    
-                              
+SKIP_QUERIES = 3 # Skip queries that are the title of the article                              
 MAX_QUERIES = 5
 
+TOO_MANY_RESULTS = 25
+
+ENGINE = Searcher.GOOGLE
 
 class Controller(object):
     def __init__(self, factory):
@@ -70,24 +77,30 @@ class RCEController(Controller):
         Extracts query strings from a text and returns a list containing them.
         The list's size is MAX_QUERIES at most.
         """
-        pattern = re.compile("([\w()?!]+[ ]+){6,10}")
+        pattern = re.compile("([\w()?!]+[ ]+){%d,%d}" % (MIN_WORDS, MAX_WORDS))
         strings = []
         matches = re.finditer(pattern, text)
-        for i in range(MAX_QUERIES):
+        for i in range(MAX_QUERIES + SKIP_QUERIES):
             try:
                 match = matches.next()
                 strings.append('"%s"' % match.group().strip())
             except StopIteration:
                 break
-        return strings
+        return strings[SKIP_QUERIES:]
     
     
 class IRController(Controller):
+    # Forbidden pages are webs that appear on the results, but are of no
+    # interest for our application.
+    forbidden_pages = ['http://academic.research.microsoft.com']
+    
     def get_top_results(self, query_strings, engine=Searcher.SCHOLAR):
         """
         Returns a list of search results.
         """
         results = []
+        
+        engine = ENGINE
         # Get a searcher
         try:
             searcher = self.util_factory.create_searcher(engine)
@@ -98,10 +111,18 @@ class IRController(Controller):
         # Search the query strings       
         for query in query_strings:
             searcher.set_query(query)
-            results = searcher.get_results()
+            try:
+                results = searcher.get_results()
+            except SearchError, e:
+                log.error(e.error)
+                break
+        
+            if searcher.num_results >= TOO_MANY_RESULTS:
+                continue
+            
             if results:
                 break
-        return self._sort_results(results)
+        return (self._sort_results(results), query)
     
     def _sort_results(self, results):
         """
@@ -119,6 +140,8 @@ class IRController(Controller):
         for result in results:
             if result.base_url in available_wrappers:
                 has_wrapper.append(result)
+            elif result.base_url in self.forbidden_pages:
+                continue
             else:
                 doesnt_have_wrapper.append(result)
         has_wrapper.extend(doesnt_have_wrapper)
@@ -139,12 +162,15 @@ class IEController(Controller):
         and its proceedings)
         """
         page = None
+        references = []
         for result in top_results:
             try:
                 page = self.brower.get_page(result.url)
             except BrowserError as e:
                 log.error('Error retrieving page %s: %s' % (result.url,
-                                                            e.args))
+                                                            e.error))
+                continue
+            
             page = BeautifulSoup(page)
             
             references = self._use_reference_wrappers(result.base_url, page)
@@ -157,7 +183,8 @@ class IEController(Controller):
         for reference in references:
             self._format_reference(reference)
         
-        return references
+        # Return the extracted reference and the result that has been used
+        return (references, result)
         
     def _use_reference_wrappers(self, source, page):
         """
@@ -199,12 +226,13 @@ class IEController(Controller):
         """
         # Try to extract info
         title = TitleFieldWrapper().extract_info(source, page)
-        author = AuthorFieldWrapper().extract_info(source, page)
+        #author = AuthorFieldWrapper().extract_info(source, page)
         # TODO: add more field wrappers
         
-        fields = {'title':title,
-                  'author':author}
-
+        #fields = {'title':title,
+        #          'author':author}
+        fields = {'title':title}
+                  
         reference = Reference(fields=fields) 
         return [reference] if reference.has_non_empty_fields() else []
 
