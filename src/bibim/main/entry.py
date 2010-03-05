@@ -22,67 +22,56 @@ Entry points to the application
 
 import Queue #@UnresolvedImport
 
+from bibim import log
 from bibim.main.files import FileManager
-from bibim.main.threads import ThreadRunner
-
-'''                        
-pdf_extractor = PDFTextExtractor()
-ref_wrapper = ReferenceWrapper()
-pattern = re.compile("([\w]+[ .,;:()?!]){8,10}")
-
-# Extract text
-print 'RCE' 
-self.file_content = pdf_extractor.extract(file).content
-
-# Get Query String
-search_string = re.search(pattern, self.file_content)
-search_string = '"' + search_string.group().strip() + '"'
-print 'Search string %s' % search_string
-
-# Search
-print 'IR'
-searcher = ScholarSearch(search_string)
-results = searcher.get_results()
-results = [result for result in results if not result.url.endswith('.pdf')]
-if not results:
-    return
-
-# Get page
-print 'Get page'
-browser = Browser()
-page = browser.get_page(results[0].url)
-page = BeautifulSoup(page)
-
-# Extract reference
-print 'IE'
-id = 'http://' + results[0].url.split('/')[2]
-raw_ref = ref_wrapper.extract_info(id, page)
-
-# Parse reference
-ref = Reference()
-ref.set_entry(raw_ref)
-ref.set_format(ReferenceFormat.BIBTEX)
-parser = BibtexParser()
-parsed = parser.parse_entry(raw_ref)
-
-# Validation
-print 'Validate'
-title = parsed.get('title')
-valid = re.search(title, self.file_content)
-Qout.put(ref)        
-'''
+from bibim.main.threads import ThreadRunner, ReferenceMakerThread
 
 class IndexMaker(object):
     def __init__(self):
-        
         self._in_queue = Queue.Queue(0)
         self._out_queue = Queue.Queue(0)
     
     def make_index(self, path, source_format='pdf', target_format='bibtex'):
-        files = FileManager().get_files_list(path)
+        log.debug("Start making index")
+        files = FileManager().get_files_list(path)        
         for file in files:
             self._in_queue.put(file)
         
-        thread_runner = ThreadRunner(self._in_queue, self._out_queue)
+        thread_runner = ThreadRunner(ReferenceMakerThread,
+                                     self._in_queue, self._out_queue)
         thread_runner.run()
+        
+        num_refs = 0
+        content_extract = 0
+        found_resutls = 0
+        valid = 0
+        invalid = 0
+        while not self._out_queue.empty():
+            entry = self._out_queue.get()
+            print "File: %s" % entry.file
+            if entry.used_query:
+                print "Query: %s" % entry.used_query
+                content_extract += 1
+            if entry.used_result:
+                print "Result: %s" % entry.used_result.url
+                found_resutls += 1
+            for ref in entry.entries:
+                num_refs += 1
+                print "Ref: \n%s" % ref.get_entry()
+                if ref.is_valid():
+                    print 'Valid'
+                    valid += 1
+                else:
+                    print 'Not Valid'
+                    invalid += 1 
+            print "\n\n\n"
+        
+        
+        print 'Total files: %d' % len(files)
+        print 'Could extract content: %d' % content_extract
+        print 'Could find results: %d' % found_resutls
+        print 'Total references: %d' % num_refs
+        print 'Total valid references: %d' % valid
+        print 'Total invalid references: %d' % invalid    
+        
         
