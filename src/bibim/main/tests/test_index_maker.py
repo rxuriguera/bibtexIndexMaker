@@ -30,7 +30,8 @@ class TestIndexMaker(unittest.TestCase):
     def setUp(self):
         self.bim = IndexMaker()
         self.file = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/test.pdf')))
+                                     'articles/010.pdf')))
+        self.path = normpath('/home/rxuriguera/Escriptori/lattice')
 
     def tearDown(self):
         pass
@@ -39,10 +40,6 @@ class TestIndexMaker(unittest.TestCase):
         start = datetime.now() 
         ref = self.bim.make_index(self.file)
         now = datetime.now() 
-        if ref:
-            print ref.entry
-        else:
-            print 'Ref not found'
         print 'Temps: ', now - start
 
 
