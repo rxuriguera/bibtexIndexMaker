@@ -41,6 +41,8 @@ class IndexMaker(object):
                                      self._in_queue, self._out_queue)
         thread_runner.run()
         
+        # TODO: Add results to database
+        # TODO: Remove printing from this class
         num_refs = 0
         content_extract = 0
         found_resutls = 0
