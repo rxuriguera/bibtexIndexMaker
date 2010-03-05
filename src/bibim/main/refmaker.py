@@ -21,6 +21,19 @@ from bibim.main.factory import UtilFactory
 from bibim.main.controllers import (RCEController,
                                     IRController,
                                     IEController)
+from bibim.main.validation import ReferenceValidator
+
+class ReferenceMakerDTO(object):
+    def __init__(self, file='', target_format='',
+                 query_strings=[], top_results=[], entries=[]):
+        self.file = file
+        self.target_format = target_format
+        self.query_strings = query_strings
+        self.top_results = top_results
+        self.entries = entries
+        self.used_query = ''
+        self.used_result = None
+        
 
 class ReferenceMaker(object):
     def __init__(self):
@@ -32,24 +45,29 @@ class ReferenceMaker(object):
         strings, retrieve results from a search engine, and extract the
         reference.
         """
-        entries = []
+        dto = ReferenceMakerDTO(file, target_format)
         
         rce = RCEController(self.factory)
         content = rce.extract_content(file, FileFormat.TXT)
         if not content:
-            return entries
+            return dto
         
-        query_strings = rce.get_query_strings(content)
-        if not query_strings:
-            return entries
+        dto.query_strings = rce.get_query_strings(content)
+        if not dto.query_strings:
+            return dto
         
         ir = IRController(self.factory)
-        top_results = ir.get_top_results(query_strings)
-        if not top_results:
-            return entries
+        dto.top_results, dto.used_query = ir.get_top_results(dto.query_strings)
+        if not dto.top_results:
+            return dto
         
         ie = IEController(self.factory, target_format)
-        entries = ie.extract_reference(top_results)
-        return entries
+        dto.entries, dto.used_result = ie.extract_reference(dto.top_results)
+        
+        validator = ReferenceValidator(['title'])
+        for entry in dto.entries:
+            validator.validate_reference(entry, content)
+            
+        return dto
         
         
