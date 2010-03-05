@@ -4,12 +4,12 @@
 # 
 # Code is licensed under MIT license.
 
-
 import random #@UnresolvedImport
 import socket #@UnresolvedImport
 import urllib #@UnresolvedImport
 import urllib2 #@UnresolvedImport
 import httplib #@UnresolvedImport
+import cookielib #@UnresolvedImport
 
 BROWSERS = (
     # Top most popular browsers in my access.log on 2009.02.12
@@ -17,6 +17,7 @@ BROWSERS = (
     #  awk -F\" '{B[$6]++} END { for (b in B) { print B[b] ": " b } }' |
     #  sort -rn |
     #  head -20
+    'Mozilla/5.0 (X11; U; Linux i686; ca; rv:1.9.0.17) Gecko/2010010604 Ubuntu/9.04 (jaunty) Firefox/3.0.17',
     'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6',
     'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6',
     'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6 (.NET CLR 3.5.30729)',
@@ -33,14 +34,14 @@ BROWSERS = (
     'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
 )
 
-TIMEOUT = 5  # socket timeout
+TIMEOUT = 15  # socket timeout
 
 
 class BrowserError(Exception):
-    def __init__(self, url, error):
+    def __init__(self, url, error, page=''):
         self.url = url
         self.error = error
-
+        self.page = page
 
 class PoolHTTPConnection(httplib.HTTPConnection):
     def connect(self):
@@ -75,21 +76,37 @@ class PoolHTTPHandler(urllib2.HTTPHandler):
 class Browser(object):
     def __init__(self, user_agent=BROWSERS[0], debug=False, use_pool=False):
         self.headers = {
-            'User-Agent': user_agent,
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'en-us,en;q=0.5'
+            'Accept-Language': 'en-us,en;q=0.5',
+            'Cache-Control': 'max-age=0'
         }
+        self.set_random_user_agent()
         self.debug = debug
+        self.cookies = cookielib.LWPCookieJar()
+
+    def get_cookies(self):
+        return self.__cookies
+    
+    def set_cookies(self, value):
+        self.__cookies = value
+        
+    cookies = property(get_cookies, set_cookies)
 
     def get_page(self, url, data=None):
-        handlers = [PoolHTTPHandler, urllib2.HTTPCookieProcessor]
+        # If needed, the browser can be set to use a proxy
+        # proxy_support = urllib2.ProxyHandler({})
+        # and add proxy_support to 'handlers'
+        handlers = [PoolHTTPHandler, urllib2.HTTPCookieProcessor(self.cookies)]
         opener = urllib2.build_opener(*handlers)
+        urllib2.install_opener(opener)
         if data: data = urllib.urlencode(data)
         request = urllib2.Request(url, data, self.headers)
         try:
             response = opener.open(request)
             return response.read()
-        except (urllib2.HTTPError, urllib2.URLError), e:
+        except urllib2.HTTPError, e:
+            raise BrowserError(url, str(e), e.read())
+        except urllib2.URLError, e:
             raise BrowserError(url, str(e))
         except (socket.error, socket.sslerror), msg:
             raise BrowserError(url, msg)
