@@ -24,7 +24,7 @@ class FileManager(object):
         self.check_path(path)
         files = []
         if os.path.isfile(path):
-            files.append(path)
+            files.append(unicode(path))
         elif os.path.isdir(path):
             if ext:
                 files.extend(self.dir_entries(path, ext))
@@ -53,6 +53,7 @@ class FileManager(object):
         fileList = []
         for file in os.listdir(dir):
             dirfile = os.path.join(dir, file)
+            dirfile = unicode(dirfile)
             if os.path.isfile(dirfile):
                 if not args:
                     fileList.append(dirfile)

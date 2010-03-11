@@ -29,9 +29,9 @@ def split_name(name):
     Returns a dictionary with three values: first_name, last_name and
     middle_name.
     """
-    name_representation = {'first_name' : '',
-                           'middle_name' : '',
-                           'last_name' : '' }
+    name_representation = {'first_name' : u'',
+                           'middle_name' : u'',
+                           'last_name' : u'' }
     
     comma_split = name.split(',', 2)
     if len(comma_split) == 1: 

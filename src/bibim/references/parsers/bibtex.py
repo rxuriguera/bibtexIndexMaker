@@ -184,8 +184,8 @@ class BibtexParser(BibliographyParser):
         try:
             type, id = tokens[0].strip(' @,').split('{')
             type = type.lower()
-            result['reference_type'] = type
-            result['reference_id'] = id
+            result['reference_type'] = unicode(type)
+            result['reference_id'] = unicode(id)
         except (ValueError, IndexError):
             raise EntryParseError() 
     
@@ -277,7 +277,7 @@ class BibtexParser(BibliographyParser):
         return value
 
     def _clean_line(self, value):
-        return self._clean(value.rstrip(' ,'))
+        return unicode(self._clean(value.rstrip(' ,')))
 
     def _group(self, p, n):
         """ Group a sequence p into a list of n tuples."""
