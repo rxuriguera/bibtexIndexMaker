@@ -60,9 +60,11 @@ class ReferenceMaker(object):
         dto.top_results, dto.used_query = ir.get_top_results(dto.query_strings)
         if not dto.top_results:
             return dto
+        dto.query_strings.remove(dto.used_query)
         
         ie = IEController(self.factory, target_format)
         dto.entries, dto.used_result = ie.extract_reference(dto.top_results)
+        dto.top_results.remove(dto.used_result)
         
         validator = ReferenceValidator(['title'])
         for entry in dto.entries:
