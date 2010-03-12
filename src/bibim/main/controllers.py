@@ -25,6 +25,7 @@ from bibim.util.helpers import (FileFormat,
 from bibim.util import (Browser,
                         BrowserError,
                         BeautifulSoup)
+from bibim.util.config import BibimConfig
 from bibim.rce import ExtractionError
 from bibim.ir.search import (Searcher,
                              SearchError)
@@ -35,15 +36,15 @@ from bibim.references import Reference
 from bibim.references.format import ReferenceFormatter
 from bibim.main.factory import UtilCreationError                  
 
-MIN_WORDS = 6
-MAX_WORDS = 10               
-                   
-SKIP_QUERIES = 3 # Skip queries that are the title of the article                              
-MAX_QUERIES = 5
 
-TOO_MANY_RESULTS = 25
-
-ENGINE = Searcher.GOOGLE
+# Retrieve constants' value from the configuration file
+configuration = BibimConfig()
+MIN_WORDS = configuration.search_properties['min_query_length']         
+MAX_WORDS = configuration.search_properties['max_query_length']           
+SKIP_QUERIES = configuration.search_properties['queries_to_skip']                          
+MAX_QUERIES = configuration.search_properties['max_queries_to_try']
+TOO_MANY_RESULTS = configuration.search_properties['too_many_results']
+ENGINE = configuration.search_engine
 
 class Controller(object):
     def __init__(self, factory):
@@ -94,13 +95,12 @@ class IRController(Controller):
     # interest for our application.
     forbidden_pages = ['http://academic.research.microsoft.com']
     
-    def get_top_results(self, query_strings, engine=Searcher.SCHOLAR):
+    def get_top_results(self, query_strings, engine=ENGINE):
         """
         Returns a list of search results.
         """
         results = []
         
-        engine = ENGINE
         # Get a searcher
         try:
             searcher = self.util_factory.create_searcher(engine)
