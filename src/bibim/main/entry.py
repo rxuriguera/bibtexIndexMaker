@@ -25,6 +25,7 @@ import Queue #@UnresolvedImport
 from bibim import log
 from bibim.main.files import FileManager
 from bibim.main.threads import ThreadRunner, ReferenceMakerThread
+from bibim.main.persistence import Persistor
 
 class IndexMaker(object):
     def __init__(self):
@@ -50,6 +51,14 @@ class IndexMaker(object):
         invalid = 0
         while not self._out_queue.empty():
             entry = self._out_queue.get()
+            
+            try:
+                persistor = Persistor()
+                persistor.persist_dto(entry)
+                persistor.commit()
+            except Exception, e:
+                log.error('Exception while storing to db.')
+                
             print "File: %s" % entry.file
             if entry.used_query:
                 print "Query: %s" % entry.used_query
