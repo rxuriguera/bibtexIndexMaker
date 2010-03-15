@@ -88,9 +88,25 @@ La resta de paràmetres per fer la cerca s'ha deixat fixa: \texttt{max\_queries\_
 \\
 El temps d'execució mig per processar aquests 47 fitxers és d'uns 40 segons.
 
+\paragraph{}
+Un inconvenient d'utilitzar altres motors de cerca enlloc d'\textit{Scholar} són:
+
+\begin{itemize}
+    \item{}
+    No hi han indexades les pàgines d'SpringerLink.
+    \item{}
+    En alguns casos (e.g. Bing), els resultats de portal.acm sobre els autors tenen prioritat per sobre le pàgines de le referències. (Moltes vegades només surt la de l'autor)
+\end{itemize}
 
 \subsection{Es poden millorar aquests resultats?}
-Sí i no. Dels 42 fitxers pels quals es pot extreure el contingut del PDF, n'hi ha 3 pels quals el contingut s'extreu, però no té sentit. Per exemple, tenim les següents consultes:
+Sí. Els principals problemes:
+\begin{itemize}
+\item{Extracció de text del PDF:} Es pot provar d'utilitzar el nom del fitxer o bé les metadades per fer la cerca.
+\item{No es troben resultats a Internet:} La solució de reduir la mida de les consultes ja queda contemplada amb els límits inferior i superior de paraules de la consulta. Es pot mirar de tornar a provar totes les \textit{queries} a altres cercadors.
+\item{Extraccció de la informació:} només cal afegir més \textit{wrappers} i ordenar millor els resultats.
+\end{itemize}
+
+Un altre problema que s'ha presentat és que dels 42 fitxers dels que es pot extreure el contingut del PDF, n'hi ha 3 pels quals el contingut s'extreu, però no té sentit. Per exemple, tenim les següents consultes:
 \begin{center}
 \begin{lstlisting}
 Query: "rgbGphihgfBc q ed H a CFQ SV S P 6 H C8"
@@ -99,24 +115,15 @@ Query: "h c P u X hT Qy hT XH h H"
 \end{lstlisting}
 \end{center}
 Caldrà comptar amb una reducció del percentatge d'extraccions deguda a aquest fenòmen.
-
-\paragraph{}
+\\
+\\
 El factor més influent per comparar els resultats dels diferents cercadors és el número de fitxers pels quals s'han obtingut resultats. El número de referències (vàlides i no vàlides) també és important, però depèn molt dels \textit{wrappers} dels que es disposa.
 
-Característiques de Bing:
-\begin{itemize}
-    \item{}
-    Consultes il·limitades i els termes i condicions permeten reordenar els resultats. 
-    \item{}
-    Els resultats s'obtenen en XML (tot i que això només importa a l'hora d'implementar el \textit{searcher})
-    \item{}
-    Pels resultats de portal.acm dóna prioritat a la pàgina de l'autor per sobre la pàgina de la referència. (Moltes vegades només surt la de l'autor)
-    \item{}
-    No hi ha els resultats d'SpringerLink.
-    
-\end{itemize}
 
-Microsoft Academic Search 
+
+
+\subsection{BlackList}
+Algunes pàgines com ara Microsoft Academic Search no arriben a oferir la informació obligatòria per construir la referència BibTeX. En aquests casos, es pot afegir l'adreça arrel de la pàgina al fitxer de configuració per tal que s'ometin.
 
 \section{Base de Dades}
 Finalment s'utilitza SQLite amb SQLAlchemy, un toolkit SQL i ORM per a Python que ofereix un nivell més d'abstracció per poder treballar amb bases de dades diferents sense haver de canviar el codi.
@@ -127,6 +134,28 @@ El mòdul corresponent a la base de dades necessita una mica de refactoring.
 \section{Bloqueig ACM}
 Moltes consultes provoquen que portal.acm bloqui la ip i retorni l'error 403 (Forbidden). 
 
+
+\section{Wrapper induction}
+Després de llegir uns quants articles sembla que extreure informació estructurada no hauria de ser molt complicat.
+\\
+\\
+
+
+Tenir com a mínim dos exemples de la pàgina etiquetats. Per nosaltres, les etiquetes seran aquells trossos d'informació que ens interessa extreure. Utilitzarem un dels exemples per generar el wrapper i en comprovarem la correctesa amb la resta. Tindrem en compte:
+\begin{itemize}
+\item{Posició relativa dins del document:}\\
+Calcularem la posició \textit{bottom-up}, des de les fulles i fins on sigui necessari. Si no necessitem arribar a l'arrel per identificar l'element, no ho farem.
+\\
+\\
+Haurem de tenir en compte, també, l'ordre de l'element respecte els seus \textit{germans}.
+\\
+\\
+Utilitzarem tant etiquetes com atributs. Els principals atributs que mirarem seran \texttt{id} i \texttt{class} ja que no variaran entre document i document del mateix lloc web i són molt comuns ja que avui en dia gairebé tots els llocs web utilitzen CSS.
+\item{Posició relativa dins de l'element:}\\
+De la mateixa manera que WHISK (Stephen Soderland 1999), si el contingut de l'element no només conté la peça d'informació que estem buscant, l'haurem d'extreure utilitzant expresssions regulars.\\
+Podem crear aquestes expressions regulars mirant la resta de contingut de l'etiqueta. Es pot comparar amb la resta d'exemples disponibles per decidir quina és la informació rellevant.
+
+\end{itemize}
 
 \section{Informe del projecte}
 \textit{No més tard de tres mesos (dos mesos) abans de la defensa del projecte, l'estudiant ha de presentar un informe del projecte als membres del tribunal, tal i com s'especifica a la normativa. Aquest informe ha de portar el vist-i-plau del director/ponent i és molt convenient que l'estudiant el presenti personalment i en mà als membres del tribunal.}
