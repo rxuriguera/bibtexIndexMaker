@@ -25,7 +25,7 @@ from bibim.util.helpers import (FileFormat,
 from bibim.util import (Browser,
                         BrowserError,
                         BeautifulSoup)
-from bibim.util.config import BibimConfig
+from bibim.util.config import configuration
 from bibim.rce import ExtractionError
 from bibim.ir.search import (Searcher,
                              SearchError)
@@ -38,7 +38,6 @@ from bibim.main.factory import UtilCreationError
 
 
 # Retrieve constants' value from the configuration file
-configuration = BibimConfig()
 MIN_WORDS = configuration.search_properties['min_query_length']         
 MAX_WORDS = configuration.search_properties['max_query_length']           
 SKIP_QUERIES = configuration.search_properties['queries_to_skip']                          
@@ -91,9 +90,6 @@ class RCEController(Controller):
     
     
 class IRController(Controller):
-    # Forbidden pages are webs that appear on the results, but are of no
-    # interest for our application.
-    forbidden_pages = ['http://academic.research.microsoft.com']
     
     def get_top_results(self, query_strings, engine=ENGINE):
         """
@@ -140,7 +136,7 @@ class IRController(Controller):
         for result in results:
             if result.base_url in available_wrappers:
                 has_wrapper.append(result)
-            elif result.base_url in self.forbidden_pages:
+            elif result.base_url in configuration.black_list:
                 continue
             else:
                 doesnt_have_wrapper.append(result)

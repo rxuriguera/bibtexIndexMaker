@@ -18,25 +18,29 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.util.config import BibimConfig
+from bibim.util.config import configuration
 
 class TestBibimConfig(unittest.TestCase):
 
     def setUp(self):
-        self.config = BibimConfig()
-
+        pass
+    
     def tearDown(self):
         pass
 
     def test_get_database(self):
-        self.failUnless(self.config.database == 'sqlite:///bibim.db')
+        self.failUnless(configuration.database == 'sqlite:///bibim.db')
 
-    def test_searcher(self):
-        self.failUnless(self.config.search_engine >= 0)
+    def test_search_engine(self):
+        self.failUnless(configuration.search_engine >= 0)
 
-    def test_get_search_properties(self):
-        properties = self.config._get_search_properties()
+    def test_search_properties(self):
+        properties = configuration._get_search_properties()
         self.failUnless(properties['min_query_length'] == 6)
+
+    def test_black_list(self):
+        black_list = configuration.black_list
+        pass
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

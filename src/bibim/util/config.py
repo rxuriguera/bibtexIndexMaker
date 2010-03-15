@@ -99,7 +99,7 @@ class BibimConfig(object):
         self._set_simple_field('database', 'uri', value)
     
     def _get_search_engine(self):
-        return int(self._get_simple_field('search', 'engine', 1))
+        return int(self._get_simple_field('search', 'engine', 0))
     
     def _get_search_properties(self):
         properties = {}
@@ -115,7 +115,19 @@ class BibimConfig(object):
             int(self._get_simple_field('search', 'too_many_results', 25)))
         return properties
     
+    def _get_black_list(self):
+        black_list = self._get_multiline_value('search', 'black_list')
+        # Remove any args
+        return [tuple[0] for tuple in black_list]
+        
+    
     database = property(_get_database, _set_database)
     search_engine = property(_get_search_engine)
     search_properties = property(_get_search_properties)
+    black_list = property(_get_black_list)
+
+
+# The rest of modules will export the configuration object. This way, we'll
+# only have one instance of BibimConfig.
+configuration = BibimConfig()
         
