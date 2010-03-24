@@ -1,0 +1,60 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url} 
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\title{BibTeX Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{02-03-2010}
+
+\setlength{\parindent}{0in}
+
+\begin{document}
+\maketitle
+
+\section{SpringerLink}
+Google facilita l'enllaç al PDF d'SpringerLink, no a la pàgina amb la referència. Si s'intenta accedir-hi des del navegador, se'ns redirecciona directament a la pàgina correcta, però si volem obtenir el contingut amb el nostre \texttt{Browser} de Python, hi ha dues redireccions que ens acaben portant a la pàgina principal. Per exemple:
+\begin{itemize}
+\item{}
+Amb l'enllaç: \url{http://www.springerlink.com/index/CGBHLDY69PVGWL6D.pdf}, obtenim un \texttt{302 Found} que ens porta a \url{http://www.springerlink.com/link.asp?id=cgbhldy69pvgwl6d}.
+\item{}
+Seguint aquesta adreça, obtenim un altre \texttt{302 Found} que ens porta a \url{http://www.springerlink.com/default.mpx}. 
+\end{itemize}
+Això és degut a que les cookies no estan habilitadies i no es pot emmagatzemar l'identificador de la sessió ASP d'SpringerLink.
+\\
+\\
+La solució ha estat afegir un \textit{handler} per a poder utilitzar cookies: \texttt{handlers = [PoolHTTPHandler, urllib2.HTTPCookieProcessor]}
+
+
+\section{Bloqueig de Google}
+Si s'executen moltes (en realitat, no moltes) consultes a la vegada Google passa a bloquejar el servei i tarda unes hores a desbloquejar-se. 
+
+Possibles solucions:
+\begin{itemize}
+    \item{}
+    Utilitzar Tor o similar per anonimitzar el tràfic. La velocitat de transferència és molt menor a l'habitual. Hi ha timeouts.
+    \item{}
+    Fer que l'usuari vagi introduint \textit{captchas} de tant en tant. He estat treballant en un script per poder introduir a mà el captcha i desbloquejar-ho, però encara no funciona del tot.
+\end{itemize}
+
+\section{Versions del mateix article}
+M'he trobat amb articles com ara el que porta per títol \textit{Logical Implication and Causal Dependency} que al buscar-lo per Internet només hi ha una versió (se suposa que més nova) i que té un títol diferent. Es pot trobar a \url{http://www.springerlink.com/content/p0086762337rq30t/}.
+\\
+\\
+Un altre exemple: l'article amb nom \textit{Prince: An Algorith for...} es pot trobar a \url{http://www.springerlink.com/content/h8mja4yu8279mjq1/} amb el nom \textit{TEX: A New Informative Generic Base of Association Rules}.
+Què cal fer en aquests casos? Com ho podem detectar?
+
+
+\end{document}
+
+

@@ -18,12 +18,12 @@ class TestReferenceWrappers(TestWrapper):
         pass
 
     def test_invalid_source(self):
-        self.failUnless(not self.rw.extract_info('some_source', None))
+        self.failUnless(not self.rw.extract_info('some_source', None)[0])
 
     def test_portal_acm_wrapper(self):
         reference = self.rw.extract_info(self.acm[0], self.acm[1])
-        self.failUnless(reference.startswith('@article{1316105,'))
-        self.failUnless(reference.endswith('}'))
+        self.failUnless(reference[0].startswith('@article{1316105,'))
+        self.failUnless(reference[0].endswith('}'))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

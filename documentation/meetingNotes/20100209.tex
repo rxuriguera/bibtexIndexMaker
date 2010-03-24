@@ -1,0 +1,63 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url} 
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\title{BibTeX Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{09-02-2010}
+
+\setlength{\parindent}{0in}
+
+\begin{document}
+\maketitle
+
+\section{Lligadures}
+En alguns casos, l'eina \texttt{pdftotext} té problemes per reconéixer alguns caràcters com ara les lligadures: \textit{fi}, \textit{ffi}, etc. Pel que he vist, aquests caràcters es substitueixen per dues cometes ".
+Solució: podem fer la cerca a l'Scholar amb una expressió regular del tipus: \texttt{r = re.search('([\textbackslash w]+ )\{6,8\}',str)}. On \texttt{\textbackslash w} equival a \texttt{[a-zA-Z0-9\_]}
+
+\section{Com trobar l'\textit{abstract}?}
+Si el paràgraf comença amb les paraules \textit{Abstract}, \textit{Summary}, \textit{In this paper}, etc. no hi ha cap problema. Però si no ho fa, és més complicat. 
+\\
+\\
+Podem dividir el text en paràgrafs, però reconéixer quin és el primer caràcter de text és més complicat. Per exemple, donada la primera pàgina d'un article, obtenim els quatre paràgrafs següents:
+\begin{itemize}
+\item{}
+\begin{quote}
+Neurocomputing 35 \(2000\) 3\}26
+\end{quote}
+\item{}
+\begin{quote}
+Class separability estimation and incremental learning using boundary methods
+Jose-Luis Sancho *, William E. Pierson , Batu Ulug , H AnmH bal R. Figueiras-Vidal , Stanley C. Ahalt 
+ATSC-DI, Escuela Politecnica Superior. Universidad Carlos III Leganes-Madrid, Spain \& \& Department of Electrical Engineering, The Ohio State University Columbus, OH 43210, USA Received 7 January 1999; revised 5 April 1999; accepted 10 April 2000
+\end{quote}
+\item{}
+\begin{quote}
+Abstract In this paper we discuss the use of boundary methods (BMs) for distribution analysis. We view these methods as tools which can be used to [...] estimation; Gradient algorithms; Sample selection strategies
+\end{quote}
+\item{}
+\begin{quote}
+* Corresponding author. Tel.: \#34 [...] 2 9 3 - 9
+\end{quote}
+\end{itemize}
+
+Provar utilitzant una expressió regular, si no s'obtenen bons resultats, fer PoS tagging de tots els paràgrafs del text i mirar la relacio $\frac{noms}{verbs}$ per saber quin és el primer paràgraf de text.
+
+\section{Extracció d'informació}
+Si podem extreure la referència bibtex sencera: Wrappers especials.\\
+Sinó: Wrappers per camp per tal de reaprofitar al màxim. 
+\\
+\\
+Si coneixem la pàgina, utilitzem els wrappers corresponents.\\
+Sinó, els provem tots per mirar d'obtenir tants camps com puguem.
+\end{document}
