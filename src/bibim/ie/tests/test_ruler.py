@@ -34,7 +34,7 @@ class TestHTMLRuler(unittest.TestCase):
         self.element02 = self.soup.find('td', {'class':'small-text'}).parent
         self.element03 = self.soup.find('col', {'width':'91%'})
         self.text01 = '2007'
-        self.text02 = '2668-2678'
+        self.text02 = '0925-2312'#'2668-2678'
         self.element_text = self.soup.find(True, text=re.compile(self.text01))
         
     def tearDown(self):
@@ -55,7 +55,7 @@ class TestHTMLRuler(unittest.TestCase):
     
     def test_get_sibling_number(self):
         number = self.ruler._get_sibling_number(self.element03)
-        self.failUnless(number == 3)
+        self.failUnless(number == 2)
         pass
 
     def test_get_element_path(self):
@@ -94,7 +94,12 @@ class TestHTMLRuler(unittest.TestCase):
         file_path = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/wrappers/' + file_name)))
         file = open(file_path)
-        soup = BeautifulSoup(file.read())
+        contents = file.read()
+        contents = contents.replace('\n', '')
+        contents = contents.replace('\r', '')
+        contents = contents.replace('\t', '')
+        soup = BeautifulSoup(contents)
+        #soup = BeautifulSoup(file.read())
         file.close()
         return soup
 

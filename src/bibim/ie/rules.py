@@ -164,7 +164,7 @@ class HTMLRuler(Ruler):
         pattern = 'some_initial_pattern'
         previous_pattern = 'some_other_pattern'
         matches = None
-        padding = 1
+        padding = 2 # Start at padding = 2 to avoid spaces
         while (pattern != previous_pattern) and (not matches):
             previous_pattern = pattern
             pattern = self._get_within_pattern_candidate(element_text,
