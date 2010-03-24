@@ -32,7 +32,7 @@ class HTMLRule(object):
     """
     Specifies how some information can be extracted from an HTML document.
     """
-    def __init__(self, element_path, within_pattern):
+    def __init__(self, element_path=[], within_pattern=''):
         self.element_path = element_path
         self.within_pattern = within_pattern
 
@@ -73,8 +73,7 @@ class HTMLRuler(Ruler):
         element = element_text.parent
 
         rule.element_path = self._get_element_path(document, element)
-        
-        
+        rule.within_pattern = self._get_within_pattern(element_text, info)
         
         return rule
     
@@ -131,7 +130,7 @@ class HTMLRuler(Ruler):
         path.reverse()
         return path
     
-    def _get_within_pattern(self, element_text, text, padding=1):
+    def _get_within_pattern_candidate(self, element_text, text, padding=1):
         """
         Finds a pattern that matches with the given text. It does not guarantee
         that a search will return the same text. Padding needs to be adjusted
@@ -158,5 +157,19 @@ class HTMLRuler(Ruler):
         # Compile pattern
         pattern = element_text[start_index:end_index]
         pattern = re.escape(pattern)
-        pattern = pattern.replace(text, '(.*)')
-        return re.compile(pattern)
+        pattern = pattern.replace(re.escape(text), '(.*)')
+        return pattern
+
+    def _get_within_pattern(self, element_text, text):
+        pattern = 'some_initial_pattern'
+        previous_pattern = 'some_other_pattern'
+        matches = None
+        padding = 1
+        while (pattern != previous_pattern) and (not matches):
+            previous_pattern = pattern
+            pattern = self._get_within_pattern_candidate(element_text,
+                                                         text, padding)
+            matches = re.search(pattern, element_text)
+        
+        return pattern
+        
