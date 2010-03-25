@@ -41,7 +41,7 @@
 \maketitle
 
 \section{Objectius del projecte}
-\textit{\BibTeX{} Bibliography Index Maker} és una eina d'ajuda a la creació d'índexs bibliogràfics pensada com un complement a aplicacions de maneig de referències ja existents com poden ser \textit{\href{http://jabref.sourceforge.net/}{JabRef}}\footnote{http://jabref.sourceforge.net/} o \textit{\href{http://www.mendeley.com/}{Mendeley}}\footnote{http://www.mendeley.com/}.
+\textit{\BibTeX{} Bibliography Index Maker} és una eina d'ajuda a la creació d'índexs bibliogràfics pensada com un complement a aplicacions de maneig de referències ja existents com poden ser \textit{\href{http://jabref.sourceforge.net/}{JabRef}}\footnote{\href{http://jabref.sourceforge.net/}{http://jabref.sourceforge.net}} o \textit{\href{http://www.mendeley.com/}{Mendeley}}\footnote{\href{http://www.mendeley.com/}{http://www.mendeley.com}}.
 
 \paragraph{}
 La principal funcionalitat consisteix en escanejar un directori que conté articles científics en PDF i generar un índex bibliogràfic en \BibTeX{} amb les referències d'aquests fitxers. Aquest índex es pot importar des de les aplicacions esmentades o bé pot ser referenciat directament des d'un nou document \TeX.
@@ -65,7 +65,7 @@ e e i a M. Hanzich2 , and P. Hern ndez2 1
 \end{center}
 
 \paragraph{}
-A més, els documents no acostumen a contenir certa informació necessària per poder crear la referència (e.g. pàgines, editor) i la seva estructura sol ser molt variada depenent de la revista en la qual s'ha publicat l'article. Aquestes dificultats ens han fet mirar d'abordar el problema d'alguna altra manera.
+A més, els documents no acostumen a contenir certa informació necessària per poder crear la referència (e.g. pàgines, editor) i la seva estructura sol ser molt variada depenent de la revista a la qual s'ha publicat l'article. Aquestes dificultats ens han fet mirar d'abordar el problema d'alguna altra manera.
 
 \paragraph{}
 La solució que hem trobat és fer ús de les biblioteques digitals disponibles a Internet, per exemple \textit{SpringerLink} o \textit{ACM}. Per poder aconseguir la referència corresponent a un article seguirem el procediment que mostra la figura \ref{fig:process_diagram}. Bàsicament, per cada document PDF, l'aplicació:
@@ -114,7 +114,7 @@ Hem decidit dividir el codi de l'aplicació en diferents mòduls segons la seva fu
 
 
 \section{Paquets de treball}
-La taula següent mostra el llistat de paquets de treball acompanyats del temps estimat que ha calgut o caldrà per finalitzar-los i l'estat en què es troben. Les tasques amb un estat $\geq 95\%$ es consideren tasques completes, però susceptibles de correccions.
+La taula següent mostra, de forma general, el llistat de paquets de treball acompanyats del temps estimat que ha calgut o caldrà per finalitzar-los i l'estat en què es troben. Per poder aproximar el temps necessari, els paquets s'han subdividit en tasques més petites (de l'ordre d'hores). Les tasques amb un estat $\geq 95\%$ es consideren completes, però susceptibles de correccions.
 
 \begin{center}
 \begin{tabular}{|l|r|r|}
@@ -163,11 +163,11 @@ Base de dades (\texttt{bibim.db})                                           &3 d
 \hline
 
 
-Mòdul principal (\texttt{bibim.main})                                       &8 dies     & 93\%\\
+Mòdul principal (\texttt{bibim.main})                                       &8 dies     & 90\%\\
 \tab Escaneig de fitxers                                                    &1 dia      & 95\%\\
 \tab Codi principal de l'aplicació                                          &3 dies     & 95\%\\
 \tab \textit{Threading}                                                     &2 dies     & 95\%\\
-\tab Validació de referències                                               &2 dies     & 85\%\\
+\tab Validació de referències                                               &2 dies     & 75\%\\
 \hline
 
 
@@ -188,7 +188,7 @@ Alguns aspectes que cal comentar:
 \item{}La implementació de \textit{wrappers} a mà està aturada. Aquests \textit{wrappers} seran substituïts si s'obtenen bons resultats amb la generació automàtica.
 
 \item{}
-El \textit{parsing} de referències és necessari per poder validar els camps de la referència en aquells casos en que se n'extreu el codi complet \BibTeX.
+El procés de \textit{parsing} és necessari per poder validar els camps de la referència en aquells casos en que se s'ha extret el codi complet \BibTeX.
 
 \item{}
 Els \textit{threads} s'utilitzen per poder processar més d'un fitxer a la vegada. Per exemple, mentre s'estan esperant els resultats d'una cerca a Internet, es pot anar extraient el text d'un altre PDF.
