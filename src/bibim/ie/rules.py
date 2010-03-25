@@ -70,6 +70,9 @@ class HTMLRuler(Ruler):
         rule = HTMLRule()
         
         element_text = document.find(True, text=re.compile(info))
+        if not element_text:
+            raise ValueError
+        
         element = element_text.parent
 
         rule.element_path = self._get_element_path(document, element)

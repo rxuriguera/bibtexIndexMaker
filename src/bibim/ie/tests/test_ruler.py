@@ -34,7 +34,7 @@ class TestHTMLRuler(unittest.TestCase):
         self.element02 = self.soup.find('td', {'class':'small-text'}).parent
         self.element03 = self.soup.find('col', {'width':'91%'})
         self.text01 = '2007'
-        self.text02 = '0925-2312'#'2668-2678'
+        self.text02 = '2668-2678'
         self.element_text = self.soup.find(True, text=re.compile(self.text01))
         
     def tearDown(self):
@@ -85,11 +85,14 @@ class TestHTMLRuler(unittest.TestCase):
 
     def test_rule(self):
         rule = self.ruler.rule(self.soup, self.text02)
-        path = [(u'td', {u'colspan': u'2', u'class': u'small-text'}, 3), (u'div', {u'class': u'small-text'}, 15)]
-        pattern = "\\ (.*)\\&"
+        path = [(u'td', {u'colspan': u'2', u'class': u'small-text'}, 1), (u'div', {u'class': u'small-text'}, 14)]
+        pattern = "\\:\\ (.*)\\&n"
         self.failUnless(rule.element_path == path)
         self.failUnless(rule.within_pattern == pattern)
-    
+
+    def test_rule_raises_exception(self):
+        self.failUnlessRaises(ValueError, self.ruler.rule, self.soup, 'some random text')
+            
     def _get_soup(self, file_name):
         file_path = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/wrappers/' + file_name)))
