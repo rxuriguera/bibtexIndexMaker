@@ -91,6 +91,8 @@ class ExampleManager(object):
                          filter(mappers.Result.used == True))
         
         for reference in query_results:
+            if not reference.valid:
+                continue
             append = False
             
             example = Example()
