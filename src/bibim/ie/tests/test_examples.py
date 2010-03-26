@@ -36,7 +36,7 @@ class TestExampleManager(unittest.TestCase):
 
 class TestExample(unittest.TestCase):
     
-    def xtest_get_source(self):
+    def test_get_source(self):
         example = Example(url="http://www.google.com")
         source01 = example.source
         source02 = example.source
