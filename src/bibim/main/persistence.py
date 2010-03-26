@@ -46,12 +46,12 @@ class Persistor(object):
         publication.add_search_results([mappers.Result(result.url) for result in dto.top_results])
         
         if dto.used_query:
-            publication.add_query_strings(mappers.QueryString(dto.used_query))
+            publication.add_query_strings(mappers.QueryString(dto.used_query,
+                                                              True))
         
         if dto.used_result:
-            used_result = mappers.Result(dto.used_result.url)
-            used_result.publication = publication
-            publication.add_search_results(used_result)
+            publication.add_search_results(mappers.Result(dto.used_result.url,
+                                                          True))
         
         # One single publication can have more than one entry (e.g. inbook + book)
         for entry in dto.entries:
@@ -70,7 +70,6 @@ class Persistor(object):
                 else:
                     reference.add_field(field.name, field.value, field.valid)
                     
-            reference.set_result(used_result)
             publication.add_reference(reference)
 
 
