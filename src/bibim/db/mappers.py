@@ -36,18 +36,21 @@ from sqlalchemy.ext.declarative import declarative_base #@UnresolvedImport
 
 Base = declarative_base()
 
+
 class QueryString(Base):
     __tablename__ = 'query_strings'
 
     id = Column(Integer, primary_key=True)
     query = Column(Unicode, nullable=False)
+    used = Column(Boolean, default=False)
     publication_id = Column(Integer, ForeignKey('publications.id'))
     
-    def __init__(self, query):
+    def __init__(self, query, used=False):
         self.query = query
+        self.used = used
 
     def __repr__(self):
-        return "<QueryString('%s')>" % self.query         
+        return "<QueryString('%s','%s')>" % (self.query, self.used)         
 
 
 class Result(Base):
@@ -55,13 +58,16 @@ class Result(Base):
     
     id = Column(Integer, primary_key=True)
     url = Column(String , nullable=False)
+    used = Column(Boolean, default=False)
     publication_id = Column(Integer, ForeignKey('publications.id'))
     
-    def __init__(self, url):
+    def __init__(self, url, used=False):
         self.url = url
+        self.used = used
 
     def __repr__(self):
-        return "<WebResult('%s')>" % self.url         
+        return "<WebResult('%s','%s')>" % (self.url, self.used)         
+
 
 class Person(Base):
     __tablename__ = 'people'
@@ -71,8 +77,6 @@ class Person(Base):
     first_name = Column(Unicode, nullable=True)
     middle_name = Column(Unicode, nullable=True)
     last_name = Column(Unicode, nullable=True)
-    
-    
     
     def __init__(self, first_name='', middle_name='', last_name=''):
         self.first_name = first_name
@@ -202,3 +206,4 @@ class Publication(Base):
         
     def __repr__(self):
         return "<Publication('%s')>" % self.file        
+
