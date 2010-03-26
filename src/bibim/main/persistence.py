@@ -39,6 +39,7 @@ class Persistor(object):
         """
         Stores all the information of a processed file to the database.
         """
+        used_result = None
         publication = mappers.Publication(file=unicode(dto.file))
         self.session.add(publication)
     
@@ -50,13 +51,19 @@ class Persistor(object):
                                                               True))
         
         if dto.used_result:
-            publication.add_search_results(mappers.Result(dto.used_result.url,
-                                                          True))
+            used_result = mappers.Result(dto.used_result.url, True)
+            used_result.publication = publication
+            publication.add_search_results(used_result)
         
         # One single publication can have more than one entry (e.g. inbook + book)
         for entry in dto.entries:
             reference = mappers.Reference()
             reference.valid = entry.is_valid()
+            
+            # Set result_id key for the reference
+            if used_result:
+                reference.set_result(used_result)
+                
             for field in entry.get_fields():
                 field = entry.get_field(field)
                 
