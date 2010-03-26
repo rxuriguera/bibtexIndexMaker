@@ -146,7 +146,7 @@ class IRController(Controller):
 
 class IEController(Controller):
     def __init__(self, factory, target_format=ReferenceFormat.BIBTEX):
-        self.brower = Browser()
+        self.browser = Browser()
         self.format = target_format
         Controller.__init__(self, factory)
         
@@ -161,7 +161,7 @@ class IEController(Controller):
         references = []
         for result in top_results:
             try:
-                page = self.brower.get_page(result.url)
+                page = self.browser.get_page(result.url)
             except BrowserError as e:
                 log.error('Error retrieving page %s: %s' % (result.url,
                                                             e.error))
