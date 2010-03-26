@@ -18,10 +18,6 @@
 
 import re
 
-from bibim.util.beautifulsoup import BeautifulSoup
-from bibim.ie.examples import (ExampleManager,
-                               Example)
-
 class Rule(object):
     """
     Specifies how some information can be extracted from a document.
