@@ -145,6 +145,7 @@ class Reference(Base):
     id = Column(Integer, primary_key=True)
     fields = relation(ReferenceField, order_by=ReferenceField.id,
                       backref='reference')
+    valid = Column(Boolean, default=True)
     # The url of the page from which the reference was extracted
     result_id = Column(Integer, ForeignKey('search_results.id'))
     publication_id = Column(Integer, ForeignKey('publications.id'))

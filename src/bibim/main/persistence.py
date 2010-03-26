@@ -56,6 +56,7 @@ class Persistor(object):
         # One single publication can have more than one entry (e.g. inbook + book)
         for entry in dto.entries:
             reference = mappers.Reference()
+            reference.valid = entry.is_valid()
             for field in entry.get_fields():
                 field = entry.get_field(field)
                 
