@@ -20,22 +20,20 @@
 import unittest #@UnresolvedImport
 
 from bibim.db.session import create_session
-from bibim.db.mappers import (Publication,
-                              QueryString,
-                              Result,
-                              Reference,
+from bibim.db.mappers import (File,
+                              ExtractedReference,
                               ReferenceField)
-from bibim import references
+from bibim.references import Reference
 from bibim.main.refmaker import ReferenceMakerDTO
 from bibim.ir.search import SearchResult
 
 class TestDB(unittest.TestCase):
 
     def setUp(self):
-        #self.session = create_session(sql_uri='sqlite:///:memory:')
-        self.session = create_session()
+        self.session = create_session(sql_uri='sqlite:///:memory:')
+        #self.session = create_session()
 
-        self.reference = references.Reference()
+        self.reference = Reference()
         self.reference.set_field('reference_id', 'Lmadsen99')
         self.reference.set_field('title', 'Some article title')
         self.reference.set_field('pages', '133--144')
@@ -60,37 +58,26 @@ class TestDB(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_add_publication(self):
-        publication = Publication(u'file.pdf')
-        publication.query_strings = [QueryString(u'some query string'),
-                                     QueryString(u'some other query')]
-        publication.search_results = [Result('http://firsturl'),
-                                      Result('http://secondurl')]
-        ref = Reference()
-        ref.set_result(Result(self.result3))
-        publication.references = [ref]
-        publication.references[0].fields = [ReferenceField('f1', u'v1', True),
+    def test_add_file(self):
+        file = File(u'file.pdf')
+        ref = ExtractedReference()
+        ref.result = self.result3
+        ref.query_string = self.queries[0]
+        file.references = [ref]
+        file.references[0].fields = [ReferenceField('f1', u'v1', True),
                                             ReferenceField('f2', u'v2', False)]
-        self.session.add(publication)
+        self.session.add(file)
         self.session.commit()
 
-    def test_add_publication_from_objects(self):
-        publication = Publication('file.pdf')
-        publication.add_query_strings([QueryString(string) for string in self.queries])
-        publication.add_search_results([Result(self.result1),
-                                        Result(self.result2),
-                                        Result(self.result3)])
-        self.session.commit()
-    
     def test_query_db(self):
-        all = self.session.query(Publication).all()
+        all = self.session.query(File).all()
         self.failUnless(len(all) != 0)
-        publication = all[0]
-        self.failUnless(len(publication.query_strings) == 2)
-        self.failUnless(len(publication.search_results) == 2)
-        self.failUnless(len(publication.references) == 1)
-        reference = publication.references[0]
-        self.failUnless(len(reference.fields) >= 2)
+        file = all[0]
+        self.failUnless(len(file.references) >= 1)
+        ref = file.references[0]
+        self.failUnless(ref.query_string == self.queries[0])
+        self.failUnless(ref.result == self.result3)
+        self.failUnless(len(ref.fields) >= 2)
 
 
 if __name__ == "__main__":

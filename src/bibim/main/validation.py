@@ -25,8 +25,7 @@ class ReferenceValidator(object):
     try to check if the title of a publication is correct, but not its number 
     of pages.
     """
-    def __init__(self, fields=['title', 'authors',
-                                        'year', 'journal']):
+    def __init__(self, fields={'title':0.75, 'authors':0.25}):
         """
         Creates a ReferenceValidator. The parameters that have to be checked
         can be passed as a parameter.
@@ -37,7 +36,9 @@ class ReferenceValidator(object):
         """
         Searches the value of the fields of the reference in the full text.
         """
-        for field in self.fields_to_check:
+        validity = 0.0
+        valid_field = True
+        for field in self.fields_to_check.keys():
             ref_field = reference.get_field(field)
             if not ref_field:
                 reference.set_field(field, None)
@@ -45,9 +46,14 @@ class ReferenceValidator(object):
             
             # Check depends on the field
             if field == 'author':
-                self._validate_author(ref_field, text)
+                valid_field = self._validate_author(ref_field, text)
             else:
-                self._validate_string(ref_field, text)
+                valid_field = self._validate_string(ref_field, text)
+            
+            if valid_field:
+                validity += self.fields_to_check[field]
+        reference.validity = validity
+            
     
     def _validate_string(self, ref_field, text):
         """
@@ -61,9 +67,11 @@ class ReferenceValidator(object):
         
         if not occurrence:
             ref_field.valid = False
+        return ref_field.valid
 
         
     def _validate_author(self, ref_field, text):
         # TODO: implement author validation
-        pass
+        return True
+    
         

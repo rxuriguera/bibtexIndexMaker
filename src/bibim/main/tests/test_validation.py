@@ -25,7 +25,7 @@ from bibim.references import Reference
 class TestReferenceValidator(unittest.TestCase):
 
     def setUp(self):
-        self.rv = ReferenceValidator(fields=['title', 'author'])
+        self.rv = ReferenceValidator(fields={'title':0.75, 'author':0.25})
         self.text = """
         Neurocomputing 35 (2000) 3}26
 
@@ -47,7 +47,8 @@ class TestReferenceValidator(unittest.TestCase):
         to solve classi"cation problems. In the "rst case, BMs can 
         establish the utili...
         """
-        
+
+
     def tearDown(self):
         pass
 
@@ -60,7 +61,8 @@ class TestReferenceValidator(unittest.TestCase):
             'incremental learning using boundary methods'))        
         
         self.rv.validate_reference(correct_ref, self.text)
-        self.failUnless(correct_ref.is_valid())
+        x = correct_ref.validity
+        self.failUnless(correct_ref.validity)
     
     def test_validate_missing_fields_reference(self):
         missing_field_ref = Reference()
@@ -68,7 +70,8 @@ class TestReferenceValidator(unittest.TestCase):
             ' and incremental learning using boundary methods'))
         
         self.rv.validate_reference(missing_field_ref, self.text)
-        self.failUnless(not missing_field_ref.is_valid())
+        x = missing_field_ref.validity
+        self.failUnless(missing_field_ref.validity == 0.0)
 
     def test_validate_incorrect_reference(self):
         incorrect_ref = Reference()
@@ -77,7 +80,8 @@ class TestReferenceValidator(unittest.TestCase):
                                             'last_name':'Sancho',
                                             'middle_name':''}])
         self.rv.validate_reference(incorrect_ref, self.text)
-        self.failUnless(not incorrect_ref.is_valid())
+        x = incorrect_ref.validity
+        self.failUnless(incorrect_ref.validity < 0.5)
 
 
 if __name__ == "__main__":

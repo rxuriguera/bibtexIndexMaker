@@ -57,7 +57,7 @@ class IndexMaker(object):
                 persistor.persist_dto(entry)
                 persistor.commit()
             except Exception, e:
-                log.error('Exception while storing to db.')
+                log.error('Exception while storing to db:\n%s' % e)
                 
             print "File: %s" % entry.file
             if entry.used_query:
@@ -69,7 +69,7 @@ class IndexMaker(object):
             for ref in entry.entries:
                 num_refs += 1
                 print "Ref: \n%s" % ref.get_entry()
-                if ref.is_valid():
+                if ref.validity >= 0.5:
                     print 'Valid'
                     valid += 1
                 else:

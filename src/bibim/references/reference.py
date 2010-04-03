@@ -56,6 +56,7 @@ class Reference(object):
         self.fields = fields
         self.format = format
         self.entry = entry
+        self.validity = 0.0
 
     def get_fields(self):
         """
@@ -87,25 +88,29 @@ class Reference(object):
 
     def set_format(self, value):
         self.__format = value
+   
+    def set_validity(self, value):
+        self.__validity = value
+   
+    def get_validity(self):
+        """
+        Returns a float representing the confidence that its fields are correct
+        """
+        #self.validity = 0.0
+        #inc = 1 / len(self.fields)
+        #for field in self.fields:
+        #    if self.get_field(field).valid:
+        #        self.validity += inc
+        return self.__validity
         
     fields = property(get_fields, set_fields)    
     entry = property(get_entry, set_entry)
     format = property(get_format, set_format)
+    validity = property(get_validity, set_validity)
         
     def has_format(self):
         return self.format is not None
 
-    def is_valid(self):
-        """
-        Checks if there is any field that is not valid
-        """
-        valid = True
-        for field in self.fields:
-            if not self.get_field(field).valid:
-                valid = False
-                break
-        return valid
-    
     def has_non_empty_fields(self):
         """
         Checks if there is any field with a value (not None).

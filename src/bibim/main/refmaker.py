@@ -66,7 +66,7 @@ class ReferenceMaker(object):
         dto.entries, dto.used_result = ie.extract_reference(dto.top_results)
         dto.top_results.remove(dto.used_result)
         
-        validator = ReferenceValidator(['title'])
+        validator = ReferenceValidator()
         for entry in dto.entries:
             validator.validate_reference(entry, content)
             

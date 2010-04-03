@@ -39,36 +39,29 @@ class Persistor(object):
         """
         Stores all the information of a processed file to the database.
         """
-        used_result = None
-        publication = mappers.Publication(file=unicode(dto.file))
-        self.session.add(publication)
-    
-        publication.add_query_strings([mappers.QueryString(query) for query in dto.query_strings])
-        publication.add_search_results([mappers.Result(result.url) for result in dto.top_results])
+        file = mappers.File(file_path=unicode(dto.file))
+        self.session.add(file)
         
-        if dto.used_query:
-            publication.add_query_strings(mappers.QueryString(dto.used_query,
-                                                              True))
-        
-        if dto.used_result:
-            used_result = mappers.Result(dto.used_result.url, True)
-            used_result.publication = publication
-            publication.add_search_results(used_result)
-        
-        # One single publication can have more than one entry (e.g. inbook + book)
+        # One single file can have more than one entry (e.g. inbook + book)
         for entry in dto.entries:
-            reference = mappers.Reference()
-            reference.valid = entry.is_valid()
+            reference = mappers.ExtractedReference()
+            reference.validity = entry.validity
+            reference.file = file
             
-            # Set result_id key for the reference
-            if used_result:
-                reference.set_result(used_result)
+            if dto.used_query:
+                reference.query_string = dto.used_query
+            
+            if dto.used_result:
+                reference.result = dto.used_result.url
                 
             for field in entry.get_fields():
                 field = entry.get_field(field)
                 
-                # Authors and editors are special cases as they are not represented
-                # as simple strings but dictionaries
+                if not field.value:
+                    continue
+                
+                # Authors and editors are special cases as they are not 
+                # represented as simple strings but dictionaries
                 if field.name == 'author':
                     self.persist_authors(field.value, reference)
                 
@@ -78,7 +71,7 @@ class Persistor(object):
                 else:
                     reference.add_field(field.name, field.value, field.valid)
                     
-            publication.add_reference(reference)
+            file.add_reference(reference)
 
 
     def persist_authors(self, authors, reference):

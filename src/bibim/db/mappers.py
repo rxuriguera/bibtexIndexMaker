@@ -16,10 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from sqlalchemy import (Table, #@UnresolvedImport
                         DateTime, #@UnresolvedImport
                         Column, #@UnresolvedImport
                         Integer, #@UnresolvedImport
+                        Float, #@UnresolvedImport
                         Boolean, #@UnresolvedImport
                         String, #@UnresolvedImport
                         Unicode, #@UnresolvedImport
@@ -35,38 +37,6 @@ from sqlalchemy.orm import (relation, #@UnresolvedImport
 from sqlalchemy.ext.declarative import declarative_base #@UnresolvedImport
 
 Base = declarative_base()
-
-
-class QueryString(Base):
-    __tablename__ = 'query_strings'
-
-    id = Column(Integer, primary_key=True)
-    query = Column(Unicode, nullable=False)
-    used = Column(Boolean, default=False)
-    publication_id = Column(Integer, ForeignKey('publications.id'))
-    
-    def __init__(self, query, used=False):
-        self.query = query
-        self.used = used
-
-    def __repr__(self):
-        return "<QueryString('%s','%s')>" % (self.query, self.used)         
-
-
-class Result(Base):
-    __tablename__ = 'search_results'
-    
-    id = Column(Integer, primary_key=True)
-    url = Column(String , nullable=False)
-    used = Column(Boolean, default=False)
-    publication_id = Column(Integer, ForeignKey('publications.id'))
-    
-    def __init__(self, url, used=False):
-        self.url = url
-        self.used = used
-
-    def __repr__(self):
-        return "<WebResult('%s','%s')>" % (self.url, self.used)         
 
 
 class Person(Base):
@@ -93,7 +63,7 @@ class Author(Base):
     __tablename__ = 'authors'
     
     id = Column(Integer, primary_key=True)
-    refefence_id = Column(Integer, ForeignKey('publication_references.id'))
+    refefence_id = Column(Integer, ForeignKey('extracted_references.id'))
     person_id = Column(Integer, ForeignKey('people.id'))
     person = relation(Person, order_by=Person.id)
     
@@ -108,7 +78,7 @@ class Editor(Base):
     __tablename__ = 'editors'
     
     id = Column(Integer, primary_key=True)
-    refefence_id = Column(Integer, ForeignKey('publication_references.id'))
+    refefence_id = Column(Integer, ForeignKey('extracted_references.id'))
     person_id = Column(Integer, ForeignKey('people.id'))    
     person = relation(Person, order_by=Person.id)
     
@@ -127,7 +97,7 @@ class ReferenceField(Base):
     name = Column(String, nullable=False)
     value = Column(Unicode, nullable=False)
     valid = Column(Boolean, default=True)
-    reference_id = Column(Integer, ForeignKey('publication_references.id'))
+    reference_id = Column(Integer, ForeignKey('extracted_references.id'))
     
     def __init__(self, name, value, valid):
         self.name = name
@@ -139,26 +109,20 @@ class ReferenceField(Base):
                                                      self.valid)         
      
      
-class Reference(Base):
-    __tablename__ = 'publication_references'
+class ExtractedReference(Base):
+    __tablename__ = 'extracted_references'
     
     id = Column(Integer, primary_key=True)
     fields = relation(ReferenceField, order_by=ReferenceField.id,
                       backref='reference')
-    valid = Column(Boolean, default=True)
-    # The url of the page from which the reference was extracted
-    result_id = Column(Integer, ForeignKey('search_results.id'))
-    publication_id = Column(Integer, ForeignKey('publications.id'))
+    validity = Column(Float, default=0.0)
+    timestamp = Column(DateTime, default=datetime.now())
+    file_id = Column(Integer, ForeignKey('files.id'))
     authors = relation(Author, order_by=Author.id)
     editors = relation(Editor, order_by=Editor.id)
-    search_result = relation(Result)
+    result = Column(String, nullable=False)
+    query_string = Column(Unicode, nullable=False)
     
-    def set_result(self, result):
-        if type(result) is str:
-            result = Result(result)
-        self.search_result = result
-        self.search_result.publication = self.publication
-        
     def add_field(self, name, value, valid):
         self.fields.append(ReferenceField(name, value,
                                           valid))
@@ -170,41 +134,23 @@ class Reference(Base):
         self.editors.append(editor)            
             
     def __repr__(self):
-        return "<Reference>"
+        return "<ExtractedReference('%s','%s')>" % (self.query_string, self.result)
     
     
-class Publication(Base):
-    __tablename__ = 'publications'
+class File(Base):
+    __tablename__ = 'files'
 
     id = Column(Integer, primary_key=True)
-    file = Column(Unicode, nullable=True)
-    search_results = relation(Result, order_by=Result.id,
-                           backref='publication')
-    query_strings = relation(QueryString, order_by=QueryString.id,
-                             backref='publication')
-    references = relation(Reference, order_by=Reference.id,
-                          backref='publication')
+    file_path = Column(Unicode, nullable=True)
+    references = relation(ExtractedReference, order_by=ExtractedReference.id,
+                          backref='file')
     
-    def __init__(self, file=''):
-        self.file = file
+    def __init__(self, file_path=''):
+        self.file_path = file_path
 
-    def add_search_results(self, results):
-        if type(results) is not list:
-            results = [results]
-            
-        for result in results:
-            self.search_results.append(result)
-
-    def add_query_strings(self, query_strings):
-        if type(query_strings) is not list:
-            query_strings = [query_strings]
-            
-        for query_string in query_strings:
-            self.query_strings.append(query_string)
-        
     def add_reference(self, reference):
         self.references.append(reference)
         
     def __repr__(self):
-        return "<Publication('%s')>" % self.file        
+        return "<File('%s')>" % self.file        
 
