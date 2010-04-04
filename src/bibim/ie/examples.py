@@ -26,7 +26,7 @@ from bibim.db.mappers import (ExtractedReference)
 from bibim.util.browser import (Browser, BrowserError)
 from bibim.util.beautifulsoup import BeautifulSoup
 
-
+# TODO: Load these from the configuration file
 MAX_EXAMPLES = 5
 MAX_EXAMPLES_FROM_DB = 15
 MIN_VALIDITY = 0.75
