@@ -29,7 +29,6 @@ class Test(unittest.TestCase):
     def tearDown(self):
         pass
 
-
     def test_create_soup_from_None(self):
         self.failUnlessRaises(TypeError, BeautifulSoup, None)
 
