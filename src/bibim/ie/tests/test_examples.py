@@ -17,28 +17,29 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 import unittest #@UnresolvedImport
+from os.path import join, dirname, normpath
 
-from bibim.ie.examples import (Example, ExampleManager)
+from bibim.ie.examples import (Example,
+                               ExampleManager,
+                               HTMLExample,
+                               HTMLExampleManager)
 
-class TestExampleManager(unittest.TestCase):
+
+class TestHTMLExampleManager(unittest.TestCase):
     
     def setUp(self):
-        self.example_manager = ExampleManager()
-        self.url = 'http://portal.acm.org'
-
+        self.example_manager = HTMLExampleManager()
+        self.url = (u'file://' + normpath(join(dirname(__file__),
+                    ('../../../../tests/fixtures/wrappers/'))))
+        
     def tearDown(self):
         pass
 
     def test_get_examples(self):
-        examples = self.example_manager.get_examples(self.url)
-        self.failUnless(len(examples) == 1)
-        pass
-
-class TestExample(unittest.TestCase):
+        examples = self.example_manager.get_examples(self.url, 1)
+        self.failIf(not examples)
     
-    def test_get_source(self):
-        example = Example(url="http://www.google.com")
-        source01 = example.source
-        source02 = example.source
-        self.failUnless(source01)
-        self.failUnless(id(source01) == id(source01))
+    def test_get_content(self):
+        content = self.example_manager._get_content(self.url + '/acm01.html')
+        self.failIf(not content)
+    
