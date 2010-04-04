@@ -21,11 +21,13 @@ import unittest #@UnresolvedImport
 import re
 from os.path import normpath, join, dirname
 
-from bibim.ie.rules import (RegexRuler,
+from bibim.ie.rules import (HTMLRuler,
+                            RegexRuler,
                             PathRuler,
                             Rule)
 from bibim.ie.examples import HTMLExample
 from bibim.util.beautifulsoup import BeautifulSoup
+
 
 class TestRuler(unittest.TestCase):
     def setUp(self):
@@ -54,6 +56,7 @@ class TestRuler(unittest.TestCase):
         file.close()
         return soup
 
+
 class TestHTMLRuler(TestRuler):    
     def setUp(self):
         super(TestHTMLRuler, self).setUp()
@@ -65,7 +68,7 @@ class TestHTMLRuler(TestRuler):
                                      self.soup02)
         self.example04 = HTMLExample('http://some_url', self.text04,
                                      self.soup02)
-        
+                
         
 class TestPathRuler(TestHTMLRuler):
     def setUp(self):
@@ -98,13 +101,6 @@ class TestPathRuler(TestHTMLRuler):
         pattern = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
                    [u'span', {u'class': u'small-text'}, 5]] 
         self.failUnless(rule.pattern == pattern)        
-
-    def test_merge_rules(self):
-        rule01 = self.ruler._rule_example(self.example01)
-        rule02 = self.ruler._rule_example(self.example03)
-        ruleset = set([rule01, rule02])
-        self.ruler._merge_rules(ruleset)
-        pass
     
     def test_merge_patterns(self):
         general = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
@@ -150,7 +146,31 @@ class TestPathRuler(TestHTMLRuler):
                   [[u'span', {u'class': u'big-text'}, 5]]]
         self.failUnless(general == result, "Different length")
 
+    def test_merge_rules(self):
+        rule01 = self.ruler._rule_example(self.example01)
+        rule02 = self.ruler._rule_example(self.example03)
+        result = self.ruler._merge_rules([rule01, rule02])
+        expected = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                     [u'span', {u'class': u'small-text'}, 5]]]
+        self.failUnless(result.pattern == expected)
     
+    def test_rule(self):
+        result = self.ruler.rule(set([self.example01, self.example03]))
+        expected = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                     [u'span', {u'class': u'small-text'}, 5]]]
+        self.failUnless(result.pattern == expected)
+
+    def test_get_content_element(self):
+        element_text = self.ruler._get_content_element(self.example01) 
+        expected = ' Volume 70 ,&nbsp; Issue 16-18 &nbsp;(October 2007)'
+        self.failUnless(element_text == expected)
+        
+    def test_get_invalid_content_element(self):
+        example = HTMLExample(value='random text', content=BeautifulSoup(''))
+        get_it = self.ruler._get_content_element
+        self.failUnlessRaises(ValueError, get_it, example)
+
+
 class TestRegexRuler(TestHTMLRuler):
 
     def setUp(self):
@@ -177,7 +197,20 @@ class TestRegexRuler(TestHTMLRuler):
         groups = matches.groups()
         self.failUnless(len(groups) == 1)
         self.failUnless(groups[0] == self.text01)
+
+    def test_rule_example(self):
+        rule = self.ruler._rule_example(self.example01)
+        self.failUnless(rule.pattern == (u'\\ Volume\\ 70\\ \\,\\&nbsp\\;\\ '
+            'Issue\\ 16\\-18\\ \\&nbsp\\;\\(October\\ (.*)\\)'))
+    
+
+    def test_merge_patterns(self):
+        general = ['aaaaxxxx\(\)', 'bbbbxxxx\(\)']
+        pattern = 'aaaaxxxx\(\)'
+        result = self.ruler._merge_patterns(general, pattern)
+        self.failUnless(result == general)
         
+
 #    def test_rule(self):
 #        rule = self.ruler.rule(self.soup, self.text02)
 #        pattern = "\\:\\ (.*)\\&n"

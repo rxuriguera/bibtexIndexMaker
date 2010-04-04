@@ -17,8 +17,12 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import difflib #@UnresolvedImport
 
 from bibim import log
+
+# TODO: Load these values from the configuration file
+MINIMUM_RATIO = 0.5 
 
 class Rule(object):
     """
@@ -38,30 +42,6 @@ class Rule(object):
         return "Pattern: %s" % repr(self.pattern)
 
     pattern = property(get_pattern, set_pattern)
-
-
-#class HTMLRule(Rule):
-#    """
-#    Specifies how some information can be extracted from an HTML document.
-#    """
-#    def __init__(self, element_path=[], within_pattern=''):
-#        self.element_path = element_path
-#        self.within_pattern = within_pattern
-#
-#    def get_element_path(self):
-#        return self.__element_path
-#
-#    def get_within_pattern(self):
-#        return self.__within_pattern
-#
-#    def set_element_path(self, value):
-#        self.__element_path = value
-#
-#    def set_within_pattern(self, value):
-#        self.__within_pattern = value
-#
-#    element_path = property(get_element_path, set_element_path)
-#    within_pattern = property(get_within_pattern, set_within_pattern)
 
 
 class Ruler(object):
@@ -85,20 +65,36 @@ class Ruler(object):
         """
         It creates a rule that works for a specific example 
         """
-        raise NotImplementedError
+        pass
     
     def _merge_rules(self, rules):
         """
         Given a set of rules, it finds their common factor to create a new 
         rule that works for all of them.
         """
-        raise NotImplementedError
+        pass
         
 
 class HTMLRuler(Ruler):
     """
     Creates rules that can be used with HTML documents
     """
+    def _get_content_element(self, example):
+        """
+        Looks in the content of the example to find the element that contains
+        the desired value. Raises a ValueError exception if the example's
+        content does not contain the value.
+        """
+        try:
+            element_text = example.content.find(True,
+                                                text=re.compile(example.value))
+        except NameError, e:
+            log.error("Example's content is not an HTML document: %s" % e) #@UndefinedVariable
+            
+        if not element_text:
+            raise ValueError
+        
+        return element_text
     
     def _merge_rules(self, rules):
         if not rules:
@@ -113,7 +109,7 @@ class HTMLRuler(Ruler):
         return Rule(general_pattern)
     
     def _merge_patterns(self, general, pattern):
-        raise NotImplementedError
+        pass
 
 
 class RegexRuler(HTMLRuler):
@@ -123,7 +119,33 @@ class RegexRuler(HTMLRuler):
     """
     
     def _rule_example(self, example):
-        pass
+        text = re.escape(self._get_content_element(example))
+        pattern = text.replace(re.escape(example.value), '(.*)')
+        return Rule(pattern)
+    
+    def _merge_patterns(self, general, pattern):     
+        # Get the pattern from the general patterns that has the maximum 
+        # ressemblance to the current pattern
+        smc = difflib.SequenceMatcher
+        ratios = map(lambda p: smc(None, p, pattern).quick_ratio(), general)
+        g_pattern_ratio = max(ratios)
+        g_pattern_index = ratios.index(g_pattern_ratio)
+        g_pattern = general[g_pattern_index]
+        
+
+        if g_pattern_ratio < MINIMUM_RATIO:
+            # In this case, we don't generalize the pattern and add it as 
+            # another possibility.
+            general.append(pattern)
+            
+        elif g_pattern_ratio < 1.0:
+            # In this case, we generalize the general pattern to match the 
+            # current one  
+            sm = smc(None, g_pattern, pattern)
+            blocks = sm.get_matching_blocks()
+        
+        return general
+        
     
     def _get_within_pattern_candidate(self, element_text, text, padding=1):
         """
@@ -174,18 +196,10 @@ class PathRuler(HTMLRuler):
     Creates a rule described by the path to locate some piece of information 
     in an HTML document
     """ 
-    
+
     def _rule_example(self, example):
         rule = Rule()
-        try:
-            element_text = example.content.find(True,
-                                                text=re.compile(example.value))
-        except NameError, e:
-            log.error("Example's content is not an HTML document: %s" % e) #@UndefinedVariable
-            
-        if not element_text:
-            raise ValueError
-        
+        element_text = self._get_content_element(example)
         element = element_text.parent
         rule.pattern = self._get_element_path(example.content, element)
         return rule
