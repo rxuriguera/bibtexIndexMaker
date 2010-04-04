@@ -21,25 +21,57 @@ import unittest #@UnresolvedImport
 import re
 from os.path import normpath, join, dirname
 
-from bibim.ie.rules import (HTMLRuler,
-                            HTMLRule)
+from bibim.ie.rules import (RegexRuler,
+                            PathRuler,
+                            Rule)
+from bibim.ie.examples import HTMLExample
 from bibim.util.beautifulsoup import BeautifulSoup
 
-class TestHTMLRuler(unittest.TestCase):
-
+class TestRuler(unittest.TestCase):
     def setUp(self):
-        self.ruler = HTMLRuler()
-        self.soup = self._get_soup('acm01.html')
-        self.element01 = self.soup.find(True, text='Neurocomputing ').parent
-        self.element02 = self.soup.find('td', {'class':'small-text'}).parent
-        self.element03 = self.soup.find('col', {'width':'91%'})
+        self.soup01 = self._get_soup('acm01.html')
+        self.soup02 = self._get_soup('acm02.html')
+        self.element01 = self.soup01.find(True, text='Neurocomputing ').parent
+        self.element02 = self.soup01.find('td', {'class':'small-text'}).parent
+        self.element03 = self.soup01.find('col', {'width':'91%'})
         self.text01 = '2007'
         self.text02 = '2668-2678'
-        self.element_text = self.soup.find(True, text=re.compile(self.text01))
+        self.text03 = '2008'
+        self.text04 = '1459-1460'
+        self.element_text = self.soup01.find(True,
+                                             text=re.compile(self.text01))
         
-    def tearDown(self):
-        pass
+    def _get_soup(self, file_name):
+        file_path = normpath(join(dirname(__file__), ('../../../../tests/'
+                                     'fixtures/wrappers/' + file_name)))
+        file = open(file_path)
+        contents = file.read()
+        contents = contents.replace('\n', '')
+        contents = contents.replace('\r', '')
+        contents = contents.replace('\t', '')
+        soup = BeautifulSoup(contents)
+        #soup = BeautifulSoup(file.read())
+        file.close()
+        return soup
 
+class TestHTMLRuler(TestRuler):    
+    def setUp(self):
+        super(TestHTMLRuler, self).setUp()
+        self.example01 = HTMLExample('http://some_url', self.text01,
+                                     self.soup01)
+        self.example02 = HTMLExample('http://some_url', self.text02,
+                                     self.soup01)
+        self.example03 = HTMLExample('http://some_url', self.text03,
+                                     self.soup02)
+        self.example04 = HTMLExample('http://some_url', self.text04,
+                                     self.soup02)
+        
+        
+class TestPathRuler(TestHTMLRuler):
+    def setUp(self):
+        super(TestPathRuler, self).setUp()
+        self.ruler = PathRuler()
+        
     def test_get_element_attrs(self):
         attrs = self.ruler._get_element_attrs(self.element01)
         self.failUnless(len(attrs) == 1)
@@ -47,11 +79,10 @@ class TestHTMLRuler(unittest.TestCase):
 
     def test_is_unique(self):
         description01 = self.ruler._get_element_description(self.element01)
-        self.failUnless(self.ruler._is_unique(self.soup, description01))
+        self.failUnless(self.ruler._is_unique(self.soup01, description01))
 
         description02 = self.ruler._get_element_description(self.element02)
-        self.failIf(self.ruler._is_unique(self.soup, description02))
-        pass
+        self.failIf(self.ruler._is_unique(self.soup01, description02))
     
     def test_get_sibling_number(self):
         number = self.ruler._get_sibling_number(self.element03)
@@ -59,8 +90,72 @@ class TestHTMLRuler(unittest.TestCase):
         pass
 
     def test_get_element_path(self):
-        path = self.ruler._get_element_path(self.soup, self.element02)
+        path = self.ruler._get_element_path(self.soup01, self.element02)
         self.failUnless(len(path) == 3)
+        
+    def test_rule_example(self):
+        rule = self.ruler._rule_example(self.example01)
+        pattern = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                   [u'span', {u'class': u'small-text'}, 5]] 
+        self.failUnless(rule.pattern == pattern)        
+
+    def test_merge_rules(self):
+        rule01 = self.ruler._rule_example(self.example01)
+        rule02 = self.ruler._rule_example(self.example03)
+        ruleset = set([rule01, rule02])
+        self.ruler._merge_rules(ruleset)
+        pass
+    
+    def test_merge_patterns(self):
+        general = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                    [u'span', {u'class': u'small-text'}, 5]]] 
+
+        # Merge patterns with different attributes list
+        pattern = [[u'td', {u'class': u'small-text'}, 1],
+                  [u'span', {u'class': u'small-text'}, 5]]         
+        general = self.ruler._merge_patterns(general, pattern)
+        result = [[[u'td', {u'class': u'small-text'}, 1],
+                   [u'span', {u'class': u'small-text'}, 5]]]
+        self.failUnless(general == result, "Different attributes")
+        
+        # Merge patterns with different element names
+        pattern = [[u'div', {u'class': u'small-text'}, 1],
+                  [u'span', {u'class': u'small-text'}, 5]]          
+        general = self.ruler._merge_patterns(general, pattern)
+        result = [[[None, {u'class': u'small-text'}, 1],
+                   [u'span', {u'class': u'small-text'}, 5]]]
+        self.failUnless(general == result, "Different element names")
+
+        # Merge patterns with different sibling number
+        pattern = [[u'div', {u'class': u'small-text'}, 1],
+                  [u'span', {u'class': u'small-text'}, 3]]          
+        general = self.ruler._merge_patterns(general, pattern)
+        result = [[[None, {u'class': u'small-text'}, 1],
+                   [u'span', {u'class': u'small-text'}, None]]]
+        self.failUnless(general == result, "Different element sibling number")
+        
+        # Merge patters with different attribute values
+        pattern = [[u'td', {u'class': u'small-text'}, 1],
+                   [u'span', {u'class': u'big-text'}, 5]] 
+        general = self.ruler._merge_patterns(general, pattern)
+        result = [[[None, {u'class': u'small-text'}, 1],
+                   [u'span', {}, None]]]
+        self.failUnless(general == result, "Different attribute values")
+        
+        # Merge patterns with different length paths
+        pattern = [[u'span', {u'class': u'big-text'}, 5]] 
+        general = self.ruler._merge_patterns(general, pattern)
+        result = [[[None, {u'class': u'small-text'}, 1],
+                   [u'span', {}, None]],
+                  [[u'span', {u'class': u'big-text'}, 5]]]
+        self.failUnless(general == result, "Different length")
+
+    
+class TestRegexRuler(TestHTMLRuler):
+
+    def setUp(self):
+        self.ruler = RegexRuler()
+        super(TestRegexRuler, self).setUp()
 
     def test_get_within_pattern_candidate_incorrect_result(self):
         pattern = self.ruler._get_within_pattern_candidate(self.element_text,
@@ -82,29 +177,15 @@ class TestHTMLRuler(unittest.TestCase):
         groups = matches.groups()
         self.failUnless(len(groups) == 1)
         self.failUnless(groups[0] == self.text01)
+        
+#    def test_rule(self):
+#        rule = self.ruler.rule(self.soup, self.text02)
+#        pattern = "\\:\\ (.*)\\&n"
+#        self.failUnless(rule.pattern == pattern)
 
-    def test_rule(self):
-        rule = self.ruler.rule(self.soup, self.text02)
-        path = [(u'td', {u'colspan': u'2', u'class': u'small-text'}, 1), (u'div', {u'class': u'small-text'}, 14)]
-        pattern = "\\:\\ (.*)\\&n"
-        self.failUnless(rule.element_path == path)
-        self.failUnless(rule.within_pattern == pattern)
+#    def test_rule_raises_exception(self):
+#        self.failUnlessRaises(ValueError, self.ruler.rule, self.soup, 'some random text')
 
-    def test_rule_raises_exception(self):
-        self.failUnlessRaises(ValueError, self.ruler.rule, self.soup, 'some random text')
-            
-    def _get_soup(self, file_name):
-        file_path = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/wrappers/' + file_name)))
-        file = open(file_path)
-        contents = file.read()
-        contents = contents.replace('\n', '')
-        contents = contents.replace('\r', '')
-        contents = contents.replace('\t', '')
-        soup = BeautifulSoup(contents)
-        #soup = BeautifulSoup(file.read())
-        file.close()
-        return soup
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
