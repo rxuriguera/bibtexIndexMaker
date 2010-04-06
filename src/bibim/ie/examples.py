@@ -78,8 +78,8 @@ class ExampleManager(object):
         
     def get_examples(self): 
         """
-        Creates examples from the database and organizes them in different sets
-        depending on some parameters.
+        Creates examples from the database and organizes them in different 
+        groups depending on some parameters.
         """
         raise NotImplementedError
         
@@ -111,7 +111,7 @@ class HTMLExampleManager(ExampleManager):
         """
         Retrieves information from the database and creates instances of 
         HTMLExample with the url and the value that has to be extracted.
-        It organizes all the examples in sets depending on the field that
+        It organizes all the examples in groups depending on the field that
         has to be extracted.
         """
         
@@ -133,9 +133,9 @@ class HTMLExampleManager(ExampleManager):
             
             fields = [field for field in mapper.fields if field.valid]
             for field in fields:
-                examples.setdefault(field.name, set())
+                examples.setdefault(field.name, [])
                 example = HTMLExample(url, field.value, content)
-                examples[field.name].add(example)
+                examples[field.name].append(example)
                 
             # Break if we already have enought examples for all of the fields
             if min(map(len, examples.values())) >= nexamples:
