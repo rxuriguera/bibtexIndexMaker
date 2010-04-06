@@ -92,3 +92,10 @@ class FieldWrapper(Wrapper):
             strategy = getattr(self, x)
             info = strategy(page)
         return info
+
+class RuledWrapper(Wrapper):
+    """
+    
+    """
+    def __init__(self):
+        self.rules = []
