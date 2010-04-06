@@ -132,7 +132,6 @@ class RegexRuler(HTMLRuler):
         g_pattern_index = ratios.index(g_pattern_ratio)
         g_pattern = general[g_pattern_index]
         
-
         if g_pattern_ratio < MINIMUM_RATIO:
             # In this case, we don't generalize the pattern and add it as 
             # another possibility.
@@ -141,11 +140,38 @@ class RegexRuler(HTMLRuler):
         elif g_pattern_ratio < 1.0:
             # In this case, we generalize the general pattern to match the 
             # current one  
-            sm = smc(None, g_pattern, pattern)
-            blocks = sm.get_matching_blocks()
-        
+            general[g_pattern_index] = self._non_matching_to_regex(g_pattern,
+                                                                   pattern) 
+            
         return general
         
+    
+    def _non_matching_to_regex(self, g_pattern, pattern):
+        sm = difflib.SequenceMatcher(None, g_pattern, pattern)
+        while not sm.quick_ratio() == 1.0:
+            matching_blocks = sm.get_matching_blocks()
+            
+            g_pattern = self._replace_non_matching_block(g_pattern,
+                                                         matching_blocks,
+                                                         0)
+            pattern = self._replace_non_matching_block(pattern,
+                                                       matching_blocks,
+                                                       1)
+            sm.set_seqs(g_pattern, pattern)
+        return g_pattern
+    
+    
+    def _replace_non_matching_block(self, str, blocks, seq=0, block=0,
+                                    rep='(?:.*)'):
+        # Check that the sequence is a or b
+        if not ((seq in [0, 1]) and (len(blocks) > block + 2)):
+            return None
+        
+        start = blocks[block][seq] + blocks[block][2]
+        length = blocks[block + 1][seq] - start
+        return str[:start] + rep + str[start + length:]
+
+            
     
     def _get_within_pattern_candidate(self, element_text, text, padding=1):
         """

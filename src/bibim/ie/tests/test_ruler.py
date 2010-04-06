@@ -202,15 +202,44 @@ class TestRegexRuler(TestHTMLRuler):
         rule = self.ruler._rule_example(self.example01)
         self.failUnless(rule.pattern == (u'\\ Volume\\ 70\\ \\,\\&nbsp\\;\\ '
             'Issue\\ 16\\-18\\ \\&nbsp\\;\\(October\\ (.*)\\)'))
-    
 
     def test_merge_patterns(self):
         general = ['aaaaxxxx\(\)', 'bbbbxxxx\(\)']
         pattern = 'aaaaxxxx\(\)'
         result = self.ruler._merge_patterns(general, pattern)
         self.failUnless(result == general)
+  
+    def test_merge_patterns_02(self):
+        general = [u'\\ Volume\\ 70\\ \\,\\&nbsp\\;\\ '
+                    'Issue\\ 16\\-18\\ \\&nbsp\\;\\(October\\ (.*)\\)'] 
+        pattern = (u'\\ Volume\\ 22\\ \\,\\&nbsp\\;\\ '
+                    'Issue\\ 21\\-23\\ \\&nbsp\\;\\(January\\ (.*)\\)')
+        result = self.ruler._merge_patterns(general, pattern)
+        expected = [u'\\ Volume\\ (?:.*)\\ \\,\\&nbsp\\;\\ '
+                     'Issue\\ (?:.*)1(?:.*)\\-(?:.*)\\ \\&nb'
+                     'sp\\;\\((?:.*)r(?:.*)\\ (.*)\\)']
+        self.failUnless(result == expected)
         
 
+        pattern = (u'\\ Volume\\ 22\\ \\,\\&nbsp\\;\\ '
+                    'Issue\\ 22\\-23\\ \\&nbsp\\;\\(May\\ (.*)\\)')
+        result = self.ruler._merge_patterns(general, pattern)
+        expected = [u'\\ Volume\\ (?:.*)\\ \\,\\&nbsp\\;\\ '
+                     'Issue\\ (?:.*)\\-(?:.*)\\ \\&nbsp\\;'
+                     '\\((?:.*)\\ (.*)\\)']
+        self.failUnless(result == expected)
+        
+
+    def test_rule(self):
+        result = self.ruler.rule([self.example01, self.example03])
+        self.failUnless(result.pattern == [u'\\ Volume\\ (?:.*)\\ \\,\\&nbsp\\'
+                                            ';\\ Issue\\ 1(?:.*)\\ \\&nbsp\\;'
+                                            '\\((?:.*)e(?:.*)\\ (.*)\\)'])        
+        result = self.ruler.rule([self.example02, self.example04])
+        self.failUnless(result.pattern == [u'\\ Pages\\:\\ (.*)\\&nbsp\\'
+                                            ';\\&nbsp\\;'])
+        
+        
 #    def test_rule(self):
 #        rule = self.ruler.rule(self.soup, self.text02)
 #        pattern = "\\:\\ (.*)\\&n"
