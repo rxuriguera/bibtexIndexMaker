@@ -1,0 +1,154 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{url} 
+\usepackage{color}
+\usepackage{lscape}
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,                  % sets default tabsize to 2 spaces
+    captionpos=b,               % sets the caption-position to bottom
+    frame=single,
+    xleftmargin=3em,
+    xrightmargin=3em,
+    backgroundcolor = \color{lightgrey}
+}        
+
+
+\title{\BibTeX{} Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{07-04-2010}
+
+\setlength{\parindent}{0in}
+\definecolor{lightgrey}{gray}{0.85}
+
+\begin{document}
+\maketitle
+
+\section{Validesa}
+Millora del sistema com es validen les referències extretes. Ara s'utilitza un número decimal que indica la validesa. Aquest número es calcula a partir d'un llistat de pesos assignats als camps que es volen validar. S'estableix un llindar a partir de la qual la referència es considera vàlida.
+
+\section{Base de dades}
+Simplificat la base de dades per tal de guardar només la informació necessària. A més, s'ha afegit un \textit{timestamp} per indicar el moment d'extracció d'una referència. Això permetrà generar estadístiques sobre quins \textit{wrappers} han deixat de funcionar.
+
+\section{Wrapper induction}
+Hem tingut bastants problemes a l'hora de decidir com estructurar els exemples i quins passos seguir a l'hora de generar les regles. Finalment, el flux d'informació és el següent:
+
+\begin{itemize}
+\item{}
+Un \texttt{ExampleManager} s'encarrega d'obtenir els exemples de la base de dades, cercar el codi font a Internet i generar objectes del tipus \texttt{Example}.\\
+Com que tots els exemples són del mateix domini i segurament totes les pàgines seran enviades pel mateix servidor, s'ha establert un temps d'espera entre petició i petició per evitar bloquejos. Com que l'execució de la generació de \textit{wrappers} només cal fer-la de tant en tant, aquest temps afegit ens el podem permetre.\\
+De cada pàgina volem extreure diferents elements de text. Per tant, crearem un exemple per cadascun dels elements i els agruparem segons el camp de la referència que descriuen. Per exemple, si volem extreure referències de \url{http://portal.acm.org}, tindrem:
+    \begin{itemize}
+    \item{}
+    $x$ exemples per extreure el títol.
+    \item{}
+    $y$ exemples per extreure la revista.
+    \item{}
+    etc.
+    \end{itemize}
+Una altra millora interessant d'aquest punt és la validació de l'exemple abans d'intentar generar el \textit{wrapper}. Comprovem que dins el document obtingut, hi ha la informació que estem buscant. Si no és així, marquem l'exemple com a invàlid a la base de dades per tal que no s'utilitzi en pròximes execucions.\\
+Es pot marcar tot l'exemple com a invàlid o bé només alguns camps. D'aquesta manera tindrem més exemples per generar les regles dels camps correctes.
+\item{}
+Una vegada tenim els conjunts d'exemples per cadascun dels camps a extreure, dividim els grups en conjunts d'entrenament i validació.\\
+\item{}
+Utilitzem el conjunt d'entrenament per crear les regles i les provem amb el conjunt de validació. Si no són correctes, podem triar conjunts entrenament/validació diferents\footnote{Aquesta funcionalitat encara no està implementada}
+\end{itemize}
+
+
+\subsection{Generació de regles}
+\subsubsection{Ruta dins del document HTML}
+Tal i com ja vam comentar a la trobada anterior, la ruta està composta per cada element de l'HTML necessari per desambiguar l'element que conté la informació que volem. Per exemple:
+
+\begin{center}
+\begin{lstlisting}
+[(u'table', {u'width': u'100%'}, 7), (u'tr', {}, 0)]
+\end{lstlisting}
+\end{center}
+
+Calculem la ruta pels diferents exemples del conjunt d'entrenament. Si tot funciona com ho esperem, les rutes dels diferents exemples haurien de ser totes iguals. Si no és així, generalitzem el patró resultant per tal de cobrir tots els exemples:
+
+    \begin{itemize}
+    \item{}
+    Si la ruta té el mateix número d'elements (la mateixa profunditat dins de l'arbre), deixem alguns dels paràmetres com a \texttt{None}. per exemple:
+\begin{center}
+\begin{lstlisting}    
+[[[None, {u'class': u'small-text'}, 1], 
+  [u'span', {}, None]]]
+\end{lstlisting}
+\end{center}
+    \item{}
+    Si les rutes tenen diferent llargada, contemplem les dues possibilitats.
+\begin{center}
+\begin{lstlisting}    
+[ 1.[[None, {u'class': u'small-text'}, 1], 
+     [u'span', {}, None]],
+
+  2.[[u'span', {u'class': u'big-text'}, 5]]
+]
+\end{lstlisting}
+\end{center}
+    \end{itemize}
+
+
+
+\subsubsection{Expressió regular dins de l'element}
+De la mateixa manera que WHISK (Stephen Soderland 1999), si el contingut de l'element no només conté la peça d'informació que estem buscant, l'haurem d'extreure utilitzant expressions regulars.
+\\
+\\
+Per crear aquestes expressions regulars seguim un procés similar al que hem fet servir per les rutes. Agafem tots els patrons dels diferents exemples i creem l'expressió regular que els cobreixi tots. Fem ús de la biblioteca \texttt{difflib} per comparar seqüències de caràcters de dues en dues:
+
+    \begin{itemize}
+    \item{}
+    Al principi, agafem qualsevol dels exemples, extraiem la informació i utilitzem el text restant com a patró \textit{general}.
+    \item{}
+    Anem agafant la resta de cadenes dels altres exemples i ho anem comparant amb el patró \textit{general}. Si:
+        \begin{itemize}
+            \item{}
+            La ratio\footnote{Número entre 0 i 1 que mostra la semblança entre les dues seqüències} entre les dues seqüències és superior a un llindar esablert (e.g. 0.75), considerem que el contingut dels dos exemples és el mateix, però amb elements que varien. Per exemple:
+
+\begin{center}
+\begin{lstlisting}
+Volume 70, Issue 16-18; (October 2008)
+Volume 22, Issue 21-33; (January 2007)
+\end{lstlisting}
+\end{center}
+            Suposem que extraiem la informació corresponent als anys: 2008 i 2007. Llavors ens queden els patrons (sense escapar):
+\begin{center}
+\begin{lstlisting}
+Volume 70, Issue 16-18; (October (.*))
+Volume 22, Issue 21-33; (January (.*))
+\end{lstlisting}
+\end{center}
+            Ara, les cadenes encara no són iguals, però tenen una similaritat superior a un \textit{threshold} de 0.75. Per tant, provem de generalitzar els patrons. Mirem els blocs que no coincideixen i els substituïm per una expressió regular. Finalment obtenim:
+\begin{center}
+\begin{lstlisting}
+Volume (?:.*), Issue (?:.*)1(?:.*)-(?:.*); ((?:.*)r(?:.*) (.*))
+\end{lstlisting}
+\end{center}
+            Com es pot veure, aquest sistema té alguns problemes. A nosaltres ens interessaria que l'\textit{1} de \textit{16} i \textit{21} no s'hagués comptat com una coincidencia. El mateix amb la \textit{r} de \textit{October} i \textit{January}. Caldrà millorar la manera de generalitzar aquestes cadenes de caràcters, o bé anar en compte a l'hora d'escollir els exemples que s'utilitzen.
+
+        \item{}
+        Si la ratio és inferior al llindar, considerem que les cadenes són massa diferents i contemplem la unió ($ | $)
+        \end{itemize}
+    \end{itemize}
+
+Depenent dels resultats que s'obtenen, podem millorar aquest procediment de manera que a l'hora de substituir la informació a extreure per l'expressió regular, limitem més les possibilitats. Per exemple, en el cas anterior, hauríem pogut tenir \texttt{([0-9]\{4\})} enlloc de \texttt{(.*)}.
+
+\end{document}
+
+
