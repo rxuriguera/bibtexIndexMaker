@@ -60,7 +60,7 @@ class TestPathRule(unittest.TestCase):
     def setUp(self):
         self.rule = PathRule()
         
-    def xtest_apply_single_path(self):
+    def test_apply_single_path(self):
         html = get_soup('acm01.html')
         
         path = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
