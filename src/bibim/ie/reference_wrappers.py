@@ -67,7 +67,7 @@ class ReferenceWrapper(Wrapper):
         if not pre:
             return ref
         
-        # As teh wrapper has been hardcoded, we already know what will be the
+        # As the wrapper has been hardcoded, we already know what will be the
         # format of the reference
         return (pre.find(text=True).strip(), ReferenceFormat.BIBTEX)
        
