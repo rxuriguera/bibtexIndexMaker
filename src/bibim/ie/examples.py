@@ -137,7 +137,7 @@ class HTMLExampleManager(ExampleManager):
                 example = HTMLExample(url, field.value, content)
                 examples[field.name].append(example)
                 
-            # Break if we already have enought examples for all of the fields
+            # Break if we already have enough examples for all of the fields
             if min(map(len, examples.values())) >= nexamples:
                 break
     
