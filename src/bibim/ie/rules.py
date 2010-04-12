@@ -242,50 +242,7 @@ class RegexRuler(HTMLRuler):
                 matching_blocks.remove(block)
                 
         return matching_blocks
-        
-    #def _get_within_pattern_candidate(self, element_text, text, padding=1):
-    #    """
-    #    Finds a pattern that matches with the given text. It does not guarantee
-    #    that a search will return the same text. Padding needs to be adjusted
-    #    to get the desired results.
-    #    """
-    #    start_index = element_text.find(text)
-    #    if start_index == -1:
-    #        print "Value: '%s' not found" % text
-    #        return None
-    #
-    #    # Extend with characters from the right
-    #    end_index = start_index + len(text)
-    #    max_right_padding = len(element_text) - end_index 
-    #    right_padding = (padding if padding <= max_right_padding 
-    #                     else max_right_padding)
-    #    end_index += right_padding
-    #    
-    #    # Extend with elements from the left
-    #    max_left_padding = start_index
-    #    left_padding = (padding if padding <= max_left_padding 
-    #                    else max_left_padding)
-    #    start_index -= left_padding            
-    #    
-    #    # Compile pattern
-    #    pattern = element_text[start_index:end_index]
-    #    pattern = re.escape(pattern)
-    #    pattern = pattern.replace(re.escape(text), '(.*)')
-    #    return pattern
 
-    #def _get_within_pattern(self, element_text, text):
-    #    pattern = 'some_initial_pattern'
-    #    previous_pattern = 'some_other_pattern'
-    #    matches = None
-    #    padding = 2 # Start at padding = 2 to avoid spaces
-    #    while (pattern != previous_pattern) and (not matches):
-    #        previous_pattern = pattern
-    #        pattern = self._get_within_pattern_candidate(element_text,
-    #                                                     text, padding)
-    #        matches = re.search(pattern, element_text)
-    #    
-    #    return pattern
-        
 
 class PathRuler(HTMLRuler):
     """

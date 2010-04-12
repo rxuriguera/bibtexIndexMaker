@@ -264,27 +264,6 @@ class TestRegexRuler(TestHTMLRuler):
         self.ruler = RegexRuler()
         super(TestRegexRuler, self).setUp()
 
-    def xtest_get_within_pattern_candidate_incorrect_result(self):
-        pattern = self.ruler._get_within_pattern_candidate(self.element_text,
-                                                           self.text01)
-        pattern = re.compile(pattern)
-        matches = re.search(pattern, self.element_text)
-        self.failUnless(matches)
-        groups = matches.groups()
-        self.failUnless(len(groups) == 1)
-        # The text should not be extracted properly
-        self.failIf(groups[0] == self.text01)
-        
-    def xtest_get_within_pattern__candidate_too_much_padding(self):
-        pattern = self.ruler._get_within_pattern_candidate(self.element_text,
-                                                           self.text01, 10)
-        pattern = re.compile(pattern)
-        matches = re.search(pattern, self.element_text)
-        self.failUnless(matches)
-        groups = matches.groups()
-        self.failUnless(len(groups) == 1)
-        self.failUnless(groups[0] == self.text01)
-
     def test_rule_example(self):
         rule = self.ruler._rule_example(self.example01)
         self.failUnless(rule.pattern == (u'\\ Volume\\ 70\\ \\,\\&nbsp\\;\\ '
