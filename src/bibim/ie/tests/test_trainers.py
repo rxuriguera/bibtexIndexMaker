@@ -19,56 +19,61 @@
 import unittest #@UnresolvedImport
 import random #@UnresolvedImport
 
-from bibim.ie.trainers import (HTMLWrapperTrainer,
+from bibim.ie.trainers import (WrapperTrainer,
+                               HTMLWrapperTrainer,
                                TooFewExamplesError)
 
 from bibim.ie.examples import ExampleManager                                
 from bibim.ie.rules import Rule, Ruler
-from bibim.ie.validation import WrapperValidator
+
 
 class MockExampleManager(ExampleManager):
     def get_examples(self, url, nexamples):
+        return self._get_examples(5, nexamples, nexamples + 15)
+    
+    def _get_examples(self, nsets, min, max):
         sets = {}
-        for i in 'abcde':
-            sets[i] = set(range(random.randint(3, 50)))
-        return sets
+        fields = 'abcdefghijklmnopqrstuvwxyz'
+        nsets = nsets if nsets < len(fields) else len(fields) - 1
+        for i in range(nsets):
+            field = fields[i]
+            sets[field] = set(range(random.randint(min, max)))
+        return sets   
+    
 
 class MockRuler(Ruler):
     def rule(self, training):
-        return Rule(random.randint(0, 10))     
+        return Rule(str(random.randint(0, 10)))     
 
-class MockTrueValidator(WrapperValidator):
-    def validate(self):
-        return True
 
-class MockFalseValidator(WrapperValidator):
-    def validate(self):
-        return False
-
-class TestHTMLWrapperTrainer(unittest.TestCase):
-
+class TestWrapperTrainer(unittest.TestCase):
     def setUp(self):
-        self.htmlwt = HTMLWrapperTrainer(tp=0.8, vp=0.2, min=3)
-        self.htmlwt.set_example_manager(MockExampleManager())
-
-    def test_split_examples(self):
-        examples = range(50)
-        sets = self.htmlwt._split_examples(examples)
-        self.failIf(not sets)
-        self.failUnless(len(sets[0]) == 40)
-        self.failUnless(len(sets[1]) == 10)
-
-    def test_split_examples_too_few_examples(self):
-        examples = range(10)
-        self.htmlwt.set_min_examples(20)
-        self.failUnlessRaises(TooFewExamplesError, self.htmlwt._split_examples,
-                              examples)
+        self.wt = WrapperTrainer(MockExampleManager(), [MockRuler()], min=3)
+        self.nsets = 5
+        
+        self.example_sets = MockExampleManager()._get_examples(self.nsets,
+                                                               5, 10)
+        
+    def test_train_too_few_examples(self):
+        self.wt.set_min_examples(20)
+        self.failUnlessRaises(TooFewExamplesError, self.wt.train,
+                              self.example_sets)
 
     def test_train(self):
-        self.htmlwt.set_rulers([MockRuler()])
-        wrapper = self.htmlwt.train('some_url')
-        pass
+        wrapper = self.wt.train(self.example_sets)
+        self.failUnless(len(wrapper.rules) == self.nsets)
               
+              
+class TestHTMLWrapperTrainer(unittest.TestCase):
+    def setUp(self):
+        self.wt = HTMLWrapperTrainer(min=2)
+        self.wt.example_manager = MockExampleManager()
+        self.wt.rulers = [MockRuler()]
+        self.nsets = 5
+
+    def test_train(self):
+        wrapper = self.wt.train('file:///home/rxuriguera/enlistments/')
+        self.failUnless(len(wrapper.rules) == self.nsets)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
