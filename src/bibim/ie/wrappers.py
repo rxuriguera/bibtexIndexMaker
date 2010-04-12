@@ -93,9 +93,30 @@ class FieldWrapper(Wrapper):
             info = strategy(page)
         return info
 
+
 class RuledWrapper(Wrapper):
     """
-    
+    This kind of wrapper is intended to extract information using a set of
+    rules. For each field there will be a list of rules that will be applied
+    in the given order. The result of a rule will be processed with the 
+    following rule in the list.
     """
     def __init__(self):
-        self.rules = []
+        self.rules = {}
+
+    def get_rules(self):
+        return self.__rules
+    def set_rules(self, value):
+        self.__rules = value
+
+    def add_rule(self, field, rule):
+        self.__rules.setdefault(field, [])
+        self.__rules[field].append(rule)
+    
+    def add_field_rules(self, field, rules):
+        self.__rules[field] = rules
+    
+    def extract_info(self):    
+        pass
+    
+    rules = property(get_rules, set_rules)
