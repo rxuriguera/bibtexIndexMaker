@@ -24,15 +24,114 @@ from os.path import normpath, join, dirname
 from bibim.ie.rules import (HTMLRuler,
                             RegexRuler,
                             PathRuler,
-                            Rule)
+                            Rule,
+                            RegexRule,
+                            PathRule)
 from bibim.ie.examples import HTMLExample
 from bibim.util.beautifulsoup import BeautifulSoup
 
+        
+def get_soup(file_name):
+    file_path = normpath(join(dirname(__file__), ('../../../../tests/'
+                                 'fixtures/wrappers/' + file_name)))
+    file = open(file_path)
+    contents = file.read()
+    contents = contents.replace('\n', '')
+    contents = contents.replace('\r', '')
+    contents = contents.replace('\t', '')
+    soup = BeautifulSoup(contents)
+    file.close()
+    return soup
 
+
+class TestRegexRule(unittest.TestCase):
+    def test_apply(self):
+        text = 'The event was held in Belgrade from 1883 to 1993'
+        rule = RegexRule('.*(\d{4}).*(\d{4}).*')
+        result = rule.apply(text)
+        self.failUnless(result == ('1883', '1993'))
+        
+        rule.pattern = '.*(\d{4}).*(?:\d{4}).*'
+        result = rule.apply(text)
+        self.failUnless(result == ('1883',))
+
+
+class TestPathRule(unittest.TestCase):
+    def setUp(self):
+        self.rule = PathRule()
+        
+    def xtest_apply_single_path(self):
+        html = get_soup('acm01.html')
+        
+        path = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                    [u'span', {u'class': u'small-text'}, 5]]]
+        self.rule.pattern = path
+        
+        result = self.rule.apply(html)
+        self.failIf(not result)
+        self.failUnless(result.startswith(' Volume 70'))
+
+    def test_apply_multiple_paths(self):
+        html = BeautifulSoup('<html><body><div id="01" class="div01"><span>'
+                             'Some text</span><p>Paragraph</p></div>'
+                             '</body></html>')
+        
+        path = [[[u'div', {u'class': u'div01'}, 1],
+                 [u'span', {u'class': u'small-text'}, 5]],
+                [[u'div', {u'class': u'div01'}, 1],
+                 [u'span', {}, 0]]
+               ]
+        
+        self.rule.pattern = path
+        result = self.rule.apply(html)
+        self.failIf(not result)
+        self.failUnless(result == "Some text")
+        
+    def test_apply_no_sibling(self):
+        html = BeautifulSoup('<html><body><div id="01" class="div01"><span>'
+                             'Some text</span><p>Paragraph</p></div>'
+                             '</body></html>')
+        
+        path = [[[u'div', {u'class': u'div01'}, 1],
+                 [u'p', {}, None]],
+                [[u'div', {u'class': u'div01'}, 1],
+                 [u'span', {}, 0]]
+               ]
+        
+        self.rule.pattern = path
+        result = self.rule.apply(html)
+        self.failIf(not result)
+        self.failUnless(result == "Paragraph")
+    
+    def test_apply_no_tag(self):
+        html = BeautifulSoup('<html><body><div id="01" class="div01"><span>'
+                             'Some text</span><p>Paragraph</p></div>'
+                             '</body></html>')
+        
+        path = [[[True, {u'class': u'div01'}, 1]]]
+        
+        self.rule.pattern = path
+        result = self.rule.apply(html)
+        self.failIf(not result)
+        self.failUnless(result == "Some text")
+    
+    def test_apply_multiple_root(self):
+        html = BeautifulSoup('<html><body>'
+                             '<div class="div01"/>'
+                             '<div class="div01"/>'
+                             '</body></html>')
+        
+        path = [[[True, {u'class': u'div01'}, None]]]
+        
+        self.rule.pattern = path
+        result = self.rule.apply(html)
+        self.failIf(result)
+                
+                
 class TestRuler(unittest.TestCase):
     def setUp(self):
-        self.soup01 = self._get_soup('acm01.html')
-        self.soup02 = self._get_soup('acm02.html')
+        self.soup01 = get_soup('acm01.html')
+        self.soup02 = get_soup('acm02.html')
         self.element01 = self.soup01.find(True, text='Neurocomputing ').parent
         self.element02 = self.soup01.find('td', {'class':'small-text'}).parent
         self.element03 = self.soup01.find('col', {'width':'91%'})
@@ -42,19 +141,6 @@ class TestRuler(unittest.TestCase):
         self.text04 = '1459-1460'
         self.element_text = self.soup01.find(True,
                                              text=re.compile(self.text01))
-        
-    def _get_soup(self, file_name):
-        file_path = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'fixtures/wrappers/' + file_name)))
-        file = open(file_path)
-        contents = file.read()
-        contents = contents.replace('\n', '')
-        contents = contents.replace('\r', '')
-        contents = contents.replace('\t', '')
-        soup = BeautifulSoup(contents)
-        #soup = BeautifulSoup(file.read())
-        file.close()
-        return soup
 
 
 class TestHTMLRuler(TestRuler):    
@@ -118,7 +204,7 @@ class TestPathRuler(TestHTMLRuler):
         pattern = [[u'div', {u'class': u'small-text'}, 1],
                   [u'span', {u'class': u'small-text'}, 5]]          
         general = self.ruler._merge_patterns(general, pattern)
-        result = [[[None, {u'class': u'small-text'}, 1],
+        result = [[[True, {u'class': u'small-text'}, 1],
                    [u'span', {u'class': u'small-text'}, 5]]]
         self.failUnless(general == result, "Different element names")
 
@@ -126,7 +212,7 @@ class TestPathRuler(TestHTMLRuler):
         pattern = [[u'div', {u'class': u'small-text'}, 1],
                   [u'span', {u'class': u'small-text'}, 3]]          
         general = self.ruler._merge_patterns(general, pattern)
-        result = [[[None, {u'class': u'small-text'}, 1],
+        result = [[[True, {u'class': u'small-text'}, 1],
                    [u'span', {u'class': u'small-text'}, None]]]
         self.failUnless(general == result, "Different element sibling number")
         
@@ -134,14 +220,14 @@ class TestPathRuler(TestHTMLRuler):
         pattern = [[u'td', {u'class': u'small-text'}, 1],
                    [u'span', {u'class': u'big-text'}, 5]] 
         general = self.ruler._merge_patterns(general, pattern)
-        result = [[[None, {u'class': u'small-text'}, 1],
+        result = [[[True, {u'class': u'small-text'}, 1],
                    [u'span', {}, None]]]
         self.failUnless(general == result, "Different attribute values")
         
         # Merge patterns with different length paths
         pattern = [[u'span', {u'class': u'big-text'}, 5]] 
         general = self.ruler._merge_patterns(general, pattern)
-        result = [[[None, {u'class': u'small-text'}, 1],
+        result = [[[True, {u'class': u'small-text'}, 1],
                    [u'span', {}, None]],
                   [[u'span', {u'class': u'big-text'}, 5]]]
         self.failUnless(general == result, "Different length")
@@ -239,15 +325,6 @@ class TestRegexRuler(TestHTMLRuler):
         self.failUnless(result.pattern == [u'\\ Pages\\:\\ (.*)\\&nbsp\\'
                                             ';\\&nbsp\\;'])
         
-        
-#    def test_rule(self):
-#        rule = self.ruler.rule(self.soup, self.text02)
-#        pattern = "\\:\\ (.*)\\&n"
-#        self.failUnless(rule.pattern == pattern)
-
-#    def test_rule_raises_exception(self):
-#        self.failUnlessRaises(ValueError, self.ruler.rule, self.soup, 'some random text')
-
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
