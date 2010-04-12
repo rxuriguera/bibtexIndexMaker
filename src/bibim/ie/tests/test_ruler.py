@@ -19,6 +19,7 @@
 import unittest #@UnresolvedImport
 
 import re
+import difflib #@UnresolvedImport
 from os.path import normpath, join, dirname
 
 from bibim.ie.rules import (HTMLRuler,
@@ -263,7 +264,7 @@ class TestRegexRuler(TestHTMLRuler):
         self.ruler = RegexRuler()
         super(TestRegexRuler, self).setUp()
 
-    def test_get_within_pattern_candidate_incorrect_result(self):
+    def xtest_get_within_pattern_candidate_incorrect_result(self):
         pattern = self.ruler._get_within_pattern_candidate(self.element_text,
                                                            self.text01)
         pattern = re.compile(pattern)
@@ -274,7 +275,7 @@ class TestRegexRuler(TestHTMLRuler):
         # The text should not be extracted properly
         self.failIf(groups[0] == self.text01)
         
-    def test_get_within_pattern__candidate_too_much_padding(self):
+    def xtest_get_within_pattern__candidate_too_much_padding(self):
         pattern = self.ruler._get_within_pattern_candidate(self.element_text,
                                                            self.text01, 10)
         pattern = re.compile(pattern)
@@ -302,8 +303,8 @@ class TestRegexRuler(TestHTMLRuler):
                     'Issue\\ 21\\-23\\ \\&nbsp\\;\\(January\\ (.*)\\)')
         result = self.ruler._merge_patterns(general, pattern)
         expected = [u'\\ Volume\\ (?:.*)\\ \\,\\&nbsp\\;\\ '
-                     'Issue\\ (?:.*)1(?:.*)\\-(?:.*)\\ \\&nb'
-                     'sp\\;\\((?:.*)r(?:.*)\\ (.*)\\)']
+                     'Issue\\ (?:.*)\\-(?:.*)\\ \\&nb'
+                     'sp\\;\\((?:.*)\\ (.*)\\)']
         self.failUnless(result == expected)
         
 
@@ -320,11 +321,15 @@ class TestRegexRuler(TestHTMLRuler):
         result = self.ruler.rule([self.example01, self.example03])
         self.failUnless(result.pattern == [u'\\ Volume\\ (?:.*)\\ \\,\\&nbsp\\'
                                             ';\\ Issue\\ 1(?:.*)\\ \\&nbsp\\;'
-                                            '\\((?:.*)e(?:.*)\\ (.*)\\)'])        
+                                            '\\((?:.*)\\ (.*)\\)'])        
         result = self.ruler.rule([self.example02, self.example04])
         self.failUnless(result.pattern == [u'\\ Pages\\:\\ (.*)\\&nbsp\\'
                                             ';\\&nbsp\\;'])
-        
+
+    def test_apply_heuristics(self):
+        sm = difflib.SequenceMatcher(None, 'The 35th house', 'The 3rd House')
+        result = self.ruler._apply_heuristics('The 35th house',
+                                              sm.get_matching_blocks())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

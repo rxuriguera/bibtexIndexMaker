@@ -203,6 +203,9 @@ class RegexRuler(HTMLRuler):
         while not sm.quick_ratio() == 1.0:
             matching_blocks = sm.get_matching_blocks()
             
+            matching_blocks = self._apply_heuristics(g_pattern,
+                                                     list(matching_blocks))
+            
             g_pattern = self._replace_non_matching_block(g_pattern,
                                                          matching_blocks,
                                                          0)
@@ -210,8 +213,7 @@ class RegexRuler(HTMLRuler):
                                                        matching_blocks,
                                                        1)
             sm.set_seqs(g_pattern, pattern)
-        return g_pattern
-    
+        return g_pattern    
     
     def _replace_non_matching_block(self, str, blocks, seq=0, block=0,
                                     rep='(?:.*)'):
@@ -223,48 +225,66 @@ class RegexRuler(HTMLRuler):
         length = blocks[block + 1][seq] - start
         return str[:start] + rep + str[start + length:]
 
-    def _get_within_pattern_candidate(self, element_text, text, padding=1):
+    def _apply_heuristics(self, str, matching_blocks, seq=0):
         """
-        Finds a pattern that matches with the given text. It does not guarantee
-        that a search will return the same text. Padding needs to be adjusted
-        to get the desired results.
+        This function applies an heuristic to remove matching blocks of length
+        1 that are characters or numbers.
+        It might be extended in the future
         """
-        start_index = element_text.find(text)
-        if start_index == -1:
-            print "Value: '%s' not found" % text
-            return None
-    
-        # Extend with characters from the right
-        end_index = start_index + len(text)
-        max_right_padding = len(element_text) - end_index 
-        right_padding = (padding if padding <= max_right_padding 
-                         else max_right_padding)
-        end_index += right_padding
         
-        # Extend with elements from the left
-        max_left_padding = start_index
-        left_padding = (padding if padding <= max_left_padding 
-                        else max_left_padding)
-        start_index -= left_padding            
+        regex = re.compile("(\w{1})")
+        length1 = [block for block in matching_blocks if block[2] == 1]
         
-        # Compile pattern
-        pattern = element_text[start_index:end_index]
-        pattern = re.escape(pattern)
-        pattern = pattern.replace(re.escape(text), '(.*)')
-        return pattern
+        for block in length1:
+            char = str[block[seq]]
+            matches = re.search(regex, char)
+            if matches:
+                matching_blocks.remove(block)
+                
+        return matching_blocks
+        
+    #def _get_within_pattern_candidate(self, element_text, text, padding=1):
+    #    """
+    #    Finds a pattern that matches with the given text. It does not guarantee
+    #    that a search will return the same text. Padding needs to be adjusted
+    #    to get the desired results.
+    #    """
+    #    start_index = element_text.find(text)
+    #    if start_index == -1:
+    #        print "Value: '%s' not found" % text
+    #        return None
+    #
+    #    # Extend with characters from the right
+    #    end_index = start_index + len(text)
+    #    max_right_padding = len(element_text) - end_index 
+    #    right_padding = (padding if padding <= max_right_padding 
+    #                     else max_right_padding)
+    #    end_index += right_padding
+    #    
+    #    # Extend with elements from the left
+    #    max_left_padding = start_index
+    #    left_padding = (padding if padding <= max_left_padding 
+    #                    else max_left_padding)
+    #    start_index -= left_padding            
+    #    
+    #    # Compile pattern
+    #    pattern = element_text[start_index:end_index]
+    #    pattern = re.escape(pattern)
+    #    pattern = pattern.replace(re.escape(text), '(.*)')
+    #    return pattern
 
-    def _get_within_pattern(self, element_text, text):
-        pattern = 'some_initial_pattern'
-        previous_pattern = 'some_other_pattern'
-        matches = None
-        padding = 2 # Start at padding = 2 to avoid spaces
-        while (pattern != previous_pattern) and (not matches):
-            previous_pattern = pattern
-            pattern = self._get_within_pattern_candidate(element_text,
-                                                         text, padding)
-            matches = re.search(pattern, element_text)
-        
-        return pattern
+    #def _get_within_pattern(self, element_text, text):
+    #    pattern = 'some_initial_pattern'
+    #    previous_pattern = 'some_other_pattern'
+    #    matches = None
+    #    padding = 2 # Start at padding = 2 to avoid spaces
+    #    while (pattern != previous_pattern) and (not matches):
+    #        previous_pattern = pattern
+    #        pattern = self._get_within_pattern_candidate(element_text,
+    #                                                     text, padding)
+    #        matches = re.search(pattern, element_text)
+    #    
+    #    return pattern
         
 
 class PathRuler(HTMLRuler):
