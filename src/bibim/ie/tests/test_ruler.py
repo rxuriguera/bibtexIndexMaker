@@ -264,7 +264,18 @@ class TestRegexRuler(TestHTMLRuler):
         self.ruler = RegexRuler()
         super(TestRegexRuler, self).setUp()
 
-    def test_rule_example(self):
+    def test_non_matching_to_regex_different(self):
+        pattern01 = 'Volume\ 31\,\ Number\ 7\ \/\ July\,\ (.*)'
+        pattern02 = 'Wednesday\,\ November\ 03\,\ (.*)'
+        result = self.ruler._non_matching_to_regex(pattern01, pattern02)
+        self.failUnless(result == '\,\ N(?:.*)mber\ (?:.*)\,\ (.*)')
+        
+        pattern01 = 'July\,\ (.*)Some'
+        pattern02 = '\ (.*)More'
+        result = self.ruler._non_matching_to_regex(pattern01, pattern02)
+        self.failUnless(result == '\ (.*)')
+        
+    def xtest_rule_example(self):
         rule = self.ruler._rule_example(self.example01)
         self.failUnless(rule.pattern == (u'\\ Volume\\ 70\\ \\,\\&nbsp\\;\\ '
             'Issue\\ 16\\-18\\ \\&nbsp\\;\\(October\\ (.*)\\)'))
