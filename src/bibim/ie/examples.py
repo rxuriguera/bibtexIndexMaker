@@ -172,11 +172,20 @@ class HTMLExampleManager(ExampleManager):
         content = None
         try:
             content = Browser().get_page(url)
+            content = self._clean_content(content)
             content = BeautifulSoup(content) if content else None
         except BrowserError as e:
             log.error('Error retrieving page %s: %s' % (url, #@UndefinedVariable
                                                         e.error))
         self.last_request = datetime.now()
+        return content
+    
+    def _clean_content(self, content):
+        if not content:
+            return None
+        content = content.replace('\n', '')
+        content = content.replace('\r', '')
+        content = content.replace('\t', '')
         return content
     
     def _check_still_valid(self, mapper, content):
