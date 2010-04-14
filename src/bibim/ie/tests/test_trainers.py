@@ -19,11 +19,15 @@
 import unittest #@UnresolvedImport
 import random #@UnresolvedImport
 
+from os.path import join, dirname, normpath
+
+from bibim.util.config import BibimConfig
 from bibim.ie.trainers import (WrapperTrainer,
                                HTMLWrapperTrainer,
                                TooFewExamplesError)
 
-from bibim.ie.examples import ExampleManager                                
+from bibim.db.session import create_session
+from bibim.ie.examples import (ExampleManager, HTMLExampleManager)                                
 from bibim.ie.rules import Rule, Ruler
 
 
@@ -67,13 +71,22 @@ class TestWrapperTrainer(unittest.TestCase):
 class TestHTMLWrapperTrainer(unittest.TestCase):
     def setUp(self):
         self.wt = HTMLWrapperTrainer(min=2)
-        self.wt.example_manager = MockExampleManager()
-        self.wt.rulers = [MockRuler()]
-        self.nsets = 5
+        self.wt.example_manager = HTMLExampleManager(create_session(
+            sql_uri='sqlite:///../../../../tests/fixtures/wrappers/test_db.db',
+            debug=True))
+        #self.wt.example_manager = MockExampleManager()
+        #self.wt.rulers = [MockRuler()]
+        self.nsets = 3
 
     def test_train(self):
-        wrapper = self.wt.train('file:///home/rxuriguera/enlistments/')
-        self.failUnless(len(wrapper.rules) == self.nsets)
+        wrapper01 = self.wt.train('file:///home/rxuriguera/enlistments/bibtexIndexMaker/tests/fixtures/wrappers/acm')
+        self.failUnless(len(wrapper01.rules) == self.nsets)
+        
+        wrapper02 = self.wt.train('file:///home/rxuriguera/enlistments/bibtexIndexMaker/tests/fixtures/wrappers/springer')
+        self.failUnless(len(wrapper02.rules) == self.nsets)
+        
+        wrapper03 = self.wt.train('file:///home/rxuriguera/enlistments/bibtexIndexMaker/tests/fixtures/wrappers/sciencedirect')
+        self.failUnless(len(wrapper03.rules) == self.nsets)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
