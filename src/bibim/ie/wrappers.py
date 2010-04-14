@@ -16,6 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+import simplejson #@UnresolvedImport
+
+from bibim.db.session import create_session
+from bibim.db import mappers
+from bibim.ie.rules import RuleFactory
+
 
 class Wrapper(object):
     """
@@ -59,7 +65,6 @@ class FieldWrapper(Wrapper):
     """
     Allows concrete field extraction from semi-structured 
     """
-    
     _shortcuts = {}
     
     def extract_info(self, source, page):
@@ -106,6 +111,7 @@ class RuledWrapper(Wrapper):
 
     def get_rules(self):
         return self.__rules
+    
     def set_rules(self, value):
         self.__rules = value
 
@@ -120,3 +126,66 @@ class RuledWrapper(Wrapper):
         pass
     
     rules = property(get_rules, set_rules)
+    
+
+class RuledWrapperManager(object):
+    """
+    This class allows to store and retrieve ruled wrappers from the database
+    as well as computing some statistics about the available wrappers.
+    RuledWrappers used by this class must have a pattern that only consists
+    of python built-in classes (i.e. strings, ints, lists, tuples, 
+    dictionaries, etc.)
+    """
+    def __init__(self, session=None):
+        if not session:
+            session = create_session()
+        self.session = session
+    
+    def persist_wrapper(self, url, wrapper):
+        m_wrapper = mappers.Wrapper(url)
+        self.session.add(m_wrapper)
+        for field in wrapper.rules:
+            m_field = mappers.WrapperField(field)
+            m_wrapper.fields.append(m_field)
+            
+            rules = wrapper.rules[field]
+            for rule, order in zip(rules, range(len(rules))):
+                m_rule = mappers.WrapperRule(rule.__class__.__name__,
+                                             simplejson.dumps(rule.pattern),
+                                             order)
+                m_field.rules.append(m_rule)
+        self.session.commit()
+        
+    def get_wrapper(self, url):
+        mapper = self._get_wrapper_mapper(url)
+        if not mapper:
+            return None
+        
+        rule_factory = RuleFactory()
+        wrapper = RuledWrapper()
+        for field in mapper.fields:
+            for rule in field.rules:
+                rule_type = rule.rule_type
+                pattern = simplejson.loads(str(rule.pattern))
+                r_rule = rule_factory.create_rule(rule_type, pattern)
+                if r_rule:
+                    wrapper.add_rule(field.name, r_rule)
+                
+        return wrapper
+            
+    def _get_wrapper_mapper(self, url):
+        """
+        Retrieves mappers from the database that will be used to create
+        the examples
+        """
+        examples = {}
+        query_results = (self.session.query(mappers.Wrapper).
+                         filter(mappers.Wrapper.url.like(url + '%'))[0:1]) #@UndefinedVariable
+        
+        if query_results:
+            return query_results.pop(0)
+        else:
+            return None
+    
+    def check_obsolete_wrappers(self):
+        pass
