@@ -98,7 +98,15 @@ class PathRule(Rule):
             else:
                 current = current.find(tag, attrs)
         return current
-        
+
+
+class RuleFactory(object):
+    def create_rule(self, rule_type, pattern):
+        try:
+            return globals()[rule_type](pattern)
+        except KeyError:
+            return Rule(pattern)
+
         
 class Ruler(object):
     """
@@ -218,12 +226,18 @@ class RegexRuler(HTMLRuler):
     def _replace_non_matching_block(self, str, blocks, seq=0, block=0,
                                     rep='(?:.*)'):
         # Check that the sequence is a or b
-        if not ((seq in [0, 1]) and (len(blocks) > block + 2)):
-            return None
+        if not ((seq in [0, 1]) and (len(blocks) > block)): 
+            return ""
         
-        start = blocks[block][seq] + blocks[block][2]
-        length = blocks[block + 1][seq] - start
-        return str[:start] + rep + str[start + length:]
+        if len(blocks) == block + 2:
+            # Remove non-matching block
+            start = blocks[block][seq]
+            length = blocks[block][2]
+            return str[start:start + length]
+        else:
+            start = blocks[block][seq] + blocks[block][2]
+            length = blocks[block + 1][seq] - start
+            return str[:start] + rep + str[start + length:]
 
     def _apply_heuristics(self, str, matching_blocks, seq=0):
         """
