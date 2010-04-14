@@ -19,7 +19,18 @@
 import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 
+from bibim.db.session import create_session
+from bibim.ie.rules import Rule
+from bibim.ie.wrappers import (RuledWrapper, RuledWrapperManager)
 from bibim.util import BeautifulSoup
+
+
+class MockRule01(Rule):
+    pass
+
+
+class MockRule02(Rule):
+    pass
 
 
 class TestWrapper(unittest.TestCase):
@@ -37,7 +48,46 @@ class TestWrapper(unittest.TestCase):
         soup = BeautifulSoup(file.read())
         file.close()
         return soup
+    
 
+class TestRuledWrapperManager(unittest.TestCase):
+    
+    def setUp(self):
+        #self.wm = RuledWrapperManager()
+        self.wm = RuledWrapperManager(create_session(
+            sql_uri='sqlite:///:memory:', debug=True))
+    
+    def test_get_unavailable_wrapper(self):
+        wrapper = self.wm.get_wrapper(u'non_existent_url')
+        self.failUnless(wrapper == None)
+
+    def test_persist_wrapper_with_incorrect_rules(self):
+        wrapper = RuledWrapper()
+        wrapper.add_rule(u'field01', MockRule01(MockRule02(33)))
+        self.failUnlessRaises(TypeError, self.wm.persist_wrapper,
+                              'some_url', wrapper)
+    
+    def test_persist_and_get_wrapper(self):
+        wrapper = RuledWrapper()
+        wrapper.add_rule(u'field01', MockRule01(33))
+        wrapper.add_rule(u'field01', MockRule01(55))
+        wrapper.add_rule(u'field01', MockRule01(66))
+        wrapper.add_rule(u'field02', MockRule02([1, [2, 3, 4, 5], 6]))
+
+        self.wm.persist_wrapper(u'some_url', wrapper)
+    
+        # Get the wrapper that we've just saved
+        wrapper = self.wm.get_wrapper(u'some_url')
+        self.failUnless(len(wrapper.rules) == 2)
+        self.failUnless('field01' in wrapper.rules)
+        self.failUnless('field02' in wrapper.rules)
+        self.failUnless(len(wrapper.rules['field01']) == 3)
+        self.failUnless(len(wrapper.rules['field02']) == 1)
+
+        
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
+
+
