@@ -31,13 +31,13 @@ metadata = Base.metadata #@UndefinedVariable
 
 session = None
 
-def create_session(sql_uri=BibimConfig().database):
+def create_session(sql_uri=BibimConfig().database, debug=False):
     """
     Creates a session.
     If 'global' is True creates a global session variable.
     """
     global session
-    if not session:
+    if not session or debug:
         engine = create_engine(sql_uri)
         metadata.create_all(engine)
         Session = sessionmaker(bind=engine, autoflush=True, autocommit=False)
