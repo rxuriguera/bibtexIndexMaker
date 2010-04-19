@@ -83,7 +83,7 @@ class WrapperCollection(Base):
     id = Column(Integer, primary_key=True)
     url = Column(Unicode, nullable=False)
     field = Column(Unicode, nullable=False)
-    wrappers = relation(Wrapper, order_by=Wrapper.score)
+    wrappers = relation(Wrapper, order_by=Wrapper.score.desc())
 
     def __init__(self, url='', field=''):
         self.url = url
