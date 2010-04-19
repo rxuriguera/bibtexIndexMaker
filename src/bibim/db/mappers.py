@@ -46,44 +46,48 @@ class WrapperRule(Base):
     rule_type = Column(String, nullable=False)
     pattern = Column(String, nullable=False)
     order = Column(Integer, nullable=False)
-    field_id = Column(Integer, ForeignKey('wrapper_fields.id'))
+    wrapper_id = Column(Integer, ForeignKey('wrappers.id'))
 
     def __init__(self, rule_type, pattern, order=0):
         self.rule_type = rule_type
         self.pattern = pattern
         self.order = order
+    
 
-
-class WrapperField(Base):
-    __tablename__ = 'wrapper_fields'
-    
-    id = Column(Integer, primary_key=True)
-    name = Column(Unicode, nullable=False)
-    rules = relation(WrapperRule, order_by=WrapperRule.order)
-    wrapper_id = Column(Integer, ForeignKey('wrappers.id'))
-    
-    def __init__(self, name, rules=[]):
-        self.name = name
-        self.rules = rules
-    
-    def add_rule(self, rule):
-        self.rules.append(rule)
-    
-    
 class Wrapper(Base):
     __tablename__ = 'wrappers'
     
     id = Column(Integer, primary_key=True)
-    url = Column(Unicode, nullable=False, unique=True)
-    fields = relation(WrapperField, order_by=WrapperField.id)
+    rules = relation(WrapperRule, order_by=WrapperRule.order)
+    upvotes = Column(Integer, default=0)
+    downvotes = Column(Integer, default=0)
+    score = Column(Float, default=0.0)
+    collection_id = Column(Integer, ForeignKey('wrapper_collections.id'))
 
-    def __init__(self, url='', fields=[]):
-        self.url = url
-        self.fields = fields
+    def __init__(self, rules=[]):
+        self.rules = rules
+        self.upvotes = 0
+        self.downvotes = 0
+        self.score = 0.0
     
-    def add_field(self, field):
-        self.rules.append(field)
+    def add_rule(self, rule):
+        self.rules.append(rule)
 
+
+class WrapperCollection(Base):
+    """
+    Groups wrappers depending on the URL and fields for which they can be used
+    """
+    __tablename__ = 'wrapper_collections'
+    
+    id = Column(Integer, primary_key=True)
+    url = Column(Unicode, nullable=False)
+    field = Column(Unicode, nullable=False)
+    wrappers = relation(Wrapper, order_by=Wrapper.score)
+
+    def __init__(self, url='', field=''):
+        self.url = url
+        self.field = field
 
 class Person(Base):
     __tablename__ = 'people'
