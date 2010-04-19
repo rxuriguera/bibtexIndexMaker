@@ -18,11 +18,13 @@
 
 import re
 import difflib #@UnresolvedImport
+import simplejson #@UnresolvedImport
 
 from bibim import log
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
+SIMILARITY_THRESHOLD = 0.8
 
 class Rule(object):
     """
@@ -31,6 +33,9 @@ class Rule(object):
     
     def __init__(self, pattern=None):
         self.pattern = pattern
+
+    def __eq__(self, other):
+        return self.pattern == other.pattern
 
     def get_pattern(self):
         return self.__pattern
@@ -112,102 +117,64 @@ class Ruler(object):
     """
     Creates rules given a set of examples
     """
-    
     def rule(self, training):
         """
         Given a set of examples, induces a rule that conforms them
         """
-        rules = []
+        rules = self._rule_example(training.pop())
         for example in training:
-            rules.append(self._rule_example(example))
-        
-        return self._merge_rules(rules) 
-    
+            example_rules = self._rule_example(example)
+            self._merge_rules(rules, example_rules)
+        return rules
+ 
     def _rule_example(self, example):
         """
         It creates a rule that works for a specific example 
         """
-        pass
+        return []
     
-    def _merge_rules(self, rules):
+    def _merge_rules(self, generalized_rules, rules):
         """
-        Given a set of rules, it finds their common factor to create a new 
-        rule that works for all of them.
+        Given a list of rules, it finds their common with a list of some other
+        rules. The result is a generalization covering the two collections. 
         """
-        pass
-
-
-class HTMLRuler(Ruler):
-    """
-    Creates rules that can be used with HTML documents
-    """
-    def _get_content_element(self, example):
-        """
-        Looks in the content of the example to find the element that contains
-        the desired value. Raises a ValueError exception if the example's
-        content does not contain the value.
-        """
-        try:
-            element_text = example.content.find(True,
-                                                text=re.compile(example.value))
-        except NameError, e:
-            log.error("Example's content is not an HTML document: %s" % e) #@UndefinedVariable
-            
-        if not element_text:
-            raise ValueError
-        
-        return element_text
-    
-    def _merge_rules(self, rules):
-        if not rules:
-            raise ValueError
-        
-        # In order to have OR rules, we use a list with all the possibilities
-        general_pattern = [rules.pop(0).pattern]
-        
         for rule in rules:
-            general_pattern = self._merge_patterns(general_pattern,
-                                                   rule.pattern)
-        return Rule(general_pattern)
+            self._merge_single_rule(generalized_rules, rule)
+            
+    def _merge_single_rule(self, g_rules, s_rule):
+        """
+        Given a rule and a list of rules, it generalizes the rules on the list
+        so they cover the new case.
+        """
+        append_rule = True
+        for g_rule, index in zip(g_rules, range(len(g_rules))):
+            if self._should_merge(g_rule, s_rule):
+                g_rule.pattern = self._merge_patterns(g_rule.pattern,
+                                                      s_rule.pattern)
+                append_rule = False
+                break
+        if append_rule:
+            g_rules.append(s_rule)
     
-    def _merge_patterns(self, general, pattern):
-        pass
-
-
-class RegexRuler(HTMLRuler):
+    
+class RegexRuler(Ruler):
     """
-    Creates rules conisting of a regular expression and that define how a piece
-    of informacion can be extracted from an HTML element.
+    Creates rules consisting of a regular expression that can be used to
+    extract a piece of information from a text.
     """
     
     def _rule_example(self, example):
-        text = re.escape(self._get_content_element(example))
+        text = re.escape(example.content)
         pattern = text.replace(re.escape(example.value), '(.*)')
-        return Rule(pattern)
+        # In this case, only one rule is possible.
+        return [RegexRule(pattern)]
     
-    def _merge_patterns(self, general, pattern):     
-        # Get the pattern from the general patterns that has the maximum 
-        # ressemblance to the current pattern
-        smc = difflib.SequenceMatcher
-        ratios = map(lambda p: smc(None, p, pattern).quick_ratio(), general)
-        g_pattern_ratio = max(ratios)
-        g_pattern_index = ratios.index(g_pattern_ratio)
-        g_pattern = general[g_pattern_index]
-        
-        if g_pattern_ratio < MINIMUM_RATIO:
-            # In this case, we don't generalize the pattern and add it as 
-            # another possibility.
-            general.append(pattern)
-            
-        elif g_pattern_ratio < 1.0:
-            # In this case, we generalize the general pattern to match the 
-            # current one  
-            general[g_pattern_index] = self._non_matching_to_regex(g_pattern,
-                                                                   pattern) 
-        return general
-        
-    def _non_matching_to_regex(self, g_pattern, pattern):
-        sm = difflib.SequenceMatcher(None, g_pattern, pattern)
+    def _should_merge(self, g_rule, s_rule):
+        sm = difflib.SequenceMatcher(None, g_rule.pattern, s_rule.pattern)
+        return sm.quick_ratio() > SIMILARITY_THRESHOLD
+    
+    def _merge_patterns(self, g_pattern, s_pattern):     
+        sm = difflib.SequenceMatcher(None, g_pattern, s_pattern)
         while not sm.quick_ratio() == 1.0:
             matching_blocks = sm.get_matching_blocks()
             
@@ -217,11 +184,11 @@ class RegexRuler(HTMLRuler):
             g_pattern = self._replace_non_matching_block(g_pattern,
                                                          matching_blocks,
                                                          0)
-            pattern = self._replace_non_matching_block(pattern,
+            s_pattern = self._replace_non_matching_block(s_pattern,
                                                        matching_blocks,
                                                        1)
-            sm.set_seqs(g_pattern, pattern)
-        return g_pattern    
+            sm.set_seqs(g_pattern, s_pattern)
+        return g_pattern
     
     def _replace_non_matching_block(self, str, blocks, seq=0, block=0,
                                     rep='(?:.*)'):
@@ -258,35 +225,66 @@ class RegexRuler(HTMLRuler):
         return matching_blocks
 
 
-class PathRuler(HTMLRuler):
+class PathRuler(Ruler):
     """
     Creates a rule described by the path to locate some piece of information 
     in an HTML document
     """ 
 
-    def _rule_example(self, example):
-        rule = Rule()
-        element_text = self._get_content_element(example)
-        element = element_text.parent
-        rule.pattern = self._get_element_path(example.content, element)
-        return rule
     
-    def _merge_patterns(self, general_pattern, path):
-        # All paths from the general_pattern with the same length
-        same_length_path = filter(lambda p: len(p) == len(path),
-                                  general_pattern)
+    def _rule_example(self, example):
+        rules = []
+        element_rules = []
+        for element in self._get_content_elements(example):
+            element_rules.append(self._rule_element(example, element))
+        self._merge_rules(rules, element_rules)
+        return rules
+    
+    def _rule_element(self, example, element):
+        pattern = self._get_element_path(example.content, element.parent)
+        return PathRule(pattern)
+    
+    def _get_content_elements(self, example):
+        """
+        Looks in the content of the example to find the elements that contain
+        the desired value. Raises a ValueError exception if the example's
+        content does not contain the value.
+        """
+        try:
+            elements = example.content.findAll(True,
+                                               text=re.compile(example.value))
+        except NameError, e:
+            log.error("Example's content is not an HTML document: %s" % e) #@UndefinedVariable
+            elements = []
+        return elements
+
+    def _should_merge(self, g_rule, s_rule):
+        """
+        Checks if the two patterns should be merged. In this case, two patterns
+        will be merged if they have the same length with the same elements,
+        i.e. they only differ in their attributes.
+        """
+        g_pattern, s_pattern = g_rule.pattern, s_rule.pattern
+        should_merge = True
+        if len(g_pattern) != len(s_pattern):
+            should_merge = False
         
-        if not same_length_path:
-            general_pattern.append(path)
-            return general_pattern
-            
-        same_length_path = same_length_path.pop(0)
+        for g_element, s_element in zip(g_pattern, s_pattern):
+            if g_element[0] != s_element[0]:
+                should_merge = False
+                break
         
-        for element01, element02 in zip(same_length_path, path):
-            # Element type
-            element01[0] = (element01[0] 
-                            if element01[0] == element02[0] else True)
-            
+        return should_merge
+    
+    def _merge_patterns(self, g_pattern, s_pattern):
+        """
+        Merges two patterns (i.e. paths) of the same length and element names.
+        """
+        g_pattern = list(g_pattern)
+        if not len(g_pattern) == len(s_pattern):
+            raise ValueError
+        
+        for element01, element02 in zip(g_pattern, s_pattern):
             # Element attributes
             fields = {}
             for field in element01[1]:
@@ -294,12 +292,8 @@ class PathRuler(HTMLRuler):
                     (element01[1][field] == element02[1][field])):
                     fields[field] = element01[1][field] 
             element01[1] = fields
-            
-            # Number of sibbling
-            element01[2] = (element01[2] 
-                            if element01[2] == element02[2] else None)
-        return general_pattern
-    
+        return g_pattern
+
     def _is_unique(self, document, description):
         """
         Test if there is more than one element with the given description 
