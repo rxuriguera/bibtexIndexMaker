@@ -316,7 +316,6 @@ class TestRegexRuler(TestRuler):
                      '\\((?:.*)\\ (.*)\\)')
         self.failUnless(result == expected)
         
-
     def test_rule(self):
         example01 = Example(u'2007', u' Volume 22 ,&nbsp; '
                     'Issue 22-23 &nbsp;(May 2007)')
@@ -332,7 +331,6 @@ class TestRegexRuler(TestRuler):
         self.failUnless(len(results) == 2)
         self.failUnless(results[0].pattern == u'\\ Year\\ of\\ publication\\:'
                         '\\&nbsp\\;(.*)')
-
 
     def test_apply_heuristics(self):
         sm = difflib.SequenceMatcher(None, 'The 35th house', 'The 3rd House')
