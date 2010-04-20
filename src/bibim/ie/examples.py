@@ -54,7 +54,10 @@ class Example(object):
         self.__content = value
    
     value = property(get_value, set_value)
-    content = property(get_content, set_content)    
+    content = property(get_content, set_content)
+    
+    def __repr__(self):
+        return "Example(%s,%s)" % (str(self.value), str(self.content))    
 
 
 class HTMLExample(Example):
