@@ -38,6 +38,17 @@ class Test(unittest.TestCase):
             self.failIf(soup is None)
         except:
             self.fail("Soup of empty string shouldn't raise an exception")
+    
+    def test_get_text_from_non_leaf(self):
+        soup = BeautifulSoup('<html><body>'
+                             '<div>'
+                             '<span>Text 01</span>'
+                             '<span>Text 02</span>'
+                             '</div>'
+                             '</html></body>')
+        text = soup.findAll('div', text=True)
+        self.failUnless(text == 'Text 01 Text02')
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
