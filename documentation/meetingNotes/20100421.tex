@@ -1,0 +1,195 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{url} 
+\usepackage{color}
+\usepackage{lscape}
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,                  % sets default tabsize to 2 spaces
+    captionpos=b,               % sets the caption-position to bottom
+    frame=single,
+    xleftmargin=3em,
+    xrightmargin=3em,
+    backgroundcolor = \color{lightgrey}
+}        
+
+
+\title{\BibTeX{} Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{21-04-2010}
+
+\setlength{\parindent}{0in}
+\definecolor{lightgrey}{gray}{0.85}
+
+\begin{document}
+\maketitle
+
+
+
+\section{Generació de regles}
+Tal i com vam comentar a la sessió anterior, el principal problema de la generació de regles és la informació repetida dins de la mateixa pàgina: com més vegades apareix la informació que busquem dins de la pàgina, més probable és agafar una de les etiquetes que no ens convenen. Per solucionar-ho, \textbf{generem múltiples wrappers per cadascun dels camps de la referència} i considerem que un \textit{wrapper} només s'encarrega d'extreure la informació corresponent a un únic camp.
+
+\subsection{Rating}
+Per decidir quins \textit{wrappers} són els que realment funcionen, els ordenem segons un sistema de valoració que depèn dels encerts i errors. La idea és molt similar a la que s'utilitza en molts llocs web per ordenar comemantaris o recomanacions de productes:
+
+\begin{itemize}
+\item{}
+Per cada \textit{wrapper} tindrem dos comptadors: \textbf{vots positius i vots negatius}.
+\item{}
+Cada vegada que utilitzem un \textit{wrapper} per extreure informació, donem un vot positiu o negatiu segons si l'extracció ha estat vàlida o no.
+\item{}
+Això farà que la llista de \textit{wrappers} s'ordeni automàticament. Aquells que funcionen millor sempre es provaran primer.
+\end{itemize}
+
+Aquest sistema també ens permet veure quan cal generar nous \textit{wrappers}: només cal donar un cop d'ull a la llista per veure si encara en queda algun amb una valoració positiva.
+\\
+\\
+\textbf{Possible millora:} Si un \textit{wrapper} no funciona una vegada, és probable que deixi de fer-ho d'aquí en endavant. Per aquest motiu, potser seria bo accelerar el procés fent que els vots negatius tinguin més pes que els positius. Per exemple: donant més d'un vot negatiu per cada referència que s'ha extret malament.
+\\
+\\
+\textbf{Problemes:} Els camps pels quals no es pot comprovar la validesa com ara el número de pàgines. Potser es pot votar positiu/negatiu segons la validesa de la resta de camps de la referència.
+
+\subsection{Algorismes per valorar \textit{wrappers}}
+\begin{itemize}
+\item{Resta: }$score = positius - negatius$ \\
+\item{Mitjana: }$score = \frac{positius}{vots totals}$\\
+Els percentatges ens poden fer triar un \textit{wrapper} que no és el que volem. Això pot passar sobretot quan hi ha casos amb pocs vots. %Exemple: Un \textit{wrapper} té 10 vots positius i 1 de negatiu, això dóna un valor de 90'9\%. Un altre \textit{wrapper} té 150 vots positius i només 18 de negatius, però el resultat és 89'2\%. Per tant, el primer \textit{wrapper} es provaria primer, quan en realitat, segurament voldríem el segon.
+\item{Wilson score interval: }és robust per a casos on tenim pocs vots.
+\item{Bayesian Average}
+\end{itemize}
+
+\section{Wrappers multi valor (e.g. autors)}
+Pel que hem pogut comprovar, en la majoria de pàgines, els camps de més d'un valor estan estructurats com:
+\begin{itemize}
+\item{}
+Elements germans:
+\begin{center}
+\begin{lstlisting}
+<ul>
+<li>Element 01</li>
+<li>Element 02</li>
+...
+</ul>
+\end{lstlisting}
+\end{center}
+\item{Dins del mateix element i amb algun separador:}
+\begin{center}
+\begin{lstlisting}
+Autors: Sisco Solsona, Jordi Carles, Miquel Rius
+\end{lstlisting}
+\end{center}
+\end{itemize}
+
+\textbf{Primera idea: }utilitzar una expressió regular que permeti qualsevol ordre dels autors dins del document. Problema: el parser HTML que fem servir (BeautifulSoup), ens complica la feina en aquells casos en que els autors es troben en elements HTML diferents.
+\\
+\\
+Una solució més naïve, seria abordar els dos casos que hem vist de forma diferent:
+\begin{itemize}
+\item{Elements germans: }
+Agafar el text de tots els germans
+\item{Mateix element: }
+Construir una expressió regular que detecti els separadors entre el diferents valors. Agafar tots els \textit{matches}.
+\end{itemize}
+
+
+
+\section{Índex de la memòria}
+\begin{enumerate}
+\item{Introducció}
+    \begin{itemize}
+    \item{Descripció}
+    \item{Treball existent}
+    \end{itemize}
+
+\item{Definició del projecte}
+    \begin{itemize}
+    \item{Context}
+    \item{El format \BibTeX{}}
+    \item{Característiques}
+    \item{Planificació temporal}
+    \end{itemize}
+
+\item{Extracció de continguts PDF}
+    \begin{itemize}
+    \item{Dificultats}
+    \item{Software existent:} Per què utilitzem xPDF
+    \end{itemize}
+
+\item{Cerca a la web}
+    \begin{itemize}
+    \item{Primera idea: Google Scholar. Problemes}
+    \item{Resta de cercadors: Google, Bing i Yahoo}   
+    \item{Ajustaments}
+    (Paràmetres de la cerca, llista negra , etc.)
+    \item{\textit{Multithreading}}
+    \end{itemize}
+
+\item{Extracció d'Informació}
+    \begin{itemize}
+    \item{\textit{Wrappers} a mà}
+    \item{Inducció de \textit{Wrappers}}
+        \begin{itemize}
+        \item{Generació automàtica de regles: }\\Rutes i expressions regulars
+        \item{Valoració dels \textit{wrappers}}
+        \item{Reaprenentatge}
+        \end{itemize}
+    \end{itemize}
+
+\item{Anàlisi de resultats}
+    \begin{itemize}
+    \item{Proves realitzades i resultats obtinguts}
+    \end{itemize}
+
+\item{Conclusions i Treball Futur}
+    \begin{itemize}
+    \item{Objectius assolits}
+    \item{Possibles millores}
+    \end{itemize}
+
+\item{Annexos}
+    \begin{itemize}
+    \item{Resultats dels tests}
+        \begin{itemize}
+        \item{Comparació resultats \textit{Multithreading}}
+        \item{Comparació dels cercadors}
+        \item{etc.}
+        \end{itemize}
+    \item{Biblioteques utilitzades}
+    \item{Diagrames ?}
+    \item{Llicència ?}
+    \end{itemize}
+\end{enumerate}
+
+
+\section{Tasques pendents}
+Llistat de tasques pendents a realitzar:
+\begin{itemize}
+\item{}
+Netejar, encara més, l'HTML abans de fer l'extracció: treure comentaris i etiquetes \texttt{script}, \texttt{style}, etc.
+\item{}
+Valoració dels \textit{wrappers}
+\item{}
+\textit{Wrappers} per a camps multi-valor com ara els autors
+\item{}
+Comprovació de l'estat dels wrappers actuals. (utilitzant els \textit{ratings} dels \textit{wrappers})
+\item{}
+Interfície
+\end{itemize}
+\end{document}
+
+
