@@ -19,9 +19,10 @@
 import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 
+from bibim.db import mappers
 from bibim.db.session import create_session
 from bibim.ie.rules import Rule
-from bibim.ie.wrappers import (RuledWrapper, RuledWrapperManager)
+from bibim.ie.wrappers import (Wrapper, WrapperManager)
 from bibim.util import BeautifulSoup
 
 
@@ -50,39 +51,84 @@ class TestWrapper(unittest.TestCase):
         return soup
     
 
-class TestRuledWrapperManager(unittest.TestCase):
+class TestWrapperManager(unittest.TestCase):
     
     def setUp(self):
         #self.wm = RuledWrapperManager()
-        self.wm = RuledWrapperManager(create_session(
+        self.wm = WrapperManager(create_session(
             sql_uri='sqlite:///:memory:', debug=True))
     
-    def test_get_unavailable_wrapper(self):
-        wrapper = self.wm.get_wrapper(u'non_existent_url')
-        self.failUnless(wrapper == None)
+    def test_get_collection(self):
+        # Do not create
+        collection1 = self.wm.get_wrapper_collection(u'some_url',
+                                                     u'some_field')
+        self.failIf(collection1)
+        
+        # New collection
+        collection1 = self.wm.get_wrapper_collection(u'some_url',
+                                                     u'some_field', True)
+        self.failUnless(collection1)
+        self.failUnless(type(collection1) == mappers.WrapperCollection)
+        
+        # Existent collection
+        collection2 = self.wm.get_wrapper_collection(u'some_url',
+                                                     u'some_field')
+        self.failUnless(collection2)
+        self.failUnless(collection1 is collection2)
+    
+    def test_get_collections(self):
+        collection11 = self.wm.get_wrapper_collection(u'c01', u'f01', True)
+        collection12 = self.wm.get_wrapper_collection(u'c01', u'f02', True)
+        collection21 = self.wm.get_wrapper_collection(u'c02', u'f01', True)
+        collection22 = self.wm.get_wrapper_collection(u'c02', u'f02', True)
+        
+        collections = self.wm.get_wrapper_collections()
+        self.failUnless(collections.count() >= 4)
+        
+        collections = self.wm.get_wrapper_collections(url=u'c02')
+        self.failUnless(collections.count() == 2)
+    
+        collections = self.wm.get_wrapper_collections(field=u'f02')
+        self.failUnless(collections.count() == 2)
+            
+    def test_get_unavailable_wrappers(self):
+        wrappers = self.wm.get_wrappers(u'non_existent_url', u'no_field')
+        self.failUnless(wrappers == [])
 
     def test_persist_wrapper_with_incorrect_rules(self):
-        wrapper = RuledWrapper()
-        wrapper.add_rule(u'field01', MockRule01(MockRule02(33)))
+        wrapper = Wrapper()
+        wrapper.add_rule(MockRule01(MockRule02(33)))
         self.failUnlessRaises(TypeError, self.wm.persist_wrapper,
-                              'some_url', wrapper)
+                              u'some_url', u'some_field', wrapper)
     
     def test_persist_and_get_wrapper(self):
-        wrapper = RuledWrapper()
-        wrapper.add_rule(u'field01', MockRule01(33))
-        wrapper.add_rule(u'field01', MockRule01(55))
-        wrapper.add_rule(u'field01', MockRule01(66))
-        wrapper.add_rule(u'field02', MockRule02([1, [2, 3, 4, 5], 6]))
+        wrapper = Wrapper()
+        wrapper.add_rule(MockRule01(33))
+        wrapper.add_rule(MockRule01(55))
+        wrapper.add_rule(MockRule02([1, [2, 3, 4, 5], 6]))
+        self.wm.persist_wrapper(u'some_url', u'some_field', wrapper)
 
-        self.wm.persist_wrapper(u'some_url', wrapper)
+        wrapper = Wrapper()
+        wrapper.add_rule(MockRule01(66))
+        wrapper.add_rule(MockRule01(77))
+        wrapper.add_rule(MockRule02([[2, 3, 4, 5], 4]))
+        self.wm.persist_wrapper(u'some_url', u'some_field', wrapper)
+
+        wrapper = Wrapper()
+        wrapper.add_rule(MockRule01(11))
+        wrapper.add_rule(MockRule01(22))
+        wrapper.add_rule(MockRule01(33))
+        self.wm.persist_wrapper(u'some_url', u'some_other_field', wrapper)
     
-        # Get the wrapper that we've just saved
-        wrapper = self.wm.get_wrapper(u'some_url')
-        self.failUnless(len(wrapper.rules) == 2)
-        self.failUnless('field01' in wrapper.rules)
-        self.failUnless('field02' in wrapper.rules)
-        self.failUnless(len(wrapper.rules['field01']) == 3)
-        self.failUnless(len(wrapper.rules['field02']) == 1)
+        # Get non-existent wrapper
+        wrappers = self.wm.get_wrappers(u'some_url', u'non_existent_field')
+        self.failIf(wrappers, 'Get non-existent wrapper')
+        
+        # Get wrappers
+        wrappers = self.wm.get_wrappers(u'some_url', u'some_field')
+        self.failUnless(len(wrappers) == 2)
+        wrappers = self.wm.get_wrappers(u'some_url', u'some_other_field')
+        self.failUnless(len(wrappers) == 1)
 
         
         
