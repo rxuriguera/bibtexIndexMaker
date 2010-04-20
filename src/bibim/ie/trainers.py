@@ -16,9 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from bibim.ie.examples import HTMLExampleManager
+from bibim.ie.examples import (Example, HTMLExampleManager)
 from bibim.ie.rules import PathRuler, RegexRuler
-from bibim.ie.wrappers import RuledWrapper
+from bibim.ie.wrappers import Wrapper
 
 class TooFewExamplesError(Exception):
     pass
@@ -58,24 +58,45 @@ class WrapperTrainer(object):
 
     example_manager = property(get_example_manager, set_example_manager)
     rulers = property(get_rulers, set_rulers)
-    min_examples = property(get_min_examples, set_min_examples)
-    
-    def train(self, example_sets):   
-        wrapper = RuledWrapper()     
-        for set in example_sets:
-            rules = self._train_field(example_sets[set])                    
-            if rules:
-                wrapper.add_field_rules(set, rules)
-        return wrapper        
+    min_examples = property(get_min_examples, set_min_examples)     
 
-    def _train_field(self, examples):        
+    def train(self, examples):
         if len(examples) < self.min_examples:
             raise TooFewExamplesError
+        wrappers = []
+        rule_sets = self._get_rule_sets(list(self.rulers), examples)
+        for set in rule_sets:
+            wrappers.append(Wrapper())
+        return wrappers
+     
+    def _get_rule_sets(self, rulers, example_set):
+        if len(rulers):
+            current_ruler = rulers.pop(0)
+            new_rules = current_ruler.rule(example_set)
+            new_rule_sets = []
+            for rule in new_rules:
+                current_example_set = self._get_new_example_set(rule,
+                                                                example_set)
+                rule_sets = self._get_rule_sets(list(rulers),
+                                                current_example_set)
+                map(lambda x: x.insert(0, rule), rule_sets)
+                for rule_set in rule_sets:
+                #    rule_set.insert(0, rule)
+                    new_rule_sets.append(rule_set)
+            return new_rule_sets
+        else:
+            return [[]]
         
-        rules = []
-        for ruler in self.rulers:
-            rules.append(ruler.rule(examples))
-        return rules
+    def _get_new_example_set(self, rule, example_set):
+        """
+        Return a list of examples with the same value attribute as example_set
+        but where the content is the result of applying rule.
+        """
+        new_example_set = []
+        for example in example_set:
+            new_example_set.append(Example(example.value,
+                                           rule.apply(example.content)))
+        return new_example_set
 
 
 class HTMLWrapperTrainer(WrapperTrainer):
