@@ -47,7 +47,7 @@ class Rule(object):
         pass
 
     def __repr__(self):
-        return "Pattern: %s" % repr(self.pattern)
+        return "Rule(%s)" % repr(self.pattern)
 
     pattern = property(get_pattern, set_pattern)
 
