@@ -58,50 +58,50 @@ class TestWrapperManager(unittest.TestCase):
         self.wm = WrapperManager(create_session(
             sql_uri='sqlite:///:memory:', debug=True))
     
-    def test_get_collection(self):
+    def test_find_collection(self):
         # Do not create
-        collection1 = self.wm.get_wrapper_collection(u'some_url',
+        collection1 = self.wm.find_wrapper_collection(u'some_url',
                                                      u'some_field')
         self.failIf(collection1)
         
         # New collection
-        collection1 = self.wm.get_wrapper_collection(u'some_url',
+        collection1 = self.wm.find_wrapper_collection(u'some_url',
                                                      u'some_field', True)
         self.failUnless(collection1)
         self.failUnless(type(collection1) == mappers.WrapperCollection)
         
         # Existent collection
-        collection2 = self.wm.get_wrapper_collection(u'some_url',
+        collection2 = self.wm.find_wrapper_collection(u'some_url',
                                                      u'some_field')
         self.failUnless(collection2)
         self.failUnless(collection1 is collection2)
     
-    def test_get_collections(self):
-        collection11 = self.wm.get_wrapper_collection(u'c01', u'f01', True)
-        collection12 = self.wm.get_wrapper_collection(u'c01', u'f02', True)
-        collection21 = self.wm.get_wrapper_collection(u'c02', u'f01', True)
-        collection22 = self.wm.get_wrapper_collection(u'c02', u'f02', True)
+    def test_find_collections(self):
+        collection11 = self.wm.find_wrapper_collection(u'c01', u'f01', True)
+        collection12 = self.wm.find_wrapper_collection(u'c01', u'f02', True)
+        collection21 = self.wm.find_wrapper_collection(u'c02', u'f01', True)
+        collection22 = self.wm.find_wrapper_collection(u'c02', u'f02', True)
         
-        collections = self.wm.get_wrapper_collections()
+        collections = self.wm.find_wrapper_collections()
         self.failUnless(collections.count() >= 4)
         
-        collections = self.wm.get_wrapper_collections(url=u'c02')
+        collections = self.wm.find_wrapper_collections(url=u'c02')
         self.failUnless(collections.count() == 2)
     
-        collections = self.wm.get_wrapper_collections(field=u'f02')
+        collections = self.wm.find_wrapper_collections(field=u'f02')
         self.failUnless(collections.count() == 2)
             
     def test_get_unavailable_wrappers(self):
         wrappers = self.wm.get_wrappers(u'non_existent_url', u'no_field')
         self.failUnless(wrappers == [])
 
-    def test_persist_wrapper_with_incorrect_rules(self):
+    def xtest_persist_wrapper_with_incorrect_rules(self):
         wrapper = Wrapper()
         wrapper.add_rule(MockRule01(MockRule02(33)))
         self.failUnlessRaises(TypeError, self.wm.persist_wrapper,
                               u'some_url', u'some_field', wrapper)
     
-    def test_persist_and_get_wrapper(self):
+    def xtest_persist_and_get_wrapper(self):
         wrapper = Wrapper()
         wrapper.add_rule(MockRule01(33))
         wrapper.add_rule(MockRule01(55))
@@ -129,7 +129,52 @@ class TestWrapperManager(unittest.TestCase):
         self.failUnless(len(wrappers) == 2)
         wrappers = self.wm.get_wrappers(u'some_url', u'some_other_field')
         self.failUnless(len(wrappers) == 1)
-
+        
+    def test_persist_and_update_wrapper(self):
+        wrapper = Wrapper()
+        wrapper.add_rule(MockRule01(33))
+        wrapper.add_rule(MockRule01(55))
+        wrapper.add_rule(MockRule02([1, [2, 3, 4, 5], 6]))
+        self.wm.persist_wrapper(u'concrete_url', u'concrete_field', wrapper)
+        
+        # Get wrappers
+        wrappers = self.wm.get_wrappers(u'concrete_url', u'concrete_field')
+        self.failUnless(len(wrappers) == 1)
+        
+        # Update wrapper
+        wrapper = wrappers[0]
+        wrapper.upvotes += 1
+        wrapper.downvotes -= 1
+        self.wm.update_wrapper(wrapper)
+        
+        # Get the wrapper again
+        wrappers = self.wm.get_wrappers(u'concrete_url', u'concrete_field')
+        self.failUnless(len(wrappers) == 1)
+        self.failUnless(wrappers[0].upvotes == 1)
+        self.failUnless(wrappers[0].downvotes == -1)
+        
+        # Update wrapper rules
+        wrapper = wrappers[0]
+        wrapper.rules[0].pattern = 223
+        wrapper.rules[2].pattern = [1, 6]
+        self.wm.update_wrapper(wrapper)
+        
+        # Get the wrapper again
+        wrappers = self.wm.get_wrappers(u'concrete_url', u'concrete_field')
+        self.failUnless(len(wrappers) == 1)
+        self.failUnless(wrappers[0].rules[0].pattern == 223)
+        self.failUnless(wrappers[0].rules[2].pattern == [1, 6])
+        
+        # Add another wrapper rule
+        wrapper = wrappers[0]
+        wrapper.rules.append(MockRule02([2, 3, 4, 5]))
+        self.wm.update_wrapper(wrapper)
+        
+        # Get the wrapper again
+        wrappers = self.wm.get_wrappers(u'concrete_url', u'concrete_field')
+        self.failUnless(len(wrappers) == 1)
+        self.failUnless(len(wrappers[0].rules) == 4)
+        self.failUnless(wrappers[0].rules[3].pattern == [2, 3, 4, 5])
         
         
 if __name__ == "__main__":
