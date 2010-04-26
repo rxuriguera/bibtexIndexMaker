@@ -23,11 +23,10 @@ from os.path import join, dirname, normpath
 
 from bibim.util.config import BibimConfig
 from bibim.ie.trainers import (WrapperTrainer,
-                               HTMLWrapperTrainer,
                                TooFewExamplesError)
 
 from bibim.db.session import create_session
-from bibim.ie.examples import (ExampleManager, HTMLExampleManager)                                
+from bibim.ie.examples import (Example, ExampleManager, HTMLExampleManager)                                
 from bibim.ie.rules import Rule, Ruler
 
 
@@ -41,18 +40,25 @@ class MockExampleManager(ExampleManager):
         nsets = nsets if nsets < len(fields) else len(fields) - 1
         for i in range(nsets):
             field = fields[i]
-            sets[field] = set(range(random.randint(min, max)))
+            sets[field] = set([Example('v_%d' % i, 'c_%d' % i) for i in 
+                               range(random.randint(min, max))])
         return sets   
-    
+
+
+class MockRule(Rule):
+    def apply(self, input):  
+        return str(input) + '_r' + self.pattern
+
 
 class MockRuler(Ruler):
     def rule(self, training):
-        return Rule(str(random.randint(0, 10)))     
-
-
+        return [MockRule(str(random.randint(0, 10))),
+                MockRule(str(random.randint(10, 20)))]     
+    
+    
 class TestWrapperTrainer(unittest.TestCase):
     def setUp(self):
-        self.wt = WrapperTrainer(MockExampleManager(), [MockRuler()], min=3)
+        self.wt = WrapperTrainer([MockRuler()], min=3)
         self.nsets = 5
         
         self.example_sets = MockExampleManager()._get_examples(self.nsets,
@@ -64,30 +70,30 @@ class TestWrapperTrainer(unittest.TestCase):
                               self.example_sets)
 
     def test_train(self):
-        wrapper = self.wt.train(self.example_sets)
-        self.failUnless(len(wrapper.rules) == self.nsets)
-              
-              
-class TestHTMLWrapperTrainer(unittest.TestCase):
-    def setUp(self):
-        self.wt = HTMLWrapperTrainer(min=2)
-        self.wt.example_manager = HTMLExampleManager(create_session(
-            sql_uri='sqlite:///../../../../tests/fixtures/wrappers/test_db.db',
-            debug=True))
-        #self.wt.example_manager = MockExampleManager()
-        #self.wt.rulers = [MockRuler()]
-        self.nsets = 3
+        self.wt.rulers = [MockRuler(), MockRuler()]
+        wrappers = self.wt.train(self.example_sets['a'])
+        self.failUnless(len(wrappers) == 4)
+        self.failUnless(len(wrappers[0].rules) == 2)
+    
+    def test_get_new_example_set(self):
+        example_set = [Example('v01', 'c01'),
+                       Example('v02', 'c02'),
+                       Example('v03', 'c03')]
+        example_set = self.wt._get_new_example_set(MockRule('xx'), example_set)
+        self.failUnless(len(example_set) == 3)
+        self.failUnless(example_set[0].content == 'c01_rxx')
 
-    def test_train(self):
-        wrapper01 = self.wt.train('file:///home/rxuriguera/enlistments/bibtexIndexMaker/tests/fixtures/wrappers/acm')
-        self.failUnless(len(wrapper01.rules) == self.nsets)
-        
-        wrapper02 = self.wt.train('file:///home/rxuriguera/enlistments/bibtexIndexMaker/tests/fixtures/wrappers/springer')
-        self.failUnless(len(wrapper02.rules) == self.nsets)
-        
-        wrapper03 = self.wt.train('file:///home/rxuriguera/enlistments/bibtexIndexMaker/tests/fixtures/wrappers/sciencedirect')
-        self.failUnless(len(wrapper03.rules) == self.nsets)
-        
+    def test_get_rule_sets(self):
+        example_set = [Example('v01', 'c01'),
+                       Example('v02', 'c02'),
+                       Example('v03', 'c03')]
+        rules = self.wt._get_rule_sets([MockRuler(), MockRuler()],
+                                       example_set)
+        self.failUnless(len(rules) == 4)
+        length_bools = map(lambda x: len(x) == 2, rules)
+        self.failUnless(length_bools.count(False) == 0)
+
+              
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

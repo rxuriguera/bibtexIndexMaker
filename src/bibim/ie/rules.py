@@ -161,6 +161,8 @@ class RegexRuler(Ruler):
     """
     Creates rules consisting of a regular expression that can be used to
     extract a piece of information from a text.
+    
+    Content of the examples must be a string.
     """
     
     def _rule_example(self, example):
@@ -229,8 +231,10 @@ class PathRuler(Ruler):
     """
     Creates a rule described by the path to locate some piece of information 
     in an HTML document
+    
+    Content of the examples must be a BeautifulSoup object that describes an
+    HTML document.
     """ 
-
     
     def _rule_example(self, example):
         rules = []
