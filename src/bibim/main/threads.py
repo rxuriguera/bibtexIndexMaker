@@ -95,7 +95,7 @@ class ThreadRunner(object):
         """
         self._set_pool_size()
         
-        log.debug('Active threads: %d' % threading.active_count())
+        log.debug('Active threads: %d' % threading.active_count()) #@UndefinedVariable
         
         # Create threads and add them to the pool
         for i in range(self.pool_size):
@@ -104,7 +104,7 @@ class ThreadRunner(object):
             self._thread_pool.append(thread)
             thread.start()
         
-        log.debug('Active threads: %d' % threading.active_count())
+        log.debug('Active threads: %d' % threading.active_count()) #@UndefinedVariable
         
         # Wait for the threads to process all the clients in the queue
         while not self.in_queue.empty():
@@ -168,7 +168,7 @@ class ReferenceMakerThread(threading.Thread):
         Once the ReferenceMaker is done, it stores the results in tuples
         (file, reference) to the output queue.
         """
-        log.debug("Running thread", extra={'threadname':self.getName()})
+        log.debug("Running thread", extra={'threadname':self.getName()}) #@UndefinedVariable
         while not self.stop_event.isSet():
             file = None
             if not self.in_queue.empty():
@@ -177,7 +177,7 @@ class ReferenceMakerThread(threading.Thread):
                 except Queue.Empty:
                     continue
             if file:
-                log.debug("Processing file %s" % file)
+                log.debug("Processing file %s" % file) #@UndefinedVariable
                 reference = ReferenceMaker().make_reference(file,
                                                             self.target_format)
                 self.out_queue.put(reference)
