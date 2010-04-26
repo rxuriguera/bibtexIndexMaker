@@ -45,6 +45,7 @@ class ReferenceField(object):
     value = property(get_value, set_value)
     valid = property(is_valid, set_valid)
 
+
 class Reference(object):
     """
     This class represents a bibliographic reference.
