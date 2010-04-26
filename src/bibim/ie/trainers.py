@@ -61,9 +61,10 @@ class WrapperTrainer(object):
         wrappers = []
         rule_sets = self._get_rule_sets(list(self.rulers), examples)
         for rule_set in rule_sets:
-            wrappers.append(Wrapper(rules=rule_set))
+            wrapper = Wrapper(rules=rule_set)
+            self._evaluate_wrapper(wrapper, examples)
+            wrappers.append(wrapper)
         return wrappers
-     
      
     def _get_rule_sets(self, rulers, example_set):
         """
@@ -75,7 +76,7 @@ class WrapperTrainer(object):
         """
         if not len(rulers):
             return [[]]
-        
+
         current_ruler = rulers.pop(0)
         new_rules = current_ruler.rule(example_set)
         new_rule_sets = []
@@ -90,7 +91,6 @@ class WrapperTrainer(object):
                 new_rule_sets.append(rule_set)
         return new_rule_sets
 
-        
     def _get_new_example_set(self, rule, example_set):
         """
         Return a list of examples with the same value attribute as example_set
@@ -101,3 +101,17 @@ class WrapperTrainer(object):
             new_example_set.append(Example(example.value,
                                            rule.apply(example.content)))
         return new_example_set
+
+    def _evaluate_wrapper(self, wrapper, examples):
+        """
+        It applies the wrapper to all the available examples and checks if 
+        it extracts the expected information. If so, it upvotes the wrapper,
+        and downvotes otherwise.
+        """
+        for example in examples:
+            info = wrapper.extract_info(example.content)
+            if info == example.value:
+                wrapper.upvotes += 1
+            else:
+                wrapper.downvotes += 1
+

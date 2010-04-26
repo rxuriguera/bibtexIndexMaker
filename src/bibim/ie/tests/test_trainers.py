@@ -28,6 +28,7 @@ from bibim.ie.trainers import (WrapperTrainer,
 from bibim.db.session import create_session
 from bibim.ie.examples import (Example, ExampleManager, HTMLExampleManager)                                
 from bibim.ie.rules import Rule, Ruler
+from bibim.ie.wrappers import Wrapper
 
 
 class MockExampleManager(ExampleManager):
@@ -47,7 +48,7 @@ class MockExampleManager(ExampleManager):
 
 class MockRule(Rule):
     def apply(self, input):  
-        return str(input) + '_r' + self.pattern
+        return str(input) + '_r' + str(self.pattern)
 
 
 class MockRuler(Ruler):
@@ -60,10 +61,12 @@ class TestWrapperTrainer(unittest.TestCase):
     def setUp(self):
         self.wt = WrapperTrainer([MockRuler()], min=3)
         self.nsets = 5
-        
         self.example_sets = MockExampleManager()._get_examples(self.nsets,
                                                                5, 10)
-        
+        self.example_set = [Example('v01', 'c01'),
+                            Example('v02', 'c02'),
+                            Example('v03', 'c03')]
+
     def test_train_too_few_examples(self):
         self.wt.set_min_examples(20)
         self.failUnlessRaises(TooFewExamplesError, self.wt.train,
@@ -74,26 +77,30 @@ class TestWrapperTrainer(unittest.TestCase):
         wrappers = self.wt.train(self.example_sets['a'])
         self.failUnless(len(wrappers) == 4)
         self.failUnless(len(wrappers[0].rules) == 2)
-    
+        self.failUnless(wrappers[0].downvotes > 0)
+
     def test_get_new_example_set(self):
-        example_set = [Example('v01', 'c01'),
-                       Example('v02', 'c02'),
-                       Example('v03', 'c03')]
-        example_set = self.wt._get_new_example_set(MockRule('xx'), example_set)
+        example_set = self.wt._get_new_example_set(MockRule('xx'),
+                                                   self.example_set)
         self.failUnless(len(example_set) == 3)
         self.failUnless(example_set[0].content == 'c01_rxx')
 
     def test_get_rule_sets(self):
-        example_set = [Example('v01', 'c01'),
-                       Example('v02', 'c02'),
-                       Example('v03', 'c03')]
         rules = self.wt._get_rule_sets([MockRuler(), MockRuler()],
-                                       example_set)
+                                       self.example_set)
         self.failUnless(len(rules) == 4)
         length_bools = map(lambda x: len(x) == 2, rules)
         self.failUnless(length_bools.count(False) == 0)
 
-              
+    def test_evaluate_wrapper(self):
+        self.example_set = [Example('c01_r22_r33', 'c01'),
+                            Example('c02_r22_r33', 'c02'),
+                            Example('incorrect_value', 'c03')]
+        wrapper = Wrapper(rules=[MockRule(22), MockRule(33)])
+        self.wt._evaluate_wrapper(wrapper, self.example_set)
+        self.failUnless(wrapper.upvotes == 2)
+        self.failUnless(wrapper.downvotes == 1)
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
