@@ -42,10 +42,10 @@ class Wrapper(object):
         self.upvotes = upvotes
         self.downvotes = downvotes
         self.rater = rater
-        
+
     def get_rules(self):
         return self.__rules
-    
+
     def set_rules(self, value):
         self.__rules = value
 
@@ -54,10 +54,10 @@ class Wrapper(object):
 
     def get_id(self):
         return self.__id
-    
+
     def set_id(self, value):
         self.__id = value
-        
+
     def get_upvotes(self):
         return self.__upvotes
 
@@ -69,18 +69,22 @@ class Wrapper(object):
 
     def set_downvotes(self, value):
         self.__downvotes = value
-        
+
     def get_rater(self):
         return self.__rater
 
     def set_rater(self, value):
         self.__rater = value
-    
+        
+    def get_score(self):
+        return self.rater.rate(self.upvotes, self.downvotes)
+
     rules = property(get_rules, set_rules)
     id = property(get_id, set_id)
     upvotes = property(get_upvotes, set_upvotes)
     downvotes = property(get_downvotes, set_downvotes)
     rater = property(get_rater, set_rater)
+    score = property(get_score)
     
     def extract_info(self, input):
         """
@@ -90,15 +94,12 @@ class Wrapper(object):
         for rule in self.rules:
             result = rule.apply(result)
         return result
-
-    def get_score(self):
-        return self.rater.rate(self.upvotes, self.downvotes)
     
     def __repr__(self):
         return 'Wrapper(upvotes=%d,downvotes=%d,rules=%d)' % (self.upvotes,
                                                               self.downvotes,
                                                               len(self.rules))
-        
+
 
 class WrapperManager(object):
     """
