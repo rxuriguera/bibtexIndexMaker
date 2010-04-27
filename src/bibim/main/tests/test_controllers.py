@@ -29,6 +29,7 @@ from bibim.main.controllers import (RCEController,
                                     IEController)
 from bibim.ir.search import SearchResult
 from bibim.references import Reference
+from bibim.main.validation import Validator, ValidatorFactory
 
 
 class TestRCEController(unittest.TestCase):
@@ -130,6 +131,7 @@ class TestIEController(unittest.TestCase):
                                                       self.page)
         self.failUnless(len(references) == 1)
     
+    """
     def test_use_field_wrappers_no_wrapper_available(self):
         references = self.iec._use_field_wrappers('some_source',
                                                   self.empty_page)
@@ -141,6 +143,7 @@ class TestIEController(unittest.TestCase):
         self.failUnless(len(references) == 1)
         self.failUnless(references[0].get_field('title').
             value.startswith('Estimation of rotor angles'))
+    """
             
     def test_format_reference_same_format(self):
         ref = Reference(format=ReferenceFormat.BIBTEX, entry='formatted entry')
@@ -157,6 +160,11 @@ class TestIEController(unittest.TestCase):
         self.failUnless(ref.get_entry().startswith('@article{Lmadsen99,'))
         self.failUnless(ref.get_format() == self.iec.format)
 
+    def test_use_rule_wrappers(self):
+        references = self.iec._use_rule_wrappers(u'some_source', 'test 2007 content', '')
+        self.failUnless(len(references) == 1)
+        self.failUnless(len(references[0].fields) == 3)
+    
     def _get_soup(self, file_name):
         file_path = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/wrappers/' + file_name)))

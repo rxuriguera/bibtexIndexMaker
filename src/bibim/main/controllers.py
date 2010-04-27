@@ -29,13 +29,12 @@ from bibim.util.config import configuration
 from bibim.rce import ExtractionError
 from bibim.ir.search import (Searcher,
                              SearchError)
-from bibim.ie import (ReferenceWrapper,
-                      TitleFieldWrapper,
-                      AuthorFieldWrapper)
+from bibim.ie.wrappers import Wrapper, WrapperManager
+from bibim.ie.reference_wrappers import ReferenceWrapper
 from bibim.references import Reference
 from bibim.references.format import ReferenceFormatter
 from bibim.main.factory import UtilCreationError                  
-
+from bibim.main.validation import Validator, ValidatorFactory
 
 # Retrieve constants' value from the configuration file
 MIN_WORDS = configuration.search_properties['min_query_length']         
@@ -44,6 +43,8 @@ SKIP_QUERIES = configuration.search_properties['queries_to_skip']
 MAX_QUERIES = configuration.search_properties['max_queries_to_try']
 TOO_MANY_RESULTS = configuration.search_properties['too_many_results']
 ENGINE = configuration.search_engine
+MAX_WRAPPERS = configuration.wrapper_properties['max_wrappers']
+
 
 class Controller(object):
     def __init__(self, factory):
@@ -60,16 +61,16 @@ class RCEController(Controller):
             extractor = self.util_factory.create_extractor(source_format,
                                                            target_format)
         except UtilCreationError as e:
-            log.error('Could not create an extractor: %s' % e.args)
+            log.error('Could not create an extractor: %s' % e.args) #@UndefinedVariable
             return content
 
         # Extract content
         try:
             content = extractor.extract(file).content
         except ExtractionError:
-            log.error('Could not extract content for file: %s' % file)
+            log.error('Could not extract content for file: %s' % file) #@UndefinedVariable
         except IOError as e:
-            log.error('Error extracting file content: %s' % e.args)
+            log.error('Error extracting file content: %s' % e.args) #@UndefinedVariable
         return content
     
     def get_query_strings(self, text):
@@ -101,7 +102,7 @@ class IRController(Controller):
         try:
             searcher = self.util_factory.create_searcher(engine)
         except UtilCreationError as e:
-            log.error('Could not create a searcher: %s' % e.args)
+            log.error('Could not create a searcher: %s' % e.args) #@UndefinedVariable
             return results
     
         # Search the query strings       
@@ -110,7 +111,7 @@ class IRController(Controller):
             try:
                 results = searcher.get_results()
             except SearchError, e:
-                log.error(e.error)
+                log.error(e.error) #@UndefinedVariable
                 break
         
             if searcher.num_results >= TOO_MANY_RESULTS:
@@ -148,9 +149,11 @@ class IEController(Controller):
     def __init__(self, factory, target_format=ReferenceFormat.BIBTEX):
         self.browser = Browser()
         self.format = target_format
+        self.field_validation = {}
+        self._set_field_validation()
         Controller.__init__(self, factory)
         
-    def extract_reference(self, top_results):
+    def extract_reference(self, top_results, raw_text):
         """
         Returns a list of References if they can be extracted or an empty 
         list otherwise.
@@ -163,15 +166,17 @@ class IEController(Controller):
             try:
                 page = self.browser.get_page(result.url)
             except BrowserError as e:
-                log.error('Error retrieving page %s: %s' % (result.url,
+                log.error('Error retrieving page %s: %s' % (result.url, #@UndefinedVariable
                                                             e.error))
                 continue
             
             page = BeautifulSoup(page)
             
-            references = self._use_reference_wrappers(result.base_url, page)
+            references = self._use_rule_wrappers(result.base_url, page)
             if not references:
-                references = self._use_field_wrappers(result.base_url, page)
+                references = self._use_reference_wrappers(result.base_url, page, raw_text)
+            #if not references:
+            #references = self._use_field_wrappers(result.base_url, page)
             if references:
                 break
         
@@ -181,7 +186,50 @@ class IEController(Controller):
         
         # Return the extracted reference and the result that has been used
         return (references, result)
-        
+    
+    def _use_rule_wrappers(self, source, page, raw_text):
+        """
+        Look if there is any wrapper in the database for the given source.
+        """
+        fields = {}
+        reference = Reference(format=self.format)
+        wrapper_manager = WrapperManager(max_wrappers=MAX_WRAPPERS)
+        wrapper_field_collections = wrapper_manager.find_wrapper_collections(source)
+        for collection in wrapper_field_collections:
+            # Get the wrappers for the current collection
+            url, field = collection.url, collection.field
+            wrappers = wrapper_manager.get_wrappers(url, field)
+            
+            # Get field validator
+            try:
+                validator = self.field_validation[collection.field][1]
+            except KeyError:
+                validator = None
+            
+            # Extract information using the wrappers we have
+            for wrapper in wrappers:
+                info = wrapper.extract_info(page)
+                # we expect 'info' to be a string
+                if type(info) != str:
+                    continue 
+                
+                valid = validator.validate(info, raw_text) if validator else True
+                
+                # Save the extracted info even if it's not correct. It will
+                # be overwritten afterwards if necessary
+                reference.set_field(field, info, valid)
+                
+                if not valid: 
+                    wrapper.downvotes += 1
+                    wrapper_manager.update_wrapper(wrapper)
+                else:
+                    wrapper.upvotes += 1
+                    wrapper_manager.update_wrapper(wrapper)
+                    fields[field] = info
+                    break
+
+        return [reference]
+    
     def _use_reference_wrappers(self, source, page):
         """
         Use a reference wrapper to get the reference from a given page.
@@ -199,12 +247,12 @@ class IEController(Controller):
         try:
             parser = self.util_factory.create_parser(format)
         except UtilCreationError as e:
-            log.error('Could not create a parser for %s: %s' % (format,
+            log.error('Could not create a parser for %s: %s' % (format, #@UndefinedVariable
                                                                 e.args))
             return references
         
         if not parser.check_format(entry):
-            log.error('Given entry is not in %s' % format)
+            log.error('Given entry is not in %s' % format) #@UndefinedVariable
             return references
         
         # There may be more than one entry for the same file.
@@ -214,23 +262,23 @@ class IEController(Controller):
             references.append(Reference(fields, format, entry))
         return references
     
-    def _use_field_wrappers(self, source, page):
+    #def _use_field_wrappers(self, source, page):
         """
         Returns a list with a Reference for the publication.
         It returns a list for consistency, but it will only contain one single
         entry.
         """
         # Try to extract info
-        title = TitleFieldWrapper().extract_info(source, page)
+        #title = TitleFieldWrapper().extract_info(source, page)
         #author = AuthorFieldWrapper().extract_info(source, page)
         # TODO: add more field wrappers
         
         #fields = {'title':title,
         #          'author':author}
-        fields = {'title':title}
+        #fields = {'title':title}
                   
-        reference = Reference(fields=fields) 
-        return [reference] if reference.has_non_empty_fields() else []
+        #reference = Reference(fields=fields) 
+        #return [reference] if reference.has_non_empty_fields() else []
 
     def _format_reference(self, reference):
         """
@@ -244,13 +292,23 @@ class IEController(Controller):
         try:
             generator = self.util_factory.create_generator(self.format)
         except UtilCreationError as e:
-            log.error('Could not create a formatter for %s: %s' % 
+            log.error('Could not create a formatter for %s: %s' % #@UndefinedVariable
                       (self.format, e.args))
             return
         
         formatter.format_reference(reference, generator)
         
+    
+    def _set_field_validation(self):
+        fields = configuration.wrapper_properties['field_validation']
         
+        for field in fields.keys():
+            values = list(fields[field])
+            new_values = [values[0]]
+            new_values.append(ValidatorFactory.create_validator(values[1], *values[2:]))
+            self.field_validation[field] = new_values
+            
+             
     
         
         
