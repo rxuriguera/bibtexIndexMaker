@@ -50,11 +50,11 @@ class TestRegexRule(unittest.TestCase):
         text = 'The event was held in Belgrade from 1883 to 1993'
         rule = RegexRule('.*(\d{4}).*(\d{4}).*')
         result = rule.apply(text)
-        self.failUnless(result == ('1883', '1993'))
+        self.failUnless(result == '1883')
         
         rule.pattern = '.*(\d{4}).*(?:\d{4}).*'
         result = rule.apply(text)
-        self.failUnless(result == ('1883',))
+        self.failUnless(result == '1883')
 
 
 class TestPathRule(unittest.TestCase):

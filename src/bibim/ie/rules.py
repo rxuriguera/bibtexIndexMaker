@@ -59,11 +59,11 @@ class RegexRule(Rule):
     """
     def apply(self, input):
         regex = re.compile(self.pattern)
-        matches = re.search(regex, input)
+        matches = re.match(regex, input)
         if matches:
-            return matches.groups()
+            return matches.group(1)
         else: 
-            return ()
+            return ''
     
 
 class PathRule(Rule):
