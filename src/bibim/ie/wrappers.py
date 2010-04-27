@@ -24,8 +24,6 @@ from bibim.ie.rules import RuleFactory
 
 from bibim.ie.rating import AverageRater
 
-# TODO: Load from config file
-MAX_WRAPPERS = 50
 
 class Wrapper(object):
     """
@@ -106,11 +104,20 @@ class WrapperManager(object):
     This class allows to store and retrieve ruled wrappers from the database
     as well as computing some statistics about the available wrappers.
     """
-    def __init__(self, session=None):
+    def __init__(self, session=None, max_wrappers=50):
         if not session:
             session = create_session()
         self.session = session
-    
+        self.max_wrappers = max_wrappers
+
+    def get_max_wrappers(self):
+        return self.__max_wrappers
+
+    def set_max_wrappers(self, value):
+        self.__max_wrappers = value
+        
+    max_wrappers = property(get_max_wrappers, set_max_wrappers)
+
     def persist_wrapper(self, url, field, wrapper):
         """
         Adds the given wrapper to the wrapper collection described by the url
@@ -167,7 +174,7 @@ class WrapperManager(object):
             self.session.add(collection)
         return collection
      
-    def get_wrappers(self, url, field):
+    def get_wrappers(self, url='%', field='%'):
         """
         Gets all the wrappers from a given collection.
         """
@@ -178,13 +185,11 @@ class WrapperManager(object):
         rule_factory = RuleFactory()
         wrappers = []
         for m_wrapper in collection.wrappers:
-            wrapper = None
             wrapper = Wrapper()
             
             wrapper.id = m_wrapper.id
             wrapper.upvotes = m_wrapper.upvotes
             wrapper.downvotes = m_wrapper.downvotes
-            wrapper.score = m_wrapper.score
             
             for rule in m_wrapper.rules:
                 pattern = simplejson.loads(str(rule.pattern))
@@ -197,13 +202,14 @@ class WrapperManager(object):
     def _get_wrapper_mappers(self, url):
         """
         Retrieves the mappers from the database that will be used to create
-        the examples
+        the wrappers
         """
         query_results = (self.session.query(mappers.WrapperCollection).
                          filter(mappers.WrapperCollection.url.like(url + '%')) #@UndefinedVariable
-                         [:MAX_WRAPPERS])
+                         [:self.max_wrappers])
         
         self.wrapper_mappers = query_results
     
     def check_obsolete_wrapper_collections(self):
         pass
+    
