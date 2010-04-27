@@ -170,6 +170,7 @@ class IEController(Controller):
                                                             e.error))
                 continue
             
+            page = self._clean_content(page)
             page = BeautifulSoup(page)
             
             references = self._use_rule_wrappers(result.base_url, page)
@@ -186,6 +187,17 @@ class IEController(Controller):
         
         # Return the extracted reference and the result that has been used
         return (references, result)
+    
+    def _clean_content(self, content):
+        """
+        Removes blank spaces from the retrieved page
+        """
+        if not content:
+            return None
+        content = content.replace('\n', '')
+        content = content.replace('\r', '')
+        content = content.replace('\t', '')
+        return content
     
     def _use_rule_wrappers(self, source, page, raw_text):
         """
