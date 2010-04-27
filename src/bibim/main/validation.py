@@ -18,60 +18,88 @@
 
 import re
 
-class ReferenceValidator(object):
+class Validator(object):
+    """
+    Superclass that defines the basic methods that validators must implement.
+    """
+    def validate(self, value, *kwargs):
+        raise False
+
+
+class FieldValidator(Validator):
+    pass
+
+
+class RegexValidator(FieldValidator):
+    """
+    Validates information using a regular expression.
+    """
+    def __init__(self, pattern=''):
+        self.pattern = pattern
+
+    def get_pattern(self):
+        return self.__pattern
+
+    def set_pattern(self, value):
+        self.__pattern = value
+
+    pattern = property(get_pattern, set_pattern, None, None)
+    
+    def validate(self, value, *kwargs):
+        """
+        Checks if there are matches when searching the regular expression in
+        in the given text value
+        """
+        if self.pattern and re.search(self.pattern, value):
+            return True
+        else:
+            return False
+
+
+class WithinTextValidator(FieldValidator):
+    """
+    Validates that a piece of information appears in a given text
+    """
+    def validate(self, value, *kwargs):
+        """
+        Checks if the value appears in the first parameter in kwargs
+        """
+        if len(kwargs) and re.search(value, kwargs[0]):
+            return True
+        return False
+
+
+class ReferenceValidator(Validator):
     """
     Checks if the information from a reference is valid. Only those pieces of
     information that are available in the text can be checked (e.g. we can
     try to check if the title of a publication is correct, but not its number 
     of pages.
     """
-    def __init__(self, fields={'title':0.75, 'authors':0.25}):
+    def __init__(self, weights={'title':0.75, 'authors':0.25}):
         """
         Creates a ReferenceValidator. The parameters that have to be checked
         can be passed as a parameter.
         """
-        self.fields_to_check = fields
+        self.field_weights = weights 
         
-    def validate_reference(self, reference, text):
+    def validate(self, reference, *kwargs):
         """
         Searches the value of the fields of the reference in the full text.
         """
         validity = 0.0
-        valid_field = True
-        for field in self.fields_to_check.keys():
-            ref_field = reference.get_field(field)
-            if not ref_field:
-                reference.set_field(field, None)
-                continue
+        for field in reference.fields:
+            weight = self.field_weights.get(field, 0.0)
+            if reference.get_field(field).valid:
+                validity += weight
             
-            # Check depends on the field
-            if field == 'author':
-                valid_field = self._validate_author(ref_field, text)
-            else:
-                valid_field = self._validate_string(ref_field, text)
-            
-            if valid_field:
-                validity += self.fields_to_check[field]
         reference.validity = validity
             
-    
-    def _validate_string(self, ref_field, text):
-        """
-        Check if a field appears in the text. The value of the field may be 
-        separated in different lines in the text.
-        """
-        str = ref_field.value.replace(' ', '[\s]+')
-        pattern = re.compile(str,
-                             re.I | re.M)
-        occurrence = re.search(pattern, text)
         
-        if not occurrence:
-            ref_field.valid = False
-        return ref_field.valid
-
-        
-    def _validate_author(self, ref_field, text):
-        # TODO: implement author validation
-        return True
-    
-        
+class ValidatorFactory(object):
+    @staticmethod
+    def create_validator(type, *kwargs):
+        try:
+            return globals()[type](*kwargs)
+        except KeyError:
+            return Validator()
