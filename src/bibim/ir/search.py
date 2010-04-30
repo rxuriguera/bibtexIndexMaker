@@ -45,7 +45,6 @@ class SearchError(Exception):
 
 
 class ParseError(SearchError):
-    
     """
     Parse error in search results.
     self.msg attribute contains explanation why parsing failed
@@ -53,7 +52,6 @@ class ParseError(SearchError):
     that failed to parse
     Thrown only in debug mode
     """
-     
     def __init__(self, msg, tag):
         self.msg = msg
         self.tag = tag
@@ -66,10 +64,8 @@ class ParseError(SearchError):
 
 
 class SearchResult(object):
-    
     """
     """
-    
     def __init__(self, title, url):
         self.title = title
         self.url = url
@@ -83,20 +79,16 @@ class SearchResult(object):
 
 
 class DescSearchResult(SearchResult):
-    
     """
     """
-    
     def __init__(self, title, url, desc):
         super(DescSearchResult, self).__init__(title, url)
         self.desc = desc
 
 
 class ScholarSearchResult(SearchResult):
-    
     """
     """
-    
     def __init__(self, title, url, desc, authors=[], year=None, base=None):
         super(ScholarSearchResult, self).__init__(title, url)
         self.desc = desc

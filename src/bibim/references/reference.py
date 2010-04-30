@@ -50,10 +50,11 @@ class Reference(object):
     """
     This class represents a bibliographic reference.
     """
-    def __init__(self, fields={}, format=None, entry=''):
+    def __init__(self, fields={}, format=None, entry='', id=None):
         """
         Constructs an empty Reference
         """
+        self.id = id
         self.fields = fields
         self.format = format
         self.entry = entry

@@ -40,6 +40,15 @@ def create_session(sql_uri=BibimConfig().database, debug=False):
     if not session or debug:
         engine = create_engine(sql_uri)
         metadata.create_all(engine)
-        Session = sessionmaker(bind=engine, autoflush=True, autocommit=False)
+        Session = sessionmaker(bind=engine, autoflush=True, autocommit=True)
         session = Session()
     return session
+
+def flush_changes():
+    global session
+    if not session:
+        return
+    session.flush()
+
+if __name__ == '__main__':
+    pass

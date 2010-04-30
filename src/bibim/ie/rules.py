@@ -18,38 +18,13 @@
 
 import re
 import difflib #@UnresolvedImport
-import simplejson #@UnresolvedImport
 
 from bibim import log
+from bibim.ie.types import Rule
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
 SIMILARITY_THRESHOLD = 0.8
-
-class Rule(object):
-    """
-    Specifies how some information can be extracted from a document.
-    """
-    
-    def __init__(self, pattern=None):
-        self.pattern = pattern
-
-    def __eq__(self, other):
-        return self.pattern == other.pattern
-
-    def get_pattern(self):
-        return self.__pattern
-
-    def set_pattern(self, value):
-        self.__pattern = value
-
-    def apply(self, input):
-        pass
-
-    def __repr__(self):
-        return "Rule(%s)" % repr(self.pattern)
-
-    pattern = property(get_pattern, set_pattern)
 
 
 class RegexRule(Rule):
@@ -147,7 +122,7 @@ class Ruler(object):
         so they cover the new case.
         """
         append_rule = True
-        for g_rule, index in zip(g_rules, range(len(g_rules))):
+        for g_rule in g_rules:
             if self._should_merge(g_rule, s_rule):
                 g_rule.pattern = self._merge_patterns(g_rule.pattern,
                                                       s_rule.pattern)

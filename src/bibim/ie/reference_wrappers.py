@@ -18,8 +18,11 @@
 
 import re
 
-from bibim.ie.wrappers import Wrapper
-from bibim.util import BeautifulSoup, Browser, BrowserError, ReferenceFormat
+from bibim.ie.types import Wrapper
+from bibim.util import (BeautifulSoup,
+                        Browser,
+                        BrowserError,
+                        ReferenceFormat)
 
 
 class ReferenceWrapper(Wrapper):

@@ -17,27 +17,20 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from sqlalchemy import (Table, #@UnresolvedImport
-                        DateTime, #@UnresolvedImport
+from sqlalchemy import (DateTime, #@UnresolvedImport
                         Column, #@UnresolvedImport
                         Integer, #@UnresolvedImport
                         Float, #@UnresolvedImport
                         Boolean, #@UnresolvedImport
                         String, #@UnresolvedImport
                         Unicode, #@UnresolvedImport
-                        MetaData, #@UnresolvedImport
-                        ForeignKey, #@UnresolvedImport
-                        Text)#@UnresolvedImport
+                        ForeignKey) #@UnresolvedImport
 
-from sqlalchemy.orm import (relation, #@UnresolvedImport
-                            mapper, #@UnresolvedImport
-                            relation,
-                            backref)#@UnresolvedImport
+from sqlalchemy.orm import relation #@UnresolvedImport
 
 from sqlalchemy.ext.declarative import declarative_base #@UnresolvedImport
 
 Base = declarative_base()
-
 
 class WrapperRule(Base):
     __tablename__ = 'wrapper_rules'
@@ -53,6 +46,11 @@ class WrapperRule(Base):
         self.pattern = pattern
         self.order = order
     
+    def __repr__(self):
+        return 'WrapperRule(type: %s,pattern: %s,order: %d)' % (self.rule_type,
+                                                                self.pattern,
+                                                                self.order)
+
 
 class Wrapper(Base):
     __tablename__ = 'wrappers'
@@ -72,6 +70,22 @@ class Wrapper(Base):
     
     def add_rule(self, rule):
         self.rules.append(rule)
+        
+    def upvote(self, vote=1):
+        self.upvotes += vote
+        self._compute_score()
+    
+    def downvote(self, vote=1):
+        self.downvotes += vote
+        self._compute_score()
+    
+    def _compute_score(self):
+        self.score = self.upvotes - self.downvotes
+    
+    def __repr__(self):
+        return 'Wrapper(upvotes: %d,downvotes: %d,rules: %d)' % (self.upvotes,
+            self.downvotes,
+            len(self.rules))
 
 
 class WrapperCollection(Base):
@@ -88,6 +102,10 @@ class WrapperCollection(Base):
     def __init__(self, url='', field=''):
         self.url = url
         self.field = field
+        
+    def __repr__(self):
+        return 'WrapperCollection(url: %s,field: %s)' % (self.url, self.field)
+
 
 class Person(Base):
     __tablename__ = 'people'
@@ -103,16 +121,16 @@ class Person(Base):
         self.last_name = last_name
     
     def __repr__(self):
-        return "<Person('%s','%s','%s')>" % (self.first_name,
-                                             self.middle_name,
-                                             self.last_name)    
+        return "Person(first: %s,middle: %s,last: %s)" % (self.first_name,
+                                                          self.middle_name,
+                                                          self.last_name)    
 
 
 class Author(Base):
     __tablename__ = 'authors'
     
     id = Column(Integer, primary_key=True)
-    refefence_id = Column(Integer, ForeignKey('extracted_references.id'))
+    refefence_id = Column(Integer, ForeignKey('references.id'))
     person_id = Column(Integer, ForeignKey('people.id'))
     person = relation(Person, order_by=Person.id)
     
@@ -120,14 +138,14 @@ class Author(Base):
         self.person = person
 
     def __repr__(self):
-        return "<Author>"    
+        return "Author"    
     
     
 class Editor(Base):
     __tablename__ = 'editors'
     
     id = Column(Integer, primary_key=True)
-    refefence_id = Column(Integer, ForeignKey('extracted_references.id'))
+    refefence_id = Column(Integer, ForeignKey('references.id'))
     person_id = Column(Integer, ForeignKey('people.id'))    
     person = relation(Person, order_by=Person.id)
     
@@ -135,7 +153,7 @@ class Editor(Base):
         self.person = person
 
     def __repr__(self):
-        return "<Editor>"    
+        return "Editor"    
 
 
 class ReferenceField(Base):
@@ -146,7 +164,7 @@ class ReferenceField(Base):
     name = Column(String, nullable=False)
     value = Column(Unicode, nullable=False)
     valid = Column(Boolean, default=True)
-    reference_id = Column(Integer, ForeignKey('extracted_references.id'))
+    reference_id = Column(Integer, ForeignKey('references.id'))
     
     def __init__(self, name, value, valid):
         self.name = name
@@ -154,23 +172,22 @@ class ReferenceField(Base):
         self.valid = valid
 
     def __repr__(self):
-        return "<ReferenceField('%s','%s','%s')>" % (self.name, self.value,
-                                                     self.valid)         
+        return "ReferenceField(name: %s, value: %s, valid: %s)" % (self.name,
+                                                                   self.value,
+                                                                   self.valid)         
      
      
-class ExtractedReference(Base):
-    __tablename__ = 'extracted_references'
+class Reference(Base):
+    __tablename__ = 'references'
     
     id = Column(Integer, primary_key=True)
     fields = relation(ReferenceField, order_by=ReferenceField.id,
                       backref='reference')
     validity = Column(Float, default=0.0)
-    timestamp = Column(DateTime, default=datetime.now())
-    file_id = Column(Integer, ForeignKey('files.id'))
     authors = relation(Author, order_by=Author.id)
     editors = relation(Editor, order_by=Editor.id)
-    result = Column(String, nullable=False)
-    query_string = Column(Unicode, nullable=False)
+
+    extraction_id = Column(Integer, ForeignKey('extractions.id'))
     
     def add_field(self, name, value, valid):
         self.fields.append(ReferenceField(name, value,
@@ -183,23 +200,51 @@ class ExtractedReference(Base):
         self.editors.append(editor)            
             
     def __repr__(self):
-        return "<ExtractedReference('%s','%s')>" % (self.query_string, self.result)
-    
-    
-class File(Base):
-    __tablename__ = 'files'
+        return ("Reference(fields: %d, authors: %d, editors: %d, validity: %f)" 
+                % (len(self.fields), len(self.authors), len(self.editors),
+                   self.validity))
 
+
+class Extraction(Base):
+    __tablename__ = 'extractions'
+    
     id = Column(Integer, primary_key=True)
-    file_path = Column(Unicode, nullable=True)
-    references = relation(ExtractedReference, order_by=ExtractedReference.id,
-                          backref='file')
+    timestamp = Column(DateTime, default=datetime.now())
+    file_path = Column(Unicode, default=u'')
+    result_url = Column(Unicode, default=u'')
+    query_string = Column(Unicode, default=u'')
     
-    def __init__(self, file_path=''):
+    references = relation(Reference, order_by=Reference.id,
+                          backref='extraction')
+
+    def __init__(self, file_path=u'', result_url=u'', query_string=u''):
         self.file_path = file_path
+        self.result_url = result_url
+        self.query_string = query_string
 
-    def add_reference(self, reference):
-        self.references.append(reference)
-        
+    def get_file_path(self):
+        return self.__file_path
+
+    def get_result_url(self):
+        return self.__result_url
+
+    def get_query_string(self):
+        return self.__query_string
+
+    def set_file_path(self, value):
+        self.__file_path = unicode(value)
+
+    def set_result_url(self, value):
+        self.__result_url = unicode(value)
+
+    def set_query_string(self, value):
+        self.__query_string = unicode(value)
+    
     def __repr__(self):
-        return "<File('%s')>" % self.file        
+        return ('Extraction(file_path: %s, result_url: %s, query_string: %s, '
+                'timestamp: %s)' % (self.file_path, self.result_url,
+                                    self.query_string, self.timestamp))
 
+    file_path = property(get_file_path, set_file_path)
+    result_url = property(get_result_url, set_result_url)
+    query_string = property(get_query_string, set_query_string)

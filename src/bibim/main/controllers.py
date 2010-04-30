@@ -26,15 +26,14 @@ from bibim.util import (Browser,
                         BrowserError,
                         BeautifulSoup)
 from bibim.util.config import configuration
+from bibim.db.gateways import WrapperGateway
 from bibim.rce import ExtractionError
-from bibim.ir.search import (Searcher,
-                             SearchError)
-from bibim.ie.wrappers import Wrapper, WrapperManager
+from bibim.ir.search import SearchError
 from bibim.ie.reference_wrappers import ReferenceWrapper
 from bibim.references import Reference
 from bibim.references.format import ReferenceFormatter
 from bibim.main.factory import UtilCreationError                  
-from bibim.main.validation import Validator, ValidatorFactory
+from bibim.main.validation import ValidatorFactory
 
 # Retrieve constants' value from the configuration file
 MIN_WORDS = configuration.search_properties['min_query_length']         
@@ -50,7 +49,7 @@ class Controller(object):
     def __init__(self, factory):
         self.util_factory = factory
     
-    
+
 class RCEController(Controller):
     def extract_content(self, file, target_format):
         content = None
@@ -81,7 +80,7 @@ class RCEController(Controller):
         pattern = re.compile("([\w()?!]+[ ]+){%d,%d}" % (MIN_WORDS, MAX_WORDS))
         strings = []
         matches = re.finditer(pattern, text)
-        for i in range(MAX_QUERIES + SKIP_QUERIES):
+        for i in range(MAX_QUERIES + SKIP_QUERIES): #@UnusedVariable
             try:
                 match = matches.next()
                 strings.append('"%s"' % match.group().strip())
@@ -91,7 +90,6 @@ class RCEController(Controller):
     
     
 class IRController(Controller):
-    
     def get_top_results(self, query_strings, engine=ENGINE):
         """
         Returns a list of search results.
@@ -173,9 +171,10 @@ class IEController(Controller):
             page = self._clean_content(page)
             page = BeautifulSoup(page)
             
-            references = self._use_rule_wrappers(result.base_url, page)
+            references = self._use_reference_wrappers(result.base_url, page, raw_text)
             if not references:
-                references = self._use_reference_wrappers(result.base_url, page, raw_text)
+                references = self._use_rule_wrappers(result.base_url, page, raw_text)
+                
             #if not references:
             #references = self._use_field_wrappers(result.base_url, page)
             if references:
@@ -205,7 +204,7 @@ class IEController(Controller):
         """
         fields = {}
         reference = Reference(format=self.format)
-        wrapper_manager = WrapperManager(max_wrappers=MAX_WRAPPERS)
+        wrapper_manager = WrapperGateway(max_wrappers=MAX_WRAPPERS)
         wrapper_field_collections = wrapper_manager.find_wrapper_collections(source)
         for collection in wrapper_field_collections:
             # Get the wrappers for the current collection
@@ -239,10 +238,13 @@ class IEController(Controller):
                     wrapper_manager.update_wrapper(wrapper)
                     fields[field] = info
                     break
-
-        return [reference]
+                
+        if len(reference.fields) > 0:
+            return [reference]
+        else:
+            return []
     
-    def _use_reference_wrappers(self, source, page):
+    def _use_reference_wrappers(self, source, page, raw_text):
         """
         Use a reference wrapper to get the reference from a given page.
         Returns a list of References with the full entry, format and a 
@@ -271,27 +273,26 @@ class IEController(Controller):
         entries = parser.split_source(entry)
         for entry in entries:
             fields = parser.parse_entry(entry)
-            references.append(Reference(fields, format, entry))
+            reference = Reference(fields, format, entry)
+            self._validate_reference_fields(reference, raw_text)
+            references.append(reference)
+
         return references
     
-    #def _use_field_wrappers(self, source, page):
+    def _validate_reference_fields(self, reference, raw_text):
         """
-        Returns a list with a Reference for the publication.
-        It returns a list for consistency, but it will only contain one single
-        entry.
+        This method is a complement for _use_reference_wrappers 
         """
-        # Try to extract info
-        #title = TitleFieldWrapper().extract_info(source, page)
-        #author = AuthorFieldWrapper().extract_info(source, page)
-        # TODO: add more field wrappers
+        for field_name in reference.fields:
+            field = reference.get_field(field_name)
+            try:
+                validator = self.field_validation[field_name][1]
+            except KeyError:
+                validator = None
+                
+            valid = validator.validate(field.value, raw_text) if validator else True
+            field.valid = valid
         
-        #fields = {'title':title,
-        #          'author':author}
-        #fields = {'title':title}
-                  
-        #reference = Reference(fields=fields) 
-        #return [reference] if reference.has_non_empty_fields() else []
-
     def _format_reference(self, reference):
         """
         Formats a reference with the target format.
@@ -319,9 +320,4 @@ class IEController(Controller):
             new_values = [values[0]]
             new_values.append(ValidatorFactory.create_validator(values[1], *values[2:]))
             self.field_validation[field] = new_values
-            
-             
-    
-        
-        
-        
+     

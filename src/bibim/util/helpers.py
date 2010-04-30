@@ -25,9 +25,11 @@ class Format(object):
             format = elements[-1]
         return format
 
+
 class FileFormat(Format):
     TXT = 'txt'
     PDF = 'pdf'
+
 
 class ReferenceFormat(Format):
     BIBTEX = 'bibtex'

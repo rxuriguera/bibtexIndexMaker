@@ -30,7 +30,7 @@ class TestIndexMaker(unittest.TestCase):
     def setUp(self):
         self.bim = IndexMaker()
         self.file = normpath(join(dirname(__file__), ('../../../../tests/'
-                                     'articles/010.pdf')))
+                                     'articles/009.pdf')))
         self.path = normpath('/home/rxuriguera/Escriptori/lattice')
 
     def tearDown(self):
