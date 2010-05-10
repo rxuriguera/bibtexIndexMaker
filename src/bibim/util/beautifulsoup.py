@@ -76,18 +76,18 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE, DAMMIT.
 
 """
-from __future__ import generators
+from __future__ import generators #@UnresolvedImport
 
 __author__ = "Leonard Richardson (leonardr@segfault.org)"
 __version__ = "3.0.6"
 __copyright__ = "Copyright (c) 2004-2008 Leonard Richardson"
 __license__ = "New-style BSD"
 
-from sgmllib import SGMLParser, SGMLParseError
+from sgmllib import SGMLParser, SGMLParseError #@UnresolvedImport
 import codecs
 import types
 import re
-import sgmllib
+import sgmllib #@UnresolvedImport
 try:
   from htmlentitydefs import name2codepoint
 except ImportError:
@@ -1883,7 +1883,7 @@ class UnicodeDammit:
                     82, 238, 239, 240, 241, 242, 243, 92, 159, 83, 84, 85, 86, 87, 88, 89,
                     90, 244, 245, 246, 247, 248, 249, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
                     250, 251, 252, 253, 254, 255)
-            import string
+            import string #@UnresolvedImport
             c.EBCDIC_TO_ASCII_MAP = string.maketrans(\
             ''.join(map(chr, range(256))), ''.join(map(chr, emap)))
         return s.translate(c.EBCDIC_TO_ASCII_MAP)
