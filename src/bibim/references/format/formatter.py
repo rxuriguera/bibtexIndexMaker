@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from bibim.references import Reference, ReferenceField
 
 class ReferenceFormatter(object):
 
@@ -33,11 +32,17 @@ class ReferenceFormatter(object):
         fields = reference.get_fields()
         for field in fields:
             field = reference.get_field(field)
+            
+            if not field.value:
+                continue
+
             generate_method = 'generate_' + field.name
-            generate_method = getattr(format_generator, generate_method)
-            if field.value:
+            try:
+                generate_method = getattr(format_generator, generate_method)
                 generate_method(field.value)
-        
+            except AttributeError:
+                format_generator.generate_default(field.name, field.value)
+                
         format_generator.generate_footer()
         reference.entry = format_generator.get_generated_reference()
         
