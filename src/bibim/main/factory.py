@@ -67,4 +67,3 @@ class UtilFactory(object):
         else:
             raise UtilCreationError('Generator for %s is not available' 
                                     % format)
-
