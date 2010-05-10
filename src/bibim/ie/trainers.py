@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from bibim.ie.examples import Example
-from bibim.ie.wrappers import Wrapper
+from bibim.ie.types import (Example,
+                            Wrapper)
 
 class TooFewExamplesError(Exception):
     pass

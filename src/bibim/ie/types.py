@@ -16,8 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from bibim.ie.rating import AverageRater
 
+from bibim import log
+from bibim.ie.rating import AverageRater
 from bibim.references import Reference
 
 """
@@ -188,6 +189,7 @@ class Wrapper(object):
         """
         Applies the rules' chain to extract the piece of information.
         """
+        log.debug('Applying ruled wrapper') #@UndefinedVariable
         result = input
         for rule in self.rules:
             result = rule.apply(result)
