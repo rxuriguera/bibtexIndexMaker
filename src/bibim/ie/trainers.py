@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+
+from bibim import log
 from bibim.ie.types import (Example,
                             Wrapper)
 
@@ -56,9 +58,10 @@ class WrapperTrainer(object):
         of the first of the rules, i.e. if the first ruler expects a string, 
         the content attribute of the examples must be a string.
         """
-        if len(examples) < self.min_examples:
-            raise TooFewExamplesError
         wrappers = []
+        if len(examples) < self.min_examples:
+            log.warn('Too few examples. Could not train wrappers') #@UndefinedVariable
+            return wrappers
         rule_sets = self._get_rule_sets(list(self.rulers), examples)
         for rule_set in rule_sets:
             wrapper = Wrapper(rules=rule_set)
@@ -98,8 +101,13 @@ class WrapperTrainer(object):
         """
         new_example_set = []
         for example in example_set:
-            new_example_set.append(Example(example.value,
-                                           rule.apply(example.content)))
+            value = example.value
+            content = rule.apply(example.content)
+            if value and content:
+                new_example_set.append(Example(example.value,
+                                               rule.apply(example.content)))
+            else:
+                log.warn('Example content is None after applying rule')  #@UndefinedVariable
         return new_example_set
 
     def _evaluate_wrapper(self, wrapper, examples):
