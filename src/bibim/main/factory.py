@@ -21,13 +21,12 @@ from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat)
 from bibim.rce import PDFTextExtractor
 from bibim.ir.search import (Searcher,
-                             GoogleSearch,
                              ScholarSearch,
                              BingSearch,
                              YahooSearch,
                              GoogleJSONSearch)
-from bibim.references.parsers import BibtexParser
-from bibim.references.format import BibtexGenerator
+from bibim.references.parsers.bibtex import BibtexParser
+from bibim.references.format.generator import BibtexGenerator
 
 class UtilCreationError(Exception):
     pass

@@ -25,10 +25,14 @@ import threading #@UnresolvedImport
 
 from bibim import log
 from bibim.db.session import flush_changes
+from bibim.db.gateways import ReferenceGateway
 from bibim.main.files import FileManager
 from bibim.main.threads import ThreadRunner, ReferenceMakerThread
 from bibim.main.controllers import IEController
-from bibim.main.factory import UtilFactory
+from bibim.main.factory import (UtilFactory,
+                                UtilCreationError)
+from bibim.references.format.formatter import ReferenceFormatter
+from bibim.util.helpers import ReferenceFormat
 
 class IndexMaker(threading.Thread):
     def __init__(self):
@@ -91,7 +95,32 @@ class WrapperGenerator(threading.Thread):
 
     def generate_wrappers(self):
         self.ie_controller.generate_wrappers(self.url)
-    
-    
+
+class ReferenceEntryFormatter(object):
+    def __init__(self, format=ReferenceFormat.BIBTEX):
+        self.reference_gw = ReferenceGateway()
+        self.format = format
+        self.util_factory = UtilFactory()
+        
+    def format_reference(self, reference_id):
+        log.debug('Retrieving reference from the database') #@UndefinedVariable
+        reference = self.reference_gw.find_reference_by_id(reference_id)
+        if not reference:
+            log.error('Reference with id %d could not be retrieved'  #@UndefinedVariable
+                      % reference_id)
+            return None
+        
+        formatter = ReferenceFormatter()
+        try:
+            generator = self.util_factory.create_generator(self.format)
+        except UtilCreationError as e:
+            log.error('Could not create a formatter for %s: %s' % #@UndefinedVariable
+                      (self.format, e.args))
+            return None
+        
+        log.debug('Starting to format') #@UndefinedVariable
+        formatter.format_reference(reference, generator)
+        
+        return reference.entry
 
         

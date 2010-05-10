@@ -26,6 +26,9 @@ from bibim.main.factory import UtilFactory
 from bibim.main.validation import ReferenceValidator
 from bibim.util.helpers import FileFormat
 
+from bibim.ir.types import SearchResult
+
+
 class ReferenceMaker(object):
     def __init__(self):
         self.factory = UtilFactory()
@@ -53,12 +56,18 @@ class ReferenceMaker(object):
             return extraction
         log.debug("Query strings %s" % str(extraction.query_strings)) #@UndefinedVariable
         
+        
         ir = IRController(self.factory)
         extraction.top_results, extraction.used_query = ir.get_top_results(extraction.query_strings)
         if not extraction.top_results:
             log.debug('No top results for the given queries') #@UndefinedVariable
             return extraction
         extraction.query_strings.remove(extraction.used_query)
+        
+        # TODO: Uncomment this
+        #extraction.top_results = [SearchResult('Search result title', 'file:///home/rxuriguera/pages/03.html')]
+        #extraction.used_query = 'Some query'
+        
         log.debug("Used query %s" % str(extraction.used_query)) #@UndefinedVariable
         log.debug("Query returned %d top results" % len(extraction.top_results)) #@UndefinedVariable
         

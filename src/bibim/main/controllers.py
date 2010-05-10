@@ -30,8 +30,8 @@ from bibim.ir.types import SearchError
 from bibim.main.factory import UtilCreationError                  
 from bibim.main.validation import ValidatorFactory
 from bibim.rce import ExtractionError
-from bibim.references import Reference
-from bibim.references.format import ReferenceFormatter
+from bibim.references.reference import Reference
+from bibim.references.format.formatter import ReferenceFormatter
 from bibim.util import (Browser,
                         BrowserError,
                         BeautifulSoup)
@@ -224,7 +224,7 @@ class IEController(Controller):
         """
         log.debug('Attempting to extract reference with ruled wrappers') #@UndefinedVariable
         fields = {}
-        reference = Reference(format=self.format)
+        reference = Reference()
         wrapper_manager = WrapperGateway(max_wrappers=MAX_WRAPPERS)
         wrapper_field_collections = wrapper_manager.find_wrapper_collections(source)
         for collection in wrapper_field_collections:
@@ -244,7 +244,7 @@ class IEController(Controller):
             for wrapper in wrappers:
                 info = wrapper.extract_info(page)
                 # we expect 'info' to be a string
-                if type(info) != str:
+                if not (type(info) == str or type(info) == unicode):
                     continue 
                 log.debug('Info extracted by wrapper: %s' % info) #@UndefinedVariable
                 
