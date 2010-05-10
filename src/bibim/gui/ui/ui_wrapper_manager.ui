@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WrapperManagerPage</class>
+ <widget class="QWizardPage" name="WrapperManagerPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>590</width>
+    <height>545</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Reference Manager</string>
+  </property>
+  <property name="title">
+   <string>Wrapper Manager</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="handleWidth">
+      <number>6</number>
+     </property>
+     <property name="childrenCollapsible">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="collectionsLayout">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTreeWidget" name="collections">
+         <attribute name="headerVisible">
+          <bool>true</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Wrapper Collections</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="urlLine"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="fieldLine"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addCollectionButton">
+           <property name="text">
+            <string>New Collection</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QVBoxLayout" name="wrappersLayout">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTreeWidget" name="wrappers">
+         <property name="indentation">
+          <number>0</number>
+         </property>
+         <property name="itemsExpandable">
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text">
+           <string>Available Wrappers</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addWrapperButton">
+         <property name="text">
+          <string>New Wrapper</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <layout class="QVBoxLayout" name="wrapperEditorLayout">
+       <item>
+        <layout class="QFormLayout" name="wrapperForm">
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="upvotesLabel">
+           <property name="text">
+            <string>Upvotes</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="upvotesSpin"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="downvotesLabel">
+           <property name="text">
+            <string>Downvotes</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="downvotesSpin"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="scoreLabel">
+           <property name="text">
+            <string>Score</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QDoubleSpinBox" name="scoreSpin">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="rulesLabel">
+         <property name="text">
+          <string>Rules</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="rules">
+         <property name="indentation">
+          <number>0</number>
+         </property>
+         <property name="itemsExpandable">
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text">
+           <string>Rule Type</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Pattern</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Order</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

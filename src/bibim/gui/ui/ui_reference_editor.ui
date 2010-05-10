@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ReferenceEditor</class>
+ <widget class="QWidget" name="ReferenceEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>842</width>
+    <height>713</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>ReferenceEditor</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+     </property>
+     <property name="bottomMargin">
+      <number>9</number>
+     </property>
+     <item row="2" column="0">
+      <widget class="QLabel" name="resultLabel">
+       <property name="text">
+        <string>Extracted from</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="resultLine"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="queryLabel">
+       <property name="text">
+        <string>Using query</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="queryLine"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="validityLabel">
+       <property name="text">
+        <string>Validity</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="validitySpin">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.050000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="filePathLabel">
+       <property name="text">
+        <string>File path</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="filePathLine"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="tablesHorizontalLayout">
+     <property name="topMargin">
+      <number>9</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="fieldsLayout">
+       <item>
+        <widget class="QLabel" name="fieldsLabel">
+         <property name="text">
+          <string>Fields:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="fields">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="indentation">
+          <number>0</number>
+         </property>
+         <column>
+          <property name="text">
+           <string>Field</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Value</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Valid</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="multiVerticalLayout">
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="authorsLayout">
+         <property name="bottomMargin">
+          <number>9</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="authorsLabel">
+           <property name="text">
+            <string>Authors:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTreeWidget" name="authors">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="indentation">
+            <number>0</number>
+           </property>
+           <column>
+            <property name="text">
+             <string>First Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Middle Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Last Name</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="editorsLayout">
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="editorsLabel">
+           <property name="text">
+            <string>Editors:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTreeWidget" name="editors">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="indentation">
+            <number>0</number>
+           </property>
+           <column>
+            <property name="text">
+             <string>First Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Middle Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Last Name</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

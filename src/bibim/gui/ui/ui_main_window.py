@@ -1,0 +1,91 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'ui_main_window.ui'
+#
+# Created: Sun May  9 20:14:46 2010
+#      by: PyQt4 UI code generator 4.7.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1038, 602)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        self.centralwidget = QtGui.QWidget(MainWindow)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
+        self.centralwidget.setObjectName("centralwidget")
+        self.horizontalLayout = QtGui.QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setSizeConstraint(QtGui.QLayout.SetNoConstraint)
+        self.horizontalLayout.setMargin(0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.splitter = QtGui.QSplitter(self.centralwidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
+        self.splitter.setSizePolicy(sizePolicy)
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setHandleWidth(3)
+        self.splitter.setObjectName("splitter")
+        self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.menuLayout = QtGui.QHBoxLayout(self.verticalLayoutWidget)
+        self.menuLayout.setSpacing(0)
+        self.menuLayout.setMargin(0)
+        self.menuLayout.setObjectName("menuLayout")
+        self.menu = QtGui.QTreeWidget(self.verticalLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.menu.sizePolicy().hasHeightForWidth())
+        self.menu.setSizePolicy(sizePolicy)
+        self.menu.setFrameShape(QtGui.QFrame.Box)
+        self.menu.setFrameShadow(QtGui.QFrame.Plain)
+        self.menu.setLineWidth(0)
+        self.menu.setAnimated(True)
+        self.menu.setObjectName("menu")
+        self.menu.header().setVisible(False)
+        self.menuLayout.addWidget(self.menu)
+        self.vline = QtGui.QFrame(self.verticalLayoutWidget)
+        self.vline.setFrameShape(QtGui.QFrame.VLine)
+        self.vline.setFrameShadow(QtGui.QFrame.Sunken)
+        self.vline.setObjectName("vline")
+        self.menuLayout.addWidget(self.vline)
+        self.horizontalLayoutWidget = QtGui.QWidget(self.splitter)
+        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        self.contentLayout = QtGui.QVBoxLayout(self.horizontalLayoutWidget)
+        self.contentLayout.setSpacing(0)
+        self.contentLayout.setSizeConstraint(QtGui.QLayout.SetMaximumSize)
+        self.contentLayout.setContentsMargins(-1, 0, -1, -1)
+        self.contentLayout.setObjectName("contentLayout")
+        self.widget = QtGui.QWidget(self.horizontalLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(7)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy)
+        self.widget.setMinimumSize(QtCore.QSize(500, 0))
+        self.widget.setObjectName("widget")
+        self.contentLayout.addWidget(self.widget)
+        self.horizontalLayout.addWidget(self.splitter)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Bibtex Index Maker", None, QtGui.QApplication.UnicodeUTF8))
+        self.menu.headerItem().setText(0, QtGui.QApplication.translate("MainWindow", "New Column", None, QtGui.QApplication.UnicodeUTF8))
+
