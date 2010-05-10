@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WrapperTrainingPage</class>
- <widget class="QWizardPage" name="WrapperTrainingPage">
+ <class>ReferenceExporterPage</class>
+ <widget class="QWizardPage" name="ReferenceExporterPage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,10 +17,10 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Reference Manager</string>
+   <string>Export References</string>
   </property>
   <property name="title">
-   <string>Wrapper Training</string>
+   <string>Export References</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -46,20 +46,13 @@
      <property name="childrenCollapsible">
       <bool>false</bool>
      </property>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QVBoxLayout" name="wrapperTrainingLayout">
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="referenceListLayout">
        <property name="spacing">
-        <number>6</number>
+        <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="instructionsLabel">
-         <property name="text">
-          <string>Select a URL of write one yourself:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTreeWidget" name="urls">
+        <widget class="QTreeWidget" name="references">
          <property name="indentation">
           <number>0</number>
          </property>
@@ -71,20 +64,20 @@
          </attribute>
          <column>
           <property name="text">
-           <string>Available URLs</string>
+           <string>Available References</string>
           </property>
          </column>
         </widget>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QVBoxLayout" name="exportLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QLabel" name="urlLabel">
-         <property name="text">
-          <string>URL:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="urlLine"/>
+        <widget class="QTextEdit" name="entriesEdit"/>
        </item>
       </layout>
      </widget>

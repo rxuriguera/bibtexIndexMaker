@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_wrapper_training.ui'
 #
-# Created: Sun May  9 10:49:46 2010
+# Created: Mon May 10 18:06:23 2010
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -60,7 +60,7 @@ class Ui_WrapperTrainingPage(object):
     def retranslateUi(self, WrapperTrainingPage):
         WrapperTrainingPage.setWindowTitle(QtGui.QApplication.translate("WrapperTrainingPage", "Reference Manager", None, QtGui.QApplication.UnicodeUTF8))
         WrapperTrainingPage.setTitle(QtGui.QApplication.translate("WrapperTrainingPage", "Wrapper Training", None, QtGui.QApplication.UnicodeUTF8))
-        self.instructionsLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "Select an URL of write one yourself:", None, QtGui.QApplication.UnicodeUTF8))
+        self.instructionsLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "Select a URL of write one yourself:", None, QtGui.QApplication.UnicodeUTF8))
         self.urls.headerItem().setText(0, QtGui.QApplication.translate("WrapperTrainingPage", "Available URLs", None, QtGui.QApplication.UnicodeUTF8))
         self.urlLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "URL:", None, QtGui.QApplication.UnicodeUTF8))
 

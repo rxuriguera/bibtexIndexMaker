@@ -6,6 +6,7 @@ from bibim import log
 from bibim.gui.ui.ui_main_window import Ui_MainWindow
 from bibim.gui.reference_extraction import ReferenceExtractionWizard
 from bibim.gui.reference_manager import ReferenceManagerWizard
+from bibim.gui.reference_exporter import ReferenceExporterWizard
 from bibim.gui.wrapper_manager import WrapperManagerWizard
 from bibim.gui.wrapper_training import WrapperTrainingWizard
 
@@ -13,7 +14,7 @@ from bibim.gui.wrapper_training import WrapperTrainingWizard
 # Menu actions
 menu_actions = {'ref:extract':ReferenceExtractionWizard,
                 'ref:manage':ReferenceManagerWizard,
-                'ref:export':QtGui.QDialog,
+                'ref:export':ReferenceExporterWizard,
                 'wrap:train':WrapperTrainingWizard,
                 'wrap:manage':WrapperManagerWizard}
 
