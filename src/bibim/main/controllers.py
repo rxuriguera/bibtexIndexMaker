@@ -20,20 +20,24 @@
 import re
 
 from bibim import log
-from bibim.util.helpers import (FileFormat,
-                                ReferenceFormat)
+from bibim.db.gateways import (WrapperGateway,
+                               ExampleGateway)
+from bibim.ie.reference_wrappers import ReferenceWrapper
+from bibim.ie.rules import (PathRuler,
+                            RegexRuler)
+from bibim.ie.trainers import WrapperTrainer
+from bibim.ir.types import SearchError
+from bibim.main.factory import UtilCreationError                  
+from bibim.main.validation import ValidatorFactory
+from bibim.rce import ExtractionError
+from bibim.references import Reference
+from bibim.references.format import ReferenceFormatter
 from bibim.util import (Browser,
                         BrowserError,
                         BeautifulSoup)
 from bibim.util.config import configuration
-from bibim.db.gateways import WrapperGateway
-from bibim.rce import ExtractionError
-from bibim.ir.search import SearchError
-from bibim.ie.reference_wrappers import ReferenceWrapper
-from bibim.references import Reference
-from bibim.references.format import ReferenceFormatter
-from bibim.main.factory import UtilCreationError                  
-from bibim.main.validation import ValidatorFactory
+from bibim.util.helpers import (FileFormat,
+                                ReferenceFormat)
 
 # Retrieve constants' value from the configuration file
 MIN_WORDS = configuration.search_properties['min_query_length']         
@@ -42,7 +46,13 @@ SKIP_QUERIES = configuration.search_properties['queries_to_skip']
 MAX_QUERIES = configuration.search_properties['max_queries_to_try']
 TOO_MANY_RESULTS = configuration.search_properties['too_many_results']
 ENGINE = configuration.search_engine
+
 MAX_WRAPPERS = configuration.wrapper_properties['max_wrappers']
+MIN_VALIDITY = configuration.wrapper_properties['min_validity']
+WRAPPER_GEN_EXAMPLES = configuration.wrapper_properties['wrapper_gen_examples']
+MAX_EXAMPLES_FROM_DB = configuration.wrapper_properties['max_examples_from_db']
+MAX_EXAMPLES = configuration.wrapper_properties['max_examples']
+SECONDS_BETWEEN_REQUESTS = configuration.wrapper_properties['seconds_between_requests']
 
 
 class Controller(object):
@@ -107,12 +117,15 @@ class IRController(Controller):
         for query in query_strings:
             searcher.set_query(query)
             try:
+                log.debug('Searching query %s with engine %d' % (query, engine)) #@UndefinedVariable
                 results = searcher.get_results()
             except SearchError, e:
                 log.error(e.error) #@UndefinedVariable
                 break
         
             if searcher.num_results >= TOO_MANY_RESULTS:
+                log.debug('Search with query %s yielded too many results ' #@UndefinedVariable
+                          '(%d or more)' % (query, TOO_MANY_RESULTS)) 
                 continue
             
             if results:
@@ -127,9 +140,11 @@ class IRController(Controller):
         from the search engine is preserved.
         """
         # TODO: Refactor this method an extend it to sort depending on the
-        # field wrappers as well.
+        # ruled wrappers as well.
         has_wrapper = []
         doesnt_have_wrapper = []
+    
+        log.debug('Sorting %d results' % len(results)) #@UndefinedVariable
     
         available_wrappers = ReferenceWrapper().get_available_wrappers()
         for result in results:
@@ -158,10 +173,13 @@ class IEController(Controller):
         A single publication may need more than a reference (e.g: inproceedings
         and its proceedings)
         """
+        
+        log.debug('Extracting reference from %d ' % len(top_results)) #@UndefinedVariable
         page = None
         references = []
         for result in top_results:
             try:
+                log.debug('Retrieving page for result %s' % result.url) #@UndefinedVariable
                 page = self.browser.get_page(result.url)
             except BrowserError as e:
                 log.error('Error retrieving page %s: %s' % (result.url, #@UndefinedVariable
@@ -171,9 +189,11 @@ class IEController(Controller):
             page = self._clean_content(page)
             page = BeautifulSoup(page)
             
-            references = self._use_reference_wrappers(result.base_url, page, raw_text)
+            references = self._use_reference_wrappers(result.base_url, page,
+                                                      raw_text)
             if not references:
-                references = self._use_rule_wrappers(result.base_url, page, raw_text)
+                references = self._use_rule_wrappers(result.base_url, page,
+                                                     raw_text)
                 
             #if not references:
             #references = self._use_field_wrappers(result.base_url, page)
@@ -202,6 +222,7 @@ class IEController(Controller):
         """
         Look if there is any wrapper in the database for the given source.
         """
+        log.debug('Attempting to extract reference with ruled wrappers') #@UndefinedVariable
         fields = {}
         reference = Reference(format=self.format)
         wrapper_manager = WrapperGateway(max_wrappers=MAX_WRAPPERS)
@@ -210,6 +231,8 @@ class IEController(Controller):
             # Get the wrappers for the current collection
             url, field = collection.url, collection.field
             wrappers = wrapper_manager.get_wrappers(url, field)
+            log.debug('Collection %s:%s has %d wrappers' % (url, field, #@UndefinedVariable
+                                                            len(wrappers)))
             
             # Get field validator
             try:
@@ -223,17 +246,21 @@ class IEController(Controller):
                 # we expect 'info' to be a string
                 if type(info) != str:
                     continue 
+                log.debug('Info extracted by wrapper: %s' % info) #@UndefinedVariable
                 
                 valid = validator.validate(info, raw_text) if validator else True
-                
                 # Save the extracted info even if it's not correct. It will
                 # be overwritten afterwards if necessary
                 reference.set_field(field, info, valid)
                 
                 if not valid: 
+                    log.debug('The extracted information is not valid. ' #@UndefinedVariable
+                              'Downvoting wrapper.') 
                     wrapper.downvotes += 1
                     wrapper_manager.update_wrapper(wrapper)
                 else:
+                    log.debug('The extracted information is valid. ' #@UndefinedVariable
+                              'Upvoting wrapper') 
                     wrapper.upvotes += 1
                     wrapper_manager.update_wrapper(wrapper)
                     fields[field] = info
@@ -252,9 +279,11 @@ class IEController(Controller):
         A single publication may need more than a reference (e.g: inproceedings
         and its proceedings)
         """
+        log.debug('Attempting to extract reference with a reference wrapper') #@UndefinedVariable
         references = []
         entry, format = ReferenceWrapper().extract_info(source, page)
         if not entry:
+            log.debug('Could not find any entry using a reference wrapper') #@UndefinedVariable
             return references
         
         # Create a parser for the given reference format
@@ -270,6 +299,7 @@ class IEController(Controller):
             return references
         
         # There may be more than one entry for the same file.
+        log.debug('Parsing extracted entries') #@UndefinedVariable
         entries = parser.split_source(entry)
         for entry in entries:
             fields = parser.parse_entry(entry)
@@ -283,6 +313,7 @@ class IEController(Controller):
         """
         This method is a complement for _use_reference_wrappers 
         """
+        log.debug('Validating reference fields') #@UndefinedVariable
         for field_name in reference.fields:
             field = reference.get_field(field_name)
             try:
@@ -321,3 +352,22 @@ class IEController(Controller):
             new_values.append(ValidatorFactory.create_validator(values[1], *values[2:]))
             self.field_validation[field] = new_values
      
+    def generate_wrappers(self, url):
+        wrapper_manager = WrapperGateway()
+        example_manager = ExampleGateway(max_examples_from_db=
+                                        MAX_EXAMPLES_FROM_DB,
+                                        seconds_between_requests=
+                                        SECONDS_BETWEEN_REQUESTS)
+        example_sets = example_manager.get_examples(WRAPPER_GEN_EXAMPLES, url,
+                                                    MIN_VALIDITY)
+        
+        rulers = []
+        for set in example_sets:
+            if set == 'authors' or set == 'editors':
+                pass
+            else:
+                rulers = [PathRuler(), RegexRuler()] 
+        
+            trainer = WrapperTrainer(rulers, WRAPPER_GEN_EXAMPLES)
+            wrappers = trainer.train(example_sets[set])
+            wrapper_manager.persist_wrappers(url, set, wrappers)

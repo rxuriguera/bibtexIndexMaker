@@ -26,7 +26,6 @@ from bibim.main.factory import UtilFactory
 from bibim.main.validation import ReferenceValidator
 from bibim.util.helpers import FileFormat
 
-
 class ReferenceMaker(object):
     def __init__(self):
         self.factory = UtilFactory()
@@ -46,21 +45,22 @@ class ReferenceMaker(object):
         rce = RCEController(self.factory)
         raw_text = rce.extract_content(file, FileFormat.TXT)
         if not raw_text:
-            return None
+            return extraction
         
         extraction.query_strings = rce.get_query_strings(raw_text)
         if not extraction.query_strings:
-            return None
+            log.debug('No query strings') #@UndefinedVariable
+            return extraction
         log.debug("Query strings %s" % str(extraction.query_strings)) #@UndefinedVariable
-        
         
         ir = IRController(self.factory)
         extraction.top_results, extraction.used_query = ir.get_top_results(extraction.query_strings)
         if not extraction.top_results:
-            return None
+            log.debug('No top results for the given queries') #@UndefinedVariable
+            return extraction
         extraction.query_strings.remove(extraction.used_query)
         log.debug("Used query %s" % str(extraction.used_query)) #@UndefinedVariable
-        log.debug("Top results %s" % str(extraction.top_results)) #@UndefinedVariable
+        log.debug("Query returned %d top results" % len(extraction.top_results)) #@UndefinedVariable
         
         ie = IEController(self.factory, target_format)
         extraction.entries, extraction.used_result = ie.extract_reference(extraction.top_results, raw_text)

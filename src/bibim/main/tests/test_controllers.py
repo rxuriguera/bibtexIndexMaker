@@ -185,6 +185,9 @@ class TestIEController(unittest.TestCase):
         file.close()
         return soup
     
+    def test_generate_wrappers(self):
+        self.iec.generate_wrappers("some_url")
+    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

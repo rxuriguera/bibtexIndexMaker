@@ -21,68 +21,77 @@ Entry points to the application
 """
 
 import Queue #@UnresolvedImport
+import threading #@UnresolvedImport
 
 from bibim import log
 from bibim.db.session import flush_changes
 from bibim.main.files import FileManager
 from bibim.main.threads import ThreadRunner, ReferenceMakerThread
+from bibim.main.controllers import IEController
+from bibim.main.factory import UtilFactory
 
-class IndexMaker(object):
+class IndexMaker(threading.Thread):
     def __init__(self):
+        super(IndexMaker, self).__init__()
+        self.__path = ''
         self._in_queue = Queue.Queue(0)
         self._out_queue = Queue.Queue(0)
-    
-    def make_index(self, path, source_format='pdf', target_format='bibtex'):
-        log.debug("Start making index") #@UndefinedVariable
+        self.processed = []
+        self.thread_runner = None
+        self.trhead_class = ReferenceMakerThread
+
+    def get_processed(self):
+        return self.__processed
+
+    def set_processed(self, value):
+        self.__processed = value
+
+    def set_path(self, path):
+        self.__path = path
         
         # Read all the files from the given path and put them in a queue
-        files = FileManager().get_files_list(path)        
-        for file in files:
+        self.files = FileManager().get_files_list(path)        
+        for file in self.files:
             self._in_queue.put(file)
+    
+    def get_n_files(self):
+        return self._in_queue.qsize()
         
-        # Run threads to extract references
-        thread_runner = ThreadRunner(ReferenceMakerThread,
-                                     self._in_queue, self._out_queue)
-        thread_runner.run()
+    def make_index(self):
+        self.trhead_class = ReferenceMakerThread
+        self.start()
         
-        # TODO: Remove printing from this class
-        num_refs = 0
-        content_extract = 0
-        found_resutls = 0
-        valid = 0
-        invalid = 0
+    def run(self):
+        log.debug("Start running index maker") #@UndefinedVariable
+
+        # Run threads
+        self.thread_runner = ThreadRunner(self.trhead_class,
+                                          self._in_queue, self._out_queue)
+        self.thread_runner.run()
+        
         while not self._out_queue.empty():
-            extraction = self._out_queue.get()
-            
-            print "File: %s" % extraction.file_path
-            if extraction.used_query:
-                print "Query: %s" % extraction.used_query
-                content_extract += 1
-            if extraction.used_result:
-                print "Result: %s" % extraction.used_result.url
-                found_resutls += 1
-            for ref in extraction.entries:
-                num_refs += 1
-                print "Ref: \n%s" % ref.get_entry()
-                if ref.validity >= 0.5:
-                    print 'Valid'
-                    valid += 1
-                else:
-                    print 'Not Valid'
-                    invalid += 1 
-            print "\n\n\n"
-        
+            self.processed.append(self._out_queue.get())
+
         # Commit changes to the database
         flush_changes()
-        
-        
-        print 'Total files: %d' % len(files)
-        print 'Could extract content: %d' % content_extract
-        print 'Could find results: %d' % found_resutls
-        print 'Total references: %d' % num_refs
-        print 'Total valid references: %d' % valid
-        print 'Total invalid references: %d' % invalid    
-    
+        log.debug("Total processed: %d" % len(self.processed)) #@UndefinedVariable
+
+    processed = property(get_processed, set_processed)
+
+
+class WrapperGenerator(threading.Thread):               
+    def __init__(self, url):
+        super(WrapperGenerator, self).__init__()
+        self.url = url
+        self.factory = UtilFactory()
+        self.ie_controller = IEController(self.factory)
+
+    def run(self):
+        self.generate_wrappers()
+
     def generate_wrappers(self):
-        pass
+        self.ie_controller.generate_wrappers(self.url)
+    
+    
+
         
