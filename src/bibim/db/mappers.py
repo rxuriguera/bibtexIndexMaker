@@ -68,6 +68,11 @@ class Wrapper(Base):
         self.downvotes = 0
         self.score = 0.0
     
+    def add_rule_by_info(self, rule_type='', pattern='', order=0):
+        rule = WrapperRule(rule_type, pattern, order)
+        rule.wrapper_id = self.id
+        self.rules.append(rule)
+    
     def add_rule(self, rule):
         self.rules.append(rule)
         
@@ -102,6 +107,7 @@ class WrapperCollection(Base):
     def __init__(self, url='', field=''):
         self.url = url
         self.field = field
+        self.wrappers = []
         
     def __repr__(self):
         return 'WrapperCollection(url: %s,field: %s)' % (self.url, self.field)
@@ -189,10 +195,23 @@ class Reference(Base):
 
     extraction_id = Column(Integer, ForeignKey('extractions.id'))
     
+    def __init__(self, fields=[], validity=0.0, authors=[], editors=[], extraction_id=0):
+        self.fields = fields
+        self.validity = validity
+        self.authors = authors
+        self.editors = editors
+        self.extraction_id = extraction_id
+    
     def add_field(self, name, value, valid):
         self.fields.append(ReferenceField(name, value,
                                           valid))
 
+    def add_author_by_name(self, first_name, middle_name, last_name):
+        self.authors.append(Author(Person(first_name, middle_name, last_name)))
+
+    def add_editor_by_name(self, first_name, middle_name, last_name):
+        self.editors.append(Editor(Person(first_name, middle_name, last_name)))
+        
     def add_author(self, author):
         self.authors.append(author)        
 
@@ -221,30 +240,11 @@ class Extraction(Base):
         self.file_path = file_path
         self.result_url = result_url
         self.query_string = query_string
-
-    def get_file_path(self):
-        return self.__file_path
-
-    def get_result_url(self):
-        return self.__result_url
-
-    def get_query_string(self):
-        return self.__query_string
-
-    def set_file_path(self, value):
-        self.__file_path = unicode(value)
-
-    def set_result_url(self, value):
-        self.__result_url = unicode(value)
-
-    def set_query_string(self, value):
-        self.__query_string = unicode(value)
+    
+    def add_reference(self):
+        self.references.append(Reference(extraction_id=self.id))
     
     def __repr__(self):
         return ('Extraction(file_path: %s, result_url: %s, query_string: %s, '
                 'timestamp: %s)' % (self.file_path, self.result_url,
                                     self.query_string, self.timestamp))
-
-    file_path = property(get_file_path, set_file_path)
-    result_url = property(get_result_url, set_result_url)
-    query_string = property(get_query_string, set_query_string)

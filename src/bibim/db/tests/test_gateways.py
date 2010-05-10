@@ -18,7 +18,9 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.db.gateways import ExampleGateway
+from bibim.db.gateways import (ExampleGateway,
+                               ReferenceGateway)
+from bibim.references import Reference
 
 class TestExampleGateway(unittest.TestCase):
 
@@ -29,10 +31,10 @@ class TestExampleGateway(unittest.TestCase):
     def tearDown(self):
         pass
 
-
     def testGetExamples(self):
-        examples = self.eg.get_examples("some_url", 0.5)
-
+        examples = self.eg.get_examples(2, "http://zetcode.com", 0.5)
+        self.eg.session.flush()
+        self.eg.session.close()
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

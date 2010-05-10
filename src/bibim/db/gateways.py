@@ -16,17 +16,23 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
+from time import sleep
+import re
 import simplejson #@UnresolvedImport
+from sqlalchemy import desc #@UnresolvedImport
+
+from bibim import log
 from bibim.db import mappers
 from bibim.db.session import create_session
 from bibim.ie.types import (Example,
                             Wrapper,
                             Extraction)
 from bibim.ie.rules import RuleFactory
-from bibim.ir.search import SearchResult
-
-# TODO: move to config file
-MAX_EXAMPLES_FROM_DB = 15
+from bibim.ir.types import SearchResult
+from bibim.util.browser import (Browser,
+                                BrowserError)
+from bibim.util.beautifulsoup import BeautifulSoup
 
 class Gateway(object):
     def __init__(self, session=None):
@@ -37,6 +43,8 @@ class Gateway(object):
     def commit(self):
         self.session.commit()
 
+    def flush(self):
+        self.session.flush()
 
 class ReferenceGateway(Gateway):
     """
@@ -44,7 +52,12 @@ class ReferenceGateway(Gateway):
     """
     
     def find_reference_by_id(self, id):
-        pass
+        if not id:
+            raise ValueError
+        
+        m_reference = (self.session.query(mappers.Reference).
+                       filter(mappers.Reference.id == id).one())
+        return m_reference
     
     def persist_references(self, references):
         references = list(references)
@@ -106,6 +119,11 @@ class ReferenceGateway(Gateway):
                                         person['last_name'])
         return new_person
 
+    def new_reference(self):
+        reference = mappers.Reference()
+        self.session.add(reference)
+        return reference
+
 
 class ExtractionGateway(Gateway):
     """
@@ -115,6 +133,7 @@ class ExtractionGateway(Gateway):
         """
         Adds new extractions to the database.
         """
+        log.debug("Persisting extraction") #@UndefinedVariable
         m_extraction = mappers.Extraction()
         self.session.add(m_extraction)
             
@@ -136,43 +155,133 @@ class ExtractionGateway(Gateway):
         extraction.used_result = SearchResult("", m_extraction.result)
         return extraction
 
+    def find_extractions(self):
+        m_extractions = (self.session.query(mappers.Extraction).
+                         order_by(desc(mappers.Extraction.timestamp))[:1000])
+        return m_extractions
+    
+    def new_extraction(self):
+        extraction = mappers.Extraction()
+        self.session.add(extraction)
+        return extraction
+    
 
 class ExampleGateway(Gateway):
     """
     """
-    def get_examples(self, url, min_validity):
+    
+    last_request = datetime.now()
+    
+    def __init__(self, session=None, max_examples=5, max_examples_from_db=15, seconds_between_requests=5):
+        super(ExampleGateway, self).__init__(session)
+        self.max_examples = max_examples
+        self.max_examples_from_db = max_examples_from_db
+        self.seconds_between_requests = seconds_between_requests
+    
+    def get_examples(self, nexamples, url=u'', min_validity='0.5'):
         """
-        Retrieves mappers from the database that will be used to create
-        the examples
+        Creates examples from the available references in the database. The
+        references to use can be filtered depending on the validity and the 
+        url.
+        
+        This method returns a dictionary of fields whose value is a list of
+        examples with values for that field.
         """
+        
+        nexamples = nexamples if nexamples <= self.max_examples else self.max_examples
+        
         url = unicode(url)
-        
         examples = {}
-        
-        """
-        
-        m_results = (self.session.query(mappers.Reference).
-                     filter(mappers.Reference.validity == 0.2)#@UndefinedVariable
-                     #join(mappers.Reference).
-                        #filter(mappers.Reference.validity >= min_validity).
-                        #filter(mappers.Extraction.result_url.like(url + '%')). #@UndefinedVariable
-                        #order_by(mappers.Reference.validity).all()
-                        [:MAX_EXAMPLES_FROM_DB])
-        """
-        m_results = (self.session.query(mappers.Extraction).
-                    filter(mappers.Extraction.result_url.like('aaa'))); #@UndefinedVariable
-         
-         
-        for m_result in m_results:
+        m_results = (self.session.query(mappers.Extraction, mappers.Reference).
+                     filter(mappers.Extraction.id == mappers.Reference.extraction_id).
+                     filter(mappers.Reference.validity >= min_validity).
+                     filter(mappers.Extraction.result_url.like(url + '%')). #@UndefinedVariable
+                     order_by(desc(mappers.Reference.validity)).all()
+                     [:self.max_examples_from_db])
+
+        for m_extraction, m_result in m_results:
+            content = self._get_content(m_extraction.result_url)
+
+            # Check if the contents of the database are still valid
+            if not self._check_still_valid(m_result, content, min_validity):
+                continue
+            
             fields = [field for field in m_result.fields if field.valid]
             for field in fields:
                 examples.setdefault(field.name, [])
-                example = Example(field.value, None, m_result.url)
+                example = Example(field.value, content, m_extraction.result_url,
+                                  field.valid, m_result.id)
                 examples[field.name].append(example)
-                
+        
+            # Break if we already have enough examples for all of the fields
+            if min(map(len, examples.values())) >= nexamples:
+                break    
+           
         return examples
-    
 
+    def _get_content(self, url):
+        """
+        This method looks for the content of an example's URL. In order not to
+        overload the server, it sleeps for some time between multiple calls. 
+        """
+        time_to_sleep = (self.seconds_between_requests - 
+                        (datetime.now() - self.last_request).seconds)
+        if time_to_sleep > 0:
+            sleep(time_to_sleep)
+        
+        content = None
+        try:
+            content = Browser().get_page(url)
+            content = self._clean_content(content)
+            content = BeautifulSoup(content) if content else None
+        except BrowserError as e:
+            log.error('Error retrieving page %s: %s' % (url, #@UndefinedVariable
+                                                        e.error))
+        self.last_request = datetime.now()
+        return content
+
+    def _clean_content(self, content):
+        if not content:
+            return None
+        content = content.replace('\n', '')
+        content = content.replace('\r', '')
+        content = content.replace('\t', '')
+        return content
+    
+    def _check_still_valid(self, mapper, content, min_validity):
+        """
+        It checks if the information to be extracted is really present within
+        the contents. If it doesn't, then it updates the database so the
+        corresponding records won't be used again.
+        """
+        
+        # In case the content could not be extracted, don't update the database
+        if not content:
+            return False
+        
+        # For each piece of information, check if it exists in the contents.
+        # At this point, we don't care about its location, but if it
+        # can be found.
+        not_found = 0.0
+        for field in mapper.fields:
+            found = content.find(text=re.compile(field.value))
+            if not found:
+                log.info('Field %s with value %s cannot be found anymore in %d' #@UndefinedVariable
+                         % (field.name, field.value, mapper.id))
+                field.valid = False
+                not_found += 1
+        
+        # Recompute validity
+        validity = 1 - (not_found / len(mapper.fields)) 
+        if validity < min_validity:
+            log.info('Reference "%d" marked as invalid from now on.' % #@UndefinedVariable
+                      mapper.id)
+            mapper.validity = validity
+            return False
+    
+        return  True   
+    
+    
 class WrapperGateway(Gateway):
     """
     This class allows to store and retrieve ruled wrappers from the database
@@ -188,6 +297,13 @@ class WrapperGateway(Gateway):
         self.__max_wrappers = value
         
     max_wrappers = property(get_max_wrappers, set_max_wrappers)
+
+    def persist_wrappers(self, url, field, wrappers):
+        wrappers = list(wrappers)
+        m_wrappers = []
+        for wrapper in wrappers:
+            m_wrappers.append(self.persist_wrapper(url, field, wrapper))
+        return m_wrappers
 
     def persist_wrapper(self, url, field, wrapper):
         """
@@ -234,10 +350,11 @@ class WrapperGateway(Gateway):
     def find_wrapper_collections(self, url=u'%', field=u'%'):
         url = unicode(url)
         field = unicode(field)
-        collection = (self.session.query(mappers.WrapperCollection).
+        collections = (self.session.query(mappers.WrapperCollection).
                       filter(mappers.WrapperCollection.url.like(url + '%')). #@UndefinedVariable
-                      filter(mappers.WrapperCollection.field.like(field))) #@UndefinedVariable
-        return collection
+                      filter(mappers.WrapperCollection.field.like(field)). #@UndefinedVariable
+                      order_by(mappers.WrapperCollection.field))
+        return collections
 
     def find_wrapper_collection(self, url, field=u'%', create=False):
         url = unicode(url)
@@ -288,6 +405,19 @@ class WrapperGateway(Gateway):
                          [:self.max_wrappers])
         
         self.wrapper_mappers = query_results
+
+    def new_wrapper_collection(self):
+        collection = mappers.WrapperCollection()
+        self.session.add(collection)
+        return collection
+
+    def new_wrapper(self):
+        """
+        Returns a new wrapper mapper
+        """
+        wrapper = mappers.Wrapper()
+        self.session.add(wrapper)
+        return wrapper
 
     def check_obsolete_wrapper_collections(self):
         pass
