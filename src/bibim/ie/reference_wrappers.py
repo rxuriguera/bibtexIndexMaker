@@ -1,3 +1,4 @@
+
 # Copyright 2010 Ramon Xuriguera
 #
 # This file is part of BibtexIndexMaker. 
@@ -18,6 +19,7 @@
 
 import re
 
+from bibim import log
 from bibim.ie.types import Wrapper
 from bibim.util import (BeautifulSoup,
                         Browser,
@@ -37,6 +39,7 @@ class ReferenceWrapper(Wrapper):
         Extracts a reference from the given page.
         """
         if source not in self._available_wrappers.keys():
+            log.debug('No reference wrapper available for source %s' % source) #@UndefinedVariable
             return (None, None)
         
         wrapper_method = getattr(self,
@@ -53,6 +56,7 @@ class ReferenceWrapper(Wrapper):
         reference.
         Returns a tuple with the full reference and its format.
         """ 
+        log.debug('Using ACM Portal reference wrapper') #@UndefinedVariable
         ref = (None, None)
         anchor = page.find('a', {'onclick':re.compile('popBibTex.cfm')})
         if not anchor:
@@ -64,6 +68,7 @@ class ReferenceWrapper(Wrapper):
         try:
             page = BeautifulSoup(self._browser.get_page(ref_url))
         except BrowserError:
+            log.error('Browse error while retrieving entry page') #@UndefinedVariable
             return ref
         
         pre = page.find('pre')
