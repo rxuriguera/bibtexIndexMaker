@@ -61,7 +61,11 @@ class SearchResult(object):
     
     @property
     def base_url(self):
-        return 'http://' + self.url.split('/')[2]    
+        if self.url.startswith('http://'):
+            return 'http://' + self.url.split('/')[2]
+        else:
+            return self.url.rsplit('/', 1)[0]
+          
 
 
 class DescSearchResult(SearchResult):

@@ -51,22 +51,24 @@ class Searcher(object):
         self.query = query
         self.debug = debug
         self.browser = Browser(debug=debug)
+        self.prepare()
+
+        if random_agent:
+            self.browser.set_random_user_agent() 
+
+    def prepare(self):
         self.results_info = None
         self.eor = False # end of results
         self._page = 0
         self._results_per_page = 10
         self._last_from = 0
 
-        if random_agent:
-            self.browser.set_random_user_agent() 
-
     def get_query(self):
         return self.__query
 
     def set_query(self, value):
         self.__query = value
-        self.eor = False
-        self.results_info = None
+        self.prepare()
         
     query = property(get_query, set_query)
             
