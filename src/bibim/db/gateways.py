@@ -30,6 +30,7 @@ from bibim.ie.types import (Example,
                             Extraction)
 from bibim.ie.rules import RuleFactory
 from bibim.ir.types import SearchResult
+from bibim.references.reference import Reference
 from bibim.util.browser import (Browser,
                                 BrowserError)
 from bibim.util.beautifulsoup import BeautifulSoup
@@ -55,9 +56,37 @@ class ReferenceGateway(Gateway):
         if not id:
             raise ValueError
         
+        log.debug('Querying the database. Reference with id %s' % str(id)) #@UndefinedVariable
         m_reference = (self.session.query(mappers.Reference).
                        filter(mappers.Reference.id == id).one())
-        return m_reference
+        
+        if not m_reference:
+            return None
+        
+        log.debug('Creating new reference') #@UndefinedVariable
+        reference = Reference()
+        reference.id = m_reference.id
+        reference.validity = m_reference.validity
+        
+        log.debug('Adding fields') #@UndefinedVariable
+        for m_field in m_reference.fields:
+            reference.set_field(m_field.name, m_field.value, m_field.valid)
+        
+        log.debug('Adding authors') #@UndefinedVariable
+        authors = []
+        for m_author in m_reference.authors:
+            authors.append(m_author.to_name_dict())
+        if authors:
+            reference.set_field(u'author', authors, True)
+        
+        log.debug('Adding editors') #@UndefinedVariable
+        editors = []
+        for m_editor in m_reference.editors:
+            editors.append(m_editor.to_name_dict())
+        if editors:
+            reference.set_field(u'editor', editors, True)
+        
+        return reference
     
     def persist_references(self, references):
         references = list(references)
@@ -142,7 +171,9 @@ class ExtractionGateway(Gateway):
         if extraction.used_result:
             m_extraction.result = unicode(extraction.used_result.url)
 
-        ReferenceGateway(self.session).persist_references(extraction.references)
+        m_references = ReferenceGateway(self.session).persist_references(extraction.entries)
+        for m_reference in m_references:
+            m_extraction.references.append(m_reference)
         
         return m_extraction
     
@@ -314,6 +345,10 @@ class WrapperGateway(Gateway):
         m_wrapper = mappers.Wrapper()
         collection.wrappers.append(m_wrapper)
         
+        m_wrapper.upvotes = wrapper.upvotes
+        m_wrapper.downvotes = wrapper.downvotes
+        m_wrapper.score = wrapper.score
+        
         for rule, order in zip(wrapper.rules, range(len(wrapper.rules))):
             m_wrapper.rules.append(self._persist_rule(rule, order))
         
@@ -334,7 +369,7 @@ class WrapperGateway(Gateway):
         
         m_wrapper.upvotes = wrapper.upvotes
         m_wrapper.downvotes = wrapper.downvotes
-        m_wrapper.score = wrapper.score
+        m_wrapper.score = wrapper.get_score()
         
         for rule, order in zip(wrapper.rules, range(len(wrapper.rules))):
             try:

@@ -125,6 +125,10 @@ class Person(Base):
         self.first_name = first_name
         self.middle_name = middle_name
         self.last_name = last_name
+
+    def to_name_dict(self):
+        return {'first_name':self.first_name, 'middle_name':self.middle_name,
+                'last_name':self.last_name}
     
     def __repr__(self):
         return "Person(first: %s,middle: %s,last: %s)" % (self.first_name,
@@ -143,6 +147,9 @@ class Author(Base):
     def __init__(self, person):
         self.person = person
 
+    def to_name_dict(self):
+        return self.person.to_name_dict()
+
     def __repr__(self):
         return "Author"    
     
@@ -157,6 +164,9 @@ class Editor(Base):
     
     def __init__(self, person):
         self.person = person
+
+    def to_name_dict(self):
+        return self.person.to_name_dict()
 
     def __repr__(self):
         return "Editor"    
