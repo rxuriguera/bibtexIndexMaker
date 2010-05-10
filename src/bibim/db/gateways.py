@@ -169,7 +169,7 @@ class ExtractionGateway(Gateway):
         m_extraction.file_path = unicode(extraction.file_path)
         m_extraction.query_string = unicode(extraction.used_query)
         if extraction.used_result:
-            m_extraction.result = unicode(extraction.used_result.url)
+            m_extraction.result_url = unicode(extraction.used_result.url)
 
         m_references = ReferenceGateway(self.session).persist_references(extraction.entries)
         for m_reference in m_references:
