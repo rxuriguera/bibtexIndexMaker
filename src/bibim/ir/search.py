@@ -25,76 +25,18 @@
 
 import re
 import urllib #@UnresolvedImport
-import time
-import random #@UnresolvedImport
 import simplejson #@UnresolvedImport
 
 from htmlentitydefs import name2codepoint #@UnresolvedImport
 
 from bibim import log
+from bibim.ir.types import (DescSearchResult,
+                            ScholarSearchResult,
+                            SearchError,
+                            ParseError)
 from bibim.util import BeautifulSoup
 from bibim.util import Browser, BrowserError
 
-
-class SearchError(Exception):
-    """
-    Base class for search exceptions.
-    """
-    def __init__(self, error):
-        self.error = error
-
-
-class ParseError(SearchError):
-    """
-    Parse error in search results.
-    self.msg attribute contains explanation why parsing failed
-    self.tag attribute contains BeautifulSoup object with the most relevant tag
-    that failed to parse
-    Thrown only in debug mode
-    """
-    def __init__(self, msg, tag):
-        self.msg = msg
-        self.tag = tag
-
-    def __str__(self):
-        return self.msg
-
-    def html(self):
-        return self.tag.prettify()
-
-
-class SearchResult(object):
-    """
-    """
-    def __init__(self, title, url):
-        self.title = title
-        self.url = url
-
-    def __str__(self):
-        return 'Search Result: "%s\n%s"' % (self.title, self.url)
-    
-    @property
-    def base_url(self):
-        return 'http://' + self.url.split('/')[2]    
-
-
-class DescSearchResult(SearchResult):
-    """
-    """
-    def __init__(self, title, url, desc):
-        super(DescSearchResult, self).__init__(title, url)
-        self.desc = desc
-
-
-class ScholarSearchResult(SearchResult):
-    """
-    """
-    def __init__(self, title, url, desc, authors=[], year=None, base=None):
-        super(ScholarSearchResult, self).__init__(title, url)
-        self.desc = desc
-        self.authors = authors
-        self.year = year
-    
 
 class Searcher(object):
     """

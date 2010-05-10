@@ -48,17 +48,16 @@ class PathRule(Rule):
     a string.
     """
     def apply(self, input):
-        element = ''
-        for path in self.pattern:
-            element = self._get_path_element(list(path), input)
-            if element: 
-                break
+        log.debug('Applying PathRule for input') #@UndefinedVariable
+
+        element = self._get_path_element(self.pattern, input)
         if element:
             return element.find(True, text=True)
         else:
             return ''
     
     def _get_path_element(self, path, input):
+        log.debug('Get path element for path: %s' % str(path)) #@UndefinedVariable
         current = input
         tag, attrs, sibling = path.pop(0)
         
@@ -212,6 +211,7 @@ class PathRuler(Ruler):
     """ 
     
     def _rule_example(self, example):
+        log.debug('Ruling example with value %s' % str(example.value)) #@UndefinedVariable
         rules = []
         element_rules = []
         for element in self._get_content_elements(example):

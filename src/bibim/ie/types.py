@@ -18,6 +18,8 @@
 
 from bibim.ie.rating import AverageRater
 
+from bibim.references import Reference
+
 """
 This module defines the basic types used for the information extraction
 package
@@ -37,6 +39,11 @@ class Extraction(object):
         self.__top_results = []
         self.used_query = ''
         self.used_result = None
+        self.added = u''
+        
+        
+        ### Test
+        self.references.append(Reference())
 
 
 class Rule(object):
@@ -70,11 +77,18 @@ class Example(object):
     """
     Represents an example defining a piece of information to be extracted. 
     """
-    def __init__(self, value=None, content=None, url=u'', id=None):
-        self.id = id
+    def __init__(self, value=None, content=None, url=u'', valid=True, ref_id=None):
+        self.ref_id = ref_id
         self.value = value
         self.content = content
+        self.valid = valid
         self.url = url
+
+    def get_ref_id(self):
+        return self.__ref_id
+
+    def set_ref_id(self, value):
+        self.__ref_id = value
 
     def get_value(self):
         return self.__value
@@ -88,6 +102,12 @@ class Example(object):
     def set_content(self, value):
         self.__content = value
    
+    def get_valid(self):
+        return self.__valid
+
+    def set_valid(self, value):
+        self.__valid = value
+   
     def get_url(self):
         return self.__url
     
@@ -97,11 +117,12 @@ class Example(object):
     value = property(get_value, set_value)
     content = property(get_content, set_content)
     url = property(get_url, set_url)
+    valid = property(get_valid, set_valid)
+    ref_id = property(get_ref_id, set_ref_id)
     
     def __repr__(self):
         return "Example(value: %s,content: %s)" % (str(self.value),
                                                    str(self.content))    
-
 
 
 class Wrapper(object):
