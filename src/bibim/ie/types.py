@@ -19,7 +19,7 @@
 
 from bibim import log
 from bibim.ie.rating import AverageRater
-from bibim.references import Reference
+from bibim.references.reference import Reference
 
 """
 This module defines the basic types used for the information extraction

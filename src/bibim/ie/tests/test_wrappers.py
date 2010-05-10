@@ -21,8 +21,9 @@ from os.path import join, dirname, normpath
 
 from bibim.db import mappers
 from bibim.db.session import create_session
+from bibim.db.gateways import WrapperGateway
 from bibim.ie.rules import Rule
-from bibim.ie.wrappers import (Wrapper, WrapperManager)
+from bibim.ie.types import Wrapper
 from bibim.util import BeautifulSoup
 
 
@@ -46,16 +47,20 @@ class TestWrapper(unittest.TestCase):
         file_path = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/wrappers/' + file_name)))
         file = open(file_path)
-        soup = BeautifulSoup(file.read())
+        contents = file.read()
+        contents = contents.replace('\n', '')
+        contents = contents.replace('\r', '')
+        contents = contents.replace('\t', '')
+        soup = BeautifulSoup(contents)
         file.close()
         return soup
-    
+
 
 class TestWrapperManager(unittest.TestCase):
     
     def setUp(self):
         #self.wm = RuledWrapperManager()
-        self.wm = WrapperManager(create_session(
+        self.wm = WrapperGateway(create_session(
             sql_uri='sqlite:///:memory:', debug=True))
     
     def test_find_collection(self):

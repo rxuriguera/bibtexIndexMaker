@@ -26,12 +26,14 @@ from bibim.ie.trainers import (WrapperTrainer,
                                TooFewExamplesError)
 
 from bibim.db.session import create_session
-from bibim.ie.examples import (Example, ExampleManager, HTMLExampleManager)                                
-from bibim.ie.rules import Rule, Ruler
-from bibim.ie.wrappers import Wrapper
+from bibim.db.gateways import ExampleGateway
+from bibim.ie.types import (Example,
+                            Rule,
+                            Wrapper)                 
+from bibim.ie.rules import Ruler
 
 
-class MockExampleManager(ExampleManager):
+class MockExampleManager(ExampleGateway):
     def get_examples(self, url, nexamples):
         return self._get_examples(5, nexamples, nexamples + 15)
     

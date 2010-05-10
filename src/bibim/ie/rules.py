@@ -33,9 +33,10 @@ class RegexRule(Rule):
     output a tuple with all the matching groups 
     """
     def apply(self, input):
+        log.debug('Applying RegexRule with pattern %s' % self.pattern) #@UndefinedVariable
         regex = re.compile(self.pattern)
         matches = re.match(regex, input)
-        if matches:
+        if matches and len(matches.groups()) > 0:
             return matches.group(1)
         else: 
             return ''
@@ -48,8 +49,7 @@ class PathRule(Rule):
     a string.
     """
     def apply(self, input):
-        log.debug('Applying PathRule for input') #@UndefinedVariable
-
+        log.debug('Applying PathRule') #@UndefinedVariable
         element = self._get_path_element(self.pattern, input)
         if element:
             return element.find(True, text=True)
@@ -58,6 +58,8 @@ class PathRule(Rule):
     
     def _get_path_element(self, path, input):
         log.debug('Get path element for path: %s' % str(path)) #@UndefinedVariable
+        # Make a local copy
+        path = list(path)
         current = input
         tag, attrs, sibling = path.pop(0)
         
@@ -95,6 +97,8 @@ class Ruler(object):
         """
         Given a set of examples, induces a rule that conforms them
         """
+        # Make a local copy of training set
+        training = list(training)
         rules = self._rule_example(training.pop())
         for example in training:
             example_rules = self._rule_example(example)
@@ -240,7 +244,7 @@ class PathRuler(Ruler):
     def _should_merge(self, g_rule, s_rule):
         """
         Checks if the two patterns should be merged. In this case, two patterns
-        will be merged if they have the same length with the same elements,
+        should be merged if they have the same length with the same elements,
         i.e. they only differ in their attributes.
         """
         g_pattern, s_pattern = g_rule.pattern, s_rule.pattern
@@ -248,8 +252,8 @@ class PathRuler(Ruler):
         if len(g_pattern) != len(s_pattern):
             should_merge = False
         
-        for g_element, s_element in zip(g_pattern, s_pattern):
-            if g_element[0] != s_element[0]:
+        for g_el, s_el in zip(g_pattern, s_pattern):
+            if not (g_el[0] == s_el[0] and g_el[2] == s_el[2]):
                 should_merge = False
                 break
         

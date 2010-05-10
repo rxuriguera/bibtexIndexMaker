@@ -28,7 +28,7 @@ from bibim.ie.rules import (RegexRuler,
                             Rule,
                             RegexRule,
                             PathRule)
-from bibim.ie.examples import Example, HTMLExample
+from bibim.ie.types import Example
 from bibim.util.beautifulsoup import BeautifulSoup
 
         
@@ -64,40 +64,22 @@ class TestPathRule(unittest.TestCase):
     def test_apply_single_path(self):
         html = get_soup('acm01.html')
         
-        path = [[[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
-                    [u'span', {u'class': u'small-text'}, 5]]]
+        path = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                    [u'span', {u'class': u'small-text'}, 5]]
         self.rule.pattern = path
         
         result = self.rule.apply(html)
         self.failIf(not result)
         self.failUnless(result.startswith(' Volume 70'))
-
-    def test_apply_multiple_paths(self):
-        html = BeautifulSoup('<html><body><div id="01" class="div01"><span>'
-                             'Some text</span><p>Paragraph</p></div>'
-                             '</body></html>')
-        
-        path = [[[u'div', {u'class': u'div01'}, 1],
-                 [u'span', {u'class': u'small-text'}, 5]],
-                [[u'div', {u'class': u'div01'}, 1],
-                 [u'span', {}, 0]]
-               ]
-        
-        self.rule.pattern = path
-        result = self.rule.apply(html)
-        self.failIf(not result)
-        self.failUnless(result == "Some text")
         
     def test_apply_no_sibling(self):
         html = BeautifulSoup('<html><body><div id="01" class="div01"><span>'
                              'Some text</span><p>Paragraph</p></div>'
                              '</body></html>')
         
-        path = [[[u'div', {u'class': u'div01'}, 1],
-                 [u'p', {}, None]],
-                [[u'div', {u'class': u'div01'}, 1],
-                 [u'span', {}, 0]]
-               ]
+        path = [[u'div', {u'class': u'div01'}, 1],
+                [u'p', {}, None]]
+               
         
         self.rule.pattern = path
         result = self.rule.apply(html)
@@ -109,7 +91,7 @@ class TestPathRule(unittest.TestCase):
                              'Some text</span><p>Paragraph</p></div>'
                              '</body></html>')
         
-        path = [[[True, {u'class': u'div01'}, 1]]]
+        path = [[True, {u'class': u'div01'}, 1]]
         
         self.rule.pattern = path
         result = self.rule.apply(html)
@@ -122,7 +104,7 @@ class TestPathRule(unittest.TestCase):
                              '<div class="div01"/>'
                              '</body></html>')
         
-        path = [[[True, {u'class': u'div01'}, None]]]
+        path = [[True, {u'class': u'div01'}, None]]
         
         self.rule.pattern = path
         result = self.rule.apply(html)
@@ -133,6 +115,7 @@ class TestRuler(unittest.TestCase):
     def setUp(self):
         self.soup01 = get_soup('acm01.html')
         self.soup02 = get_soup('acm02.html')
+        self.soup03 = get_soup('springer01.html')
         self.element01 = self.soup01.find(True, text='Neurocomputing ').parent
         self.element02 = self.soup01.find('td', {'class':'small-text'}).parent
         self.element03 = self.soup01.find('col', {'width':'91%'})
@@ -140,17 +123,14 @@ class TestRuler(unittest.TestCase):
         self.text02 = '2668-2678'
         self.text03 = '2008'
         self.text04 = '1459-1460'
+        self.text05 = '149-154'
         self.element_text = self.soup01.find(True,
                                              text=re.compile(self.text01))
-        self.example01 = HTMLExample('http://some_url', self.text01,
-                                     self.soup01)
-        self.example02 = HTMLExample('http://some_url', self.text02,
-                                     self.soup01)
-        self.example03 = HTMLExample('http://some_url', self.text03,
-                                     self.soup02)
-        self.example04 = HTMLExample('http://some_url', self.text04,
-                                     self.soup02)      
-
+        self.example01 = Example(self.text01, self.soup01, 'http://some_url')
+        self.example02 = Example(self.text02, self.soup01)
+        self.example03 = Example(self.text03, self.soup02, 'http://some_url')
+        self.example04 = Example(self.text04, self.soup02, 'http://some_url')      
+        self.example05 = Example(self.text05, self.soup03, 'http://some_url')   
         
 class TestPathRuler(TestRuler):
         
@@ -260,11 +240,23 @@ class TestPathRuler(TestRuler):
         self.failUnless(len(elements) == 2)
         self.failUnless(elements == expected)
         
+        elements = self.ruler._get_content_elements(self.example05)
+        expected = [u'149-154']
+        self.failUnless(len(elements) == 1)
+        self.failUnless(elements == expected)
+        
     def test_get_invalid_content_element(self):
-        example = HTMLExample(value='random text', content=BeautifulSoup(''))
+        example = Example(value='random text', content=BeautifulSoup(''))
         elements = self.ruler._get_content_elements(example)
         self.failIf(elements)
-
+        
+    def test_apply(self):
+        rule = PathRule([[u'td', {u'colspan': u'2',
+                                  u'class': u'small-text'}, 1],
+                         [u'span', {u'class': u'small-text'}, 5]
+                        ])
+        result = rule.apply(self.example01.content)
+        self.failUnless(result == u' Volume 70 ,&nbsp; Issue 16-18 &nbsp;(October 2007)')
 
 class TestRegexRuler(TestRuler):
 

@@ -114,4 +114,3 @@ class WrapperTrainer(object):
                 wrapper.upvotes += 1
             else:
                 wrapper.downvotes += 1
-
