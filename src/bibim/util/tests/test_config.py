@@ -44,7 +44,7 @@ class TestBibimConfig(unittest.TestCase):
 
     def test_black_list(self):
         black_list = configuration.black_list
-        pass
+        self.failUnless(len(black_list) == 2)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
