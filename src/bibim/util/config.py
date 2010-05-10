@@ -173,10 +173,21 @@ class BibimConfig(object):
     def _get_wrapper_properties(self):
         properties = {}
         properties['max_wrappers'] = (
-            int(self._get_simple_field('wrappers', 'max_wrappers',
-                                       50)))
+            int(self._get_simple_field('wrappers', 'max_wrappers', 50)))
         properties['field_validation'] = (
             self._get_validation_properties())
+        properties['min_validity'] = (
+            float(self._get_simple_field('wrappers', 'min_validity', 0.7))) 
+        properties['wrapper_gen_examples'] = (
+            int(self._get_simple_field('wrappers', 'wrapper_gen_examples', 2)))
+        properties['max_examples_from_db'] = (
+            int(self._get_simple_field('wrappers', 'max_examples_from_db',
+                                       15)))  
+        properties['max_examples'] = (
+            int(self._get_simple_field('wrappers', 'max_examples', 5)))
+        properties['seconds_between_requests'] = (
+            float(self._get_simple_field('wrappers',
+                                         'seconds_between_requests', 5.0)))                 
         return properties
     
     def _get_black_list(self):
