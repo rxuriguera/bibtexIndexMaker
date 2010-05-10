@@ -127,10 +127,12 @@ class IRController(Controller):
                 log.debug('Search with query %s yielded too many results ' #@UndefinedVariable
                           '(%d or more)' % (query, TOO_MANY_RESULTS)) 
                 continue
-            
+
+            results = self._sort_results(results)
             if results:
                 break
-        return (self._sort_results(results), query)
+            
+        return (results, query)
     
     def _sort_results(self, results):
         """
@@ -148,10 +150,10 @@ class IRController(Controller):
     
         available_wrappers = ReferenceWrapper().get_available_wrappers()
         for result in results:
-            if result.base_url in available_wrappers:
-                has_wrapper.append(result)
-            elif result.base_url in configuration.black_list:
+            if result.base_url in configuration.black_list:
                 continue
+            elif result.base_url in available_wrappers:
+                has_wrapper.append(result)
             else:
                 doesnt_have_wrapper.append(result)
         has_wrapper.extend(doesnt_have_wrapper)
@@ -369,5 +371,8 @@ class IEController(Controller):
                 rulers = [PathRuler(), RegexRuler()] 
         
             trainer = WrapperTrainer(rulers, WRAPPER_GEN_EXAMPLES)
-            wrappers = trainer.train(example_sets[set])
-            wrapper_manager.persist_wrappers(url, set, wrappers)
+            try:
+                wrappers = trainer.train(example_sets[set])
+                wrapper_manager.persist_wrappers(url, set, wrappers)
+            except:
+                log.error('Error training wrapper for set %s' % set) #@UndefinedVariable
