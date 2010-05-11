@@ -1,3 +1,36 @@
 \chapter{Disseny del sistema}
 
 \section{Mòduls}
+Hem organitzat el codi del sistema en els següents mòduls:
+\begin{itemize}
+\item{\textit{Raw Content Extraction} (rce):}
+Agrupa totes les classes encarregades d'extreure el contingut dels documents PDF.
+
+\item{\textit{Information Retrieval} (ir):}
+Encarregat de comunicar-se amb els diferents cercadors disponibles a Internet per obtenir pàgines que contenen informació de la referència que volem extreure.
+
+\item{\textit{Information Extraction} (ie):}
+Conté tot el codi que permet obtenir la referència a partir d'una pàgina HTML. A més, també és l'encarregat de generar nous \textit{wrappers}.
+
+\item{\textit{References}:}
+Per una banda fa un anàlisis sintàctic de les referències extretes per poder-les validar. Per l'altra, transforma a \BibTeX les referències extretes.
+
+\item{Base de dades (db):}
+Tal i com indica el seu nom, duu a terme els accessos la base de dades.
+
+\item{\textit{Main}: }
+Enllaça tots els mòduls anteriors i proporciona punts d'entrada a la interfície d'usuari. Fa de façana del sistema.
+
+\item{\textit{Graphical User Interface} (gui):}
+Interfície d'usuari més o menys amigable.
+\end{itemize}
+
+La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{figures/module_diagram.pdf}
+\caption{Mòduls del sistema}
+\label{fig:module_diagram}
+\end{center}
+\end{figure}

@@ -1,24 +1,38 @@
 \chapter{Definició del Projecte}
 \label{definition}
 \section{Context}
-Phasellus eu ante diam, eu euismod nunc. Vivamus non dolor sem. Sed id metus enim. Curabitur consectetur eleifend quam porta sagittis. Mauris sed augue fermentum leo pharetra posuere nec euismod risus. In dui elit, iaculis eget vestibulum eu, suscipit at purus. Mauris hendrerit condimentum velit, in facilisis dui consectetur non. Quisque tristique velit vitae enim posuere suscipit. Integer condimentum rutrum accumsan. Suspendisse bibendum urna eget orci aliquam faucibus congue urna consequat. Nam elementum, lectus a volutpat gravida, felis nibh faucibus nibh, id fringilla arcu purus sed orci.
 
-\section{El format \BibTeX}
+
+\section{\BibTeX}
+Per poder entendre el context del projecte cal que descrivim l'eina de maneig de referències \BibTeX i la sintaxi del llenguatge que utilitza. 
+En el nostre cas farem servir aquest llenguatge com a format de sortida al generar els índexos bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic expressat en el format \BibTeX:
+\begin{center}
+\begin{lstlisting}[caption={Referència expressada en \BibTeX}, label=listing:exampleBibTeX]
+@article{MoSh:27,
+  title = {Size direction games over the real line},
+  author = {Moran, Gadi and Shelah, M., Saharon},
+  journal = {Israel Journal of Mathematics},
+  pages = {442--449},
+  volume = {14},
+  year = {1973},
+}
+\end{lstlisting}
+\end{center}
+
+Alguns aspectes a comentar sobre l'exemple anterior:
 \begin{itemize}
-\item{Com podem distingir entre diferents tipus d'entrada (article, book, inproceedings, etc.) a partir del fitxer?}
-\item{Format dels noms. Un nom consisteix de diferents parts: First, von, Last, Jr. El token \textit{von} o \textit{de la} cal posar-los
-en minúscules. Per tal que el nom es reconegui, cal que tingui el format: von Last, Jr, First. D'aquesta manera, si hi ha més d'un
-cognom no passa res.}
-\item{Caràcters Unicode entre claus per poder ser utilitzats correctament amb l'estil \textit{alpha}. Per exemple: \verb=Jos{\'{e}}=}
-\item{Per prevenir que BibTeX canviï un text a minúscules, cal posar el text entre claus.}
-\item{Si hi ha massa autors, truncar la llista amb \textit{et al.}}
-\item{Utilitzar abreviatures de tres lletres per als mesos}
-\item{Utilitzar el camp \texttt{key} per a organitzacions amb un nom llarg, de manera que s'utilitzin les inicials de l'organització 
-al fer una cita.}
+\item{}
+La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps: \textit{author}, \textit{title}, \textit{journal} i \textit{year}.
+
+\item{}
+Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last}, \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem amb \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
+
+\item{}
+L'últim camp d'una referència pot acabar o no amb una coma.
 \end{itemize}
 
 \section{Característiques}
-At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.
+
 
 \section{Planificació Temporal}
 
