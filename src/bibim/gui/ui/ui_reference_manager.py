@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_reference_manager.ui'
 #
-# Created: Sun May  9 20:07:03 2010
+# Created: Fri May 14 12:36:26 2010
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,14 +38,12 @@ class Ui_ReferenceManagerPage(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.references = QtGui.QTreeWidget(self.layoutWidget)
+        self.references.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
         self.references.setIndentation(0)
         self.references.setItemsExpandable(False)
         self.references.setObjectName("references")
         self.references.header().setVisible(True)
         self.verticalLayout.addWidget(self.references)
-        self.addReferenceButton = QtGui.QPushButton(self.layoutWidget)
-        self.addReferenceButton.setObjectName("addReferenceButton")
-        self.verticalLayout.addWidget(self.addReferenceButton)
         self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.referenceEditorLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
@@ -60,5 +58,4 @@ class Ui_ReferenceManagerPage(object):
         ReferenceManagerPage.setWindowTitle(QtGui.QApplication.translate("ReferenceManagerPage", "Reference Manager", None, QtGui.QApplication.UnicodeUTF8))
         ReferenceManagerPage.setTitle(QtGui.QApplication.translate("ReferenceManagerPage", "Reference Manager", None, QtGui.QApplication.UnicodeUTF8))
         self.references.headerItem().setText(0, QtGui.QApplication.translate("ReferenceManagerPage", "Available References", None, QtGui.QApplication.UnicodeUTF8))
-        self.addReferenceButton.setText(QtGui.QApplication.translate("ReferenceManagerPage", "New Reference", None, QtGui.QApplication.UnicodeUTF8))
 

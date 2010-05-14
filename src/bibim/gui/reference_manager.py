@@ -22,6 +22,7 @@ from bibim import log
 from bibim.db.gateways import ExtractionGateway
 from bibim.gui.reference_editor import ReferenceEditor
 from bibim.gui.ui.ui_reference_manager import Ui_ReferenceManagerPage
+from bibim.gui.custom_widgets import ConfirmMessageBox
 
 class ReferenceManagerpage(QtGui.QWizardPage):
     
@@ -35,15 +36,24 @@ class ReferenceManagerpage(QtGui.QWizardPage):
         self.ui = Ui_ReferenceManagerPage()
         self.ui.setupUi(self)
         self.setTitle(title)
-        
+        self.set_references_context_menu()
+                
         self.editor = ReferenceEditor(self)
         self.ui.referenceEditorLayout.addWidget(self.editor)
         
         self.editor.filePathChanged.connect(self._change_show_string)
         
         self.ui.references.itemSelectionChanged.connect(self.update_extraction_editor)
-        self.ui.addReferenceButton.clicked.connect(self._create_new_reference)
+
+    def set_references_context_menu(self):
+        self.ui.new_reference = QtGui.QAction("New Reference", self.ui.references)
+        self.ui.new_reference.triggered.connect(self._create_new_reference)
+        self.ui.references.addAction(self.ui.new_reference)
         
+        self.ui.delete_action = QtGui.QAction("Delete Selected", self.ui.references)
+        self.ui.delete_action.triggered.connect(self._delete_selected_reference)
+        self.ui.references.addAction(self.ui.delete_action)
+
     def initializePage(self):
         log.debug("Initializing references page.")  #@UndefinedVariable
 
@@ -58,7 +68,6 @@ class ReferenceManagerpage(QtGui.QWizardPage):
             show_path = self._get_show_string(str(new))
             self.last_selected.show_path = show_path
             self.last_selected.setText(0, show_path) 
-        
     
     def _add_extraction(self, extraction):
         item = QtGui.QTreeWidgetItem(self.ui.references)
@@ -84,11 +93,33 @@ class ReferenceManagerpage(QtGui.QWizardPage):
             log.debug('Error unselecting extraction') #@UndefinedVariable
         self.ui.references.setItemSelected(item, True)
         
+    def _delete_selected_reference(self):
+        if not self.last_selected:
+            return
+        
+        # Confirmation message
+        item_text = '"%s..."' % self.last_selected.text(0)[:20]
+        msg_box = ConfirmMessageBox(self)
+        msg_box.setText('Are you sure you want to delete reference %s?' % 
+                        item_text)
+        result = msg_box.exec_()
+        
+        if result == QtGui.QMessageBox.Cancel:
+            log.debug('Deletion of %s aborted' % item_text) #@UndefinedVariable
+            return
+        
+        # Reference deletion
+        log.debug('Deleting reference %s' % item_text) #@UndefinedVariable
+        self.parent.extraction_gw.delete(self.last_selected.extraction)
+        self.ui.references.setItemSelected(self.last_selected, False)
+        self.ui.references.removeItemWidget(self.last_selected, 0)
+        self.last_selected = None
+        
+        
     def update_extraction_editor(self):
         # Save current changes
         if self.last_selected: 
             self.editor.update()
-            
         items = self.ui.references.selectedItems()
         if not items:
             return
@@ -101,6 +132,7 @@ class ReferenceManagerpage(QtGui.QWizardPage):
             return split_string[1]
         else:
             return split_string[0]
+
 
 class ReferenceManagerWizard(QtGui.QWizard):
 
@@ -117,10 +149,7 @@ class ReferenceManagerWizard(QtGui.QWizard):
         self.addPage(self.page01)
 
     def done(self, status):
-        #if self.last_selected: 
-        #    self.editor.update()
-            
         self.extraction_gw.flush()
-        QtGui.QWizard.done(self, status)
+
 
         

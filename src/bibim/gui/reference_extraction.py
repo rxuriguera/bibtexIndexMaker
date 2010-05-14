@@ -43,7 +43,8 @@ class ReferenceExtractionThread(QtCore.QThread):
             self.emit(QtCore.SIGNAL("output(int)"), extracted)
             time.sleep(0.5)
         log.debug("Exiting extraction thread") #@UndefinedVariable
-            
+        self.exit(0)
+        
         
 class PathChoosePage(QtGui.QWizardPage):
     def __init__(self, title, parent=None):
@@ -53,17 +54,17 @@ class PathChoosePage(QtGui.QWizardPage):
         self.setButtonText(QtGui.QWizard.CommitButton, "Extract References")
         
         # Create Widgets
-        label = QtGui.QLabel("Choose a directory:")
-        file_chooser = FileChooser()
+        self.label = QtGui.QLabel("Choose a directory:")
+        self.file_chooser = FileChooser()
         
-        self.registerField('filePath*', file_chooser)
+        self.registerField('filePath*', self.file_chooser)
         
         # Add Widgets to layout
-        layout = QtGui.QVBoxLayout()
-        layout.addWidget(label)
-        layout.addWidget(file_chooser)
-        self.setLayout(layout)
-
+        self.layout = QtGui.QVBoxLayout()
+        self.layout.addWidget(self.label)
+        self.layout.addWidget(self.file_chooser)
+        self.setLayout(self.layout)
+        
 
 class ProgressPage(QtGui.QWizardPage):
     def __init__(self, title, parent=None):
@@ -118,7 +119,6 @@ class ProgressPage(QtGui.QWizardPage):
         self.parent.index_maker.make_index()
         
     def updateProgressBar(self, value=0):
-        log.debug("Updating progress bar. New value: %d" % value) #@UndefinedVariable
         self.progressBar.setValue(value)
 
     def next(self):
@@ -148,13 +148,17 @@ class ReferenceExtractionWizard(QtGui.QWizard):
     
     def __init__(self):
         super(ReferenceExtractionWizard, self).__init__()
+        self.initialize()
+        #self.setOption(QtGui.QWizard.HaveHelpButton, True)
+    
+    def initialize(self):
         self.setDefaultProperty('FileChooser', 'path', QtCore.SIGNAL('pathChanged()'))
         self.setDefaultProperty('QProgressBar', 'value', QtCore.SIGNAL('valueChanged(int)'))
         
         self.setOption(QtGui.QWizard.NoCancelButton, True)
         self.setOption(QtGui.QWizard.NoBackButtonOnStartPage, True)
-        
-        #self.setOption(QtGui.QWizard.HaveHelpButton, True)
+        self.setOption(QtGui.QWizard.NoBackButtonOnLastPage, True)
+
         self.wizard_title = 'Extract References'
         self.page01 = PathChoosePage(self.wizard_title, self)
         self.page02 = ProgressPage(self.wizard_title, self)
@@ -163,5 +167,10 @@ class ReferenceExtractionWizard(QtGui.QWizard):
         self.addPage(self.page02)
         self.addPage(self.page03)
         self.index_maker = IndexMaker()
-        
-
+    
+    def done(self, status):
+        self.removePage(0)
+        self.removePage(1)
+        self.removePage(2)
+        self.initialize()
+        self.restart()

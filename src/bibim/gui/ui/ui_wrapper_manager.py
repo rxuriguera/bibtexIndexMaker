@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_wrapper_manager.ui'
 #
-# Created: Sun May  9 17:47:15 2010
+# Created: Fri May 14 14:00:58 2010
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,22 +39,10 @@ class Ui_WrapperManagerPage(object):
         self.collectionsLayout.setContentsMargins(-1, -1, 0, -1)
         self.collectionsLayout.setObjectName("collectionsLayout")
         self.collections = QtGui.QTreeWidget(self.layoutWidget)
+        self.collections.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
         self.collections.setObjectName("collections")
         self.collections.header().setVisible(True)
         self.collectionsLayout.addWidget(self.collections)
-        self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setContentsMargins(-1, 0, -1, -1)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.urlLine = QtGui.QLineEdit(self.layoutWidget)
-        self.urlLine.setObjectName("urlLine")
-        self.horizontalLayout.addWidget(self.urlLine)
-        self.fieldLine = QtGui.QLineEdit(self.layoutWidget)
-        self.fieldLine.setObjectName("fieldLine")
-        self.horizontalLayout.addWidget(self.fieldLine)
-        self.addCollectionButton = QtGui.QPushButton(self.layoutWidget)
-        self.addCollectionButton.setObjectName("addCollectionButton")
-        self.horizontalLayout.addWidget(self.addCollectionButton)
-        self.collectionsLayout.addLayout(self.horizontalLayout)
         self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.wrappersLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
@@ -62,13 +50,11 @@ class Ui_WrapperManagerPage(object):
         self.wrappersLayout.setContentsMargins(-1, -1, 0, -1)
         self.wrappersLayout.setObjectName("wrappersLayout")
         self.wrappers = QtGui.QTreeWidget(self.verticalLayoutWidget)
+        self.wrappers.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
         self.wrappers.setIndentation(0)
         self.wrappers.setItemsExpandable(False)
         self.wrappers.setObjectName("wrappers")
         self.wrappersLayout.addWidget(self.wrappers)
-        self.addWrapperButton = QtGui.QPushButton(self.verticalLayoutWidget)
-        self.addWrapperButton.setObjectName("addWrapperButton")
-        self.wrappersLayout.addWidget(self.addWrapperButton)
         self.verticalLayoutWidget_2 = QtGui.QWidget(self.splitter)
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.wrapperEditorLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget_2)
@@ -118,9 +104,7 @@ class Ui_WrapperManagerPage(object):
         WrapperManagerPage.setWindowTitle(QtGui.QApplication.translate("WrapperManagerPage", "Reference Manager", None, QtGui.QApplication.UnicodeUTF8))
         WrapperManagerPage.setTitle(QtGui.QApplication.translate("WrapperManagerPage", "Wrapper Manager", None, QtGui.QApplication.UnicodeUTF8))
         self.collections.headerItem().setText(0, QtGui.QApplication.translate("WrapperManagerPage", "Wrapper Collections", None, QtGui.QApplication.UnicodeUTF8))
-        self.addCollectionButton.setText(QtGui.QApplication.translate("WrapperManagerPage", "New Collection", None, QtGui.QApplication.UnicodeUTF8))
         self.wrappers.headerItem().setText(0, QtGui.QApplication.translate("WrapperManagerPage", "Available Wrappers", None, QtGui.QApplication.UnicodeUTF8))
-        self.addWrapperButton.setText(QtGui.QApplication.translate("WrapperManagerPage", "New Wrapper", None, QtGui.QApplication.UnicodeUTF8))
         self.upvotesLabel.setText(QtGui.QApplication.translate("WrapperManagerPage", "Upvotes", None, QtGui.QApplication.UnicodeUTF8))
         self.downvotesLabel.setText(QtGui.QApplication.translate("WrapperManagerPage", "Downvotes", None, QtGui.QApplication.UnicodeUTF8))
         self.scoreLabel.setText(QtGui.QApplication.translate("WrapperManagerPage", "Score", None, QtGui.QApplication.UnicodeUTF8))

@@ -56,6 +56,9 @@
        </property>
        <item>
         <widget class="QTreeWidget" name="collections">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <attribute name="headerVisible">
           <bool>true</bool>
          </attribute>
@@ -65,26 +68,6 @@
           </property>
          </column>
         </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLineEdit" name="urlLine"/>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="fieldLine"/>
-         </item>
-         <item>
-          <widget class="QPushButton" name="addCollectionButton">
-           <property name="text">
-            <string>New Collection</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
@@ -98,6 +81,9 @@
        </property>
        <item>
         <widget class="QTreeWidget" name="wrappers">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <property name="indentation">
           <number>0</number>
          </property>
@@ -109,13 +95,6 @@
            <string>Available Wrappers</string>
           </property>
          </column>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="addWrapperButton">
-         <property name="text">
-          <string>New Wrapper</string>
-         </property>
         </widget>
        </item>
       </layout>

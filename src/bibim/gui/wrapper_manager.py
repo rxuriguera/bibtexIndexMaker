@@ -24,9 +24,10 @@ from bibim import log
 from bibim.db.gateways import WrapperGateway
 from bibim.gui.ui.ui_wrapper_manager import Ui_WrapperManagerPage
 from bibim.gui.bibim_manager import BibimManagerWizard
+from bibim.gui.custom_widgets import (WrapperCollectionBox,
+                                      ConfirmMessageBox)
 from bibim.ie.rating import AverageRater
 
-import time
 
 class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
     
@@ -47,6 +48,8 @@ class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
         self.ui = Ui_WrapperManagerPage()
         self.ui.setupUi(self)
         self.setTitle(title)
+        self.set_collections_context_menu()
+        self.set_wrappers_context_menu()
         
         self.ui.collections.itemSelectionChanged.connect(self._populate_collection_wrappers)
         self.ui.wrappers.itemSelectionChanged.connect(self._populate_wrapper_editor)
@@ -54,46 +57,107 @@ class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
         self.ui.upvotesSpin.valueChanged.connect(self._refresh_score_value)
         self.ui.downvotesSpin.valueChanged.connect(self._refresh_score_value)
         
-        self.ui.addCollectionButton.clicked.connect(self._create_new_collection)
-        self.ui.addWrapperButton.clicked.connect(self._create_new_wrapper)
-        
         self.connect(self.ui.rules, QtCore.SIGNAL("itemChanged(QTreeWidgetItem *,int)"), self._mark_wrapper_for_update)
         self.connect(self.ui.rules, QtCore.SIGNAL("itemChanged(QTreeWidgetItem *,int)"), self._add_rules_last_row)
         
     def initializePage(self):
         self._populate_collections()
 
+    def set_collections_context_menu(self):
+        self.ui.new_collection = QtGui.QAction("New Collection",
+                                               self.ui.collections)
+        self.ui.new_collection.triggered.connect(self._create_new_collection)
+        self.ui.collections.addAction(self.ui.new_collection)
+        
+        self.ui.delete_collection = QtGui.QAction("Delete Collection",
+                                                  self.ui.collections)
+        self.ui.delete_collection.triggered.connect(
+                                            self._delete_selected_collection)
+        self.ui.collections.addAction(self.ui.delete_collection)
+
+    def set_wrappers_context_menu(self):
+        self.ui.new_wrapper = QtGui.QAction("New Wrapper",
+                                               self.ui.wrappers)
+        self.ui.new_wrapper.triggered.connect(self._create_new_wrapper)
+        self.ui.wrappers.addAction(self.ui.new_wrapper)
+        
+        self.ui.delete_wrapper = QtGui.QAction("Delete Wrapper",
+                                                  self.ui.wrappers)
+        self.ui.delete_wrapper.triggered.connect(
+                                            self._delete_selected_wrapper)
+        self.ui.wrappers.addAction(self.ui.delete_wrapper)
+
     def _create_new_collection(self):
         """
         Creates, if possible, a new collection of wrappers for a url and field
         name
         """
-        if not (self.ui.urlLine.text() and self.ui.fieldLine.text()):
-            log.debug('Cannot add collection. Missing information') #@UndefinedVariable
+        collection_box = WrapperCollectionBox(self)
+        result = collection_box.exec_()
+        
+        if result == QtGui.QDialog.Rejected:
+            log.debug('Collection creation aborted') #@UndefinedVariable
             return
         
-        url = unicode(self.ui.urlLine.text())
-        field = unicode(self.ui.fieldLine.text())
+        log.debug('Creating new collection %s %s' % (collection_box.ui.urlLine.text(), collection_box.ui.fieldLine.text())) #@UndefinedVariable
+        
+        url = unicode(collection_box.ui.urlLine.text())
+        field = unicode(collection_box.ui.fieldLine.text())
     
         collection = self.parent.wrapper_gw.new_wrapper_collection()
         collection.url = url
         collection.field = field
+        item = self._add_collection(collection)
+        self.ui.collections.setItemExpanded(item.parent(), True)
+        self.ui.collections.setItemSelected(item, True)
+
+    def _delete_selected_collection(self):
+        if not self.last_selected_collection:
+            return
         
-        log.debug('Generated new wrapper') #@UndefinedVariable
-        self._add_collection(collection)        
+        # Confirmation message
+        item_text = '%s:%s' % (self.last_selected_collection.collection.url,
+                               self.last_selected_collection.collection.field)
+        
+        msg_box = ConfirmMessageBox(self)
+        msg_box.setText('Are you sure you want to delete collection %s?' % 
+                        item_text)
+        result = msg_box.exec_()
+        
+        if result == QtGui.QMessageBox.Cancel:
+            log.debug('Deletion of %s aborted' % item_text) #@UndefinedVariable
+            return
+        
+        # Reference deletion
+        log.debug('Deleting collection %s' % item_text) #@UndefinedVariable
+        self._clear_wrappers()
+        self.parent.wrapper_gw.delete(self.last_selected_collection.collection)
+        self.ui.collections.setItemSelected(self.last_selected_collection,
+                                            False)
+        self.ui.collections.removeItemWidget(self.last_selected_collection, 0)
+        
+        item_parent = self.last_selected_collection.parent()
+        if item_parent.childCount() == 1:
+            log.debug('Removing top level item') #@UndefinedVariable
+            self.ui.collections.removeItemWidget(item_parent, 0)
+        self.last_selected_collection = None
 
     def _create_new_wrapper(self):
         """
         Creates a new wrapper
         """
+        if not self.last_selected_collection:
+            return
+        
         # A new wrapper has been requested by the user
         self._mark_collection_for_update()
+        self._mark_wrapper_for_update()
         
         item = QtGui.QTreeWidgetItem(self.ui.wrappers)
         item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
         item.setText(0, 'New Wrapper')
         item.wrapper = self.parent.wrapper_gw.new_wrapper()
-        item.wrapper.collection_id = self.last_selected_collection.collection.id
+        self.last_selected_collection.collection.wrappers.append(item.wrapper)
         log.debug('Generated new wrapper') #@UndefinedVariable
         
         log.debug('Changing selection') #@UndefinedVariable
@@ -103,7 +167,31 @@ class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
         except:
             log.debug('Error unselecting wrapper') #@UndefinedVariable
         self.ui.wrappers.setItemSelected(item, True)
-
+        
+        
+    def _delete_selected_wrapper(self):
+        if not self.last_selected_wrapper:
+            return
+        
+        # Confirmation message
+        item_text = self.last_selected_wrapper.text(0)
+        msg_box = ConfirmMessageBox(self)
+        msg_box.setText('Are you sure you want to delete wrapper %s?' % 
+                        item_text)
+        result = msg_box.exec_()
+        
+        if result == QtGui.QMessageBox.Cancel:
+            log.debug('Deletion of %s aborted' % item_text) #@UndefinedVariable
+            return
+        
+        # Reference deletion
+        log.debug('Deleting wrapper %s' % item_text) #@UndefinedVariable
+        self._clear_wrapper_editor()
+        self.parent.wrapper_gw.delete(self.last_selected_wrapper.wrapper)
+        self.ui.wrappers.setItemSelected(self.last_selected_wrapper, False)
+        self.ui.wrappers.removeItemWidget(self.last_selected_wrapper, 0)
+        self.last_selected_wrapper = None
+        
     def _add_rules_last_row(self):
         self.add_last_row(self.ui.rules)                
                 
@@ -137,6 +225,7 @@ class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
         item1.setText(0, QtGui.QApplication.translate("", collection.field,
             None, QtGui.QApplication.UnicodeUTF8)) 
         item1.collection = collection
+        return item1
         
     def _populate_collection_wrappers(self):
         """
@@ -214,7 +303,10 @@ class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
         log.debug("Wrapper editor populated") #@UndefinedVariable
         
         self.exit_populating()
-        
+    
+    def _clear_collections(self):
+        self.ui.collections.clear()
+    
     def _clear_wrappers(self):
         """
         Clears the wrappers list and the wrapper editor
@@ -272,16 +364,7 @@ class WrapperManagerPage(QtGui.QWizardPage, BibimManagerWizard):
         log.debug('Updating last selected collection') #@UndefinedVariable
         
         collection = self.last_selected_collection.collection
-        
-        # Collection updates consist on adding new wrappers
-        #listed_wrappers = self.ui.wrappers.topLevelItemCount()
-        #stored_wrappers = len(collection.wrappers)
-        
-        # Add new wrappers if necessary
-        #to_add = listed_wrappers - stored_wrappers
-        #for index in range(to_add):
-        #    index += stored_wrappers 
-        
+
         for index in range(self.ui.wrappers.topLevelItemCount()):
             item = self.ui.wrappers.topLevelItem(index)
             if item not in collection.wrappers:
@@ -368,5 +451,6 @@ class WrapperManagerWizard(QtGui.QWizard):
         self.addPage(self.page01)
 
     def done(self, status):
+        self.page01._update_collection()
+        self.page01._update_wrapper()
         self.wrapper_gw.flush()
-        QtGui.QWizard.done(self, status)

@@ -19,6 +19,7 @@
 from PyQt4 import QtCore, QtGui #@UnresolvedImport
 
 from bibim.gui.ui.ui_file_chooser import Ui_FileChooser
+from bibim.gui.ui.ui_new_collection_dialog import Ui_NewWrapperCollection
 
 class FileChooser(QtGui.QWidget):
     pathChanged = QtCore.pyqtSignal()
@@ -51,4 +52,33 @@ class FileChooser(QtGui.QWidget):
         if self.path:
             self.ui.pathLine.setText(self.path)
 
-            
+
+class WrapperCollectionBox(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(WrapperCollectionBox, self).__init__()
+        self.ui = Ui_NewWrapperCollection()
+        self.ui.setupUi(self)
+        self.setModal(True)
+        
+        # OK Button disabled until both url and field are not empty
+        self.ok_button = self.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok)
+        self.ok_button.setEnabled(False)
+        
+        self.ui.urlLine.textChanged.connect(self._enable_ok_button)
+        self.ui.fieldLine.textChanged.connect(self._enable_ok_button)
+        
+    def _enable_ok_button(self):
+        if not (self.ui.urlLine.text() and self.ui.fieldLine.text()):
+            self.ok_button.setEnabled(False)
+        else:
+            self.ok_button.setEnabled(True)
+        
+        
+class ConfirmMessageBox(QtGui.QMessageBox):
+    def __init__(self, parent=None):
+        super(ConfirmMessageBox, self).__init__(parent)
+        self.setModal(True)
+        self.setStandardButtons(QtGui.QMessageBox.Ok | 
+                                QtGui.QMessageBox.Cancel)
+        self.setDefaultButton(QtGui.QMessageBox.Cancel)
+        self.setIcon(QtGui.QMessageBox.Question)

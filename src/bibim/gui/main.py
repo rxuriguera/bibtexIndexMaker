@@ -27,11 +27,12 @@ class BibimMain(QtGui.QMainWindow):
         # This is always the same
         self.mw = Ui_MainWindow()
         self.mw.setupUi(self)
-        self.default_selected = self.populate_menu()
+
+        self.last_selected = self.populate_menu()
 
         # Signal connection
         self.mw.menu.itemSelectionChanged.connect(self.change_content)
-        self.mw.menu.setItemSelected(self.default_selected, True)
+        self.mw.menu.setItemSelected(self.last_selected, True)
 
     def change_content(self):
         """
@@ -40,20 +41,10 @@ class BibimMain(QtGui.QMainWindow):
         items = self.mw.menu.selectedItems()
         if not items:
             return
-        
         selected = items[0]
-        try:
-            content_widget = menu_actions[selected.action_command]
-        except KeyError:
-            return
-        #print self.mw.contentLayout.count()
-        if self.mw.contentLayout.count() > 0:
-            try:
-                self.mw.contentLayout.takeAt(0).widget().done(0)
-            except:
-                log.warn('Widget has no done method') #@UndefinedVariable
-
-        self.mw.contentLayout.addWidget(content_widget())
+        self.last_selected.widget_element.hide()
+        self.last_selected = selected
+        self.last_selected.widget_element.show()
     
     def populate_menu(self):
         item_0 = QtGui.QTreeWidgetItem(self.mw.menu)
@@ -65,20 +56,29 @@ class BibimMain(QtGui.QMainWindow):
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item_1.setText(0, QtGui.QApplication.translate("MainWindow",
             "Extract", None, QtGui.QApplication.UnicodeUTF8))
-        item_1.action_command = 'ref:extract'
-        default = item_1
+        item_1.title = 'Extract References'
+        item_1.widget_element = ReferenceExtractionWizard()
+        item_1.widget_element.hide()
+        self.mw.contentLayout.addWidget(item_1.widget_element)
         
         item_1 = QtGui.QTreeWidgetItem(item_0)
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
         item_1.setText(0, QtGui.QApplication.translate("MainWindow",
              "Manage", None, QtGui.QApplication.UnicodeUTF8))
-        item_1.action_command = 'ref:manage'
+        item_1.title = 'Manage References'
+        item_1.widget_element = ReferenceManagerWizard()
+        item_1.widget_element.hide()
+        self.mw.contentLayout.addWidget(item_1.widget_element)
         
         item_1 = QtGui.QTreeWidgetItem(item_0)
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
         item_1.setText(0, QtGui.QApplication.translate("MainWindow",
              "Export", None, QtGui.QApplication.UnicodeUTF8))
-        item_1.action_command = 'ref:export'        
+        item_1.title = 'Export References'
+        item_1.widget_element = ReferenceExporterWizard()
+        item_1.widget_element.hide()
+        self.mw.contentLayout.addWidget(item_1.widget_element)
+        default = item_1
         
         item_0 = QtGui.QTreeWidgetItem(self.mw.menu)
         item_0.setFlags(QtCore.Qt.ItemIsEnabled)
@@ -89,13 +89,19 @@ class BibimMain(QtGui.QMainWindow):
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item_1.setText(0, QtGui.QApplication.translate("MainWindow",
             "Train", None, QtGui.QApplication.UnicodeUTF8))
-        item_1.action_command = 'wrap:train'
+        item_1.title = 'Train Wrappers'
+        item_1.widget_element = WrapperTrainingWizard()
+        item_1.widget_element.hide()
+        self.mw.contentLayout.addWidget(item_1.widget_element)
         
         item_1 = QtGui.QTreeWidgetItem(item_0)
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item_1.setText(0, QtGui.QApplication.translate("MainWindow",
             "Manage", None, QtGui.QApplication.UnicodeUTF8))
-        item_1.action_command = 'wrap:manage'
+        item_1.title = 'Manage Wrappers'
+        item_1.widget_element = WrapperManagerWizard()
+        item_1.widget_element.hide()
+        self.mw.contentLayout.addWidget(item_1.widget_element)
         
         self.mw.menu.expandAll()
 

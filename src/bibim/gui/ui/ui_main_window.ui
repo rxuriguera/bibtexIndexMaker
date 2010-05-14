@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1038</width>
-    <height>602</height>
+    <width>769</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,12 +26,9 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
     <property name="spacing">
      <number>0</number>
-    </property>
-    <property name="sizeConstraint">
-     <enum>QLayout::SetNoConstraint</enum>
     </property>
     <property name="margin">
      <number>0</number>
@@ -47,13 +44,13 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="handleWidth">
-       <number>3</number>
-      </property>
       <widget class="QWidget" name="verticalLayoutWidget">
-       <layout class="QHBoxLayout" name="menuLayout" stretch="0,0">
+       <layout class="QHBoxLayout" name="menuLayout">
         <property name="spacing">
          <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinAndMaxSize</enum>
         </property>
         <property name="margin">
          <number>0</number>
@@ -65,6 +62,18 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
           </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
@@ -78,8 +87,14 @@
           <property name="animated">
            <bool>true</bool>
           </property>
+          <property name="headerHidden">
+           <bool>true</bool>
+          </property>
           <attribute name="headerVisible">
            <bool>false</bool>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>27</number>
           </attribute>
           <column>
            <property name="text">
@@ -98,32 +113,10 @@
        </layout>
       </widget>
       <widget class="QWidget" name="horizontalLayoutWidget">
-       <layout class="QVBoxLayout" name="contentLayout" stretch="0">
+       <layout class="QHBoxLayout" name="contentLayout">
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMaximumSize</enum>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QWidget" name="widget" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>7</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>500</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>

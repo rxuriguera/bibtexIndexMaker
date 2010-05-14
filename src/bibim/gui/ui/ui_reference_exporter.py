@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_reference_exporter.ui'
 #
-# Created: Mon May 10 15:32:28 2010
+# Created: Fri May 14 16:20:28 2010
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,6 +38,7 @@ class Ui_ReferenceExporterPage(object):
         self.referenceListLayout.setSpacing(0)
         self.referenceListLayout.setObjectName("referenceListLayout")
         self.references = QtGui.QTreeWidget(self.layoutWidget)
+        self.references.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
         self.references.setIndentation(0)
         self.references.setItemsExpandable(False)
         self.references.setObjectName("references")
@@ -46,7 +47,7 @@ class Ui_ReferenceExporterPage(object):
         self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.exportLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
-        self.exportLayout.setSpacing(0)
+        self.exportLayout.setSpacing(6)
         self.exportLayout.setObjectName("exportLayout")
         self.entriesEdit = QtGui.QTextEdit(self.verticalLayoutWidget)
         self.entriesEdit.setObjectName("entriesEdit")

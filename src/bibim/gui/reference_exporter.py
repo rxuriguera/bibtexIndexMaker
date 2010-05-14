@@ -64,15 +64,21 @@ class ReferenceExporterpage(QtGui.QWizardPage):
         
         self.populating = False
         self.reference_formatter = ReferenceEntryFormatter()
-        
-        self.setButtonText(QtGui.QWizard.FinishButton, "Save changes")
+    
+        self.setButtonText(QtGui.QWizard.FinishButton, "Save to file...")
         
         self.ui = Ui_ReferenceExporterPage()
         self.ui.setupUi(self)
         self.setTitle(title)
+        self.set_references_context_menu()
         
-        self.connect(self.ui.references, QtCore.SIGNAL("itemChanged(QTreeWidgetItem *,int)"), self._format_references)
+        self.registerField("complete*", self.ui.entriesEdit, "plainText",
+                           QtCore.SIGNAL('textChanged()'));
         
+        self.connect(self.ui.references,
+                     QtCore.SIGNAL("itemChanged(QTreeWidgetItem *,int)"),
+                     self._format_references)
+
     def initializePage(self):
         log.debug("Initializing references list.")  #@UndefinedVariable
 
@@ -88,13 +94,22 @@ class ReferenceExporterpage(QtGui.QWizardPage):
                      self._update_export_edit)
         self.connect(self.thread, QtCore.SIGNAL("terminated()"),
                      self._update_export_edit)
-    
+
+    def set_references_context_menu(self):
+        self.ui.check_all = QtGui.QAction("Check All", self.ui.references)
+        self.ui.check_all.triggered.connect(self._check_all)
+        self.ui.references.addAction(self.ui.check_all)
+        
+        self.ui.uncheck_all = QtGui.QAction("Uncheck All", self.ui.references)
+        self.ui.uncheck_all.triggered.connect(self._uncheck_all)
+        self.ui.references.addAction(self.ui.uncheck_all)
+
     def enter_populating(self):
         self.populating = True
-        
+
     def exit_populating(self):
         self.populating = False
-    
+
     def _add_extraction(self, extraction):
         item = QtGui.QTreeWidgetItem(self.ui.references)
         item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
@@ -107,7 +122,7 @@ class ReferenceExporterpage(QtGui.QWizardPage):
         item.setCheckState(0, QtCore.Qt.Unchecked)
         item.reference_entry = None
         return item
-    
+
     def _format_references(self):
         if self.populating:
             return
@@ -120,7 +135,7 @@ class ReferenceExporterpage(QtGui.QWizardPage):
         
         self.thread.items = items
         self.thread.start()
-    
+
     def _get_checked_items(self):
         items = []
         for index in range(self.ui.references.topLevelItemCount()):
@@ -128,7 +143,7 @@ class ReferenceExporterpage(QtGui.QWizardPage):
             if item.checkState(0) == QtCore.Qt.Checked:
                 items.append(item)
         return items
-    
+
     def _update_export_edit(self):
         log.debug('Finished formatting: %d formatted references' % #@UndefinedVariable 
                   len(self.thread.formatted_references))
@@ -139,28 +154,57 @@ class ReferenceExporterpage(QtGui.QWizardPage):
             text = ''.join([text, reference, '\n\n'])
         
         self.ui.entriesEdit.setText(text)
-        
+
     def _get_show_string(self, string):
         split_string = string.rsplit('/', 1) 
         if len(split_string) == 2:
             return split_string[1]
         else:
             return split_string[0]
+    
+    def _check_all(self):
+        log.debug('Check all references') #@UndefinedVariable
+        self._change_items_check_state(QtCore.Qt.Checked)
 
+    def _uncheck_all(self):
+        log.debug('Uncheck all references') #@UndefinedVariable
+        self._change_items_check_state(QtCore.Qt.Unchecked)
+            
+    def _change_items_check_state(self, value):
+        self.enter_populating()
+        count = self.ui.references.topLevelItemCount() - 1
+        for index in range(count):
+            item = self.ui.references.topLevelItem(index)
+            item.setCheckState(0, value)
+        self.exit_populating()
+        self.ui.references.topLevelItem(count).setCheckState(0, value)
+        
 
 class ReferenceExporterWizard(QtGui.QWizard):
-
     def __init__(self):
         super(ReferenceExporterWizard, self).__init__()
-        
         self.setOption(QtGui.QWizard.NoCancelButton, True)
         self.setOption(QtGui.QWizard.NoBackButtonOnStartPage, True)
         
         self.extraction_gw = ExtractionGateway()
+        
+        self.finish_button = self.button(QtGui.QWizard.FinishButton)
+        self.finish_button.setEnabled(False)
         
         wizard_title = 'Export References'
         self.page01 = ReferenceExporterpage(wizard_title, self)
         self.addPage(self.page01)
 
 
-        
+    def done(self, status):
+        path = QtGui.QFileDialog.getSaveFileName(self,
+            caption='Save references to file', filter='BibTeX (*.bib)')
+        if not path:
+            return
+        log.debug('Saving to file: %s' % path) #@UndefinedVariable
+        try:
+            file = open(path, 'w')
+            file.write(unicode(self.page01.ui.entriesEdit.toPlainText()))
+            file.close()
+        except Exception, e:
+            log.error('Error saving references to %s' % e) #@UndefinedVariable

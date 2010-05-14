@@ -41,15 +41,14 @@ class WrapperTrainingThread(QtCore.QThread):
 
 
 class URLChoosePage(QtGui.QWizardPage):
-    def __init__(self, title, parent=None):
+    def __init__(self, parent=None):
         super(URLChoosePage, self).__init__(parent)
         self.parent = parent
         self.last_selected = None
         
         self.ui = Ui_WrapperTrainingPage()
         self.ui.setupUi(self)
-        self.setTitle(title)
-        
+
         self.setCommitPage(True)
         self.setButtonText(QtGui.QWizard.CommitButton, "Train")
         
@@ -79,9 +78,8 @@ class URLChoosePage(QtGui.QWizardPage):
 
 
 class ProgressPage(QtGui.QWizardPage):
-    def __init__(self, title, parent=None):
+    def __init__(self, parent=None):
         super(ProgressPage, self).__init__(parent)
-        self.setTitle(title)
         self.parent = parent
         
         self.label = QtGui.QLabel("Training wrappers...")
@@ -121,9 +119,8 @@ class ProgressPage(QtGui.QWizardPage):
         
         
 class FinishedPage(QtGui.QWizardPage):
-    def __init__(self, title, parent=None):
+    def __init__(self, parent=None):
         super(FinishedPage, self).__init__(parent)
-        self.setTitle(title)
         self.parent = parent
         
         self.label01 = QtGui.QLabel("Finished training wrappers")
@@ -149,10 +146,9 @@ class WrapperTrainingWizard(QtGui.QWizard):
         self.wrapper_gw = WrapperGateway()
         
         #self.setOption(QtGui.QWizard.HaveHelpButton, True)
-        self.wizard_title = 'Train Wrappers'
-        self.page01 = URLChoosePage(self.wizard_title, self)
-        self.page02 = ProgressPage(self.wizard_title, self)
-        self.page03 = FinishedPage(self.wizard_title, self) 
+        self.page01 = URLChoosePage(self)
+        self.page02 = ProgressPage(self)
+        self.page03 = FinishedPage(self) 
         self.addPage(self.page01)
         self.addPage(self.page02)
         self.addPage(self.page03)
