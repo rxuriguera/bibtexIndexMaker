@@ -114,8 +114,7 @@ class ReferenceManagerpage(QtGui.QWizardPage):
         self.ui.references.setItemSelected(self.last_selected, False)
         self.ui.references.removeItemWidget(self.last_selected, 0)
         self.last_selected = None
-        
-        
+
     def update_extraction_editor(self):
         # Save current changes
         if self.last_selected: 

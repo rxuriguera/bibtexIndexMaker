@@ -21,12 +21,15 @@ import re
 
 from bibim import log
 from bibim.db.gateways import (WrapperGateway,
-                               ExampleGateway)
+                               ExampleGateway,
+                               ExtractionGateway)
 from bibim.ie.reference_wrappers import ReferenceWrapper
 from bibim.ie.rules import (PathRuler,
                             RegexRuler)
 from bibim.ie.trainers import WrapperTrainer
-from bibim.ir.types import SearchError
+from bibim.ie.types import Extraction
+from bibim.ir.types import (SearchError,
+                            SearchResult)
 from bibim.main.factory import UtilCreationError                  
 from bibim.main.validation import ValidatorFactory
 from bibim.rce import ExtractionError
@@ -376,3 +379,72 @@ class IEController(Controller):
                 wrapper_manager.persist_wrappers(url, set, wrappers)
             except:
                 log.error('Error training wrapper for set %s' % set) #@UndefinedVariable
+
+
+class ReferencesController(Controller):
+    def __init__(self, factory, format=ReferenceFormat.BIBTEX):
+        self.format = format
+        Controller.__init__(self, factory)
+    
+    def _parse_entries_file(self, file_path):
+        """
+        Reads the file described by 'file_path' and parses all the references
+        that it may contain.
+        Returns a list of Reference instances with the extracted instances.
+        """
+        references = []
+        try:
+            self.parser = self.util_factory.create_parser(self.format)
+        except UtilCreationError, e:
+            log.error('Error creating parser for format %s: %s' % #@UndefinedVariable 
+                      (str(self.format), str(e)))
+            return references
+        
+        try:
+            file = open(file_path, 'r')
+            content = file.read()
+        except Exception, e:
+            log.error('Error reading entries file %s: %s' % #@UndefinedVariable
+                      (file_path, str(e)))
+            return references
+        
+        if not content:
+            log.info('Empty entries file') #@UndefinedVariable
+            return references
+        
+        
+        if not self.parser.check_format(content):
+            log.error('Given entry is not in %s' % format) #@UndefinedVariable
+            return references
+        
+        # There may be more than one entry for the same file.
+        log.debug('Parsing entries') #@UndefinedVariable
+        
+        entries = self.parser.split_source(content)
+        for entry in entries:
+            fields = self.parser.parse_entry(entry)
+            reference = Reference(fields, format, entry)
+            reference.validity = 1.0
+            references.append(reference)
+        
+        return references
+        
+        
+    def persist_file_references(self, file_path):
+        """
+        Parses references from a file and stores them to the database
+        """
+        extraction_gw = ExtractionGateway()
+        references = self._parse_entries_file(file_path)
+        extractions = []
+        
+        for reference, index in zip(references, range(len(references))):
+            extraction = Extraction()
+            extraction.used_result = SearchResult('', file_path)
+            extraction.file_path = unicode('Reference %d from %s' % (index,
+                                           file_path.rsplit('/', 1)[-1]))
+            extraction.entries.append(reference)
+            extractions.append(extraction)
+            extraction_gw.persist_extraction(extraction)
+        
+        return extractions

@@ -6,6 +6,7 @@ from bibim import log
 from bibim.gui.ui.ui_main_window import Ui_MainWindow
 from bibim.gui.reference_extraction import ReferenceExtractionWizard
 from bibim.gui.reference_manager import ReferenceManagerWizard
+from bibim.gui.reference_importer import ReferenceImporterWizard
 from bibim.gui.reference_exporter import ReferenceExporterWizard
 from bibim.gui.wrapper_manager import WrapperManagerWizard
 from bibim.gui.wrapper_training import WrapperTrainingWizard
@@ -69,6 +70,16 @@ class BibimMain(QtGui.QMainWindow):
         item_1.widget_element = ReferenceManagerWizard()
         item_1.widget_element.hide()
         self.mw.contentLayout.addWidget(item_1.widget_element)
+
+        item_1 = QtGui.QTreeWidgetItem(item_0)
+        item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
+        item_1.setText(0, QtGui.QApplication.translate("MainWindow",
+             "Import", None, QtGui.QApplication.UnicodeUTF8))
+        item_1.title = 'Import References'
+        item_1.widget_element = ReferenceImporterWizard()
+        item_1.widget_element.hide()
+        self.mw.contentLayout.addWidget(item_1.widget_element)
+        default = item_1
         
         item_1 = QtGui.QTreeWidgetItem(item_0)
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
@@ -78,8 +89,7 @@ class BibimMain(QtGui.QMainWindow):
         item_1.widget_element = ReferenceExporterWizard()
         item_1.widget_element.hide()
         self.mw.contentLayout.addWidget(item_1.widget_element)
-        default = item_1
-        
+
         item_0 = QtGui.QTreeWidgetItem(self.mw.menu)
         item_0.setFlags(QtCore.Qt.ItemIsEnabled)
         item_0.setText(0, QtGui.QApplication.translate("MainWindow",

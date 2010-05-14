@@ -28,7 +28,8 @@ from bibim.db.session import flush_changes
 from bibim.db.gateways import ReferenceGateway
 from bibim.main.files import FileManager
 from bibim.main.threads import ThreadRunner, ReferenceMakerThread
-from bibim.main.controllers import IEController
+from bibim.main.controllers import (IEController,
+                                    ReferencesController)
 from bibim.main.factory import (UtilFactory,
                                 UtilCreationError)
 from bibim.references.format.formatter import ReferenceFormatter
@@ -123,4 +124,14 @@ class ReferenceEntryFormatter(object):
         
         return reference.entry
 
-        
+
+class ReferenceImporter(object):
+    def __init__(self, format=ReferenceFormat.BIBTEX):
+        self.format = format
+        self.util_factory = UtilFactory()
+        self.ref_controller = ReferencesController(self.util_factory,
+                                                   self.format)
+    
+    def import_references(self, path):
+        references = self.ref_controller.persist_file_references(path)
+        return len(references)

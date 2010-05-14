@@ -22,6 +22,8 @@ from bibim.gui.ui.ui_file_chooser import Ui_FileChooser
 from bibim.gui.ui.ui_new_collection_dialog import Ui_NewWrapperCollection
 
 class FileChooser(QtGui.QWidget):
+    DIR = 0
+    FILE = 1
     pathChanged = QtCore.pyqtSignal()
     
     def __init__(self):
@@ -32,6 +34,8 @@ class FileChooser(QtGui.QWidget):
         self.ui.setupUi(self)
         
         self.path = QtCore.QString()
+        
+        self.mode = self.DIR
         
         # Connect signals and slots
         #self.connect(self.ui.browseButton, QtCore.SIGNAL('clicked()'), self.chooseFile)
@@ -48,7 +52,11 @@ class FileChooser(QtGui.QWidget):
 
     @QtCore.pyqtSlot()
     def chooseFile(self):
-        self.path = QtGui.QFileDialog.getExistingDirectory(self)
+        if self.mode == self.DIR:
+            self.path = QtGui.QFileDialog.getExistingDirectory(self)
+        else:
+            self.path = QtGui.QFileDialog.getOpenFileName(self)
+        
         if self.path:
             self.ui.pathLine.setText(self.path)
 

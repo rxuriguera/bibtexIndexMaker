@@ -19,7 +19,6 @@
 
 from bibim import log
 from bibim.ie.rating import AverageRater
-from bibim.references.reference import Reference
 
 """
 This module defines the basic types used for the information extraction
@@ -35,16 +34,12 @@ class Extraction(object):
         self.id = None
         self.file_path = u''
         self.target_format = u''
-        self.references = []
+        self.entries = []
         self.query_strings = []
         self.__top_results = []
         self.used_query = ''
         self.used_result = None
         self.added = u''
-        
-        
-        ### Test
-        self.references.append(Reference())
 
 
 class Rule(object):
