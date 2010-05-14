@@ -56,7 +56,8 @@ class Wrapper(Base):
     __tablename__ = 'wrappers'
     
     id = Column(Integer, primary_key=True)
-    rules = relation(WrapperRule, order_by=WrapperRule.order)
+    rules = relation(WrapperRule, order_by=WrapperRule.order,
+                     cascade="all, delete, delete-orphan")
     upvotes = Column(Integer, default=0)
     downvotes = Column(Integer, default=0)
     score = Column(Float, default=0.0)
@@ -102,7 +103,8 @@ class WrapperCollection(Base):
     id = Column(Integer, primary_key=True)
     url = Column(Unicode, nullable=False)
     field = Column(Unicode, nullable=False)
-    wrappers = relation(Wrapper, order_by=Wrapper.score.desc())
+    wrappers = relation(Wrapper, order_by=Wrapper.score.desc(),
+                       cascade="all, delete, delete-orphan")
 
     def __init__(self, url='', field=''):
         self.url = url
@@ -198,10 +200,13 @@ class Reference(Base):
     
     id = Column(Integer, primary_key=True)
     fields = relation(ReferenceField, order_by=ReferenceField.id,
-                      backref='reference')
+                      backref='reference',
+                      cascade="all, delete, delete-orphan")
     validity = Column(Float, default=0.0)
-    authors = relation(Author, order_by=Author.id)
-    editors = relation(Editor, order_by=Editor.id)
+    authors = relation(Author, order_by=Author.id,
+                       cascade="all, delete, delete-orphan")
+    editors = relation(Editor, order_by=Editor.id,
+                       cascade="all, delete, delete-orphan")
 
     extraction_id = Column(Integer, ForeignKey('extractions.id'))
     
@@ -244,7 +249,8 @@ class Extraction(Base):
     query_string = Column(Unicode, default=u'')
     
     references = relation(Reference, order_by=Reference.id,
-                          backref='extraction')
+                          backref='extraction',
+                          cascade="all, delete, delete-orphan")
 
     def __init__(self, file_path=u'', result_url=u'', query_string=u''):
         self.file_path = file_path

@@ -192,10 +192,13 @@ class ExtractionGateway(Gateway):
         return m_extractions
     
     def new_extraction(self):
-        extraction = mappers.Extraction()
-        self.session.add(extraction)
-        return extraction
-    
+        m_extraction = mappers.Extraction()
+        self.session.add(m_extraction)
+        return m_extraction
+
+    def delete(self, m_extraction):
+        self.session.delete(m_extraction)
+        
 
 class ExampleGateway(Gateway):
     """
@@ -457,3 +460,5 @@ class WrapperGateway(Gateway):
     def check_obsolete_wrapper_collections(self):
         pass
     
+    def delete(self, mapper):
+        self.session.delete(mapper)
