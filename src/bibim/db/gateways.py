@@ -88,15 +88,18 @@ class ReferenceGateway(Gateway):
         
         return reference
     
-    def persist_references(self, references):
+    def persist_references(self, references, m_extraction=None):
         references = list(references)
         m_references = []
         for reference in references:
-            m_references.append(self.persist_reference(reference))
+            m_references.append(self.persist_reference(reference,
+                                                       m_extraction))
         return m_references
 
-    def persist_reference(self, reference):
+    def persist_reference(self, reference, m_extraction=None):
         m_reference = mappers.Reference()
+        if m_extraction:
+            m_extraction.references.append(m_reference)
         self.session.add(m_reference)
         
         m_reference.validity = reference.validity
@@ -171,9 +174,9 @@ class ExtractionGateway(Gateway):
         if extraction.used_result:
             m_extraction.result_url = unicode(extraction.used_result.url)
 
-        m_references = ReferenceGateway(self.session).persist_references(extraction.entries)
-        for m_reference in m_references:
-            m_extraction.references.append(m_reference)
+        m_references = ReferenceGateway(self.session).persist_references(extraction.entries, m_extraction)
+        #for m_reference in m_references:
+        #    m_extraction.references.append(m_reference)
         
         return m_extraction
     
