@@ -137,7 +137,9 @@ class ReferenceManagerWizard(QtGui.QWizard):
 
     def __init__(self):
         super(ReferenceManagerWizard, self).__init__()
-        
+        self.initialize()
+
+    def initialize(self):
         self.setOption(QtGui.QWizard.NoCancelButton, True)
         self.setOption(QtGui.QWizard.NoBackButtonOnStartPage, True)
         
@@ -146,6 +148,12 @@ class ReferenceManagerWizard(QtGui.QWizard):
         wizard_title = 'Manage References'
         self.page01 = ReferenceManagerpage(wizard_title, self)
         self.addPage(self.page01)
+
+    def show(self):
+        self.removePage(0)
+        self.initialize()
+        self.restart()
+        super(ReferenceManagerWizard, self).show()
 
     def done(self, status):
         self.extraction_gw.flush()

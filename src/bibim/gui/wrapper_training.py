@@ -137,11 +137,15 @@ class WrapperTrainingWizard(QtGui.QWizard):
     
     def __init__(self):
         super(WrapperTrainingWizard, self).__init__()
+        self.initialize()
+
+    def initialize(self):
         self.setDefaultProperty('FileChooser', 'path', QtCore.SIGNAL('pathChanged()'))
         self.setDefaultProperty('QProgressBar', 'value', QtCore.SIGNAL('valueChanged(int)'))
         
         self.setOption(QtGui.QWizard.NoCancelButton, True)
         self.setOption(QtGui.QWizard.NoBackButtonOnStartPage, True)
+        self.setOption(QtGui.QWizard.NoBackButtonOnLastPage, True)
         
         self.wrapper_gw = WrapperGateway()
         
@@ -152,3 +156,10 @@ class WrapperTrainingWizard(QtGui.QWizard):
         self.addPage(self.page01)
         self.addPage(self.page02)
         self.addPage(self.page03)
+        
+    def done(self, status):
+        self.removePage(0)
+        self.removePage(1)
+        self.removePage(2)
+        self.initialize()
+        self.restart()        

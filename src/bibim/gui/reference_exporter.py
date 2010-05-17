@@ -183,6 +183,9 @@ class ReferenceExporterpage(QtGui.QWizardPage):
 class ReferenceExporterWizard(QtGui.QWizard):
     def __init__(self):
         super(ReferenceExporterWizard, self).__init__()
+        self.initialize()
+
+    def initialize(self):
         self.setOption(QtGui.QWizard.NoCancelButton, True)
         self.setOption(QtGui.QWizard.NoBackButtonOnStartPage, True)
         
@@ -193,9 +196,14 @@ class ReferenceExporterWizard(QtGui.QWizard):
         
         wizard_title = 'Export References'
         self.page01 = ReferenceExporterpage(wizard_title, self)
-        self.addPage(self.page01)
+        self.addPage(self.page01)  
 
-
+    def show(self):
+        self.removePage(0)
+        self.initialize()
+        self.restart()
+        super(ReferenceExporterWizard, self).show()
+        
     def done(self, status):
         path = QtGui.QFileDialog.getSaveFileName(self,
             caption='Save references to file', filter='BibTeX (*.bib)')

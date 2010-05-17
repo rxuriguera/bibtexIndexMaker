@@ -440,7 +440,9 @@ class WrapperManagerWizard(QtGui.QWizard):
     
     def __init__(self):
         super(WrapperManagerWizard, self).__init__()
-        
+        self.initialize()
+
+    def initialize(self):
         self.setOption(QtGui.QWizard.NoCancelButton, True)
         self.setOption(QtGui.QWizard.NoBackButtonOnStartPage, True)
         
@@ -449,7 +451,13 @@ class WrapperManagerWizard(QtGui.QWizard):
         wizard_title = 'Manage Wrappers'
         self.page01 = WrapperManagerPage(wizard_title, self)
         self.addPage(self.page01)
-
+        
+    def show(self):
+        self.removePage(0)
+        self.initialize()
+        self.restart()
+        super(WrapperManagerWizard, self).show()
+        
     def done(self, status):
         self.page01._update_collection()
         self.page01._update_wrapper()

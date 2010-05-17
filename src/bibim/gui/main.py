@@ -61,7 +61,8 @@ class BibimMain(QtGui.QMainWindow):
         item_1.widget_element = ReferenceExtractionWizard()
         item_1.widget_element.hide()
         self.mw.contentLayout.addWidget(item_1.widget_element)
-        
+        default = item_1
+                
         item_1 = QtGui.QTreeWidgetItem(item_0)
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
         item_1.setText(0, QtGui.QApplication.translate("MainWindow",
@@ -79,7 +80,6 @@ class BibimMain(QtGui.QMainWindow):
         item_1.widget_element = ReferenceImporterWizard()
         item_1.widget_element.hide()
         self.mw.contentLayout.addWidget(item_1.widget_element)
-        default = item_1
         
         item_1 = QtGui.QTreeWidgetItem(item_0)
         item_1.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled | QtCore.Qt.ItemIsEnabled)
