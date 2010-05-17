@@ -20,12 +20,42 @@ import re
 import difflib #@UnresolvedImport
 
 from bibim import log
-from bibim.ie.types import Rule
+from bibim.ie.types import Rule, Example
+from bibim.references.util import split_name 
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
 SIMILARITY_THRESHOLD = 0.8
+MAX_SEPARATOR_CHARS = 10
 
+class DummyRule(Rule):
+    def __init__(self):
+        super(DummyRule, self).__init__('')
+        
+    def apply(self, input):
+        return input
+
+
+class PersonRule(Rule):
+    """
+    Defines how to convert a string to a person name. It expects a list of 
+    names and returns a list of dictionaries.
+    """
+    def __init__(self, pattern=None):
+        super(PersonRule, self).__init__('')
+        
+    def apply(self, input):
+        if not type(input) == list:
+            return []
+        
+        names = []
+        for person in input:
+            person = re.sub('\d', '', person)
+            name = split_name(person)
+            if name:
+                names.append(name)
+        return names
+            
 
 class RegexRule(Rule):
     """
@@ -40,7 +70,29 @@ class RegexRule(Rule):
             return matches.group(1)
         else: 
             return ''
+
+
+class MultiValueRegexRule(Rule):
+    def apply(self, input):
+        results = []
+        regex = re.compile(self.pattern)
+        for string in input:
+            matches = re.match(regex, string)
+            if matches and len(matches.groups()) > 0:
+                results.append(matches.group(1))
+        return results
     
+
+class SeparatorsRegexRule(MultiValueRegexRule):
+    def apply(self, input):
+        if type(input) == list:
+            input = input[0]
+        
+        regex = [''.join([x, '|']) for x in self.pattern]
+        regex = ''.join(regex)[:-1]
+        
+        return re.split(regex, input)
+
 
 class PathRule(Rule):
     """
@@ -78,6 +130,55 @@ class PathRule(Rule):
                     break
             else:
                 current = current.find(tag, attrs)
+        return current
+
+
+class MultiValuePathRule(Rule):
+    """
+    Defines how to apply a path rule that returns multiple values.
+    The input of this rule must be a BeautifulSoup element and it will output
+    a list of strings.
+    """
+    def apply(self, input):
+        log.debug('Applying PathRule') #@UndefinedVariable
+        values = []
+        elements = self._get_path_elements(self.pattern, input)
+        for element in elements:
+            if element:
+                text = ''.join(element.findAll(text=True))
+                values.append(text)
+            else:
+                continue
+        return values
+    
+    def _get_path_elements(self, path, input):
+        log.debug('Get path element for path: %s' % str(path)) #@UndefinedVariable
+        # Make a local copy
+        path = list(path)
+        current = [input]
+        tag, attrs, sibling = path.pop(0)
+        
+        # First element from the path must be unique
+        elements = current[0].findAll(tag, attrs)
+        if len(elements) != 1:
+            return None
+        current[0] = elements[0]
+        
+        for tag, attrs, sibling in path:
+            for index in range(len(current)):
+                if sibling is True:
+                    elements = current[index].findAll(tag, attrs)
+                    current[index] = elements.pop(0)
+                    
+                    for element in elements:
+                        current.append(element)
+                    
+                elif sibling >= 0:
+                    try:
+                        current[index] = current[index].contents[sibling]
+                    except IndexError:
+                        current[index] = None
+                        break
         return current
 
 
@@ -205,6 +306,105 @@ class RegexRuler(Ruler):
         return matching_blocks
 
 
+class MultiValueRegexRuler(RegexRuler):
+    def __init__(self):
+        super(MultiValueRegexRuler, self).__init__()    
+        self.parent_merge = super(MultiValueRegexRuler, self)._merge_patterns
+        self.parent_should_merge = super(MultiValueRegexRuler,
+                                         self)._should_merge
+        
+    def _escape(self, values, pattern):
+        #pattern = re.escape(pattern)
+        for value in values:
+            pattern = re.sub(value, u'(.*)', pattern)
+        return pattern     
+       
+class ElementsRegexRuler(MultiValueRegexRuler):
+    """
+    Creates rules consisting of a regular expression that can be used to
+    extract a pieces of information from a text.
+    
+    Content of the examples must be a list of strings.
+    """
+    def __init__(self):
+        super(ElementsRegexRuler, self).__init__()
+
+    def _rule_example(self, example):
+        content = list(example.content)
+        g_pattern = self._escape(example.value, content.pop(0))        
+        for element in content:
+            s_pattern = self._escape(example.value, element)
+            if self._should_merge(Rule(g_pattern), Rule(s_pattern)):
+                g_pattern = self.parent_merge(g_pattern, s_pattern)
+        return [MultiValueRegexRule(g_pattern)]
+        
+        
+class SeparatorsRegexRuler(MultiValueRegexRuler):
+    """
+    Creates rules consisting of a regular expression that can be used to
+    extract a pieces of information from a text.
+    
+    Content of the examples must be a string containing the values separated 
+    by separators. (a single element list is also accepted)
+    """
+    def __init__(self):
+        super(SeparatorsRegexRuler, self).__init__()
+        
+    def _rule_example(self, example):
+        # Get example content
+        if type(example.content) == list:
+            content = list(example.content)
+            if len(content) > 1:
+                return [DummyRule()]
+            else:
+                content = content.pop()
+        else:
+            content = example.content
+    
+        g_pattern = self._escape(example.value, content)
+        
+        if g_pattern.count('(.*)') <= 1:
+            return [DummyRule()]
+        
+        separators = self._find_separators(g_pattern)
+        return [SeparatorsRegexRule(separators)]
+    
+    def _find_separators(self, pattern):
+        raw_separators = [x for x in pattern.split('(.*)') 
+                          if x and len(x) < MAX_SEPARATOR_CHARS]
+         
+        # If the string begins or ends with one of the separators of the raw
+        # list, remove them
+        if pattern.startswith(raw_separators[0]):
+            raw_separators.pop(0)
+        if pattern.endswith(raw_separators[-1]):
+            raw_separators.pop()
+        
+        separators = self._merge_separators([raw_separators.pop(0)],
+                                            raw_separators)
+        return separators   
+
+    def _merge_separators(self, separators, raw_separators):
+        for separator in raw_separators:
+            should_append = True
+            for index in range(len(separators)): 
+                if self.parent_should_merge(Rule(separators[index]),
+                                      Rule(separator)):
+                    separators[index] = self.parent_merge(separators[index],
+                                                          separator)
+                    should_append = False
+                    break
+            if should_append:
+                separators.append(separator)
+        return separators
+
+    def _merge_patterns(self, g_pattern, s_pattern):
+        return self._merge_separators(g_pattern, s_pattern)
+
+    def _should_merge(self, g_rule, s_rule):
+        return True
+    
+
 class PathRuler(Ruler):
     """
     Creates a rule described by the path to locate some piece of information 
@@ -218,7 +418,7 @@ class PathRuler(Ruler):
         log.debug('Ruling example with value %s' % str(example.value)) #@UndefinedVariable
         rules = []
         element_rules = []
-        for element in self._get_content_elements(example):
+        for element in self._get_content_elements(example.value, example.content):
             element_rules.append(self._rule_element(example, element))
         self._merge_rules(rules, element_rules)
         return rules
@@ -227,15 +427,14 @@ class PathRuler(Ruler):
         pattern = self._get_element_path(example.content, element.parent)
         return PathRule(pattern)
     
-    def _get_content_elements(self, example):
+    def _get_content_elements(self, value, content):
         """
-        Looks in the content of the example to find the elements that contain
-        the desired value. Raises a ValueError exception if the example's
-        content does not contain the value.
+        Looks in the content to find the elements that contain the desired 
+        value. Raises a ValueError exception if the content does not contain 
+        the value.
         """
         try:
-            elements = example.content.findAll(True,
-                                               text=re.compile(example.value))
+            elements = content.findAll(True, text=re.compile(value))
         except NameError, e:
             log.error("Example's content is not an HTML document: %s" % e) #@UndefinedVariable
             elements = []
@@ -329,3 +528,71 @@ class PathRuler(Ruler):
         path.reverse()
         return path
   
+
+class MultiValuePathRuler(PathRuler):
+    """
+    Creates a rule described by the path to locate various pieces of 
+    information 
+    in an HTML document
+    
+    Content of the examples must be a BeautifulSoup object that describes an
+    HTML document.
+    """ 
+    
+    def _rule_example(self, example):
+        rule_example = super(MultiValuePathRuler, self)._rule_example
+        values = list(example.value)
+        count = len(values) 
+        example_rules = []
+        if not count:
+            return []        
+        
+        # If there's only one author
+        first_rules = rule_example(Example(values[0], example.content))
+        if count == 1:
+            for rule in first_rules:
+                example_rules.append(MultiValuePathRule(rule.pattern))
+            return example_rules
+        
+        more_rules = rule_example(Example(values[1], example.content))
+        for f_rule in first_rules:
+            f_rule_pattern = list(f_rule.pattern)
+            if f_rule in more_rules:
+                example_rules.append(MultiValuePathRule(f_rule_pattern))
+                continue
+            
+            for s_rule in more_rules:
+                s_rule_pattern = list(s_rule.pattern)
+            
+                # All should have same length
+                if not len(f_rule_pattern) == len(s_rule_pattern):
+                    continue
+                
+                # All should have same elements
+                diff = False
+                for element01, element02 in zip(f_rule_pattern, s_rule_pattern):
+                    if element01[0] != element02[0]:
+                        diff = True
+                        break
+                    elif element01[2] != element02[2]:
+                        element01[2] = True
+                    
+                if diff:
+                    continue
+                example_rules.append(MultiValuePathRule(f_rule_pattern))
+                
+        return example_rules
+
+
+
+class PersonRuler(Ruler):
+    def rule(self, training):
+        return [PersonRule()]
+
+
+
+
+
+
+
+

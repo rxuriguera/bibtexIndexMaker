@@ -249,6 +249,15 @@ class ExampleGateway(Gateway):
                 example = Example(field.value, content, m_extraction.result_url,
                                   field.valid, m_result.id)
                 examples[field.name].append(example)
+            
+            # Authors and editors are special cases
+            examples.setdefault('author', [])
+            authors = self._get_name_regex_values(m_result.authors)
+            examples['author'].append(Example(authors, content))
+            
+            examples.setdefault('editor', [])
+            editors = self._get_name_regex_values(m_result.editors)
+            examples['editor'].append(Example(editors, content))
         
             # Break if we already have enough examples for all of the fields
             if min(map(len, examples.values())) >= nexamples:
@@ -256,6 +265,15 @@ class ExampleGateway(Gateway):
            
         return examples
 
+    def _get_name_regex_values(self, names):
+        regexs = []
+        for name in names:
+            first = re.escape(name.person.first_name)
+            last = re.escape(name.person.last_name)
+            name_regex = '(%s.*%s|%s.*%s)' % (first, last, last, first)
+            regexs.append(name_regex)
+        return regexs
+                
     def _get_content(self, url):
         """
         This method looks for the content of an example's URL. In order not to
@@ -283,6 +301,7 @@ class ExampleGateway(Gateway):
         content = content.replace('\n', '')
         content = content.replace('\r', '')
         content = content.replace('\t', '')
+        content = content.replace('&nbsp;', ' ')
         return content
     
     def _check_still_valid(self, mapper, content, min_validity):
@@ -309,7 +328,11 @@ class ExampleGateway(Gateway):
                 not_found += 1
         
         # Recompute validity
-        validity = 1 - (not_found / len(mapper.fields)) 
+        if len(mapper.fields):
+            validity = 1 - (not_found / len(mapper.fields))
+        else:
+            validity = 1
+             
         if validity < min_validity:
             log.info('Reference "%d" marked as invalid from now on.' % #@UndefinedVariable
                       mapper.id)

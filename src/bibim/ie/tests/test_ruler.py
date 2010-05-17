@@ -24,9 +24,14 @@ from os.path import normpath, join, dirname
 
 
 from bibim.ie.rules import (RegexRuler,
+                            ElementsRegexRuler,
+                            SeparatorsRegexRuler,
                             PathRuler,
+                            MultiValuePathRuler,
                             Rule,
                             RegexRule,
+                            SeparatorsRegexRule,
+                            MultiValueRegexRule,
                             PathRule)
 from bibim.ie.types import Example
 from bibim.util.beautifulsoup import BeautifulSoup
@@ -45,7 +50,7 @@ def get_soup(file_name):
     return soup
 
 
-class TestRegexRule(unittest.TestCase):
+class TestRegexRule(object):#(unittest.TestCase):
     def test_apply(self):
         text = 'The event was held in Belgrade from 1883 to 1993'
         rule = RegexRule('.*(\d{4}).*(\d{4}).*')
@@ -57,7 +62,28 @@ class TestRegexRule(unittest.TestCase):
         self.failUnless(result == '1883')
 
 
-class TestPathRule(unittest.TestCase):
+class TestMultiValueRegexRule(unittest.TestCase):
+    def setUp(self):
+        self.rule = MultiValueRegexRule('(.*)')
+
+    def test_apply(self):
+        input = [u'L. Cabre, ', u'J. Mancebo, ', u'F. Solsona']
+        result = self.rule.apply(input)
+        self.failUnless(input == result)
+
+
+class TestSeparatorsRegexRule(unittest.TestCase):
+    def setUp(self):
+        self.rule = SeparatorsRegexRule([u'1, ', u'2, ', u'2 and '])
+
+    def test_apply(self):
+        input = (u'L. Cabre1, J. Mancebo2, J. F. Solsona3, and the Bioethics '
+                 'Working Group of the SEMICYUC')
+        result = self.rule.apply(input)
+        self.failUnless(len(result) == 3)     
+
+
+class TestPathRule(object):#(unittest.TestCase):
     def setUp(self):
         self.rule = PathRule()
         
@@ -130,9 +156,10 @@ class TestRuler(unittest.TestCase):
         self.example02 = Example(self.text02, self.soup01)
         self.example03 = Example(self.text03, self.soup02, 'http://some_url')
         self.example04 = Example(self.text04, self.soup02, 'http://some_url')      
-        self.example05 = Example(self.text05, self.soup03, 'http://some_url')   
+        self.example05 = Example(self.text05, self.soup03, 'http://some_url')
         
-class TestPathRuler(TestRuler):
+        
+class TestPathRuler(object):#(TestRuler):
         
     def setUp(self):
         super(TestPathRuler, self).setUp()
@@ -258,7 +285,39 @@ class TestPathRuler(TestRuler):
         result = rule.apply(self.example01.content)
         self.failUnless(result == u' Volume 70 ,&nbsp; Issue 16-18 &nbsp;(October 2007)')
 
-class TestRegexRuler(TestRuler):
+
+class TestMultiValuePathRuler(object):#(TestRuler):
+    def setUp(self):
+        self.ruler = MultiValuePathRuler()
+        super(TestMultiValuePathRuler, self).setUp()
+        
+        self.example06 = Example(['.*(Botella.*P\.|P\..*Botella).*',
+                                  '.*(Solona.*B\.|B\..*Solsona).*'],
+                                  self.soup03)
+        
+        self.example07 = Example(['.*(Alberto.*Angel|Angel.*Alberto).*',
+                                  '.*(Geurts.*Pierre|Pierre.*Geurts).*'],
+                                  self.soup01)
+        self.example08 = Example(['.*(Michael.*Sweredoski|Sweredoski.*Michael).*',
+                                  '.*(Pierre.*Baldi|Baldi.*Pierre).*'],
+                                  self.soup02)
+    
+    def test_rule_example(self):
+        rules = self.ruler._rule_example(self.example06)
+        self.failUnless(len(rules) == 1)
+        
+        rules = self.ruler._rule_example(self.example07)
+        self.failUnless(len(rules) == 2)
+    
+    def test_rule(self):
+        rules = self.ruler.rule([self.example07, self.example08])
+        self.failUnless(len(rules) == 2)
+    
+        result = rules[0].apply(self.soup01)
+        self.failUnless(len(result) == 5)
+
+
+class TestRegexRuler(object):#(TestRuler):
 
     def setUp(self):
         self.ruler = RegexRuler()
@@ -328,6 +387,78 @@ class TestRegexRuler(TestRuler):
         sm = difflib.SequenceMatcher(None, 'The 35th house', 'The 3rd House')
         result = self.ruler._apply_heuristics('The 35th house',
                                               sm.get_matching_blocks())
+
+
+class TestElementsRegexRuler(TestRuler):
+    def setUp(self):
+        self.ruler = ElementsRegexRuler()
+        super(TestElementsRegexRuler, self).setUp()
+        
+        self.example06 = Example(['(Alberto.*Angel|Angel.*Alberto)',
+                                  '(Geurts.*Pierre|Pierre.*Geurts)',
+                                  '(Damien.*Ernst|Ernst.*Damien)'],
+                                 ['The author Alberto Del Angel',
+                                  'Pierre Geurts The author',
+                                  'Damien Ernst'])
+
+        self.example07 = Example(['(Alberto.*Angel|Angel.*Alberto)',
+                                  '(Geurts.*Pierre|Pierre.*Geurts)',
+                                  '(Damien.*Ernst|Ernst.*Damien)'],
+                                 ['Alberto Del Angel',
+                                  'Pierre Geurts',
+                                  'Damien Ernst'])
+        
+    def test_rule_example(self):
+        result = self.ruler._rule_example(self.example06)
+        self.failUnless(result.pattern == u'The author (.*)')
+
+    def test_rule(self):
+        rules = self.ruler.rule([self.example06, self.example07])
+        self.failUnless(len(rules) == 2)
+         
+
+class TestSeparatorsRegexRuler(TestRuler):
+    def setUp(self):
+        self.ruler = SeparatorsRegexRuler()
+        super(TestSeparatorsRegexRuler, self).setUp()
+        
+        self.example06 = Example(['(Botella.*P\.|P\..*Botella)',
+                          '(Solona.*B\.|B\..*Solsona)',
+                          '(A\..*Martinez-Arias|Martinez-Arias.*A\.)',
+                          '(J\.M\..*Nieto|Nieto.*J\.M\.)'],
+                          [u'P. Botella1, B. Solsona1, '
+                           'A. Martinez-Arias2 and J.M. '
+                           'Lopez Nieto1'])     
+
+        self.example07 = Example(['(Cabre.*L\.|L\..*Cabre)',
+                          '(Mancebo.*J\.|J\..*Mancebo)',
+                          '(J\..*Solsona|Solsona.*J\.)'],
+                          u'L. Cabre1, J. Mancebo2, J. F. Solsona3, '
+                          ' and the Bioethics Working '
+                           'Group of the SEMICYUC')             
+
+        
+    def test_find_separators(self):
+        pattern = '(.*)1, (.*)1, (.*)2 and (.*)1 '
+        separators = self.ruler._find_separators(pattern)
+        self.failUnless(separators == ['1, ', '2 and '])
+    
+    def test_merge_separators(self):
+        sep01 = [u'1, ', u'2, ', u'2 and ']
+        sep02 = [u'1, ', u'3, ', u'2 and ']
+        expected = [u'1, ', '2, ', u'2 and ', u'3, ']
+        result = self.ruler._merge_separators(sep01, sep02)
+        self.failUnless(result == expected)
+    
+    def test_rule_example(self):
+        rules = self.ruler._rule_example(self.example06)
+        self.failUnless(len(rules) == 1)
+        self.failUnless(len(rules[0].pattern) == 2)
+    
+    def test_rule(self):
+        rules = self.ruler.rule([self.example06, self.example07])
+        pass
+    
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

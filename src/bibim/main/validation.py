@@ -69,6 +69,14 @@ class WithinTextValidator(FieldValidator):
         return False
 
 
+class PersonValidator(FieldValidator):
+    """
+    Validates that the values are a list of people
+    """
+    def validate(self, value, *kwargs):
+        return True
+    
+
 class ReferenceValidator(Validator):
     """
     Checks if the information from a reference is valid. Only those pieces of

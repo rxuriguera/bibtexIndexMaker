@@ -25,7 +25,11 @@ from bibim.db.gateways import (WrapperGateway,
                                ExtractionGateway)
 from bibim.ie.reference_wrappers import ReferenceWrapper
 from bibim.ie.rules import (PathRuler,
-                            RegexRuler)
+                            RegexRuler,
+                            MultiValuePathRuler,
+                            ElementsRegexRuler,
+                            SeparatorsRegexRuler,
+                            PersonRuler)
 from bibim.ie.trainers import WrapperTrainer
 from bibim.ie.types import Extraction
 from bibim.ir.types import (SearchError,
@@ -122,6 +126,10 @@ class IRController(Controller):
             try:
                 log.debug('Searching query %s with engine %d' % (query, engine)) #@UndefinedVariable
                 results = searcher.get_results()
+                
+                # TODO: Remove this
+                #results = [SearchResult('a', 'file:///home/rxuriguera/pages/springer/springer03.html')]
+                
             except SearchError, e:
                 log.error(e.error) #@UndefinedVariable
                 break
@@ -221,6 +229,7 @@ class IEController(Controller):
         content = content.replace('\n', '')
         content = content.replace('\r', '')
         content = content.replace('\t', '')
+        content = content.replace('&nbsp;', ' ')
         return content
     
     def _use_rule_wrappers(self, source, page, raw_text):
@@ -249,7 +258,8 @@ class IEController(Controller):
             for wrapper in wrappers:
                 info = wrapper.extract_info(page)
                 # we expect 'info' to be a string
-                if not (type(info) == str or type(info) == unicode):
+                if type(info) == list and not (collection.field == 'author' 
+                     or collection.field == 'editor'):
                     continue 
                 log.debug('Info extracted by wrapper: %s' % info) #@UndefinedVariable
                 
@@ -368,8 +378,12 @@ class IEController(Controller):
         
         rulers = []
         for set in example_sets:
-            if set == 'authors' or set == 'editors':
-                pass
+            # TODO: Uncomment editor
+            if set == 'author':# or set == 'editor':
+                rulers = [MultiValuePathRuler(),
+                          SeparatorsRegexRuler(),
+                          ElementsRegexRuler(),
+                          PersonRuler()]
             else:
                 rulers = [PathRuler(), RegexRuler()] 
         
@@ -377,8 +391,8 @@ class IEController(Controller):
             try:
                 wrappers = trainer.train(example_sets[set])
                 wrapper_manager.persist_wrappers(url, set, wrappers)
-            except:
-                log.error('Error training wrapper for set %s' % set) #@UndefinedVariable
+            except Exception, e:
+                log.error('Error training wrapper for set %s: %s' % (set, e)) #@UndefinedVariable
 
 
 class ReferencesController(Controller):

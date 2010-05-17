@@ -84,8 +84,7 @@ class WrapperTrainer(object):
         new_rules = current_ruler.rule(example_set)
         new_rule_sets = []
         for rule in new_rules:
-            current_example_set = self._get_new_example_set(rule,
-                                                            example_set)
+            current_example_set = self._get_new_example_set(rule, example_set)
             # Recursion to get all the possibilities
             rule_sets = self._get_rule_sets(list(rulers),
                                             current_example_set)
@@ -104,8 +103,7 @@ class WrapperTrainer(object):
             value = example.value
             content = rule.apply(example.content)
             if value and content:
-                new_example_set.append(Example(example.value,
-                                               rule.apply(example.content)))
+                new_example_set.append(Example(value, content))
             else:
                 log.warn('Example content is None after applying rule')  #@UndefinedVariable
         return new_example_set
