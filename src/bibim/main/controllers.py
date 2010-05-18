@@ -440,7 +440,6 @@ class ReferencesController(Controller):
             reference = Reference(fields, format, entry)
             reference.validity = 1.0
             references.append(reference)
-        
         return references
         
         
@@ -454,7 +453,19 @@ class ReferencesController(Controller):
         
         for reference, index in zip(references, range(len(references))):
             extraction = Extraction()
-            extraction.used_result = SearchResult('', file_path)
+            
+            # Clean fields that we don't want
+            reference.remove_field('reference_id')
+            reference.remove_field('abstract')
+            reference.remove_field('reference_type')
+            
+            url = reference.remove_field('url')
+            if not url:
+                url = file_path
+            else:
+                url = url.value
+            
+            extraction.used_result = SearchResult('', url)
             extraction.file_path = unicode('Reference %d from %s' % (index,
                                            file_path.rsplit('/', 1)[-1]))
             extraction.entries.append(reference)

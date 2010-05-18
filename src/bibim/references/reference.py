@@ -79,6 +79,12 @@ class Reference(object):
             valid = False
         self.__fields[field_name] = ReferenceField(field_name, value, valid)
     
+    def remove_field(self, field_name):
+        if self.__fields.has_key(field_name):
+            return self.__fields.pop(field_name)
+        else:
+            return None
+    
     def set_entry(self, entry):
         self.__entry = entry
         
