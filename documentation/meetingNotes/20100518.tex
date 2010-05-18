@@ -1,0 +1,92 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{url} 
+\usepackage{color}
+\usepackage{lscape}
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,                  % sets default tabsize to 2 spaces
+    captionpos=b,               % sets the caption-position to bottom
+    frame=single,
+    xleftmargin=3em,
+    xrightmargin=3em,
+    backgroundcolor = \color{lightgrey}
+}        
+
+
+\title{\BibTeX{} Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{18-05-2010}
+
+\setlength{\parindent}{0in}
+\definecolor{lightgrey}{gray}{0.85}
+
+\begin{document}
+\maketitle
+
+\section{Proves}
+Proves que podem realitzar:
+\begin{itemize}
+\item{Generació de Wrappers}
+\begin{itemize}
+\item{Comparar la qualitat dels \textit{wrappers} generats segons el número d'exemples a partir dels quals s'ha obtingut.}\\
+Per un parell de pàgines web mirar com varien els wrappers generats segons el número de referències a partir dels quals s'obtenen. Provar amb 2, 3, 4, 5...
+\item{Comparar el número de camps d'informació que ofereix una pàgina respecte els wrappers que s'han pogut generar correctament (o gairebé)}
+\end{itemize}
+
+
+\item{Cerca de referències}
+Avaluar els resultats obtinguts al cercar referències segons els diferents paràmetres:
+\begin{itemize}
+\item{Mínim/Màxim de paraules de la consulta}
+\item{Consultes inicials que se salten per tal de descartar resultats on només hi ha el títol}
+\item{Màxim nombre de consultes que a provar}
+\item{Número de resultats que fan que es consideri la cerca massa poc restrictiva (Too-many-results)}
+\end{itemize}
+Anar canviant els valors dels paràmetres i comparar el número de resultats i la qualitat segons cada cercador (Scholar, Google, Bing i Yahoo)
+
+
+\item{Extracció de referències}
+\begin{itemize}
+\item{Establir uns quants directoris amb PDFs d'una pàgina en concret}
+\item{Limitar resultats de la web a la pàgina a la qual pertanyen els documents}
+\item{Extreure les referències}
+\item{Comptabilitzar referències encerts i comparar entre les diferents pàgines}
+\end{itemize}
+
+\end{itemize}
+
+\section{Guió Presentació}
+\begin{itemize}
+\item{}
+Començar amb BD buida
+\item{}
+Importar unes quantes referències des d'un fitxer \BibTeX
+\item{}
+Generar wrappers a partir d'aquestes referències. Fer-ho per un parell o tres de pàgines web.
+\item{}
+Escollir un directori amb uns quants PDF i extreure les referències.
+\item{}
+Mostrar les referències obtingudes i modificar errors (resultats bons però no perfectes)
+\item{}
+Exportar les referències a un fitxer 
+\end{itemize}
+
+\end{document}
+
+
