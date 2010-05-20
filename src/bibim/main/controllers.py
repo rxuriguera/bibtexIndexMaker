@@ -226,7 +226,7 @@ class IEController(Controller):
         """
         if not content:
             return None
-        content = content.replace('\n', '')
+        content = content.replace('\n', ' ')
         content = content.replace('\r', '')
         content = content.replace('\t', '')
         content = content.replace('&nbsp;', ' ')
