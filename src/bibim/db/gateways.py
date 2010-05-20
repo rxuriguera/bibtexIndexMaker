@@ -251,13 +251,15 @@ class ExampleGateway(Gateway):
                 examples[field.name].append(example)
             
             # Authors and editors are special cases
-            examples.setdefault('author', [])
             authors = self._get_name_regex_values(m_result.authors)
-            examples['author'].append(Example(authors, content))
+            if authors:
+                examples.setdefault('author', [])
+                examples['author'].append(Example(authors, content))
             
-            examples.setdefault('editor', [])
             editors = self._get_name_regex_values(m_result.editors)
-            examples['editor'].append(Example(editors, content))
+            if editors:
+                examples.setdefault('editor', [])
+                examples['editor'].append(Example(editors, content))
         
             # Break if we already have enough examples for all of the fields
             if min(map(len, examples.values())) >= nexamples:
@@ -298,7 +300,7 @@ class ExampleGateway(Gateway):
     def _clean_content(self, content):
         if not content:
             return None
-        content = content.replace('\n', '')
+        content = content.replace('\n', ' ')
         content = content.replace('\r', '')
         content = content.replace('\t', '')
         content = content.replace('&nbsp;', ' ')
