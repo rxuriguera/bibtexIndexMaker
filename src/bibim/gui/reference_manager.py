@@ -71,7 +71,7 @@ class ReferenceManagerpage(QtGui.QWizardPage):
     
     def _add_extraction(self, extraction):
         item = QtGui.QTreeWidgetItem(self.ui.references)
-        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsEditable)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         
         item.extraction = extraction
         item.show_path = self._get_show_string(extraction.file_path)
