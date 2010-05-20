@@ -16,10 +16,16 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+import re
+import simplejson #@UnresolvedImport
 
 from bibim import log
 from bibim.ie.types import (Example,
                             Wrapper)
+
+
+MULTI_VALUE_WRAPPER_MIN_CORRECT = 0.2
+
 
 class TooFewExamplesError(Exception):
     pass
@@ -116,7 +122,36 @@ class WrapperTrainer(object):
         """
         for example in examples:
             info = wrapper.extract_info(example.content)
-            if info == example.value:
+            
+            # Evaluate depending if the extracted information is one single
+            # value or a collection.
+            if not info:
+                ev_result = False
+            elif type(info) is list:
+                ev_result = self._evaluate_multi_value_wrapper(info,
+                                                               example.value)
+            else:
+                ev_result = self._evaluate_single_value_wrapper(info,
+                                                                example.value)
+            if ev_result:
                 wrapper.upvotes += 1
             else:
                 wrapper.downvotes += 1
+        
+    def _evaluate_single_value_wrapper(self, info, value):
+        if re.search(value, info):
+            return True
+        else:
+            return False
+    
+    def _evaluate_multi_value_wrapper(self, info_list, values):
+        correct = 0
+        for info in info_list:
+            # Values and extracted info may not be in the same order. Check
+            # each piece of info against all the values
+            for value in values:
+                if re.search(value, simplejson.dumps(info)):
+                    correct += 1
+                    break
+        return (correct >= len(values) * MULTI_VALUE_WRAPPER_MIN_CORRECT)
+

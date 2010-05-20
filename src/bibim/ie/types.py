@@ -187,7 +187,10 @@ class Wrapper(object):
         log.debug('Applying ruled wrapper') #@UndefinedVariable
         result = input
         for rule in self.rules:
-            result = rule.apply(result)
+            if result:
+                result = rule.apply(result)
+            else:
+                break
         return result
     
     def __repr__(self):

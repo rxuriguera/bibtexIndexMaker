@@ -71,8 +71,8 @@ class TestWrapperTrainer(unittest.TestCase):
 
     def test_train_too_few_examples(self):
         self.wt.set_min_examples(20)
-        self.failUnlessRaises(TooFewExamplesError, self.wt.train,
-                              self.example_sets)
+        result = self.wt.train(self.example_sets)
+        self.failUnless(len(result) == 0)
 
     def test_train(self):
         self.wt.rulers = [MockRuler(), MockRuler()]
@@ -94,6 +94,31 @@ class TestWrapperTrainer(unittest.TestCase):
         length_bools = map(lambda x: len(x) == 2, rules)
         self.failUnless(length_bools.count(False) == 0)
 
+    def test_evaluate_single_value_wrapper(self):
+        info = 'In Germany'
+        value = 'Germany'
+        result = self.wt._evaluate_single_value_wrapper(info, value)
+        self.failUnless(result == True)
+
+        info = 'Germany'
+        value = 'In Germany'
+        result = self.wt._evaluate_single_value_wrapper(info, value)
+        self.failUnless(result == False)
+
+    def test_evaluate_multi_value_wrapper(self):
+        info_list = ['Alberto Del Angel',
+                     'Pierre Geurts',
+                     'Damien Ernst']
+        values = ['(Alberto.*Angel|Angel.*Alberto)',
+                  '(Geurts.*Pierre|Pierre.*Geurts)',
+                  '(Damien.*Ernst|Ernst.*Damien)']
+        result = self.wt._evaluate_multi_value_wrapper(info_list, values)
+        self.failUnless(result == True)
+        
+        info_list = ['Alberto Del Ange']
+        result = self.wt._evaluate_multi_value_wrapper(info_list, values)
+        self.failUnless(result == False)
+    
     def test_evaluate_wrapper(self):
         self.example_set = [Example('c01_r22_r33', 'c01'),
                             Example('c02_r22_r33', 'c02'),
@@ -102,7 +127,6 @@ class TestWrapperTrainer(unittest.TestCase):
         self.wt._evaluate_wrapper(wrapper, self.example_set)
         self.failUnless(wrapper.upvotes == 2)
         self.failUnless(wrapper.downvotes == 1)
-
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
