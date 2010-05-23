@@ -1,2 +1,19 @@
 \chapter{Inducció de \textit{Wrappers}}
 \label{chapter:wrapperinduction}
+
+
+\section{Inducció de \textit{wrappers}}
+
+\subsection{Generació automàtica de regles}
+\subsubsection{Ruta d'un element HTML}
+\subsubsection{Expressió regular}
+
+\subsection{Avaluació dels \textit{wrappers}}
+Una vegada hem generat el conjunt dels \textit{wrappers} possibles per a un conjunt de documents, cal que avaluem quins d'ells funcionen millor. Utilitzem un sistema de vots positius i negatius i en calculem la mitjana amb la següent fórmula:
+
+\begin{equation*}
+    score = \frac{vots\; positius}{vots\; totals}
+\end{equation*}
+
+\subsection{Reaprenentatge}
+El sistema està dissenyat per tal que, quan hi ha una davallada en el nombre de referències extretes correctament, provi de reaprendre els \textit{wrappers} automàticament a partir dels exemples que té emmagatzemats d'execucions passades.

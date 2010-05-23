@@ -84,10 +84,15 @@ El principal problema que hem trobat amb aquests  és que no han publicat cap API
 \paragraph{}
 Així doncs, ens quedem amb els cercadors habituals i hem preparat la nostra aplicació per tal d'utilitzar les APIs de \textit{Google}, \textit{Yahoo} i \textit{Bing}. Els principals inconvenients són que retornen qualsevol tipus de pàgina i que no tenen indexades algunes blioteques digitals,. Tot i així, també podem aconseguir bons resultats amb l'ús de les consultes adequades.  
 
-
+%%%% ORDENACIÓ RESULTATS %%%%
 \subsection{Ordenació de resultats}
-La majoria de vegades, no ens convindrà tant l'ordre dels resultats donat pels diferents cercadors sinó que voldrem processar les pàgines per les quals tenim regles d'extracció d'informació. És per això que 
+La majoria de vegades, no ens convindrà l'ordre dels resultats donat pels diferents cercadors sinó que voldrem processar les pàgines segons aquelles per les quals tenim regles d'extracció. És per això que un cop hem consultat al cercador, comprovem si tenim regles per alguna de les pàgines resultants i, en cas afirmatiu, la movem a dalt de tot de la llista.
 
+\paragraph{}
+En cas d'haver-hi múltiples pàgines de les quals sabem extreure eles dades, ho farem segons una puntuació assignada a les regles de les que disposem. Aquest tema de les puntuacions es tracta amb més detall al capítol sobre generació de \textit{wrappers} (\ref{chapter:wrapperinduction}).
+
+
+%%%% AJUSTAMENTS %%%%
 \subsection{Altres Ajustaments}
 Depenent de ldel tipus de fitxers dels que disposem la qualitat dels resultats obtinguts amb els cercadors poden variar considerablement. Això suposa la necessitat d'ajustar alguns paràmetres per tal de poder adaptar el sistema a l'ús de cadascú. A la secció sobre la generació de consultes (\ref{section:chapter-search:consultes}), ja hem comentat la possibilitat d'ajustar el mínim i màxim de termes a cercar, però hi ha altres opcions que es poden configurar.
 

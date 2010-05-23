@@ -1,34 +1,43 @@
 \chapter{Extracció de referències}
 \label{chapter:refextraction}
 
-En aquest capítol tractarem
+Un cop hem aconseguit trobar pàgines que contenen informació de l'article pel qual volem generar la referència bibliogràfica, és moment d'extreure aquesta informació i formatar-la. En aquest capítol tractarem dels problemes que hem trobat a l'hora d'extreure la in
 
-En el nostre context, anomenarem \textit{wrapper} a un troç de codi que podem utilitzar per extreure una peça d'informació concreta d'un document.
-
-Podem imaginar-ho com filtre que només ens deixa veure una part del document que ens interessa.
-
+\section{\textit{Wrappers}}
+En el nostre context, anomenarem \textit{wrapper} a una classe que implementa una sèrie de mètodes establerts i que, a partir d'un text o document d'entrada, permet extreure'n certa informació. Podem imaginar-ho com un filtre que només ens deixa veure una part del document que ens interessa.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.8]{figures/wrapper_sample.pdf}
-\caption{Funció d'un \textit{wrapper}}
+\caption{Exemple de la funció d'un \textit{wrapper}}
 \label{fig:wrapper-desc}
 \end{center}
 \end{figure}
 
-\section{\textit{Wrappers} a mà}
+A la nostra aplicació tindrem els dos tipus de \textit{wrapper} que es descriuen a continuació.
 
-\section{Inducció de \textit{wrappers}}
+\subsection{\textit{Field Wrappers}}
+Es tracta de \textit{wrappers} que s'encarreguen d'extreure únicament un dels camps de la referència a la vegada. 
 
-\subsection{Generació automàtica de regles}
-\subsubsection{Ruta d'un element HTML}
-\subsubsection{Expressió regular}
+En un principi vam començar a implementar aquests \textit{wrappers} manualment, però això comporta diversos problemes:
+Aquests 
 
-\subsection{Avaluació dels \textit{wrappers}}
-Una vegada hem generat el conjunt dels \textit{wrappers} possibles per a un conjunt de documents, cal que avaluem quins d'ells funcionen millor. Utilitzem un sistema de vots positius i negatius i en calculem la mitjana amb la següent fórmula:
+\subsection{\textit{Reference Wrappers}}
+Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera. El gran avantatge que tenen és que habitualment permeten extreure molta més informació i amb una confiança molt més gran.  Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
 
-\begin{equation*}
-    score = \frac{vots\; positius}{vots\; totals}
-\end{equation*}
+\paragraph{}
+El problema, és que normalment no es troben a la mateixa pàgina retornada pels cercadors, sinó que cal seguir algun enllaç. A més, hi ha moltes biblioteques digitals que no ofereixen les referències en \BibTeX{} sinó en altres formats com ara \textit{RIS}, \textit{MODS}, etc.
 
-\subsection{Reaprenentatge}
-El sistema està dissenyat per tal que, quan hi ha una davallada en el nombre de referències extretes correctament, provi de reaprendre els \textit{wrappers} automàticament a partir dels exemples que té emmagatzemats d'execucions passades.
+
+
+Aquests \textit{wrappers} s'han implementat manualment.
+
+
+
+\section{Validació de referències}
+\subsubsection{\textit{Parsing} de referències}
+Per poder validar les referències obtingudes a partir dels \textit{reference wrappers}, és necessari analitzar-les sintàcticament per tal de poder validar cadascun dels camps. Per aquest motiu, l'aplicació disposa d'un \textit{parser} de referències en format \BibTeX{}.
+
+
+\section{Format de referències}
+
+Com a detalls de la implementació, només comentar que tindrem un jerarquia de classes anomenades \textit{generadors}; que 
