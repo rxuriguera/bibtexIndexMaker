@@ -1,0 +1,72 @@
+\chapter{Definició del Projecte}
+\label{chapter:definition}
+\section{Context}
+
+
+\section{\BibTeX}
+Per poder entendre el context del projecte cal que descrivim l'eina de maneig de referències \BibTeX{} i la sintaxi del llenguatge que utilitza. 
+En el nostre cas farem servir aquest llenguatge com a format de sortida al generar els índexos bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic expressat en el format \BibTeX:
+\begin{center}
+\begin{lstlisting}[caption={Referència expressada en \BibTeX}, label=listing:exampleBibTeX]
+@article{MoSh:27,
+  title = {Size direction games over the real line},
+  author = {Moran, Gadi and Shelah, M., Saharon},
+  journal = {Israel Journal of Mathematics},
+  pages = {442--449},
+  volume = {14},
+  year = {1973},
+}
+\end{lstlisting}
+\end{center}
+
+Alguns aspectes a comentar sobre l'exemple anterior:
+\begin{itemize}
+\item{}
+La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps: \textit{author}, \textit{title}, \textit{journal} i \textit{year}.
+
+\item{}
+Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last}, \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem amb \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
+
+\item{}
+L'últim camp d'una referència pot acabar o no amb una coma.
+\end{itemize}
+
+\section{Característiques}
+
+
+
+\section{Disseny del sistema}
+Hem organitzat el codi del sistema en els mòduls que es llisten a continuació:
+\begin{itemize}
+\item{\textit{Raw Content Extraction} (rce):}
+Agrupa totes les classes encarregades d'extreure el contingut dels documents PDF.
+
+\item{\textit{Information Retrieval} (ir):}
+Encarregat de comunicar-se amb els diferents cercadors disponibles a Internet per obtenir pàgines que contenen informació de la referència que volem extreure.
+
+\item{\textit{Information Extraction} (ie):}
+Conté tot el codi que permet obtenir la referència a partir d'una pàgina HTML. A més, també és l'encarregat de generar nous \textit{wrappers}.
+
+\item{\textit{References}:}
+Per una banda fa un anàlisis sintàctic de les referències extretes per poder-les validar. Per l'altra, transforma a \BibTeX les referències extretes.
+
+\item{Base de dades (db):}
+Tal i com indica el seu nom, duu a terme els accessos la base de dades.
+
+\item{\textit{Main}: }
+Enllaça tots els mòduls anteriors i proporciona punts d'entrada a la interfície d'usuari. Fa de façana del sistema.
+
+\item{\textit{Graphical User Interface} (gui):}
+Interfície d'usuari més o menys amigable.
+\end{itemize}
+
+La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{figures/module_diagram.pdf}
+\caption{Mòduls del sistema}
+\label{fig:module_diagram}
+\end{center}
+\end{figure}
+

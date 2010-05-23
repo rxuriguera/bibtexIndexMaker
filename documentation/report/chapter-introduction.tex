@@ -1,0 +1,47 @@
+\chapter{Introducció}
+\label{chapter:introduction}
+
+El format PDF ha esdevingut un estàndar per la divulgació de publicacions on-line.
+
+\paragraph{}
+Actualment existeixen serveis com ara \textit{Google Scholar}, \textit{Microsoft Academic Search} o \textit{CiteSeer} que es dediquen a recol·lectar informació sobre articles i que comptabilitzen les referències entre diferents publicacions. En el cas de \textit{CiteSeer}, al ser un projecte lliure, sabem que funciona analitzant les diferents parts dels articles, com ara les cites,  però que també té problemes per obtenir els camps de la capçalera, que és el que ens interessa \cite{Giles98citeseer}.
+
+\paragraph{}
+Per una altra banda, també existeixen nombroses aplicacions dedicades al maneig de referències com \textit{\href{http://jabref.sourceforge.net/}{JabRef}}\footnote{\href{http://jabref.sourceforge.net/}{http://jabref.sourceforge.net}} o \textit{\href{http://www.mendeley.com/}{Mendeley}}\footnote{\href{http://www.mendeley.com/}{http://www.mendeley.com}}. Entre algunes de les funcionalitats addicionals que ofereixen, hi ha la possibilitat de cercar en bases de dades d'articles i utilitzar les meta-dades dels fitxers per tal de trobar informació com ara el títol o l'autor. A banda d'això, no n'hem trobat cap que aprofiti el contingut dels documents per generar la referència.
+
+El nostre sistema mira d'omplir el buit que queda entre aquestes dos tipus de programari que 
+
+
+\textit{\BibTeX{} Bibliography Index Maker} és una eina d'ajuda a la creació d'índexs bibliogràfics pensada com un complement a aplicacions de maneig de referències ja existents com poden ser .
+
+
+
+\paragraph{}
+La principal funcionalitat que ofereix consisteix en escanejar un directori que conté articles científics en PDF i generar un índex bibliogràfic en \BibTeX{} amb les referències d'aquests fitxers. Aquest índex es pot importar des de les aplicacions esmentades o bé pot ser referenciat directament des d'un nou document \TeX.
+
+
+
+Compta amb tres parts principals:
+
+\section{Estructura d'aquest document}
+La memòria està dividida en els següents capítols:
+
+\begin{itemize}
+\item{Capitol \ref{chapter:definition}:}
+Descripció formal del projecte i el seu context així com un repàs sobre el disseny.
+
+\item{Capitol \ref{chapter:search}:}
+Parla de les tècniques que s'utilitzen per poder aconseguir pàgines que continguin informació sobre els do
+
+\item{Capitol \ref{chapter:refextraction}:}
+Tracta sobre com extreure la informació sobre els articles de les pàgines d'Internet que hem obtingut.
+
+\item{Capitol \ref{chapter:wrapperinduction}:}
+Està dedicat a les tècniques per generar, de forma automàtica, les regles d'extracció de les referències.
+
+\item{Capitol \ref{chapter:results}:}
+Plantejament de les proves per cadascuna de les parts més importants del sistema i anàlisi dels resultats obtinguts.
+
+\end{itemize}
+
+Pel que fa al contingut de les diferents seccions, ens hem volgut centrar, sobretot, en el que fa a les decisions que hem hagut de prendre al llarg de la realització del projecte i no tant en els aspectes tècnics de com s'ha implementat el sistema. Per cada decisió es presenten algunes de les opcions plantejades en un principi, els problemes que aquestes presenten i es passa a descriure la solució escollida i els motius de l'elecció.
