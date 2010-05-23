@@ -60,7 +60,7 @@ class Searcher(object):
         self.results_info = None
         self.eor = False # end of results
         self._page = 0
-        self._results_per_page = 10
+        self._results_per_page = 30
         self._last_from = 0
 
     def get_query(self):

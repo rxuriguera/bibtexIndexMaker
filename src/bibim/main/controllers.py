@@ -94,7 +94,7 @@ class RCEController(Controller):
         Extracts query strings from a text and returns a list containing them.
         The list's size is MAX_QUERIES at most.
         """
-        pattern = re.compile("([\w()?!]+[ ]+){%d,%d}" % (MIN_WORDS, MAX_WORDS))
+        pattern = re.compile("([\w()?!]+[ ]){%d,%d}" % (MIN_WORDS, MAX_WORDS))
         strings = []
         matches = re.finditer(pattern, text)
         for i in range(MAX_QUERIES + SKIP_QUERIES): #@UnusedVariable
@@ -133,7 +133,7 @@ class IRController(Controller):
             except SearchError, e:
                 log.error(e.error) #@UndefinedVariable
                 break
-        
+            print TOO_MANY_RESULTS
             if searcher.num_results >= TOO_MANY_RESULTS:
                 log.debug('Search with query %s yielded too many results ' #@UndefinedVariable
                           '(%d or more)' % (query, TOO_MANY_RESULTS)) 
@@ -161,7 +161,7 @@ class IRController(Controller):
     
         available_wrappers = ReferenceWrapper().get_available_wrappers()
         for result in results:
-            if result.base_url in configuration.black_list:
+            if self._in_black_list(result.url):
                 continue
             elif result.base_url in available_wrappers:
                 has_wrapper.append(result)
@@ -169,6 +169,14 @@ class IRController(Controller):
                 doesnt_have_wrapper.append(result)
         has_wrapper.extend(doesnt_have_wrapper)
         return has_wrapper
+    
+    def _in_black_list(self, url):
+        is_in_it = False
+        for element in configuration.black_list:
+            if url.startswith(element):
+                is_in_it = True
+                break
+        return is_in_it
 
 
 class IEController(Controller):
