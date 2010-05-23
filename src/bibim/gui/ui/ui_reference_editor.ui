@@ -37,6 +37,16 @@
      <property name="bottomMargin">
       <number>9</number>
      </property>
+     <item row="1" column="0">
+      <widget class="QLabel" name="filePathLabel">
+       <property name="text">
+        <string>File path</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="filePathLine"/>
+     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="resultLabel">
        <property name="text">
@@ -79,16 +89,6 @@
         <double>0.050000000000000</double>
        </property>
       </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="filePathLabel">
-       <property name="text">
-        <string>File path</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="filePathLine"/>
      </item>
     </layout>
    </item>

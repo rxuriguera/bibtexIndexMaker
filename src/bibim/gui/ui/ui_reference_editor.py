@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'ui_reference_editor.ui'
 #
-# Created: Sun May  9 20:16:07 2010
-#      by: PyQt4 UI code generator 4.7.3
+# Created: Thu May 20 02:42:02 2010
+#      by: PyQt4 UI code generator 4.4.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,6 +27,12 @@ class Ui_ReferenceEditor(object):
         self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
         self.formLayout.setContentsMargins(-1, -1, -1, 9)
         self.formLayout.setObjectName("formLayout")
+        self.filePathLabel = QtGui.QLabel(ReferenceEditor)
+        self.filePathLabel.setObjectName("filePathLabel")
+        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.filePathLabel)
+        self.filePathLine = QtGui.QLineEdit(ReferenceEditor)
+        self.filePathLine.setObjectName("filePathLine")
+        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.filePathLine)
         self.resultLabel = QtGui.QLabel(ReferenceEditor)
         self.resultLabel.setObjectName("resultLabel")
         self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.resultLabel)
@@ -43,18 +49,10 @@ class Ui_ReferenceEditor(object):
         self.validityLabel.setObjectName("validityLabel")
         self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.validityLabel)
         self.validitySpin = QtGui.QDoubleSpinBox(ReferenceEditor)
-        self.validitySpin.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedKingdom))
-        self.validitySpin.setPrefix("")
         self.validitySpin.setMaximum(1.0)
         self.validitySpin.setSingleStep(0.05)
         self.validitySpin.setObjectName("validitySpin")
         self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.validitySpin)
-        self.filePathLabel = QtGui.QLabel(ReferenceEditor)
-        self.filePathLabel.setObjectName("filePathLabel")
-        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.filePathLabel)
-        self.filePathLine = QtGui.QLineEdit(ReferenceEditor)
-        self.filePathLine.setObjectName("filePathLine")
-        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.filePathLine)
         self.verticalLayout.addLayout(self.formLayout)
         self.line = QtGui.QFrame(ReferenceEditor)
         self.line.setFrameShape(QtGui.QFrame.HLine)
@@ -125,10 +123,10 @@ class Ui_ReferenceEditor(object):
 
     def retranslateUi(self, ReferenceEditor):
         ReferenceEditor.setWindowTitle(QtGui.QApplication.translate("ReferenceEditor", "ReferenceEditor", None, QtGui.QApplication.UnicodeUTF8))
+        self.filePathLabel.setText(QtGui.QApplication.translate("ReferenceEditor", "File path", None, QtGui.QApplication.UnicodeUTF8))
         self.resultLabel.setText(QtGui.QApplication.translate("ReferenceEditor", "Extracted from", None, QtGui.QApplication.UnicodeUTF8))
         self.queryLabel.setText(QtGui.QApplication.translate("ReferenceEditor", "Using query", None, QtGui.QApplication.UnicodeUTF8))
         self.validityLabel.setText(QtGui.QApplication.translate("ReferenceEditor", "Validity", None, QtGui.QApplication.UnicodeUTF8))
-        self.filePathLabel.setText(QtGui.QApplication.translate("ReferenceEditor", "File path", None, QtGui.QApplication.UnicodeUTF8))
         self.fieldsLabel.setText(QtGui.QApplication.translate("ReferenceEditor", "Fields:", None, QtGui.QApplication.UnicodeUTF8))
         self.fields.headerItem().setText(0, QtGui.QApplication.translate("ReferenceEditor", "Field", None, QtGui.QApplication.UnicodeUTF8))
         self.fields.headerItem().setText(1, QtGui.QApplication.translate("ReferenceEditor", "Value", None, QtGui.QApplication.UnicodeUTF8))
