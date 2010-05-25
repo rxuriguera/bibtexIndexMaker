@@ -1,11 +1,8 @@
 \chapter{Biblioteques utilitzades}
-A continuació es llisten les diferents biblioteques i mòduls \textit{Python} que s'han utilitzat en l'aplicació:
-
-Per una banda tenim els següents mòduls:
+Per una banda fen servir els següents mòduls de la biblioteca estàndar. No són els únics que utilitzem, però sí els que ofereixen funcionalitats més interessants:
 \begin{itemize}
 \item{RE:}
 Ofereix la possibilitat de treballar amb expressions regulars i amb una sintaxi molt rica. L'hem fet servir àmpliament a tot el sistema.
-
 
 \item{SimpleJSON:}
 L'hem utilitzat per dos objectius diferents: llegir fitxers en format JSON i per serialitzar i desserialitzar objectes \textit{Python} a l'emmagatzemar-los a la base de dades. Els objectes serialitzats utilitzant aquest mòdul tenen la característica que són llegibles per les persones. Per exemple, el resultat de serialitzar un diccionari és: \texttt{'\{``clau01'': 4, ``clau03'': 15, ``clau02'': 8\}'}
@@ -18,7 +15,7 @@ Mòdul que ens permet llegir el fitxer de configuració de l'aplicació al qual hi 
 \end{itemize}
 
 \paragraph{}
-També fem ús del programari següent:
+També fem ús de les biblioteques següent:
 \begin{itemize}
 \item{XGoogle:}
 Es tracta d'una biblioteca força senzilla escrita per Peteris Krumins que ens facilita les cerques a Internet. L'objectiu del creador era oferir la possibilitat de cercar a \textit{Google} sense les limitacions de la API oficial, que només deixa obtenir un màxim de 32 resultats. Nosaltres l'hem ampliat per poder obtenir resultats de \textit{Google Scholar} i  posteriorment, també per utilitzar les APIs oficials JSON de \textit{Google}, \textit{Bing} i \textit{Yahoo}. 
