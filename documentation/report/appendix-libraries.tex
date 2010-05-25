@@ -1,8 +1,34 @@
 \chapter{Biblioteques utilitzades}
-A continuació es llisten les diferents biblioteques i mòdules \textit{Python} que s'han utilitzat en l'aplicació
+A continuació es llisten les diferents biblioteques i mòduls \textit{Python} que s'han utilitzat en l'aplicació:
 
+Per una banda tenim els següents mòduls:
 \begin{itemize}
-\item{SimpleJSON}
-\item{DiffLib}
-\item{}
+\item{RE:}
+Ofereix la possibilitat de treballar amb expressions regulars i amb una sintaxi molt rica. L'hem fet servir àmpliament a tot el sistema.
+
+
+\item{SimpleJSON:}
+L'hem utilitzat per dos objectius diferents: llegir fitxers en format JSON i per serialitzar i desserialitzar objectes \textit{Python} a l'emmagatzemar-los a la base de dades. Els objectes serialitzats utilitzant aquest mòdul tenen la característica que són llegibles per les persones. Per exemple, el resultat de serialitzar un diccionari és: \texttt{'\{``clau01'': 4, ``clau03'': 15, ``clau02'': 8\}'}
+
+\item{DiffLib:}
+Ens permet fer \textit{string matching} i obtenir llistes de blocs coincidents així com un índex de similaritat entre dues cadenes de caràcters. L'utilitzem a l'hora de generar regles automàticament, per tal de decidir quan hem de fusionar regles i com ho hem de fer.
+
+\item{ConfigParser:}
+Mòdul que ens permet llegir el fitxer de configuració de l'aplicació al qual hi ha definits els diferents paràmetres que guien l'aplicació.
+\end{itemize}
+
+\paragraph{}
+També fem ús del programari següent:
+\begin{itemize}
+\item{XGoogle:}
+Es tracta d'una biblioteca força senzilla escrita per Peteris Krumins que ens facilita les cerques a Internet. L'objectiu del creador era oferir la possibilitat de cercar a \textit{Google} sense les limitacions de la API oficial, que només deixa obtenir un màxim de 32 resultats. Nosaltres l'hem ampliat per poder obtenir resultats de \textit{Google Scholar} i  posteriorment, també per utilitzar les APIs oficials JSON de \textit{Google}, \textit{Bing} i \textit{Yahoo}. 
+
+\item{BeautifulSoup:}
+Es tracta d'un \textit{parser} d'HTML i XML desenvolupat per Leonard Richardson que genera arbres sintàctics els quals podem consultar segons les etiquetes HTML, els atributs, o bé el text que contenen.
+
+\item{\textit{Parser} de \BibTeX{}:}
+Es tracta d'un \textit{parser} escrit per Raphael Ritz pel projecte Bibliograph.parsing. El fem servir per obtenir els diferents camps de les referències a l'hora d'importar-les a l'aplicació i a l'extreure-les mitjançant \textit{reference wrappers} (veure \ref{refextraction:reference-wrappers}) per tal de poder-les validar.
+
+\item{PyQt:}
+Es tracta d'una biblioteca en \textit{Python} que embolcalla el framework per la creació d'interfícies gràfiques \textit{Qt}.
 \end{itemize}

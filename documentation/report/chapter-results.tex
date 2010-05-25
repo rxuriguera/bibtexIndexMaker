@@ -4,7 +4,7 @@ En aquest capítol es mostren les principals proves realitzades per cadascuna de 
 
 
 \section{Cerca de referències}
-En primer lloc provarem com de bé ho fa el sistema a l'hora de cercar pàgines a Internet que continguin informació sobre un article concret. Els tests que hem dut a terme consisteixen en:
+En primer lloc provarem com de bé ho fa el sistema a l'hora de cercar pàgines a Internet que continguin informació sobre un article concret. Els tests que hem dut a terme consisteixen en els passos següents:
 \begin{enumerate}
 \item{Obtenir una sèrie de consultes d'un llistat de documents PDF}
 \item{Cercar cadascuna de les consultes amb: \textit{Google}, \textit{Bing} i \textit{Yahoo}}
@@ -12,18 +12,42 @@ En primer lloc provarem com de bé ho fa el sistema a l'hora de cercar pàgines a 
 \item{Comptabilitzem el número de consultes que han fet falta per obtenir el primer \textit{bon} resultat}
 \end{enumerate}
 
-Sobre els passos anteriors, hem de notar que per tal classificar els resultats en bons i dolents nomes comprovem si part de la informació que volem es troba dins de la pàgina resultant. Aquesta no és una solució perfecta, però ens permet fer una aproximació sobre la quantitat de fitxers pels quals en podem trobar la referència.
+Noteu que per tal classificar els resultats en bons i dolents nomes comprovem si part de la informació que volem es troba dins de la pàgina resultant. Aquesta no és una solució perfecta, però ens permet fer una aproximació sobre la quantitat de fitxers pels quals en podem trobar la referència.
 
 \paragraph{}
-Una altra qüestió sobre la implementació dels tests, és que els resultats obtinguts se solen repetir entre consultes del mateix article. Per estalviar temps i evitar fer moltes peticions seguides als mateixos servidors (que podrien resultar en un bloqueig), deixem uns segons entre petició i petició i emmagatzemem cada resultat de manera que només l'haguem de demanar una sola vegada.
-\paragraph{}
-Tambe hem de comentar que en molts casos, alguns dels resultats corresponen al mateix fitxer PDF del qual estem buscant informació i que, per tant, els hem d'ometre.
+Una altra qüestió sobre la implementació dels tests, és que els resultats obtinguts se solen repetir entre consultes del mateix article. Per estalviar temps i evitar fer moltes peticions seguides als mateixos servidors (que podrien resultar en un bloqueig), deixem uns segons entre petició i petició i emmagatzemem cada resultat de manera que només l'haguem de demanar una sola vegada. A més, en molts casos els resultats corresponen al mateix fitxer PDF del qual estem buscant informació i els hem d'ometre.
 
+\paragraph{}
+Les proves s'han realitzat per conjunts d'articles diferents agrupats depenent la seva capçalera, que és el que pot fer variar més els resultats obtinguts, i un últim grup amb articles de qualsevol tipus. Les figures \ref{fig:results:random-reslen} i \ref{fig:results:random-fqlen} a mostren els resultats d'aquest últim conjunt.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/results:random-reslen.pdf}
+\caption{Comparació de la qualitat dels resultats obtinguts segons la llargada de les consultes}
+\label{fig:results:random-reslen}
+\end{center}
+\end{figure}
+
+\paragraph{}
+Tot i que en algunes ocasions els resultats bons retornats per \textit{Bing} o \textit{Yahoo} són superiors en nombre, en general, el cercador \textit{Google} ofereix major cobertura amb resultats sobre més articles.
+
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/results:random-fqlen.pdf}
+\caption{Comparació del número de consultes necessàries abans de trobar bons resultats}
+\label{fig:results:random-fqlen}
+\end{center}
+\end{figure}
+
+Finalment, respecte les consultes veiem que com mes llargues són, el número de cerques que hem de fer per obtenir bons resultats disminueix. 
 
 \section{Extracció de referències}
-
+text
 
 \section{Inducció de \textit{wrappers}}
+text
+
 
 
 
