@@ -492,6 +492,8 @@ class JSONSearch(Searcher):
                 self._maybe_raise(ParseError, ('Could not find field %s' % 
                                   field), root)
                 return None
+            except TypeError, e:
+                return None
         return current
 
     

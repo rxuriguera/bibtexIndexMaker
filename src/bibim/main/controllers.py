@@ -68,6 +68,43 @@ class Controller(object):
     
 
 class RCEController(Controller):
+    def __init__(self, factory, min_words=MIN_WORDS, max_words=MAX_WORDS,
+                 max_queries=MAX_QUERIES, skip_queries=SKIP_QUERIES):
+        super(RCEController, self).__init__(factory)
+        self.min_words = min_words
+        self.max_words = max_words
+        self.max_queries = max_queries
+        self.skip_queries = skip_queries
+
+    def get_min_words(self):
+        return self.__min_words
+
+    def get_max_words(self):
+        return self.__max_words
+
+    def get_max_queries(self):
+        return self.__max_queries
+
+    def get_skip_queries(self):
+        return self.__skip_queries
+
+    def set_min_words(self, value):
+        self.__min_words = value
+
+    def set_max_words(self, value):
+        self.__max_words = value
+
+    def set_max_queries(self, value):
+        self.__max_queries = value
+        
+    def set_skip_queries(self, value):
+        self.__skip_queries = value
+        
+    min_words = property(get_min_words, set_min_words)
+    max_words = property(get_max_words, set_max_words)
+    max_queries = property(get_max_queries, set_max_queries)
+    skip_queries = property(get_skip_queries, set_skip_queries)
+    
     def extract_content(self, file, target_format):
         content = None
         source_format = FileFormat().get_format(file)
@@ -94,19 +131,32 @@ class RCEController(Controller):
         Extracts query strings from a text and returns a list containing them.
         The list's size is MAX_QUERIES at most.
         """
-        pattern = re.compile("([\w()?!]+[ ]){%d,%d}" % (MIN_WORDS, MAX_WORDS))
+        pattern = re.compile("([\w()?!]+[ ]){%d,%d}" % (self.min_words,
+                                                        self.max_words))
         strings = []
         matches = re.finditer(pattern, text)
-        for i in range(MAX_QUERIES + SKIP_QUERIES): #@UnusedVariable
+        for i in range(self.max_queries + self.skip_queries): #@UnusedVariable
             try:
                 match = matches.next()
                 strings.append('"%s"' % match.group().strip())
             except StopIteration:
                 break
-        return strings[SKIP_QUERIES:]
-    
-    
+        return strings[self.skip_queries:]
+ 
+ 
 class IRController(Controller):
+    def __init__(self, factory, too_many_results=TOO_MANY_RESULTS):
+        super(IRController, self).__init__(factory)
+        self.too_many_results = too_many_results
+
+    def get_too_many_results(self):
+        return self.__too_many_results
+
+    def set_too_many_results(self, value):
+        self.__too_many_results = value
+        
+    too_many_results = property(get_too_many_results, set_too_many_results)
+    
     def get_top_results(self, query_strings, engine=ENGINE):
         """
         Returns a list of search results.
@@ -133,10 +183,10 @@ class IRController(Controller):
             except SearchError, e:
                 log.error(e.error) #@UndefinedVariable
                 break
-            print TOO_MANY_RESULTS
-            if searcher.num_results >= TOO_MANY_RESULTS:
+            
+            if searcher.num_results >= self.too_many_results:
                 log.debug('Search with query %s yielded too many results ' #@UndefinedVariable
-                          '(%d or more)' % (query, TOO_MANY_RESULTS)) 
+                          '(%d or more)' % (query, self.too_many_results)) 
                 continue
 
             results = self._sort_results(results)
@@ -177,15 +227,17 @@ class IRController(Controller):
                 is_in_it = True
                 break
         return is_in_it
-
+    
 
 class IEController(Controller):
-    def __init__(self, factory, target_format=ReferenceFormat.BIBTEX):
+    def __init__(self, factory, target_format=ReferenceFormat.BIBTEX,
+                 max_wrappers=MAX_WRAPPERS):
+        super(IEController, self).__init__(factory)
         self.browser = Browser()
         self.format = target_format
         self.field_validation = {}
         self._set_field_validation()
-        Controller.__init__(self, factory)
+        self.max_wrappers = max_wrappers
         
     def extract_reference(self, top_results, raw_text):
         """
@@ -247,7 +299,7 @@ class IEController(Controller):
         log.debug('Attempting to extract reference with ruled wrappers') #@UndefinedVariable
         fields = {}
         reference = Reference()
-        wrapper_manager = WrapperGateway(max_wrappers=MAX_WRAPPERS)
+        wrapper_manager = WrapperGateway(max_wrappers=self.max_wrappers)
         wrapper_field_collections = wrapper_manager.find_wrapper_collections(source)
         for collection in wrapper_field_collections:
             # Get the wrappers for the current collection
@@ -405,8 +457,16 @@ class IEController(Controller):
 
 class ReferencesController(Controller):
     def __init__(self, factory, format=ReferenceFormat.BIBTEX):
+        super(ReferencesController, self).__init__(factory)
         self.format = format
-        Controller.__init__(self, factory)
+
+    def get_format(self):
+        return self.__format
+
+    def set_format(self, value):
+        self.__format = value
+        
+    format = property(get_format, set_format)
     
     def _parse_entries_file(self, file_path):
         """
@@ -481,3 +541,4 @@ class ReferencesController(Controller):
             extraction_gw.persist_extraction(extraction)
         
         return extractions
+
