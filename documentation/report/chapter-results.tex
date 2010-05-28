@@ -18,7 +18,7 @@ Noteu que per tal classificar els resultats en bons i dolents nomes comprovem si
 Una altra qüestió sobre la implementació dels tests, és que els resultats obtinguts se solen repetir entre consultes del mateix article. Per estalviar temps i evitar fer moltes peticions seguides als mateixos servidors (que podrien resultar en un bloqueig), deixem uns segons entre petició i petició i emmagatzemem cada resultat de manera que només l'haguem de demanar una sola vegada. A més, en molts casos els resultats corresponen al mateix fitxer PDF del qual estem buscant informació i els hem d'ometre.
 
 \paragraph{}
-Les proves s'han realitzat per conjunts d'articles diferents agrupats depenent la seva capçalera, que és el que pot fer variar més els resultats obtinguts, i un últim grup amb articles de qualsevol tipus. Les figures \ref{fig:results:random-reslen} i \ref{fig:results:random-fqlen} a mostren els resultats d'aquest últim conjunt.
+Les proves s'han realitzat per conjunts d'articles diferents agrupats depenent la seva capçalera, que és el que pot fer variar més els resultats obtinguts, i un últim grup amb articles de qualsevol tipus. Els gràfics de les figures \ref{fig:results:random-reslen} i \ref{fig:results:random-fqlen} a mostren els resultats d'aquest últim conjunt.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-reslen.pdf}
@@ -35,24 +35,43 @@ Tot i que en algunes ocasions els resultats bons retornats per \textit{Bing} o \
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-fqlen.pdf}
+\includegraphics[scale=0.8]{figures/results:search-legend.pdf}
 \caption{Comparació del número de consultes necessàries abans de trobar bons resultats}
 \label{fig:results:random-fqlen}
 \end{center}
 \end{figure}
 
-Finalment, respecte les consultes veiem que com mes llargues són, el número de cerques que hem de fer per obtenir bons resultats disminueix. 
+\paragraph{}
+Finalment, respecte les consultes veiem que com mes llargues són, el número de cerques que hem de fer per començar a obtenir bons resultats disminueix. De totes maneres, tal i com ja s'ha dit a la secció \ref{chapter:search:skip-queries}, per és bo que ens saltem les primeres consultes per evitar cercar amb el títol de l'article.
 
-\section{Extracció de referències}
-text
 
 
 \section{Inducció de \textit{wrappers}}
-Hem creat deu conjunts de cinc pàgines web amb informació d'articles diferents i amb la referència corresponent. Les pàgines d'un conjunt corresponen totes a la mateixa biblioteca digital i es tracta de biblioteques d'àmbits diferents: economia, informàtica, etc. Per cada grup hem importat les referències i hem donat l'ordre al sistema de generar els \textit{wrappers} pels camps de cada biblioteca. Les mostres no són significatives, però ens donen una idea per poder quantificar com de bé ho fa el sistema.
+Per provar aquesta part del sistema, hem creat deu conjunts de deu pàgines web amb informació d'articles diferents i amb la referència corresponent. Les pàgines d'un conjunt corresponen totes a la mateixa biblioteca digital. Per cada grup hem importat les referències i hem donat l'ordre al sistema de generar els \textit{wrappers} pels camps de cada biblioteca. Les mostres no són significatives, però ens donen una idea per poder quantificar com de bé funciona l'aplicació dins l'entorn pel qual està pensat.
+
 
 \paragraph{}
-Els camps pels quals el sistema té més dificultat per generar \textit{wrappers} que funcionen són aquells consistents en números petits com poden ser el número de volum.
+Si augmentem el número d'exemples a partir dels quals es generen els \textit{wrappers}, es produeix una explosió combinatòria que, com es pot veure a la figura \ref{fig:results:exec-time}, queda reflectida en els temps d'execució,
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/results:random-fqlen.pdf}
+\caption{Comparació del temps d'execució necessari}
+\label{fig:results:exec-time}
+\end{center}
+\end{figure}
+
+\paragraph{}
+Els camps pels quals es té més dificultat per generar \textit{wrappers} que funcionen són aquells consistents en números petits com poden ser el número de volum.
 També li costa trobar anys en aquells casos en que la pàgina de la biblioteca conté múltiples camps amb el mateix valor, però corresponent a informacions diferents.
 
+Això és degut 
+
+
+
+
+\section{Extracció de referències}
+text
 
 
 

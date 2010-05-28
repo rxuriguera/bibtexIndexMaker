@@ -15,23 +15,36 @@ En el nostre context, anomenarem \textit{wrapper} a una classe que implementa un
 
 A la nostra aplicació tindrem els dos tipus de \textit{wrapper} que es descriuen a continuació.
 
+%%%%% FIELD WRAPPERS %%%%
 \subsection{\textit{Field Wrappers}}
-Es tracta de \textit{wrappers} que s'encarreguen d'extreure únicament un dels camps de la referència a la vegada. 
-
-En un principi vam començar a implementar aquests \textit{wrappers} manualment, però això comporta diversos problemes:
-Aquests 
-
-\subsection{\textit{Reference Wrappers}}
-\label{refextraction:reference-wrappers}
-Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera. El gran avantatge que tenen és que habitualment permeten extreure molta més informació i amb una confiança molt més gran.  Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
+S'encarreguen d'extreure únicament un dels camps de la referència cada vegada. Se'n necessita un per cadascun dels camps que volem extreure per cada biblioteca d'articles que vulguem suportar.
 
 \paragraph{}
-El problema, és que normalment les entrades no es troben a la mateixa pàgina retornada pels cercadors, sinó que cal seguir algun enllaç. A més, hi ha moltes biblioteques digitals que no ofereixen les referències en \BibTeX{} sinó en altres formats com ara \textit{RIS}, \textit{MODS}, etc. Els formats que s'ofereixen depenen força del camp de coneixement en què s'especialitza la biblioteca.
+Internament, aquests tipus de \textit{wrappers} consisteixen en un llistat de regles que cal aplicar en un ordre determinat i que, si tot va bé, dónen com a resultat el valor que volem aconseguir. 
 
+\paragraph{}
+En un principi vam començar a definir aquestes regles manualment, mirant de fer-les prou generals com per poder-les reutilitzar per múltiples biblioteques, però de seguida vam adonar-nos que aquesta és una tasca que consumeix molt temps. A més, els resultats es veuen afectats per qualsevol canvi en l'estructura de les pàgines font. Per tant, vam decidir centrar els recursos en trobar la manera de generar aquests \textit{wrappers} de forma automàtica. Com que aquesta és una de les parts més interessants del projecte, li hem dedicat el capítol \ref{chapter:wrapperinduction} sencer. 
 
+%%%% REFERENCE WRAPPERS %%%%
+\subsection{\textit{Reference Wrappers}}
+\label{refextraction:reference-wrappers}
+Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera. El gran avantatge que tenen és que habitualment permeten extreure molta més informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
 
-Aquests \textit{wrappers} s'han implementat manualment.
+\paragraph{}
+El principal problema és que moltes vegades el text de les referències no es troba a la mateixa pàgina retornada pels cercadors, sinó que cal seguir algun enllaç o realitzar altres accions abans d'obtenir-les. Això complica força la generació automàtica. A més, si tenim en compte el fet que d'aquests \textit{wrappers} només en necessitem un per cada biblioteca, fa que automatitzar-ho no ens aporti un benefici gaire gran. Per tant, hem decidit implementar-los manualment.
 
+\paragraph{}
+En algunes ocasions, aplicant una mica d'enginyeria inversa podem aconseguir alguna drecera per arribar a les referències a partir de les direccions retornades pels cercadors. Un dels casos més senzills és el de la biblioteca digital \textit{ScientificCommons} on per obtenir el codi \BibTeX{} només hem de canviar l'adreça retornada pel cercador:
+\begin{center}
+\begin{lstlisting}[caption={Adreça d'un artice de \textit{ScientificCommons}}, nolol=true]
+Canviem...
+http://en.scientificcommons.org/32119993
+per...
+http://en.scientificcommons.org/export/bibtex/32119993
+\end{lstlisting}
+\end{center}
+
+Un altre inconvenient d'aquest tipus de \textit{wrappers} és que hi ha moltes biblioteques digitals que no ofereixen les referències en \BibTeX{} sinó en altres formats com ara \textit{RIS}, \textit{MODS}, etc. Els formats que s'ofereixen depenen força del camp de coneixement en què s'especialitza la biblioteca.
 
 
 \section{Validació de referències}
@@ -40,5 +53,10 @@ Per poder validar les referències obtingudes a partir dels \textit{reference wra
 
 
 \section{Format de referències}
+Com a detalls de la implementació, només comentar que tindrem un jerarquia de classes anomenades \textit{generadors} (\texttt{Generator}) que, guiades per una classe formatadora (\texttt{Formatter}) permetran generar les referències en el format desitjat.
 
-Com a detalls de la implementació, només comentar que tindrem un jerarquia de classes anomenades \textit{generadors}; que 
+\section{Emmagatzematge}
+\label{chapger:refextraction:storage}
+Totes les referències extretes s'emmagatzemen a la base de dades de l'aplicació per poder-les utilitzar en un futur tant per 
+
+A part de la referència en si, també es desa la consulta extreta del PDF per cercar a Internet i el resultat de la pàgina de la qual s'ha extret la referència.

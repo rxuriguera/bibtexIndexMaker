@@ -1,10 +1,78 @@
-\chapter{Inducció de \textit{Wrappers}}
+\chapter{Generació de \textit{Wrappers}}
 \label{chapter:wrapperinduction}
+Els \textit{field wrappers} 
 
 
+%%%% GENERACIÓ AUTO. DE REGLES %%%%
 \section{Generació automàtica de regles}
+Com ja hem comentat al capítol anterior, els \textit{field wrappers} estan formats per una llista de regles que s'han d'aplicar en un ordre concret per tal de poder extreure el resultat. Per nosaltres una regla està definida per un patró i un procediment per aplicar-lo. En tindrem de diferents tipus segons les dades d'entrada i sortida que reben i retornen. Per poder-les concatenar, cal que la sortida d'una regla sigui vàlida per l'entrada de la següent.
+
+\paragraph{}
+Donat que a nosaltres ens interessa extreure informació de documents HTML, les regles que com a mínim necessitem són: una per localitzar la informació i una altra per extreure el valor.
+
+\paragraph{}
+Per generar les regles és necessari tenir com a mínim dos exemples de referències que continguin el camp que volem obtenir emmagatzemats a la base de dades de l'aplicació. Aquestes referències poden haver estat importades d'un fitxer \texttt{.bib} o bé extretes anteriorment utilitzant \textit{wrappers} que amb el temps han deixat de funcionar.
+Tots els exemples hauran de tenir associada una URL que apunti a una pàgina que conté la informació de la referència. Com hem comentat a la secció \ref{chapger:refextraction:storage}, en el cas de les referències extretes automàticament, aquesta adreça queda emmagatzemada durant l'extracció.
+
+
+\paragraph{}
+El primer pas a realitzar amb els exemples és comprovar que encara són vàlids. Per fer-ho, obtindrem d'Internet la pàgina 
+
 \subsection{Ruta d'un element HTML}
+El patró d'aquest tipus de regles està format per una llista de triples
+Aquest tipus de regles defineixen la ruta per trobar un tros d'informació dins del document HTML que reben com a entrada.
+
 \subsection{Expressió regular}
+xx
+
+\subsection{Regles multi valor}
+Alguns camps com ara els autors o editors tenen múltiples valors. Per poder-los extreure per separat, hem creat variants de les regles anteriors. Assumim que els múltiples valors corresponents al mateix cam copmliran una de les dues condicions següents:
+\begin{itemize}
+\item{}
+Es troben en elements HTML diferents, però són germans o cosins. Aquesta condició permet extreure valors quan es troben tant en llistes com en taules:
+
+\begin{center}
+\begin{minipage}{0.45\linewidth}
+\begin{lstlisting}[language=HTML, title={Germans}, nolol=true]
+<ul>
+  <li>
+    Liu Jing
+  </li>
+  <li>
+  Li Jiandong
+  </li>
+  <li>
+    Chen Yanhui
+  </li>
+</ul>
+\end{lstlisting} 
+\end{minipage}
+\begin{minipage}{0.53\linewidth}
+\begin{lstlisting}[language=HTML, title={Cosins}, nolol=true]
+<table>
+  <tr>
+    <td>Autors:</td>
+    <td>Liu Jing</td>
+  </tr>
+  
+  <tr>
+    <td></td>
+    <td>Li Jiandong</td>
+  </tr>
+</table>
+\end{lstlisting}  
+\end{minipage}
+\end{center}
+
+\item{}
+Es troben dins el mateix HTML amb un o més separadors entre ells. Per exemple, els tres autors següents estan separats per les cadenes ``, '' i `` and ''.
+\begin{center}
+\begin{lstlisting}[language=HTML, caption={Exemple múltiples valors}, label=listing:exampleSiblingElements]
+<td>Liu Jing, Li Jiandong and Chen Yanhui</td>
+\end{lstlisting}
+\end{center}
+
+\end{itemize}
 
 \section{Avaluació dels \textit{wrappers}}
 Una vegada hem generat el conjunt dels \textit{wrappers} possibles per a un conjunt de documents, cal que avaluem quins d'ells funcionen millor. Utilitzem un sistema de vots positius i negatius i en calculem la mitjana amb la següent fórmula:
