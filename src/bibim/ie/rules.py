@@ -28,6 +28,8 @@ MINIMUM_RATIO = 0.5
 SIMILARITY_THRESHOLD = 0.8
 MAX_SEPARATOR_CHARS = 10
 MAX_REGEX_PATTERN_LEN = 40
+MAX_CONTENT_ELEMENTS = 15
+
 
 class DummyRule(Rule):
     def __init__(self, pattern=[]):
@@ -293,6 +295,7 @@ class RegexRuler(Ruler):
     def _merge_patterns(self, g_pattern, s_pattern):
         log.debug('Merging RegexRuler patterns %s, %s' % #@UndefinedVariable
                   (g_pattern, s_pattern))
+        
         sm = difflib.SequenceMatcher(None, g_pattern, s_pattern)
         while not sm.quick_ratio() == 1.0:
             matching_blocks = sm.get_matching_blocks()
@@ -306,6 +309,15 @@ class RegexRuler(Ruler):
             s_pattern = self._replace_non_matching_block(s_pattern,
                                                        matching_blocks,
                                                        1)
+            
+            while '(?:.*)(?:.*)' in g_pattern:
+                g_pattern = g_pattern.replace('(?:.*)(?:.*)', '(?:.*)')
+            while '(?:.*)(?:.*)' in s_pattern:
+                s_pattern = s_pattern.replace('(?:.*)(?:.*)', '(?:.*)')
+            
+            log.debug('G_pattern: %s' % g_pattern) #@UndefinedVariable
+            log.debug('S_pattern: %s' % s_pattern) #@UndefinedVariable
+            
             sm.set_seqs(g_pattern, s_pattern)
         return g_pattern
     
@@ -497,7 +509,7 @@ class PathRuler(Ruler):
         except NameError, e:
             log.error("Example's content is not an HTML document: %s" % e) #@UndefinedVariable
             elements = []
-        return elements
+        return elements[:MAX_CONTENT_ELEMENTS]
 
     def _should_merge(self, g_rule, s_rule):
         """
@@ -605,7 +617,7 @@ class MultiValuePathRuler(PathRuler):
         if not count:
             return []        
         
-        # If there's only one author
+        # If there's only one value
         first_rules = rule_example(Example(values[0], example.content))
         if count == 1:
             for rule in first_rules:
