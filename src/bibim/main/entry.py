@@ -94,6 +94,9 @@ class WrapperGenerator(threading.Thread):
     def run(self):
         self.generate_wrappers()
 
+    def set_wrapper_gen_examples(self, num_examples):
+        self.ie_controller.wrapper_gen_examples = num_examples
+
     def generate_wrappers(self):
         self.ie_controller.generate_wrappers(self.url)
 
