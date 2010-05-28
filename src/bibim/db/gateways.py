@@ -34,6 +34,7 @@ from bibim.references.reference import Reference
 from bibim.util.browser import (Browser,
                                 BrowserError)
 from bibim.util.beautifulsoup import BeautifulSoup
+from bibim.util.helpers import ContentCleaner
 
 class Gateway(object):
     def __init__(self, session=None):
@@ -215,7 +216,7 @@ class ExampleGateway(Gateway):
         self.max_examples_from_db = max_examples_from_db
         self.seconds_between_requests = seconds_between_requests
     
-    def get_examples(self, nexamples, url=u'', min_validity='0.5'):
+    def get_examples(self, nexamples, url=u'', min_validity=0.5, break_on_max=True):
         """
         Creates examples from the available references in the database. The
         references to use can be filtered depending on the validity and the 
@@ -262,7 +263,7 @@ class ExampleGateway(Gateway):
                 examples['editor'].append(Example(editors, content))
         
             # Break if we already have enough examples for all of the fields
-            if min(map(len, examples.values())) >= nexamples:
+            if min(map(len, examples.values())) >= nexamples and break_on_max:
                 break    
            
         return examples
@@ -289,21 +290,12 @@ class ExampleGateway(Gateway):
         content = None
         try:
             content = Browser().get_page(url)
-            content = self._clean_content(content)
+            content = ContentCleaner().clean_content(content)
             content = BeautifulSoup(content) if content else None
         except BrowserError as e:
             log.error('Error retrieving page %s: %s' % (url, #@UndefinedVariable
                                                         e.error))
         self.last_request = datetime.now()
-        return content
-
-    def _clean_content(self, content):
-        if not content:
-            return None
-        content = content.replace('\n', ' ')
-        content = content.replace('\r', '')
-        content = content.replace('\t', '')
-        content = content.replace('&nbsp;', ' ')
         return content
     
     def _check_still_valid(self, mapper, content, min_validity):
@@ -322,7 +314,7 @@ class ExampleGateway(Gateway):
         # can be found.
         not_found = 0.0
         for field in mapper.fields:
-            found = content.find(text=re.compile(field.value))
+            found = content.find(text=re.compile(re.escape(field.value)))
             if not found:
                 log.info('Field %s with value %s cannot be found anymore in %d' #@UndefinedVariable
                          % (field.name, field.value, mapper.id))

@@ -33,3 +33,19 @@ class FileFormat(Format):
 
 class ReferenceFormat(Format):
     BIBTEX = 'bibtex'
+
+class ContentCleaner(object):
+    def __init__(self):
+        pass
+    
+    def clean_content(self, content):
+        if not content:
+            return None
+        content = content.replace('\n', ' ')
+        content = content.replace('\r', '')
+        content = content.replace('\t', '')
+        content = content.replace('&amp;', '&')
+        content = content.replace('&#x2013;', '-')
+        content = content.replace('&nbsp;', ' ')
+        return content
+    

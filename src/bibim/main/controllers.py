@@ -44,7 +44,8 @@ from bibim.util import (Browser,
                         BeautifulSoup)
 from bibim.util.config import configuration
 from bibim.util.helpers import (FileFormat,
-                                ReferenceFormat)
+                                ReferenceFormat,
+                                ContentCleaner)
 
 # Retrieve constants' value from the configuration file
 MIN_WORDS = configuration.search_properties['min_query_length']         
@@ -231,13 +232,25 @@ class IRController(Controller):
 
 class IEController(Controller):
     def __init__(self, factory, target_format=ReferenceFormat.BIBTEX,
-                 max_wrappers=MAX_WRAPPERS):
+                 max_wrappers=MAX_WRAPPERS,
+                 max_examples=MAX_EXAMPLES,
+                 max_examples_from_db=MAX_EXAMPLES_FROM_DB,
+                 min_validity=MIN_VALIDITY,
+                 secs_between_reqs=SECONDS_BETWEEN_REQUESTS,
+                 wrapper_gen_examples=WRAPPER_GEN_EXAMPLES):
         super(IEController, self).__init__(factory)
         self.browser = Browser()
         self.format = target_format
         self.field_validation = {}
         self._set_field_validation()
+        
         self.max_wrappers = max_wrappers
+        self.max_examples = max_examples
+        self.max_examples_from_db = max_examples_from_db
+        self.min_validity = min_validity
+        self.secs_between_reqs = secs_between_reqs
+        self.wrapper_gen_examples = wrapper_gen_examples
+        
         
     def extract_reference(self, top_results, raw_text):
         """
@@ -259,7 +272,7 @@ class IEController(Controller):
                                                             e.error))
                 continue
             
-            page = self._clean_content(page)
+            page = ContentCleaner().clean_content(page)
             page = BeautifulSoup(page)
             
             references = self._use_reference_wrappers(result.base_url, page,
@@ -279,18 +292,6 @@ class IEController(Controller):
         
         # Return the extracted reference and the result that has been used
         return (references, result)
-    
-    def _clean_content(self, content):
-        """
-        Removes blank spaces from the retrieved page
-        """
-        if not content:
-            return None
-        content = content.replace('\n', ' ')
-        content = content.replace('\r', '')
-        content = content.replace('\t', '')
-        content = content.replace('&nbsp;', ' ')
-        return content
     
     def _use_rule_wrappers(self, source, page, raw_text):
         """
@@ -429,15 +430,18 @@ class IEController(Controller):
      
     def generate_wrappers(self, url):
         wrapper_manager = WrapperGateway()
-        example_manager = ExampleGateway(max_examples_from_db=
-                                        MAX_EXAMPLES_FROM_DB,
-                                        seconds_between_requests=
-                                        SECONDS_BETWEEN_REQUESTS)
-        example_sets = example_manager.get_examples(WRAPPER_GEN_EXAMPLES, url,
-                                                    MIN_VALIDITY)
+        example_manager = ExampleGateway(max_examples=self.max_examples,
+                                         max_examples_from_db=
+                                         self.max_examples_from_db,
+                                         seconds_between_requests=
+                                         self.secs_between_reqs)
+        example_sets = example_manager.get_examples(self.wrapper_gen_examples,
+                                                    url, self.min_validity)
         
         rulers = []
         for set in example_sets:
+            log.info('Starting wrapper training for set %s' % set) #@UndefinedVariable
+            
             # TODO: Uncomment editor
             if set == 'author':# or set == 'editor':
                 rulers = [MultiValuePathRuler(),
@@ -447,7 +451,7 @@ class IEController(Controller):
             else:
                 rulers = [PathRuler(), RegexRuler()] 
         
-            trainer = WrapperTrainer(rulers, WRAPPER_GEN_EXAMPLES)
+            trainer = WrapperTrainer(rulers, self.wrapper_gen_examples)
             try:
                 wrappers = trainer.train(example_sets[set])
                 wrapper_manager.persist_wrappers(url, set, wrappers)
