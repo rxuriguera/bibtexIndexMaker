@@ -3,6 +3,9 @@
 En aquest capítol es mostren les principals proves realitzades per cadascuna de les tres parts del sistema que hem descrit als capítols anteriors
 
 
+
+
+%%%% REFERENCE SEARCH %%%%
 \section{Cerca de referències}
 En primer lloc provarem com de bé ho fa el sistema a l'hora de cercar pàgines a Internet que continguin informació sobre un article concret. Els tests que hem dut a terme consisteixen en els passos següents:
 \begin{enumerate}
@@ -19,7 +22,7 @@ Una altra qüestió sobre la implementació dels tests, és que els resultats obting
 
 \paragraph{}
 Les proves s'han realitzat per conjunts d'articles diferents agrupats depenent la seva capçalera, que és el que pot fer variar més els resultats obtinguts, i un últim grup amb articles de qualsevol tipus. Els gràfics de les figures \ref{fig:results:random-reslen} i \ref{fig:results:random-fqlen} a mostren els resultats d'aquest últim conjunt.
-\begin{figure}[h!]
+\begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-reslen.pdf}
 \caption{Comparació de la qualitat dels resultats obtinguts segons la llargada de les consultes}
@@ -32,7 +35,7 @@ Tot i que en algunes ocasions els resultats bons retornats per \textit{Bing} o \
 
 
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-fqlen.pdf}
 \includegraphics[scale=0.8]{figures/results:search-legend.pdf}
@@ -46,14 +49,47 @@ Finalment, respecte les consultes veiem que com mes llargues són, el número de c
 
 
 
-\section{Inducció de \textit{wrappers}}
-Per provar aquesta part del sistema, hem creat deu conjunts de deu pàgines web amb informació d'articles diferents i amb la referència corresponent. Les pàgines d'un conjunt corresponen totes a la mateixa biblioteca digital. Per cada grup hem importat les referències i hem donat l'ordre al sistema de generar els \textit{wrappers} pels camps de cada biblioteca. Les mostres no són significatives, però ens donen una idea per poder quantificar com de bé funciona l'aplicació dins l'entorn pel qual està pensat.
+
+
+
+
+
+%%%% WRAPPER INDUCTION %%%%
+\section{Generació de \textit{wrappers}}
+\label{chapter:results:section:wrapperinduction}
+Per provar aquesta part del sistema, hem creat de pàgines web amb informació d'articles diferents i amb la referència corresponent. Les pàgines que inclou un grup corresponen totes a la mateixa biblioteca digital. Per cadascun d'aquests conjunts hem importat les referències i hem donat l'ordre al sistema de generar els \textit{wrappers} pels camps de cada biblioteca. Les mostres no són significatives, però ens donen una idea per poder quantificar com de bé funciona l'aplicació dins l'entorn pel qual està pensat.
+
+\paragraph{}
+Els resultats d'aquestes proves corresponen a les puntuacions rebudes durant l'avaluació dels \textit{wrappers} i que permeten marcar un ordre d'elecció inicial a l'hora d'extreure referències. Com que de moment encara no hem fet proves amb pàgines que no s'han emprat per la generació (ho farem a la propera secció), parlarem de \textit{confiança} enlloc de correctesa. 
+
+\paragraph{}
+Com ja s'ha dit a la secció \ref{chapter:definition:section:bibtex}, els camps obligatoris que han de contenir les referències d'articles són: \textit{author}, \textit{title}, \textit{journal} i \textit{year}. A continuació mirarem dos d'aquests camps, la informació sobre la resta es poden trobar a l'apèndix \ref{appendix:results:section:wrapperinduction}.
+
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/results:coverage-journal.pdf}
+\caption{Cobertura dels \textit{wrappers} pel camp \textit{journal}}
+\label{fig:results:coverage-journal}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/results:coverage-year.pdf}
+\caption{Cobertura dels \textit{wrappers} pel camp \textit{year}}
+\label{fig:results:coverage-year}
+\end{center}
+\end{figure}
+
+
 
 
 \paragraph{}
 Si augmentem el número d'exemples a partir dels quals es generen els \textit{wrappers}, es produeix una explosió combinatòria que, com es pot veure a la figura \ref{fig:results:exec-time}, queda reflectida en els temps d'execució,
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-fqlen.pdf}
 \caption{Comparació del temps d'execució necessari}
@@ -69,7 +105,7 @@ Això és degut
 
 
 
-
+%%%% REFERENCE EXTRACTION %%%%
 \section{Extracció de referències}
 text
 

@@ -4,6 +4,7 @@
 
 
 \section{\BibTeX}
+\label{chapter:definition:section:bibtex}
 Per poder entendre el context del projecte cal que descrivim l'eina de maneig de referències \BibTeX{} i la sintaxi del llenguatge que utilitza. 
 En el nostre cas farem servir aquest llenguatge com a format de sortida al generar els índexos bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic expressat en el format \BibTeX:
 \begin{center}
@@ -22,7 +23,7 @@ En el nostre cas farem servir aquest llenguatge com a format de sortida al gener
 Alguns aspectes a comentar sobre l'exemple anterior:
 \begin{itemize}
 \item{}
-La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps: \textit{author}, \textit{title}, \textit{journal} i \textit{year}.
+La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps \textit{author}, \textit{title}, \textit{journal} i \textit{year}, que són obligatoris.
 
 \item{}
 Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last}, \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem amb \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
