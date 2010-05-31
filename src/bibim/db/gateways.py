@@ -291,7 +291,6 @@ class ExampleGateway(Gateway):
         try:
             content = Browser().get_page(url)
             content = ContentCleaner().clean_content(content)
-            content = BeautifulSoup(content) if content else None
         except BrowserError as e:
             log.error('Error retrieving page %s: %s' % (url, #@UndefinedVariable
                                                         e.error))
