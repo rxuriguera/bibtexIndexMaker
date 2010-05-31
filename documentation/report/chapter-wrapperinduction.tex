@@ -1,29 +1,134 @@
 \chapter{Generació de \textit{Wrappers}}
 \label{chapter:wrapperinduction}
-Els \textit{field wrappers} 
 
+%%%% OBTENCIÓ D'EXEMPLES %%%%
+\section{Obtenció d'exemples}
+Per poder generar \textit{field wrappers}, es necessiten exemples del camp que es vol extreure. Un exemple està format pel valor que volem obtenir i pel context en el qual es troba aquest valor. S'obtenen a partir de les referències emmagatzemades a la base de dades de l'aplicació, que poden haver estat importades d'un fitxer \texttt{.bib} o bé extretes anteriorment utilitzant \textit{wrappers} que amb el temps han deixat de funcionar.
+Totes les referències hauran de tenir associada una URL que apunti a una pàgina que conté la informació de la referència. En el cas de les que s'han extret automàticament, aquesta adreça es desa durant l'extracció.
+
+\paragraph{}
+A l'inici, el context dels valors dels nostres exemples es tracta del document HTML de la pàgina de la referència. Per tant, el primer pas consisteix en obtenir aquestes pàgines d'Internet. Tot i que per cadascun dels camps es generen \textit{sets} d'exemples diferents, les pàgines són les mateixes i només es descarreguen una sola vegada. Tot i així, com que totes es trobaran a la mateixa biblioteca, les peticions les procesa el mateix servidor i, per tal d'evitar bloquejos, l'aplicació espera uns segons entre petició i petició. Un cop tenim els exemples generats, mirem si el codi HTML conté la informació que volem extreure. Si no és així, l'exemple es marca com a invàlid per tal de no tornar-lo a utilitzar en un futur.
+
+\paragraph{}
+El codi HTML es neteja per treure'n els comentaris, salts de línia, i altres etiquetes que no ens interessen, com ara codi \textit{JavaScript} o etiquetes d'estil. El número d'exemples a utilitzar per generar els \textit{field wrappers} és configurable, però com a mímin es necessiten dos exemples vàlids.
 
 %%%% GENERACIÓ AUTO. DE REGLES %%%%
 \section{Generació automàtica de regles}
-Com ja hem comentat al capítol anterior, els \textit{field wrappers} estan formats per una llista de regles que s'han d'aplicar en un ordre concret per tal de poder extreure el resultat. Per nosaltres una regla està definida per un patró i un procediment per aplicar-lo. En tindrem de diferents tipus segons les dades d'entrada i sortida que reben i retornen. Per poder-les concatenar, cal que la sortida d'una regla sigui vàlida per l'entrada de la següent.
+Al capítol anterior s'ha explicat que els \textit{field wrappers} estan formats per una llista de regles que s'han d'aplicar en un ordre concret per tal de poder extreure el resultat. Per nosaltres una regla està composta per un patró i un procediment que aplica aquest patró. Tenim de diferents tipus de regles segons les dades d'entrada i sortida que es reben i retornen i, per poder-les concatenar, és necessari que la sortida d'una regla sigui vàlida per l'entrada de la següent.
 
 \paragraph{}
-Donat que a nosaltres ens interessa extreure informació de documents HTML, les regles que com a mínim necessitem són: una per localitzar la informació i una altra per extreure el valor.
+Tot i que per cada tipus de regla els detalls varien, els dos passos bàsics que se segueixen per crear les regles és el següent:
+\begin{enumerate}
+    \item{Generem regles per un dels exemples.}
+    \item{Fusionem les regles amb les que s'han obtingut prèviament.}
+\end{enumerate}
 
 \paragraph{}
-Per generar les regles és necessari tenir com a mínim dos exemples de referències que continguin el camp que volem obtenir emmagatzemats a la base de dades de l'aplicació. Aquestes referències poden haver estat importades d'un fitxer \texttt{.bib} o bé extretes anteriorment utilitzant \textit{wrappers} que amb el temps han deixat de funcionar.
-Tots els exemples hauran de tenir associada una URL que apunti a una pàgina que conté la informació de la referència. Com hem comentat a la secció \ref{chapger:refextraction:storage}, en el cas de les referències extretes automàticament, aquesta adreça queda emmagatzemada durant l'extracció.
+Donat que ens interessa extreure informació de documents HTML, les regles que necessitem són: una per localitzar l'etiqueta que conté la informació i una altra per extreure'n el valor.
 
+
+\subsection{\textit{Path Rules}}
+Aquest tipus de regles són les que permeten localitzar trossos d'informació dins de la pàgina. Els patrons permeten arribar a l'etiqueta HTML i tenen l'aspecte que es mostra a continuació. Estan formats per una expressió regular i una llista de \textit{triplets} compostos per l'etiqueta HTML, els atributs i la seva posició respecte els seus \textit{germans}: 
+\begin{center}
+\begin{lstlisting}
+['(\d{4}-\d{3}(\d|X))', (u'table', {u'width': u'100%'}, 7), (u'tr', {}, 0), (u'td', {}, 0)]
+\end{lstlisting}
+\end{center}
 
 \paragraph{}
-El primer pas a realitzar amb els exemples és comprovar que encara són vàlids. Per fer-ho, obtindrem d'Internet la pàgina 
+Per generar aquests patrons, cerquem el valor que volem extreure dins de l'HTML i anem pujant l'arbre sintàctic que descriu el document fins arribar a un element antecessor amb nom d'etiqueta i atributs únics. Per cada element en guardem les seves característiques de manera que després puguem recórrer el camí invers.
 
-\subsection{Ruta d'un element HTML}
-El patró d'aquest tipus de regles està format per una llista de triples
-Aquest tipus de regles defineixen la ruta per trobar un tros d'informació dins del document HTML que reben com a entrada.
+\paragraph{}
+Pel que fa al número de \textit{sibling} o germà, només l'utilitzem per agilitzar el procés de cerca de la informació a l'hora d'aplicar la regla. En un principi havíem pensat distingir elements segons la seva posició respecte als germans, però això no funciona en aquells casos on múltiples pàgines d'una biblioteca digital mostren la mateixa informació en un ordre diferent. Per exemple, si tinguéssim els dos fragments de codi següents, al cercar el número de volum acabaríem amb les rutes: \texttt{[(table, 0), (tr, \textbf{1}), (td, 0)]} i \texttt{[(table, 0), (tr, \textbf{0}), (td, 0)]}.
 
-\subsection{Expressió regular}
-xx
+\begin{center}
+\begin{minipage}{0.48\linewidth}
+\begin{lstlisting}[language=HTML, nolol=true]
+<table>
+  <tr>
+    <td class='label'>
+      Year:
+    </td>
+    <td class='value'>
+      1985
+    </td>
+  </tr>
+  <tr>
+    <td class='label'>
+      Volume:
+    </td>
+    <td class='value'>
+      323
+    </td>
+  </tr>
+</table>
+\end{lstlisting} 
+\end{minipage}
+\hspace{0cm}
+\begin{minipage}{0.48\linewidth}
+\begin{lstlisting}[language=HTML, nolol=true]
+<table>
+  <tr>
+    <td class='label'>
+      Volume:
+    </td>
+    <td class='value'>
+      468
+    </td>
+  </tr>
+  <tr>
+    <td class='label'>
+      Issue:
+    </td>
+    <td class='value'>
+      3
+    </td>
+  </tr>
+</table>
+\end{lstlisting}  
+\end{minipage}
+\end{center}
+
+\paragraph{}
+A l'hora de fusionar dos patrons, només ho fem si coincideixen en la llargada, les etiquetes i els atributs dels elements de la ruta. És a dir, només modifiquem el número de germà: quan dues rutes tenen el mateix número, el deixem tal i com està; si el tenen diferent, el substituïm amb el valor $-1$. Quan apliquem el patró i veiem un $-1$, fem una cerca de tots els elements enlloc d'escollir-ne un directament. Això implica que enlloc d'obtenir un sol element com a resultat, en molts casos en tindrem més d'un. Aquí és on entra en joc l'expressió regular de l'inici de la regla. Amb aquesta expressió, podem ajudar a l'aplicació a descartar elements que no ens interessen i la podem definir al fitxer de configuració (una per cada camp).
+
+\paragraph{}
+Com és lògic, en alguns casos ens serà més útil que en altres. Per exemple, si estem intentant extreure l'ISSN d'un article, podem indicar-li l'expressió \texttt{(\textbackslash{}d\{4\}-\textbackslash{}d\{3\}(\textbackslash{}d|X))}. En canvi, pels valors que no tenen cap tipus d'estructura, com ara els noms de revistes, no ens quedarà cap més remei que deixar-ho amb el valor per defecte \texttt{(.*)}.
+
+\paragraph{}
+Aquesta expressió regular també ens servirà per corregir el comportament dels \textit{wrappers} una vegada generats. Per exemple, si veiem que l'any de publicació no s'extreu correctament per una biblioteca determinada, podem fer l'expressió més restrictiva.
+
+
+%\begin{center}
+%\begin{lstlisting}[caption={\textit{Merging} de \textit{path rules}}]
+%Els patrons
+%['(.*)', (u'table', {}, 7), (u'tr', {}, 2), (u'td', {}, 0)]
+%['(.*)', (u'table', {}, 7), (u'tr', {}, 3), (u'td', {}, 0)]
+%
+%Quedaria:
+%[['(.*)', (u'table', {}, 7), (u'tr', {}, -1), (u'td', {}, 0)]]
+%
+%En canvi:
+%['(.*)', (u'table', {}, 7), (u'tbody', {}, 0), (u'tr', {}, 2), (u'td', {}, 0)]
+%['(.*)', (u'table', {}, 7), (u'tr', {}, 3), (u'td', {}, 0)]
+%
+%Quedaria:
+%[['(.*)', (u'table', {}, 7), (u'tbody', {}, 0), (u'tr', {}, 2), (u'td', {}, 0)],
+% ['(.*)', (u'table', {}, 7), (u'tr', {}, 3), (u'td', {}, 0)]]
+%
+%\end{lstlisting}
+%\end{center}
+
+
+
+\subsection{\textit{Regex Rules}}
+Aquest tipus de regles reben una cadena de caràcters com a entrada i li apliquen una expressió regular generada automàticament per tal de quedar-se només amb una part de la cadena. Permeten extreure un camp quan aquest està dins un element del document HTML, mesclat amb més text.
+
+\paragraph{}
+Per generar les expressions regulars, agafem el text dels elements HTML que ens han proporcionat les \textit{path rules} i fem una substitució del valor que volem obtenir per \texttt{(.*)}.
+
+\paragraph{}
+La tècnica que fem servir per decidir si hem de fusionar dues expressions o no és molt senzilla. Simplement fem \textit{string matching} de les expressions i mirem si tenen una similaritat major que un llindar establert. En cas afirmatiu, obtenim els blocs no coincidents de les dues cadenes de caràcters i els substituïm per \texttt{(?:.*)} \footnote{En \textit{Python}, la fòrmula \texttt{(?:...)} indica que es pot descartar el que hi ha dins els parèntesis.}. 
 
 \subsection{Regles multi valor}
 Alguns camps com ara els autors o editors tenen múltiples valors. Per poder-los extreure per separat, hem creat variants de les regles anteriors. Assumim que els múltiples valors corresponents al mateix cam copmliran una de les dues condicions següents:
