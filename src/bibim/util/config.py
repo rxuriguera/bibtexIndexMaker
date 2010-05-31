@@ -107,12 +107,13 @@ class BibimConfig(object):
         
         return values
     
-    def _get_validation_properties(self, section='wrappers', name='field_validation', default={}):
+    def _get_validation_properties(self, section='wrappers',
+                                   name='field_validation', default={}):
         """
         Returns a dictionary of tuples associated to fields
         """
         if not self._parser.has_option(section, name):
-            return default is None and None or []
+            return default is None and None or {}
         lines = self._parser.get(section, name).split('\n')
         # crappy pattern matching
         def _rep(match):
@@ -126,6 +127,36 @@ class BibimConfig(object):
             value_list = [float(line[1])]
             value_list.extend([el.strip() for el in line[2:]])
             return line[0].strip(), value_list
+            
+        values = {}
+        for line in lines:
+            if line.strip() == '':
+                continue
+            key, value = _args(line)
+            values[key] = value
+        
+        return values
+
+    def _get_value_guide_properties(self, section='wrappers',
+                                    name='value_guide', default={}):
+        """
+        Returns a dictionary of tuples associated to fields
+        """
+        if not self._parser.has_option(section, name):
+            return default is None and None or {}
+        lines = self._parser.get(section, name).split('\n')
+        # crappy pattern matching
+        def _rep(match):
+            return match.groups()[0].replace(' ', ':::')
+        def _args(line):
+            line = re.sub(r'"(.*?)"', _rep, line)
+            # Elements must be separated by semicolons in the configuration
+            # file
+            line = [element.replace(':::', ' ').strip()
+                    for element in line.split(';') if element != '']
+            if len(line) < 2:
+                line.append('.*')
+            return line[0], line[1]
             
         values = {}
         for line in lines:
@@ -176,6 +207,8 @@ class BibimConfig(object):
             int(self._get_simple_field('wrappers', 'max_wrappers', 50)))
         properties['field_validation'] = (
             self._get_validation_properties())
+        properties['value_guide'] = (
+            self._get_value_guide_properties())
         properties['min_validity'] = (
             float(self._get_simple_field('wrappers', 'min_validity', 0.7))) 
         properties['wrapper_gen_examples'] = (

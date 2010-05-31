@@ -243,6 +243,7 @@ class IEController(Controller):
         self.format = target_format
         self.field_validation = {}
         self._set_field_validation()
+        self.value_guides = configuration.wrapper_properties['value_guide']
         
         self.max_wrappers = max_wrappers
         self.max_examples = max_examples
@@ -273,7 +274,6 @@ class IEController(Controller):
                 continue
             
             page = ContentCleaner().clean_content(page)
-            page = BeautifulSoup(page)
             
             references = self._use_reference_wrappers(result.base_url, page,
                                                       raw_text)
@@ -427,7 +427,7 @@ class IEController(Controller):
             new_values = [values[0]]
             new_values.append(ValidatorFactory.create_validator(values[1], *values[2:]))
             self.field_validation[field] = new_values
-     
+    
     def generate_wrappers(self, url):
         wrapper_manager = WrapperGateway()
         example_manager = ExampleGateway(max_examples=self.max_examples,
@@ -442,6 +442,10 @@ class IEController(Controller):
         for set in example_sets:
             log.info('Starting wrapper training for set %s' % set) #@UndefinedVariable
             
+            # TODo: Remove
+            #if set != 'year':
+            #    continue
+            
             # TODO: Uncomment editor
             if set == 'author':# or set == 'editor':
                 rulers = [MultiValuePathRuler(),
@@ -449,7 +453,12 @@ class IEController(Controller):
                           ElementsRegexRuler(),
                           PersonRuler()]
             else:
-                rulers = [PathRuler(), RegexRuler()] 
+                try:
+                    value_guide = self.value_guides[set]
+                    pass
+                except KeyError:
+                    value_guide = '.*'
+                rulers = [PathRuler(value_guide), RegexRuler()] 
         
             trainer = WrapperTrainer(rulers, self.wrapper_gen_examples)
             try:

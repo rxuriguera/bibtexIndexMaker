@@ -21,13 +21,14 @@ import difflib #@UnresolvedImport
 
 from bibim import log
 from bibim.ie.types import Rule, Example
-from bibim.references.util import split_name 
+from bibim.references.util import split_name
+from bibim.util.beautifulsoup import NavigableString
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
 SIMILARITY_THRESHOLD = 0.8
 MAX_SEPARATOR_CHARS = 10
-MAX_REGEX_PATTERN_LEN = 40
+MAX_REGEX_PATTERN_LEN = 200
 MAX_CONTENT_ELEMENTS = 15
 
 
@@ -56,6 +57,10 @@ class PersonRule(Rule):
         names = []
         for person in input:
             person = re.sub('\d', '', person)
+            person = person.strip()
+            if not person:
+                continue
+            
             name = split_name(person)
             if name:
                 names.append(name)
@@ -68,6 +73,16 @@ class RegexRule(Rule):
     output a tuple with all the matching groups 
     """
     def apply(self, input):
+        if not type(input) is list:
+            input = [input]
+        
+        for i in input:
+            result = self._apply_single_input(i)
+            if result:
+                return result
+        return ''
+        
+    def _apply_single_input(self, input):
         log.debug('Applying RegexRule with pattern %s' % self.pattern) #@UndefinedVariable
         regex = re.compile(self.pattern)
         
@@ -121,38 +136,63 @@ class PathRule(Rule):
     """
     def apply(self, input):
         log.debug('Applying PathRule') #@UndefinedVariable
-        element = self._get_path_element(self.pattern, input)
-        try:
-            return element.find(name=True, text=True)
-        except:
-            return ''
+        pattern = list(self.pattern)
+        self.value_guide = pattern.pop(0)
+        elements = self._get_path_element(pattern, input)
+        return self._choose_element(elements)
     
     def _get_path_element(self, path, input):
         log.debug('Get path element for path: %s' % str(path)) #@UndefinedVariable
         # Make a local copy
         path = list(path)
         if not path:
-            return None
+            return []
         current = input
         tag, attrs, sibling = path.pop(0)
         
         # First element from the path must be unique
         elements = current.findAll(tag, attrs)
         if len(elements) != 1:
-            return None
+            return []
         current = elements[0]
         
-        for tag, attrs, sibling in path:
-            try:
-                if sibling >= 0:
-                    current = current.contents[sibling]
-                else:
-                    current = current.find(name=tag, attrs=attrs)
-            except:
-                current = None
-                break
-        return current
+        return self._get_elements(path, current, [])
+    
+    def _get_elements(self, path, start, elements):
+        # Check if start tag is valid
+        if not hasattr(start, 'contents'):
+            return elements
+    
+        if not path:
+            elements.append(start)
+            return elements
+        
+        tag, attrs, sibling = path.pop(0)
+        if sibling >= len(start.contents):
+            sibling = -1
 
+        # Has a sibling defined
+        if sibling >= 0:
+            start = start.contents[sibling]
+            return self._get_elements(list(path), start, elements)
+        
+        # Try all siblings
+        start_elements = start.findAll(name=tag, attrs=attrs)
+        
+        for start in start_elements:
+            elements.extend(self._get_elements(list(path), start, []))
+        return elements
+    
+    def _choose_element(self, elements):
+        matches = []
+        for element in elements:
+            texts = element.findAll(name=True, text=True)
+            element_text = ''.join(texts) 
+            match = re.search(self.value_guide, element_text)
+            if match:
+                matches.append(element_text)
+        return matches
+        
 
 class MultiValuePathRule(Rule):
     """
@@ -163,7 +203,9 @@ class MultiValuePathRule(Rule):
     def apply(self, input):
         log.debug('Applying MultiValuePathRule') #@UndefinedVariable
         values = []
-        elements = self._get_path_elements(self.pattern, input)
+        pattern = list(self.pattern)
+        self.value_guide = pattern.pop(0)
+        elements = self._get_path_elements(pattern, input)
         for element in elements:
             try:
                 text = ''.join(element.findAll(text=True))
@@ -274,20 +316,35 @@ class RegexRuler(Ruler):
     
     def _rule_example(self, example):
         log.debug('Ruling example with RegexRuler') #@UndefinedVariable
+        rules = []
+        
+        if type(example.content) is str or type(example.content) is unicode:
+            example.content = [str]
+        
+        for element in example.content:
+            rule = self._rule_example_content(example.value, element)
+            if rule:
+                rules.append(rule)
+        return rules
+    
+    def _rule_example_content(self, value, content):
         try:
-            text = example.content.strip()
+            text = content.strip()
         except Exception, e:
             log.warn('Error stripping %s: %s' % (str(example.content)[:40], e)) #@UndefinedVariable
-            return []
-        text = re.escape(text)
-        pattern = text.replace(re.escape(example.value), '(.*)')
+            return None
         
-        if len(pattern) > MAX_REGEX_PATTERN_LEN:
-            return []
-        else:
-            # In this case, only one rule is possible.
-            return [RegexRule(pattern)]
+        text = re.escape(text)
+        pattern = text.replace(re.escape(value), '(.*)')
     
+        if pattern.count('(.*)') == 0:
+            return None
+    
+        if len(pattern) > MAX_REGEX_PATTERN_LEN:
+            return None
+        else:
+            return RegexRule(pattern)
+        
     def _should_merge(self, g_rule, s_rule):
         sm = difflib.SequenceMatcher(None, g_rule.pattern, s_rule.pattern)
         return sm.quick_ratio() > SIMILARITY_THRESHOLD
@@ -477,6 +534,16 @@ class PathRuler(Ruler):
     HTML document.
     """ 
     
+    def __init__(self, value_guide='.*'):
+        super(PathRuler, self).__init__()
+        self.value_guide = value_guide
+    
+    def rule(self, training):
+        rules = super(PathRuler, self).rule(training)
+        for rule in rules:
+            rule.pattern.insert(0, self.value_guide)
+        return rules
+    
     def _rule_example(self, example):
         log.debug('Ruling example with PathRuler. Value %s' % #@UndefinedVariable
                   str(example.value))
@@ -523,7 +590,7 @@ class PathRuler(Ruler):
             should_merge = False
         
         for g_el, s_el in zip(g_pattern, s_pattern):
-            if not (g_el[0] == s_el[0] and g_el[2] == s_el[2]):
+            if not (g_el[0] == s_el[0] and g_el[1] == s_el[1]):
                 should_merge = False
                 break
         
@@ -545,6 +612,9 @@ class PathRuler(Ruler):
                     (element01[1][field] == element02[1][field])):
                     fields[field] = element01[1][field] 
             element01[1] = fields
+            
+            if element01[2] != element02[2]:
+                element01[2] = -1
         return g_pattern
 
     def _is_unique(self, document, description):
@@ -568,7 +638,7 @@ class PathRuler(Ruler):
     def _get_sibling_number(self, element):
         parent = element.parent
         if not parent:
-            return 0
+            return - 1
         return parent.contents.index(element)
                 
     def _get_element_description(self, element):

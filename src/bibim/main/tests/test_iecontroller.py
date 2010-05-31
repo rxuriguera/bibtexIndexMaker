@@ -45,17 +45,17 @@ class TestIEController(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_extract_reference(self):
+    def xtest_extract_reference(self):
         #self.iec.extract_reference(self.top_results)
         pass
     
-    def test_use_reference_wrappers_page_with_no_wrapper(self):
+    def xtest_use_reference_wrappers_page_with_no_wrapper(self):
         references = self.iec._use_reference_wrappers('some_source',
                                                       self.empty_page,
                                                       self.text)
         self.failUnless(len(references) == 0)
     
-    def test_use_reference_wrappers_page_with_wrapper(self):
+    def xtest_use_reference_wrappers_page_with_wrapper(self):
         references = self.iec._use_reference_wrappers('http://portal.acm.org',
                                                       self.page,
                                                       self.text)
@@ -81,7 +81,7 @@ class TestIEController(unittest.TestCase):
         self.failUnless(len(references) == 1)
         self.failUnless(len(references[0].fields) == 3)
     
-    def test_validate_reference_fields(self):
+    def xtest_validate_reference_fields(self):
         ref = Reference()
         ref.set_field('title', 'Some article title')
         ref.set_field('year', '32')
@@ -98,8 +98,13 @@ class TestIEController(unittest.TestCase):
         file.close()
         return soup
     
-    def test_generate_wrappers(self):
+    def xtest_generate_wrappers(self):
         self.iec.generate_wrappers("some_url")
+    
+    def test_set_value_guides(self):
+        value_guides = self.iec.value_guides
+        pass
+        
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

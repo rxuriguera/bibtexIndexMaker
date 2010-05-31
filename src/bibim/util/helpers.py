@@ -16,6 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
+from bibim.util.beautifulsoup import BeautifulSoup, Comment, NavigableString
+
 class Format(object):
     
     def get_format(self, path):
@@ -41,11 +45,35 @@ class ContentCleaner(object):
     def clean_content(self, content):
         if not content:
             return None
-        content = content.replace('\n', ' ')
-        content = content.replace('\r', '')
-        content = content.replace('\t', '')
-        content = content.replace('&amp;', '&')
-        content = content.replace('&#x2013;', '-')
-        content = content.replace('&nbsp;', ' ')
+        
+        to_replace = {'\n':' ',
+                      '\r':'',
+                      '\t':'',
+                      '&amp;':'&',
+                      '&#38;':'&',
+                      '&#34;':'"',
+                      '&quot;':'"',
+                      '&#39;':"'",
+                      '&apos;':"'",
+                      '&#x2013;':'-',
+                      '&nbsp;':' '}
+        for key in to_replace:
+            content = content.replace(key, to_replace[key])
+
+        # Remove consecutive whitespaces
+        content = re.sub(' {2,}', ' ', content)
+        content = re.sub('>( *)<', '><', content)
+
+        content = BeautifulSoup(content)
+        
+        # Remove comments
+        comments = content.findAll(text=lambda text:isinstance(text, Comment))
+        [element.extract() for element in comments]
+        
+        # Remove unnecessary HTML elements
+        for tag in ['meta', 'link', 'style', 'script']:
+            elements = content.findAll(tag)
+            [element.extract() for element in elements]
+
         return content
     
