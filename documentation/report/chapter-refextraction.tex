@@ -17,6 +17,7 @@ A la nostra aplicació tindrem els dos tipus de \textit{wrapper} que es descriuen
 
 %%%%% FIELD WRAPPERS %%%%
 \subsection{\textit{Field Wrappers}}
+\label{chapter:refextraction:section:fieldwrappers}
 S'encarreguen d'extreure únicament un dels camps de la referència cada vegada. Se'n necessita un per cadascun dels camps que volem extreure per cada biblioteca d'articles que vulguem suportar.
 
 \paragraph{}
@@ -24,6 +25,12 @@ Internament, aquests tipus de \textit{wrappers} consisteixen en un llistat de re
 
 \paragraph{}
 En un principi vam començar a definir aquestes regles manualment, mirant de fer-les prou generals com per poder-les reutilitzar per múltiples biblioteques, però de seguida vam adonar-nos que aquesta és una tasca que consumeix molt temps. A més, els resultats es veuen afectats per qualsevol canvi en l'estructura de les pàgines font. Per tant, vam decidir centrar els recursos en trobar la manera de generar aquests \textit{wrappers} de forma automàtica. Com que aquesta és una de les parts més interessants del projecte, li hem dedicat el capítol \ref{chapter:wrapperinduction} sencer. 
+
+\paragraph{}
+Pel que fa al procés d'extracció, donat el resultat web d'un article mirem si disposem de \textit{wrappers} a la base de dades de l'aplicació i, en cas afirmatiu, obtenim aquells amb la puntuació més elevada. Per cadascun d'aquests \textit{wrappers} provarem d'extreure el camp de la pàgina. Si veiem el resultat obtingut amb algun d'ells es considera vàlid, pararem l'extracció i passarem al següent camp.
+
+\paragraph{}
+Com es pot deduir, no serà necessari tenir \textit{wrappers} que funcionin en tots els casos sinó que només caldrà tenir-ne uns quants que ho facin en un percentatge prou elevat. D'aquesta manera, en aquelles situacions on la informació està estructurada diferent, també podrem obtenir resultats.
 
 %%%% REFERENCE WRAPPERS %%%%
 \subsection{\textit{Reference Wrappers}}

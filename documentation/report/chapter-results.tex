@@ -57,14 +57,20 @@ Finalment, respecte les consultes veiem que com mes llargues són, el número de c
 %%%% WRAPPER INDUCTION %%%%
 \section{Generació de \textit{wrappers}}
 \label{chapter:results:section:wrapperinduction}
-Per provar aquesta part del sistema, hem creat de pàgines web amb informació d'articles diferents i amb la referència corresponent. Les pàgines que inclou un grup corresponen totes a la mateixa biblioteca digital. Per cadascun d'aquests conjunts hem importat les referències i hem donat l'ordre al sistema de generar els \textit{wrappers} pels camps de cada biblioteca. Les mostres no són significatives, però ens donen una idea per poder quantificar com de bé funciona l'aplicació dins l'entorn pel qual està pensat.
+Per provar aquesta part del sistema, hem creat conjunts de pàgines web amb informació d'articles diferents i amb la referència corresponent. Les pàgines que inclou un grup corresponen totes a la mateixa biblioteca digital. Per cadascun d'aquests conjunts hem importat les referències i hem donat l'ordre al sistema de generar els \textit{wrappers} pels camps de cada biblioteca. Les mostres no són significatives, però ens donen una idea per poder quantificar com de bé funciona l'aplicació dins l'entorn pel qual està pensat.
 
 \paragraph{}
-Els resultats d'aquestes proves corresponen a les puntuacions rebudes durant l'avaluació dels \textit{wrappers} i que permeten marcar un ordre d'elecció inicial a l'hora d'extreure referències. Com que de moment encara no hem fet proves amb pàgines que no s'han emprat per la generació (ho farem a la propera secció), parlarem de \textit{confiança} enlloc de correctesa. 
+Els resultats d'aquestes proves corresponen a les puntuacions rebudes durant l'avaluació dels \textit{wrappers} i que permeten marcar un ordre d'elecció inicial a l'hora d'extreure referències. Com que de moment encara no hem fet proves amb pàgines que no s'han emprat per la generació (ho farem a la propera secció), les gràfiques no estan generats segons la correctesa dels resultats dels \textit{wrappers} sinó la \textit{confiança} que tenim en que funcionin.
 
 \paragraph{}
-Com ja s'ha comentat, els camps obligatoris que han de contenir les referències d'articles són: \textit{author}, \textit{title}, \textit{journal} i \textit{year}. A continuació mirarem dos d'aquests camps, la informació sobre la resta es poden trobar a l'apèndix \ref{appendix:results:section:wrapperinduction}.
+Hem classificat els \textit{wrappers} generats segons quatre grups de confiança, depenent de la puntuació rebuda. La línia fosca correspon al percentatge de les biblioteques digitals per les quals hem obtingut almenys un \textit{wrapper} de confiança màxima. La línia clara indica el mateix percentatge, però corresponent al següent interval de confiança. Els dos intervals més baixos s'han omès.
 
+\paragraph{}
+Cal remarcar que el fet que per una biblioteca no s'hagi pogut obtenir un \textit{wrapper} que funcioni en tots els casos, no significa que no siguem capaços d'extreure la informació. Tal i com hem vist a la secció \ref{chapter:refextraction:section:fieldwrappers}, a l'hora d'extreure un camp, es prova més d'un \textit{wrapper}. Per tant, el que ens interessa més veure d'aquestes gràfiques, és la suma dels valors de les dues sèries, que està marcat amb una línia discontinua de gris molt clar.
+
+
+\paragraph{}
+Com ja s'ha comentat, els camps obligatoris que han de contenir les referències d'articles són: \textit{author}, \textit{title}, \textit{journal} i \textit{year}. A continuació es mostra la confiança que tenim en els \textit{wrappers} per dos d'aquests camps, la informació sobre la resta es poden trobar a l'apèndix \ref{appendix:results:section:wrapperinduction}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -73,6 +79,7 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 \label{fig:results:coverage-journal}
 \end{center}
 \end{figure}
+
 
 
 \begin{figure}[!ht]
