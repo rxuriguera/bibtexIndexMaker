@@ -376,6 +376,8 @@ class RegexRuler(Ruler):
             log.debug('S_pattern: %s' % s_pattern) #@UndefinedVariable
             
             sm.set_seqs(g_pattern, s_pattern)
+        
+        g_pattern = g_pattern.replace('\(?:.*)', '(?:.*)')
         return g_pattern
     
     def _replace_non_matching_block(self, str, blocks, seq=0, block=0,
