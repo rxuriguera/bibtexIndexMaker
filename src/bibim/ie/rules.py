@@ -84,9 +84,9 @@ class RegexRule(Rule):
         
     def _apply_single_input(self, input):
         log.debug('Applying RegexRule with pattern %s' % self.pattern) #@UndefinedVariable
-        regex = re.compile(self.pattern)
-        
+
         try:
+            regex = re.compile(self.pattern)
             input = input.strip()
             matches = re.match(regex, input)
         except Exception, e:
@@ -349,9 +349,25 @@ class RegexRuler(Ruler):
         sm = difflib.SequenceMatcher(None, g_rule.pattern, s_rule.pattern)
         return sm.quick_ratio() > SIMILARITY_THRESHOLD
     
+    def _unscape_pattern(self, pattern):
+        pattern = pattern.replace('\\\\', '%%backslash%%')
+        pattern = pattern.replace('\\', '')
+        pattern = pattern.replace('%%backslash%%', '\\')
+        return pattern
+    
+    def _escape_pattern(self, pattern):
+        pattern = re.escape(pattern)
+        pattern = pattern.replace('\\(\\?\\:\\.\\*\\)', '(?:.*)')
+        pattern = pattern.replace('\\(\\.\\*\\)', '(.*)')
+        return pattern
+    
     def _merge_patterns(self, g_pattern, s_pattern):
         log.debug('Merging RegexRuler patterns %s, %s' % #@UndefinedVariable
                   (g_pattern, s_pattern))
+        
+        # Unscape patterns
+        g_pattern = self._unscape_pattern(g_pattern)
+        s_pattern = self._unscape_pattern(s_pattern)
         
         sm = difflib.SequenceMatcher(None, g_pattern, s_pattern)
         while not sm.quick_ratio() == 1.0:
@@ -377,8 +393,7 @@ class RegexRuler(Ruler):
             
             sm.set_seqs(g_pattern, s_pattern)
         
-        g_pattern = g_pattern.replace('\(?:.*)', '(?:.*)')
-        return g_pattern
+        return self._escape_pattern(g_pattern) 
     
     def _replace_non_matching_block(self, str, blocks, seq=0, block=0,
                                     rep='(?:.*)'):
