@@ -1,5 +1,6 @@
 
 from datetime import datetime
+import simplejson #@UnresolvedImport
 
 from bibim.db.session import create_session
 from bibim.db import mappers, gateways
@@ -17,15 +18,17 @@ class WrapperInductionStats(object):
         self.max_range = 11
         self.example_range = range(self.min_range, self.max_range)
         
-        
+        self.fields = ['addres', 'author', 'isbn', 'issn', 'journal', 'number', 'pages', 'publisher', 'title', 'volume', 'year']
         
     def run(self):
         base_path = '/home/rxuriguera/benchmark/pages/'
         libraries = ['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
+        
         info = {}
         file_pattern = '-local.bib'
-        self.file = open(base_path + 'results.csv', 'w')
+        self.file = open(base_path + 'results2.csv', 'w')
     
+
         for library in libraries:
             print '#### WRAPPERS FOR LIBRARY %s' % library
             start = datetime.now()
@@ -34,20 +37,22 @@ class WrapperInductionStats(object):
             now = datetime.now() 
             self.file.write('Library Elapsed time:;%s\n' % (str(now - start)))
             self.file.write('\n\n')
-        
-        
-        #info = {'citeulike': [{u'title': [3.0, 0, 0, 0, 3, 0.0, 0.0, 0.0, 1.0]},
-        #                      {u'title': [3.0, 0, 0, 0, 3, 0.0, 0.0, 0.0, 1.0]}],
-        #        'acm': [{u'title': [4.0, 2, 0, 1, 1, 0.5, 0.0, 0.25, 0.25]},
-        #                {u'title': [5.0, 2, 0, 2, 1, 0.40000000000000002, 0.0, 0.40000000000000002, 0.20000000000000001],
-        #                 u'pub': [5.0, 2, 0, 2, 1, 0.60000000000000002, 0.0, 0.40000000000000002, 0.0]}]}
+
+        """
+        info = {'citeulike': [{u'title': [3.0, 0, 0, 0, 3, 0.0, 0.0, 0.0, 1.0]},
+                              {u'title': [3.0, 0, 0, 0, 3, 0.0, 0.0, 0.0, 1.0]}],
+                'acm': [{u'title': [4.0, 2, 0, 1, 1, 0.5, 0.0, 0.25, 0.25]},
+                        {u'title': [5.0, 2, 0, 2, 1, 0.40000000000000002, 0.0, 0.40000000000000002, 0.20000000000000001],
+                         u'pub': [5.0, 2, 0, 2, 1, 0.60000000000000002, 0.0, 0.40000000000000002, 0.0]}]}
+        """
         self.file.write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n')
         print info
-        self._stats(info)
+        self._lib_stats(info)
+        self._field_stats(info)
         self.file.close()
         pass
     
-    def _stats(self, info):
+    def _lib_stats(self, info):
         cases = self.max_range - self.min_range
         stats = [{} for x in range(cases)]
         
@@ -84,6 +89,37 @@ class WrapperInductionStats(object):
                 self.file.write(line + '\n')
             self.file.write('\n')
 
+    
+    def _field_stats(self, info):
+        stats = {}
+        cases = self.max_range - self.min_range
+        for field in self.fields:
+            print '\n\nStats for field: %s' % field
+            self.file.write('\n\nStats for field: %s\n' % field)
+            field_stats = stats.setdefault(field, [])
+            
+            self.file.write('[')
+            for case in range(cases):
+                field_case_stats = [0.0, 0.0, 0.0, 0.0, 0.0]
+                field_stats.append(field_case_stats)
+                for lib_info in info.values():
+                    if lib_info[case].has_key(field):
+                        field_info = lib_info[case][field]
+                        field_case_stats[0] += 1
+                        if float(field_info[8]):
+                            field_case_stats[4] += 1
+                        elif float(field_info[7]):
+                            field_case_stats[3] += 1
+                        elif float(field_info[6]):
+                            field_case_stats[2] += 1
+                        elif float(field_info[5]):
+                            field_case_stats[1] += 1
+                print 'Using %d exampes' % (case + self.min_range)
+                
+                print simplejson.dumps(field_case_stats)
+                self.file.write(simplejson.dumps(field_case_stats))
+                self.file.write(',\n')
+            self.file.write(']')
             
     def _library_run(self, path):
     
