@@ -125,10 +125,33 @@ Aquesta expressió regular també ens servirà per corregir el comportament dels \t
 Aquest tipus de regles reben una cadena de caràcters com a entrada i li apliquen una expressió regular generada automàticament per tal de quedar-se només amb una part de la cadena. Permeten extreure un camp quan aquest està dins un element del document HTML, mesclat amb més text.
 
 \paragraph{}
-Per generar les expressions regulars, agafem el text dels elements HTML que ens han proporcionat les \textit{path rules} i fem una substitució del valor que volem obtenir per \texttt{(.*)}.
+Per generar les expressions regulars, agafem el text dels elements HTML que ens han proporcionat les \textit{path rules} i fem una substitució del valor que volem obtenir per \texttt{(.*)}. Per exemple, si volguéssim obtenir el número de pàgines d'una pàgina que conté la línia següent, començaríem substituint el valor \texttt{1204-1209}.
+
+\begin{center}
+\begin{lstlisting}[caption={\textit{Merging} de \textit{regex rules}}]
+Vol. 27, No. 6. (1 June 2006), pp. 1204-1209.
+
+Vol\.\ 27\,\ No\.\ 6\.\ \(1 June 2006\)\,\ pp\. (.*)\.
+\end{lstlisting}
+\end{center}
+Aquesta expressió encara no és prou general per extreure els camps de totes les pàgines, però a mesura que tinguem més exemples, la informació que varia anirà desapareixent.
 
 \paragraph{}
-La tècnica que fem servir per decidir si hem de fusionar dues expressions o no és molt senzilla. Simplement fem \textit{string matching} de les expressions i mirem si tenen una similaritat major que un llindar establert. En cas afirmatiu, obtenim els blocs no coincidents de les dues cadenes de caràcters i els substituïm per \texttt{(?:.*)} \footnote{En \textit{Python}, la fòrmula \texttt{(?:...)} indica que es pot descartar el que hi ha dins els parèntesis.}. 
+La tècnica que fem servir per decidir si hem de fusionar dues expressions és molt senzilla. Simplement fem \textit{string matching} de les expressions i mirem si tenen una similaritat major que un llindar establert. De ser així, obtenim els blocs no coincidents de les dues cadenes de caràcters i els substituïm per \texttt{(?:.*)} que amb \textit{Python} indica que es pot acceptar qualsevol cadena, però que cal descartar-la a l'hora de retornar els grups coincidents.
+
+\begin{center}
+\begin{lstlisting}[caption={\textit{Merging} de \textit{regex rules}}]
+Vol. 24, No. 1. (2 April 1999), pp. 332-344.
+
+Vol\.\ 2(?:.*)\,\ No\.\ (?:.*)\.\ \((?:.*)\)\,\ pp\. (.*)\.
+\end{lstlisting}
+\end{center}
+
+
+\paragraph{}
+En un principi generàvem les expressions de forma creixent, és a dir, agafàvem el valor a extreure, i miràvem els primers caràcters del seu context, tant a la dreta com a l'esquerra (aquesta és una simplificació de com ho feia el sistema \textit{WHISK}\cite{soderland99}). El problema el teníem quan la informació del context també variava entre pàgina i pàgina. Per tant, tot i ser una forma més ràpida de crear les regles, no ens donava resultats prou bons. A la llarga es podria mirar d'utilitzar una aproximació intermitja, agafant el context mínim de l'expressió generada amb el mètode actual. D'aquesta manera reduiríem el número d'exemples necessaris per arribar a expressions regulars prou generals.
+
+
 
 \subsection{Regles multi valor}
 Alguns camps com ara els autors o editors tenen múltiples valors. Per poder-los extreure per separat, hem creat variants de les regles anteriors. Assumim que els múltiples valors corresponents al mateix cam copmliran una de les dues condicions següents:
@@ -185,4 +208,14 @@ Una vegada hem generat el conjunt dels \textit{wrappers} possibles per a un conj
 \begin{equation*}
     score = \frac{vots\; positius}{vots\; totals}
 \end{equation*}
+
+\paragraph{}
+Cada vegada que s'utilitza un \textit{wrapper} s'avaluen la informació que ha extret. Si és correcta, donem un punt positiu al \textit{wrapper} i un de negatiu, altrament. A l'inici, s'utilitzen els exemples que han permès generar el \textit{wrapper} per donar-li una puntuació.
+
+\paragraph{}
+Obtenir la puntuació segons el percentatge de vots positius presenta alguns problemes. Per exemple, si tenim un \textit{wrapper} que ha funcionat moltes vegades durant el passat i comença a fallar, el percentatge decreixerà i de seguida es donarà pas a un altre \textit{wrapper} que no s'ha utilitzat tantes vegades, però que no té vots negatius. Si ens parem a pensar, però, aquest pot és realment el comportament que busquem.
+
+\paragraph{}
+Quan un \textit{wrapper} comença a fallar, és molt probable que ho faci degut a algun canvi en l'estructura de les pàgines de les quals extreu la informació. Si és així, ja sabem que aquest \textit{wrapper} no tornarà a funcionar més i ens interessa descartar-lo tant ràpid com sigui possible. També podem agilitzar-ho donant més vots negatius que negatius.
+
 

@@ -72,7 +72,7 @@ Cal remarcar que el fet que per una biblioteca no s'hagi pogut obtenir un \texti
 \paragraph{}
 Com ja s'ha comentat, els camps obligatoris que han de contenir les referències d'articles són: \textit{author}, \textit{title}, \textit{journal} i \textit{year}. A continuació es mostra la confiança que tenim en els \textit{wrappers} per dos d'aquests camps, la informació sobre la resta es poden trobar a l'apèndix \ref{appendix:results:section:wrapperinduction}.
 
-\begin{figure}[!ht]
+\begin{figure}[Ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:coverage-journal.pdf}
 \caption{Cobertura dels \textit{wrappers} pel camp \textit{journal}}
@@ -82,7 +82,7 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[Ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:coverage-year.pdf}
 \caption{Cobertura dels \textit{wrappers} pel camp \textit{year}}
@@ -90,14 +90,12 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 \end{center}
 \end{figure}
 
-
+\paragraph{}
+El camp corresponent a l'any és interessant perquè moltes de les pàgines que hem provat contenen múltiples aparicions del valor que busquem, tot i que no sempre descriuen l'any de publicació, sinó la data de revisió, la data a partir de la qual l'article es troba a Internet, \textit{copyright}, etc.
+Aquest tipus de confusions també són habituals en aquelles ocasions en què, a més de la informació de l'article, les pàgines inclouen el llistat d'articles als quals la publicació fa referència o bé la llista d'articles que el citen. Quan comencem a tenir exemples on aquests camps tenen valors diferents, al fer \textit{merging} de patrons s'acaben escollint els que són realment vàlids. 
 
 \paragraph{}
-Els camps pels quals es té més dificultat per generar \textit{wrappers} que funcionen són aquells consistents en números petits com poden ser el número de volum.
-També li costa trobar anys en aquells casos en que la pàgina de la biblioteca conté múltiples camps amb el mateix valor, però corresponent a informacions diferents.
-
-Això és degut 
-
+Altres camps pels quals es té més dificultat per generar \textit{wrappers} són aquells el valor dels quals consisteix en números petits, com ara el número de volum o de revista \textit{number}. El motiu és el mateix, hi ha moltes aparicions del mateix valor, però que no fan referència al camp que busquem.
 
 
 %%%% REFERENCE EXTRACTION %%%%
