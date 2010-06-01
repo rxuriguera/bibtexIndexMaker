@@ -83,7 +83,7 @@ class TestSeparatorsRegexRule(object):#(unittest.TestCase):
         self.failUnless(len(result) == 3)     
 
 
-class TestPathRule(unittest.TestCase):
+class TestPathRule(object):#(unittest.TestCase):
     def setUp(self):
         self.rule = PathRule()
         
@@ -352,13 +352,13 @@ class TestMultiValuePathRuler(object):#(TestRuler):
         self.failUnless(len(result) == 5)
 
 
-class TestRegexRuler(object):#(TestRuler):
+class TestRegexRuler(TestRuler):
 
     def setUp(self):
         self.ruler = RegexRuler()
         super(TestRegexRuler, self).setUp()
         
-    def test_rule_example(self):
+    def xtest_rule_example(self):
         example = Example('2007', 'Volume 31, Number 7 / July, 2007')
         rules = self.ruler._rule_example(example)
         expected = 'Volume\ 31\,\ Number\ 7\ \/\ July\,\ (.*)'
@@ -402,7 +402,13 @@ class TestRegexRuler(object):#(TestRuler):
                      '\\((?:.*)\\ (.*)\\)')
         self.failUnless(result == expected)
         
-    def test_rule(self):
+        
+        general = '(.*)\ \/\ \(2007\)'
+        pattern = '(.*)\ \(2010\)'
+        result = self.ruler._merge_patterns(general, pattern)
+        pass
+    
+    def xtest_rule(self):
         example01 = Example(u'2007', u' Volume 22 ,&nbsp; '
                     'Issue 22-23 &nbsp;(May 2007)')
         example02 = Example(u'2009', u' Volume 11 ,&nbsp; '
@@ -418,7 +424,7 @@ class TestRegexRuler(object):#(TestRuler):
         self.failUnless(results[0].pattern == u'\\ Year\\ of\\ publication\\:'
                         '\\&nbsp\\;(.*)')
 
-    def test_apply_heuristics(self):
+    def xtest_apply_heuristics(self):
         sm = difflib.SequenceMatcher(None, 'The 35th house', 'The 3rd House')
         result = self.ruler._apply_heuristics('The 35th house',
                                               sm.get_matching_blocks())
