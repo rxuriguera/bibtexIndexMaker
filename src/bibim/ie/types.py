@@ -50,13 +50,6 @@ class Rule(object):
     def __init__(self, pattern=None, id=None, guide=None):
         self.id = id
         self.pattern = pattern
-        self.guide = guide
-
-    def get_guide(self):
-        return self.__guide
-
-    def set_guide(self, value):
-        self.__guide = value
 
     def __eq__(self, other):
         return self.pattern == other.pattern
@@ -74,7 +67,6 @@ class Rule(object):
         return "Rule(%s)" % repr(self.pattern)
 
     pattern = property(get_pattern, set_pattern)
-    guide = property(get_guide, set_guide)
 
 
 class Example(object):

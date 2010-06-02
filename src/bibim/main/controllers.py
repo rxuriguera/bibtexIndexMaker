@@ -428,6 +428,18 @@ class IEController(Controller):
             new_values.append(ValidatorFactory.create_validator(values[1], *values[2:]))
             self.field_validation[field] = new_values
     
+    def _prune_wrappers(self, wrappers):
+        log.debug('Prunning %d wrappers.' % len(wrappers)) #@UndefinedVariable
+        max = self.max_wrappers
+        prunned = []
+        for wrapper in wrappers:
+            max -= 1
+            mv = self.min_validity / 2.0
+            if wrapper.score > mv or max >= 0:
+                prunned.append(wrapper)
+        log.debug('After prunning: %d wrappers' % len(prunned)) #@UndefinedVariable
+        return prunned
+    
     def generate_wrappers(self, url):
         wrapper_manager = WrapperGateway()
         example_manager = ExampleGateway(max_examples=self.max_examples,
@@ -443,7 +455,7 @@ class IEController(Controller):
             log.info('Starting wrapper training for set %s' % set) #@UndefinedVariable
             
             # TODo: Remove
-            #if set != 'year':
+            #if set != 'number':
             #    continue
             
             # TODO: Uncomment editor
@@ -463,6 +475,7 @@ class IEController(Controller):
             trainer = WrapperTrainer(rulers, self.wrapper_gen_examples)
             try:
                 wrappers = trainer.train(example_sets[set])
+                wrappers = self._prune_wrappers(wrappers)
                 wrapper_manager.persist_wrappers(url, set, wrappers)
             except Exception, e:
                 log.error('Error training wrapper for set %s: %s' % (set, e)) #@UndefinedVariable

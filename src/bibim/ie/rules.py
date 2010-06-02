@@ -26,8 +26,10 @@ from bibim.util.beautifulsoup import NavigableString
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
-SIMILARITY_THRESHOLD = 0.8
+SIMILARITY_THRESHOLD = 0.7
 MAX_SEPARATOR_CHARS = 10
+MAX_REGEX_GROUPS = 30
+MAX_ELEM_CONTENT_LEN = 350
 MAX_REGEX_PATTERN_LEN = 200
 MAX_CONTENT_ELEMENTS = 15
 
@@ -102,10 +104,12 @@ class RegexRule(Rule):
 
 class MultiValueRegexRule(Rule):
     def apply(self, input):
-        log.debug('Applying MultiValueRegexRule') #@UndefinedVariable
+        log.debug('Applying MultiValueRegexRule with pattern %s' % (str(self.pattern)[:30])) #@UndefinedVariable
         results = []
         regex = re.compile(self.pattern)
         for string in input:
+            if len(string) > MAX_ELEM_CONTENT_LEN:
+                continue
             matches = re.match(regex, string)
             if matches and len(matches.groups()) > 0:
                 results.append(matches.group(1))
@@ -114,18 +118,25 @@ class MultiValueRegexRule(Rule):
 
 class SeparatorsRegexRule(MultiValueRegexRule):
     def apply(self, input):
-        if type(input) == list:
-            try:
-                input = input[0]
-            except IndexError, e:
-                log.warn('Trying to apply SeparatorsRegexRule with empty list' #@UndefinedVariable
-                         ' as input: %s' % e) 
-                return input
+        if not type(input) is list:
+            input = [input]
+            #try:
+            #    input = input[0]
+            #except IndexError, e:
+            #    log.warn('Trying to apply SeparatorsRegexRule with empty list' #@UndefinedVariable
+            #             ' as input: %s' % e) 
+            #    return input
+        
         
         regex = [''.join([x, '|']) for x in self.pattern]
         regex = ''.join(regex)[:-1]
         
-        return re.split(regex, input)
+        result = []
+        for i in input:
+            result.extend(re.split(regex, i))
+        
+        return result
+        #return re.split(regex, input)
 
 
 class PathRule(Rule):
@@ -234,13 +245,13 @@ class MultiValuePathRule(Rule):
         for tag, attrs, sibling in path:
             for index in range(len(current)):
                 try:
-                    if sibling is True:
+                    if sibling >= 0:
+                        current[index] = current[index].contents[sibling]
+                    else:
                         elements = current[index].findAll(tag, attrs)
                         current[index] = elements.pop(0)
                         for element in elements:
                             current.append(element)
-                    elif sibling >= 0:
-                        current[index] = current[index].contents[sibling]
                 except Exception, e:
                     log.warn('Error trying to get path element for path %s: %s' #@UndefinedVariable
                              % (str(path)[:50], e)) 
@@ -437,7 +448,15 @@ class MultiValueRegexRuler(RegexRuler):
         self.parent_merge = super(MultiValueRegexRuler, self)._merge_patterns
         self.parent_should_merge = super(MultiValueRegexRuler,
                                          self)._should_merge
-        
+    
+    def _check_pattern(self, pattern):
+        if not pattern.count('(.*)'):
+            return None
+        if len(pattern) > MAX_REGEX_PATTERN_LEN:
+            return None   
+        return pattern
+            
+    
     def _escape(self, values, pattern):
         #pattern = re.escape(pattern)
         for value in values:
@@ -460,9 +479,19 @@ class ElementsRegexRuler(MultiValueRegexRuler):
         if not content:
             return []
         
-        g_pattern = self._escape(example.value, content.pop(0))        
+        for element in content:
+            g_pattern = self._escape(example.value, content.pop(content.index(element)))        
+            g_pattern = self._check_pattern(g_pattern)
+            if g_pattern:
+                break
+        if not g_pattern:
+            return []
+        
         for element in content:
             s_pattern = self._escape(example.value, element)
+            s_pattern = self._check_pattern(s_pattern)
+            if not s_pattern:
+                continue
             if self._should_merge(Rule(g_pattern), Rule(s_pattern)):
                 g_pattern = self.parent_merge(g_pattern, s_pattern)
         return [MultiValueRegexRule(g_pattern)]
@@ -485,7 +514,8 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
         if type(example.content) == list:
             content = list(example.content)
             if len(content) > 1:
-                return [DummyRule()]
+                #return [DummyRule()]
+                return [SeparatorsRegexRule([])]
             else:
                 content = content.pop()
         else:
@@ -494,7 +524,7 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
         g_pattern = self._escape(example.value, content)
         
         if g_pattern.count('(.*)') <= 1:
-            return [DummyRule()]
+            return [SeparatorsRegexRule([])]
         
         separators = self._find_separators(g_pattern)
         return [SeparatorsRegexRule(separators)]
@@ -520,6 +550,27 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
         separators = self._merge_separators([raw_separators.pop(0)],
                                             raw_separators)
         return separators   
+
+    
+    #def _merge_rules(self, g_rules, rules):
+        # Check if there are both DummyRules and SeparatorRules. If so, 
+        # remove the dummy ones
+        #dgr = [x for x in g_rules if isinstance(x, DummyRule)]
+        #sgr = [x for x in g_rules if isinstance(x, SeparatorsRegexRule)]
+        #sr = [x for x in rules if isinstance(x, SeparatorsRegexRule)]
+        
+        #def remove_elements(list01, list02):
+        #    for element in list02:
+        #        list01.remove(element)
+        # 
+        #if sgr and dgr:
+        #    remove_elements(g_rules, dgr)
+        #elif not len(sgr) and len(sr):
+        #    g_rules.append(sr.pop(0))
+        #    remove_elements(g_rules, dgr)
+                   
+        #super(SeparatorsRegexRuler, self)._merge_rules(g_rules, rules)
+    
 
     def _merge_separators(self, separators, raw_separators):
         for separator in raw_separators:
@@ -719,7 +770,15 @@ class MultiValuePathRuler(PathRuler):
                 continue
             
             for s_rule in more_rules:
+                if self._should_merge(f_rule, s_rule):
+                    f_rule_pattern = self._merge_patterns(f_rule.pattern, s_rule.pattern)
+                
+            example_rules.append(MultiValuePathRule(f_rule_pattern))
+            
+            """
+            for s_rule in more_rules:
                 s_rule_pattern = list(s_rule.pattern)
+            
             
                 # All should have same length
                 if not len(f_rule_pattern) == len(s_rule_pattern):
@@ -732,12 +791,12 @@ class MultiValuePathRuler(PathRuler):
                         diff = True
                         break
                     elif element01[2] != element02[2]:
-                        element01[2] = True
+                        element01[2] = -1
                     
                 if diff:
                     continue
                 example_rules.append(MultiValuePathRule(f_rule_pattern))
-                
+            """
         return example_rules
 
 
