@@ -24,11 +24,10 @@ if __name__ == '__main__':
     plt.rc("font", size=10)
     width = 4.50
     height = 4.0
-    
-
     """
+  
     nexamples = 2
-    y = 4
+    y = 5
     title = {'acm':             [0, 0, 1, 2],
              'springer':        [0, 0, 0, 2],
              'informaworld':    [0, 0, 0, 2],
@@ -37,74 +36,77 @@ if __name__ == '__main__':
 
     author = {'acm':            [0, 0, 0, 2],
               'springer':       [0, 0, 0, 1],
-              'informaworld':   [0, 0, 0, 1],
+              'informaworld':   [0, 0, 2, 0],
               'ideas':          [0, 0, 2, 1]
               }
     
     journal = {'acm':           [0, 0, 1, 1],
-               'springer':      [0, 0, 1, 3],
-               'informaworld':  [2, 0, 0, 2],
+               'springer':      [0, 0, 0, 1],
+               'informaworld':  [1, 0, 0, 3],
                'ideas':         [0, 0, 0, 1]
                }
     
     year = {'acm':              [0, 0, 2, 1],
-            'springer':         [2, 0, 0, 1],
+            'springer':         [0, 0, 2, 0],
             'informaworld':     [0, 0, 0, 2],
             'ideas':            [0, 0, 1, 1]
             }
-    
+
+
     nexamples = 4
-    y = 4
+    y = 5
     title = {'acm':             [0, 1, 0, 2],
              'springer':        [0, 0, 0, 2],
              'informaworld':    [0, 1, 0, 2],
              'ideas':           [0, 0, 0, 2]
              }
 
-    author = {'acm':            [1, 1, 1, 1],
-              'springer':       [0, 0, 0, 1],
-              'informaworld':   [0, 0, 0, 2],
+    author = {'acm':            [0, 2, 1, 1],
+              'springer':       [0, 2, 0, 1],
+              'informaworld':   [0, 2, 1, 0],
               'ideas':          [0, 3, 0, 1]
               }
     
     journal = {'acm':           [0, 14, 0, 2],
-               'springer':      [0, 2, 0, 3],
-               'informaworld':  [2, 2, 0, 2],
+               'springer':      [1, 0, 0, 1],
+               'informaworld':  [1, 2, 1, 2],
                'ideas':         [0, 0, 0, 1]
                }
     
     year = {'acm':              [0, 3, 0, 2],
-            'springer':         [2, 3, 0, 1],
+            'springer':         [0, 6, 0, 2],
             'informaworld':     [0, 1, 1, 1],
             'ideas':            [0, 1, 2, 0]
             }
-    """
     
+    """   
     nexamples = 6
-    y = 7
+    y = 5
     title = {'acm':             [1, 0, 1, 1],
              'springer':        [0, 0, 0, 2],
-             'informaworld':    [3, 0, 1, 2],
+             'informaworld':    [2, 0, 1, 2],
              'ideas':           [0, 0, 0, 2]
              }
 
-    author = {'acm':            [3, 1, 1, 1],
-              'springer':       [2, 0, 0, 1],
-              'informaworld':   [3, 0, 1, 1],
+    author = {'acm':            [5, 1, 1, 1],
+              'springer':       [2, 0, 1, 1],
+              'informaworld':   [3, 1, 0, 0],
               'ideas':          [3, 0, 0, 1]
               }
     
-    journal = {'acm':           [14, 0, 0, 2],
-               'springer':      [5, 0, 2, 1],
-               'informaworld':  [6, 0, 1, 1],
+    journal = {'acm':           [12, 2, 0, 2],
+               'springer':      [4, 0, 0, 1],
+               'informaworld':  [5, 1, 1, 1],
                'ideas':         [0, 0, 0, 1]
                }
     
     year = {'acm':              [4, 0, 1, 1],
-            'springer':         [6, 0, 2, 1],
+            'springer':         [4, 4, 0, 2],
             'informaworld':     [1, 0, 4, 0],
             'ideas':            [1, 2, 1, 0]
             }
+
+    
     
     fig = plt.figure()
     

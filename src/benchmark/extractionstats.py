@@ -19,7 +19,7 @@ class ExtractionStats(object):
         self.nexamples = 2
         self.base_path = '/home/rxuriguera/benchmark/pages/'
         self.fields = ['addres', 'author', 'isbn', 'issn', 'journal', 'number', 'pages', 'publisher', 'title', 'volume', 'year']
-        self.libraries = ['acm']#['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
+        self.libraries = ['ideas']#['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
         
         self.factory = UtilFactory()
         self.iec = IEController(self.factory, secs_between_reqs=0,

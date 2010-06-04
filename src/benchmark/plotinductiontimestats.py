@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     # Author Coverage
     field = 'author'
-    data = [4.78, 6.65, 9.23, 12.76, 15.35, 21.93, 28.51, 31.73, 33.78]
+    data = [3.99, 5.62, 7.37, 10.28, 12.63, 14.21, 15.78]
 
 
     plt.rc("font", family="cmr10")
@@ -49,8 +49,8 @@ if __name__ == '__main__':
     lines.append(line)
     
     plt.xticks(range(2, len(data) + 2))
-    plt.yticks(range(5, 36, 5))
-    plt.axis([1.5, len(data) + 1.5, 0, 40])
+    plt.yticks(range(2, 19, 2))
+    plt.axis([1.5, len(data) + 1.5, 0, 20])
     plt.title('Temps mig per camp')
     plt.ylabel('Temps (s)')
     plt.xlabel('Exemples utilitzats')

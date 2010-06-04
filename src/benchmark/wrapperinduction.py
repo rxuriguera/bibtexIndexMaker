@@ -15,18 +15,18 @@ class WrapperInductionStats(object):
         self.eg = gateways.ExtractionGateway(self.session)
         
         self.min_range = 2
-        self.max_range = 7
+        self.max_range = 9
         self.example_range = range(self.min_range, self.max_range)
         
         self.fields = ['addres', 'author', 'isbn', 'issn', 'journal', 'number', 'pages', 'publisher', 'title', 'volume', 'year']
         
     def run(self):
         base_path = '/home/rxuriguera/benchmark/pages/'
-        libraries = ['springer']#['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
+        libraries = ['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
         
         info = {}
         file_pattern = '-local.bib'
-        self.file = open(base_path + 'resultsspr2.csv', 'w')
+        self.file = open(base_path + 'results.csv', 'w')
     
 
         for library in libraries:
@@ -171,12 +171,20 @@ class WrapperInductionStats(object):
             collections_info[collection.field] = [total,
                                                   con01, con02, con03, con04,
                                                   avg01, avg02, avg03, avg04]
+            """
             self.file.write(''.join([collection.field, ';',
                                      str(total), ';',
                                      str(con01), ';', str(con02), ';',
                                      str(con03), ';', str(con04), ';',
                                      str(avg01), ';', str(avg02), ';',
                                      str(avg03), ';', str(avg04), '\n']))
+            """
+            
+            self.file.write(''.join([('%10s' % collection.field), ';',
+                                     ('%5s' % str(total)), ';',
+                                     '        ', ';',
+                                     str(con01), ';', str(con02), ';',
+                                     str(con03), ';', str(con04), ';', '\n']))
         return collections_info
     
     def _delete_generated_wrappers(self, url):
