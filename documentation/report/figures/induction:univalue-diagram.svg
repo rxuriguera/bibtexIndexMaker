@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg11093"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="induction:univalue-diagram.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs11095">
+    <linearGradient
+       id="linearGradient3321">
+      <stop
+         id="stop3323"
+         offset="0"
+         style="stop-color:#989898;stop-opacity:1;" />
+      <stop
+         id="stop3325"
+         offset="1"
+         style="stop-color:#c8c5c5;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient71132"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(334.16022,-2.4164051e-5)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective11101" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient11225"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(334.16022,-2.4164051e-5)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient11271"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(334.16022,-2.4164051e-5)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient11276"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8349992,0,0,0.8349992,484.80494,-38.390401)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient11283"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8349992,0,0,0.8349992,484.80494,-38.390401)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient11294"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(334.16022,-2.4164051e-5)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="334.13227"
+     inkscape:cy="824.7268"
+     inkscape:document-units="px"
+     inkscape:current-layer="capa1"
+     showgrid="true"
+     inkscape:window-width="1680"
+     inkscape:window-height="1025"
+     inkscape:window-x="1280"
+     inkscape:window-y="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid11111" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata11098">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="capa1">
+    <g
+       id="g162838"
+       transform="matrix(0.8349992,0,0,0.8349992,-145.77347,18.639818)"
+       inkscape:export-filename="/home/rxuriguera/Escriptori/httprequest.png"
+       inkscape:export-xdpi="46.855663"
+       inkscape:export-ydpi="46.855663">
+      <rect
+         ry="10"
+         rx="10"
+         y="52.362164"
+         x="384.16022"
+         height="45.988029"
+         width="163.89227"
+         id="rect162840"
+         style="opacity:1;fill:url(#linearGradient71132);fill-opacity:1;fill-rule:nonzero;stroke:#7a7a7a;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <text
+         id="text162842"
+         y="82.812233"
+         x="465.30069"
+         style="font-size:40px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Italic"
+         xml:space="preserve"><tspan
+           style="font-size:20px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:cmr10;-inkscape-font-specification:cmr10 Italic"
+           y="82.812233"
+           x="465.30069"
+           id="tspan162844"
+           sodipodi:role="line">Path Rule</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+       x="56.568542"
+       y="111.91016"
+       id="text11113"><tspan
+         sodipodi:role="line"
+         id="tspan11115"
+         x="56.568542"
+         y="111.91016" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+       x="15"
+       y="22.362183"
+       id="text11137"><tspan
+         sodipodi:role="line"
+         id="tspan11139"
+         x="15"
+         y="22.362183"
+         style="font-size:10px">&lt;html&gt;&lt;body&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="34.862183"
+         style="font-size:10px"
+         id="tspan11165">&lt;table&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="47.362183"
+         style="font-size:10px"
+         id="tspan11171">    &lt;tr&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="59.862183"
+         style="font-size:10px"
+         id="tspan11175">        &lt;td&gt;Label01:&lt;td&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="72.362183"
+         style="font-size:10px"
+         id="tspan11177">        &lt;td&gt;Value01.&lt;/td&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="84.862183"
+         style="font-size:10px"
+         id="tspan11173">    &lt;/tr&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="97.362183"
+         style="font-size:10px"
+         id="tspan11169">    &lt;tr&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="109.86218"
+         style="font-size:10px"
+         id="tspan11181">        &lt;td&gt;Label02:&lt;td&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="122.36218"
+         style="font-size:10px"
+         id="tspan11183">        &lt;td&gt;Value02.&lt;/td&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="134.86218"
+         style="font-size:10px"
+         id="tspan11185">    &lt;/tr&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="147.36218"
+         style="font-size:10px"
+         id="tspan11179">&lt;/table&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="15"
+         y="159.86218"
+         id="tspan11141"
+         style="font-size:10px">&lt;/body&gt;&lt;/html&gt;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+       x="205.39517"
+       y="137.36218"
+       id="text11187"><tspan
+         sodipodi:role="line"
+         id="tspan11189"
+         x="205.39517"
+         y="137.36218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif">[(.*),</tspan><tspan
+         sodipodi:role="line"
+         x="205.39517"
+         y="149.86218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+         id="tspan11197"> ('table', {}, 0),</tspan><tspan
+         sodipodi:role="line"
+         x="205.39517"
+         y="162.36218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+         id="tspan11199"> ('tr',{},-1),</tspan><tspan
+         sodipodi:role="line"
+         x="205.39517"
+         y="174.86218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+         id="tspan11201"> ('td',{},1)]</tspan></text>
+    <g
+       id="g11211"
+       transform="translate(0,3.6857551)">
+      <text
+         id="text11203"
+         y="50.846695"
+         x="375"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+         xml:space="preserve"><tspan
+           style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+           y="50.846695"
+           x="375"
+           id="tspan11205"
+           sodipodi:role="line">Value01.</tspan></text>
+      <text
+         id="text11207"
+         y="112.36218"
+         x="375"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+         xml:space="preserve"><tspan
+           style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+           y="112.36218"
+           x="375"
+           id="tspan11209"
+           sodipodi:role="line">Value02.</tspan></text>
+    </g>
+    <g
+       id="g11217"
+       transform="matrix(0.8349992,0,0,0.8349992,177.37661,15.23985)"
+       inkscape:export-filename="/home/rxuriguera/Escriptori/httprequest.png"
+       inkscape:export-xdpi="46.855663"
+       inkscape:export-ydpi="46.855663">
+      <text
+         xml:space="preserve"
+         style="font-size:14.37127113px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+         x="-200.97603"
+         y="307.42133"
+         id="text11235"><tspan
+           sodipodi:role="line"
+           id="tspan11237"
+           x="-200.97603"
+           y="307.42133"
+           style="font-size:11.97605896px">&lt;html&gt;&lt;body&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="322.39139"
+           style="font-size:11.97605896px"
+           id="tspan11239">&lt;table&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="337.36148"
+           style="font-size:11.97605896px"
+           id="tspan11241">    &lt;tr&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="352.33154"
+           style="font-size:11.97605896px"
+           id="tspan11243">        &lt;td&gt;Autors:&lt;td&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="367.30164"
+           style="font-size:11.97605896px"
+           id="tspan11245">        &lt;td&gt;Autor A.&lt;/td&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="382.2717"
+           style="font-size:11.97605896px"
+           id="tspan11247">    &lt;/tr&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="397.24176"
+           style="font-size:11.97605896px"
+           id="tspan11249">    &lt;tr&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="412.21185"
+           style="font-size:11.97605896px"
+           id="tspan11251">        &lt;td&gt;&lt;td&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="427.18192"
+           style="font-size:11.97605896px"
+           id="tspan11253">        &lt;td&gt;Autor B.&lt;/td&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="442.15198"
+           style="font-size:11.97605896px"
+           id="tspan11255">    &lt;/tr&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="457.12207"
+           style="font-size:11.97605896px"
+           id="tspan11257">&lt;/table&gt;</tspan><tspan
+           sodipodi:role="line"
+           x="-200.97603"
+           y="472.09213"
+           id="tspan11259"
+           style="font-size:11.97605896px">&lt;/body&gt;&lt;/html&gt;</tspan></text>
+    </g>
+    <g
+       id="g11278"
+       transform="translate(-21.554871,57.0302)">
+      <rect
+         style="opacity:1;fill:url(#linearGradient11283);fill-opacity:1;fill-rule:nonzero;stroke:#7a7a7a;stroke-width:2.50499749;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect11219"
+         width="136.84991"
+         height="38.399967"
+         x="526.55487"
+         y="5.3319831"
+         rx="8.3499918"
+         ry="8.3499918" />
+      <text
+         xml:space="preserve"
+         style="font-size:33.39996719px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Italic"
+         x="594.30713"
+         y="30.757767"
+         id="text11221"><tspan
+           sodipodi:role="line"
+           id="tspan11223"
+           x="594.30713"
+           y="30.757767"
+           style="font-size:16.6999836px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:cmr10;-inkscape-font-specification:cmr10 Italic">Regex Rule</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+       x="239.82848"
+       y="387.36218"
+       id="text11261"><tspan
+         sodipodi:role="line"
+         id="tspan11263"
+         x="239.82848"
+         y="387.36218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif">[(.*),</tspan><tspan
+         sodipodi:role="line"
+         x="239.82848"
+         y="399.86218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+         id="tspan11265"> ('table', {}, 0),</tspan><tspan
+         sodipodi:role="line"
+         x="239.82848"
+         y="412.36218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+         id="tspan11267"> ('tr',{},-1),</tspan><tspan
+         sodipodi:role="line"
+         x="239.82848"
+         y="424.86218"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+         id="tspan11269"> ('td',{},1)]</tspan></text>
+    <g
+       id="g11227"
+       transform="matrix(0.8349992,0,0,0.8349992,-140.63431,275.01615)"
+       inkscape:export-filename="/home/rxuriguera/Escriptori/httprequest.png"
+       inkscape:export-xdpi="46.855663"
+       inkscape:export-ydpi="46.855663">
+      <rect
+         ry="10"
+         rx="10"
+         y="52.362164"
+         x="384.16022"
+         height="48.414154"
+         width="234.05795"
+         id="rect11229"
+         style="opacity:1;fill:url(#linearGradient11294);fill-opacity:1;fill-rule:nonzero;stroke:#7a7a7a;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <text
+         id="text11231"
+         y="83.289238"
+         x="500.4928"
+         style="font-size:40px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Italic"
+         xml:space="preserve"><tspan
+           style="font-size:20px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:cmr10;-inkscape-font-specification:cmr10 Italic"
+           y="83.289238"
+           x="500.4928"
+           id="tspan11233"
+           sodipodi:role="line">Multi-value Path Rule</tspan></text>
+    </g>
+    <g
+       id="g11296"
+       transform="translate(60,261.51549)">
+      <text
+         id="text11298"
+         y="50.846695"
+         x="375"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+         xml:space="preserve"><tspan
+           style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+           y="50.846695"
+           x="375"
+           id="tspan11300"
+           sodipodi:role="line">Autor 01.</tspan></text>
+      <text
+         id="text11302"
+         y="112.36218"
+         x="375"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+         xml:space="preserve"><tspan
+           style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Serif"
+           y="112.36218"
+           x="375"
+           id="tspan11304"
+           sodipodi:role="line">Autor 02.</tspan></text>
+    </g>
+  </g>
+</svg>
