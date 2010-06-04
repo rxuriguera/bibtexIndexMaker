@@ -26,7 +26,7 @@ from bibim.util.beautifulsoup import NavigableString
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
-SIMILARITY_THRESHOLD = 0.7
+SIMILARITY_THRESHOLD = 0.8
 MAX_SEPARATOR_CHARS = 10
 MAX_REGEX_GROUPS = 30
 MAX_ELEM_CONTENT_LEN = 350
@@ -90,7 +90,7 @@ class RegexRule(Rule):
         try:
             regex = re.compile(self.pattern)
             input = input.strip()
-            matches = re.match(regex, input)
+            matches = re.search(regex, input)
         except Exception, e:
             log.error('Exception applying RegexRule with pattern %s: %s'  #@UndefinedVariable
                       % (self.pattern, e))
@@ -184,11 +184,15 @@ class PathRule(Rule):
 
         # Has a sibling defined
         if sibling >= 0:
-            start = start.contents[sibling]
-            return self._get_elements(list(path), start, elements)
-        
+            try:
+                if start.contents[sibling].name == tag:
+                    start = start.contents[sibling]
+                    return self._get_elements(list(path), start, elements)
+            except:
+                log.warn('Error trying to get sibling name') #@UndefinedVariable
+                
         # Try all siblings
-        start_elements = start.findAll(name=tag, attrs=attrs)
+        start_elements = start.findAll(name=tag, attrs=attrs, recursive=False)
         
         for start in start_elements:
             elements.extend(self._get_elements(list(path), start, []))
@@ -205,7 +209,7 @@ class PathRule(Rule):
         return matches
         
 
-class MultiValuePathRule(Rule):
+class MultiValuePathRule(PathRule):
     """
     Defines how to apply a path rule that returns multiple values.
     The input of this rule must be a BeautifulSoup element and it will output
@@ -217,14 +221,17 @@ class MultiValuePathRule(Rule):
         pattern = list(self.pattern)
         self.value_guide = pattern.pop(0)
         elements = self._get_path_elements(pattern, input)
-        for element in elements:
-            try:
-                text = ''.join(element.findAll(text=True))
-                values.append(text) 
-            except Exception, e:
-                log.warn('MultiValuePathRule cannot find text for element ' #@UndefinedVariable
-                         '%s: %s' % (str(element), e)) 
-                continue
+        #for element in elements:
+        #    try:
+        #        text = ''.join(element.findAll(text=True))
+        #        if re.search(pattern, text):
+        #            values.append(text) 
+        #    except Exception, e:
+        #        log.warn('MultiValuePathRule cannot find text for element ' #@UndefinedVariable
+        #                 '%s: %s' % (str(element), e)) 
+        #        continue
+        
+        values = self._choose_element(elements)
         return values
     
     def _get_path_elements(self, path, input):
@@ -246,12 +253,14 @@ class MultiValuePathRule(Rule):
             for index in range(len(current)):
                 try:
                     if sibling >= 0:
-                        current[index] = current[index].contents[sibling]
-                    else:
-                        elements = current[index].findAll(tag, attrs)
-                        current[index] = elements.pop(0)
-                        for element in elements:
-                            current.append(element)
+                        if current[index].contents[sibling].name == tag:
+                            current[index] = current[index].contents[sibling]
+                            continue
+                    
+                    elements = current[index].findAll(tag, attrs, recursive=False)
+                    current[index] = elements.pop(0)
+                    for element in elements:
+                        current.append(element)
                 except Exception, e:
                     log.warn('Error trying to get path element for path %s: %s' #@UndefinedVariable
                              % (str(path)[:50], e)) 

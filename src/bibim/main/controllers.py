@@ -177,10 +177,6 @@ class IRController(Controller):
             try:
                 log.debug('Searching query %s with engine %d' % (query, engine)) #@UndefinedVariable
                 results = searcher.get_results()
-                
-                # TODO: Remove this
-                #results = [SearchResult('a', 'file:///home/rxuriguera/pages/springer/springer03.html')]
-                
             except SearchError, e:
                 log.error(e.error) #@UndefinedVariable
                 break
@@ -261,7 +257,7 @@ class IEController(Controller):
         and its proceedings)
         """
         
-        log.debug('Extracting reference from %d ' % len(top_results)) #@UndefinedVariable
+        log.info('Extracting reference from %d ' % len(top_results)) #@UndefinedVariable
         page = None
         references = []
         for result in top_results:
@@ -297,17 +293,22 @@ class IEController(Controller):
         """
         Look if there is any wrapper in the database for the given source.
         """
-        log.debug('Attempting to extract reference with ruled wrappers') #@UndefinedVariable
+        log.info('Attempting to extract reference with ruled wrappers') #@UndefinedVariable
         fields = {}
         reference = Reference()
         wrapper_manager = WrapperGateway(max_wrappers=self.max_wrappers)
         wrapper_field_collections = wrapper_manager.find_wrapper_collections(source)
+        
         for collection in wrapper_field_collections:
             # Get the wrappers for the current collection
             url, field = collection.url, collection.field
             wrappers = wrapper_manager.get_wrappers(url, field)
             log.debug('Collection %s:%s has %d wrappers' % (url, field, #@UndefinedVariable
                                                             len(wrappers)))
+            
+            #TODO: Remove This
+            #if field != 'author':
+            #    continue
             
             # Get field validator
             try:
@@ -343,8 +344,10 @@ class IEController(Controller):
                     break
                 
         if len(reference.fields) > 0:
+            log.info('Extracted reference')  #@UndefinedVariable
             return [reference]
         else:
+            log.info('Could not extract reference using ruled wrappers')  #@UndefinedVariable
             return []
     
     def _use_reference_wrappers(self, source, page, raw_text):
@@ -355,7 +358,7 @@ class IEController(Controller):
         A single publication may need more than a reference (e.g: inproceedings
         and its proceedings)
         """
-        log.debug('Attempting to extract reference with a reference wrapper') #@UndefinedVariable
+        log.info('Attempting to extract reference with a reference wrapper') #@UndefinedVariable
         references = []
         entry, format = ReferenceWrapper().extract_info(source, page)
         if not entry:
