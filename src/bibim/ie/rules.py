@@ -181,15 +181,17 @@ class PathRule(Rule):
         tag, attrs, sibling = path.pop(0)
         if sibling >= len(start.contents):
             sibling = -1
-
+        
+        # TODO: Remove this
         # Has a sibling defined
-        if sibling >= 0:
-            try:
-                if start.contents[sibling].name == tag:
-                    start = start.contents[sibling]
-                    return self._get_elements(list(path), start, elements)
-            except:
-                log.warn('Error trying to get sibling name') #@UndefinedVariable
+        #if sibling >= 0:
+        #    try:
+        #        name = start.contents[sibling].name
+        #        if name == tag:
+        #            start = start.contents[sibling]
+        #            return self._get_elements(list(path), start, elements)
+        #    except:
+        #        log.warn('Error trying to get sibling name') #@UndefinedVariable
                 
         # Try all siblings
         start_elements = start.findAll(name=tag, attrs=attrs, recursive=False)
@@ -208,19 +210,19 @@ class PathRule(Rule):
                 matches.append(element_text)
         return matches
         
-
+# TODO: Remove this
+"""
 class MultiValuePathRule(PathRule):
-    """
-    Defines how to apply a path rule that returns multiple values.
-    The input of this rule must be a BeautifulSoup element and it will output
-    a list of strings.
-    """
+
     def apply(self, input):
         log.debug('Applying MultiValuePathRule') #@UndefinedVariable
         values = []
         pattern = list(self.pattern)
         self.value_guide = pattern.pop(0)
-        elements = self._get_path_elements(pattern, input)
+        #elements = self._get_path_elements(pattern, input)
+        
+        elements = self._get_path_element(pattern, input)
+        
         #for element in elements:
         #    try:
         #        text = ''.join(element.findAll(text=True))
@@ -234,7 +236,7 @@ class MultiValuePathRule(PathRule):
         values = self._choose_element(elements)
         return values
     
-    def _get_path_elements(self, path, input):
+    def x_get_path_elements(self, path, input):
         log.debug('Get path element for path: %s' % str(path)) #@UndefinedVariable
         # Make a local copy
         current = []
@@ -251,9 +253,14 @@ class MultiValuePathRule(PathRule):
         
         for tag, attrs, sibling in path:
             for index in range(len(current)):
+                if current[index] == None:
+                    current.pop(index)
+                
                 try:
                     if sibling >= 0:
-                        if current[index].contents[sibling].name == tag:
+                        attrMap = current[index].contents[sibling].attrMap
+                        name = current[index].contents[sibling].name
+                        if name == tag and attrMap == attrs:
                             current[index] = current[index].contents[sibling]
                             continue
                     
@@ -267,7 +274,7 @@ class MultiValuePathRule(PathRule):
                     current[index] = None
                     break
         return current
-
+"""
 
 class RuleFactory(object):
     def create_rule(self, rule_type, pattern):
@@ -560,7 +567,7 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
                                             raw_separators)
         return separators   
 
-    
+    # TODO: Remove this
     #def _merge_rules(self, g_rules, rules):
         # Check if there are both DummyRules and SeparatorRules. If so, 
         # remove the dummy ones
@@ -768,21 +775,24 @@ class MultiValuePathRuler(PathRuler):
         first_rules = rule_example(Example(values[0], example.content))
         if count == 1:
             for rule in first_rules:
-                example_rules.append(MultiValuePathRule(rule.pattern))
+                #example_rules.append(MultiValuePathRule(rule.pattern))
+                example_rules.append(PathRule(rule.pattern))
             return example_rules
         
         more_rules = rule_example(Example(values[1], example.content))
         for f_rule in first_rules:
             f_rule_pattern = list(f_rule.pattern)
             if f_rule in more_rules:
-                example_rules.append(MultiValuePathRule(f_rule_pattern))
+                #example_rules.append(MultiValuePathRule(f_rule_pattern))
+                example_rules.append(PathRule(f_rule_pattern))
                 continue
             
             for s_rule in more_rules:
                 if self._should_merge(f_rule, s_rule):
                     f_rule_pattern = self._merge_patterns(f_rule.pattern, s_rule.pattern)
                 
-            example_rules.append(MultiValuePathRule(f_rule_pattern))
+            #example_rules.append(MultiValuePathRule(f_rule_pattern))
+            example_rules.append(PathRule(f_rule_pattern))
             
             """
             for s_rule in more_rules:

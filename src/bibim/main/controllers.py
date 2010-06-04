@@ -458,7 +458,7 @@ class IEController(Controller):
             log.info('Starting wrapper training for set %s' % set) #@UndefinedVariable
             
             # TODo: Remove
-            #if set != 'number':
+            #if set != 'author':
             #    continue
             
             # TODO: Uncomment editor
