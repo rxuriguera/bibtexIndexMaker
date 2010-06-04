@@ -10,32 +10,32 @@ if __name__ == '__main__':
               '$0.5 \\leq$Confian\\c{c}a$< 0.75$',
               '$0.75 \\leq$Confian\\c{c}a', ]
     #colors = ['#4272DB', '#60a63a', '#FFA615', '#7D3883']
-    colors = ['#666666', '#60a63a', '#999999', '#333333']
+    colors = ['#666666', '#60a63a', '#666666', '#333333']
     #markers = ['o', '-', '^', 's']
 
     # Author Coverage
     author_field = 'author'
-    author_data = [[9.0, 0.0, 0.0, 5.0, 4.0],
-                   [7.0, 0.0, 0.0, 3.0, 4.0],
-                   [9.0, 0.0, 1.0, 2.0, 6.0],
-                   [9.0, 1.0, 2.0, 1.0, 5.0],
-                   [9.0, 2.0, 0.0, 4.0, 3.0],
-                   [9.0, 3.0, 1.0, 1.0, 4.0],
-                   [7.0, 1.0, 0.0, 1.0, 5.0],
-                   [7.0, 1.0, 0.0, 1.0, 5.0]]
-                #[8.0, 2.0, 0.0, 0.0, 6.0]]
+    author_data = [[9.0, 0.0, 0.0, 3.0, 6.0],
+                    [9.0, 0.0, 0.0, 3.0, 6.0],
+                    [9.0, 0.0, 0.0, 1.0, 8.0],
+                    [9.0, 0.0, 0.0, 2.0, 7.0],
+                    [9.0, 0.0, 0.0, 4.0, 5.0],
+                    [9.0, 0.0, 1.0, 3.0, 5.0],
+                    [9.0, 0.0, 0.0, 2.0, 7.0],
+                    [9.0, 0.0, 2.0, 0.0, 7.0],
+                    [9.0, 0.0, 2.0, 0.0, 7.0]]
 
     # Title coverage
     title_field = 'title'
-    title_data = [[8.0, 0.0, 0.0, 1.0, 7.0],
-                  [8.0, 0.0, 0.0, 1.0, 7.0],
-                  [8.0, 0.0, 0.0, 0.0, 8.0],
-                  [8.0, 0.0, 0.0, 0.0, 8.0],
-                  [9.0, 0.0, 0.0, 0.0, 9.0],
-                  [8.0, 0.0, 0.0, 0.0, 8.0],
-                  [8.0, 0.0, 0.0, 0.0, 8.0],
-                  [8.0, 0.0, 0.0, 0.0, 8.0]]
-                #[8.0, 0.0, 0.0, 0.0, 8.0]]
+    title_data = [[9.0, 0.0, 0.0, 2.0, 7.0],
+                [9.0, 0.0, 0.0, 2.0, 7.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0],
+                [9.0, 0.0, 0.0, 0.0, 9.0]]
 
     year_field = 'year'
     year_data = [[9.0, 0.0, 0.0, 3.0, 6.0],
@@ -62,14 +62,14 @@ if __name__ == '__main__':
 
     volume_field = 'volume'
     volume_data = [[8.0, 0.0, 0.0, 3.0, 5.0],
-                   [8.0, 0.0, 2.0, 3.0, 3.0],
-                   [8.0, 1.0, 1.0, 2.0, 4.0],
-                   [8.0, 2.0, 2.0, 0.0, 4.0],
-                   [8.0, 2.0, 1.0, 2.0, 3.0],
-                   [8.0, 2.0, 1.0, 2.0, 3.0],
-                   [7.0, 1.0, 2.0, 1.0, 3.0],
-                   [7.0, 2.0, 1.0, 2.0, 2.0]]
-                    #[5.0, 1.0, 1.0, 2.0, 1.0]]
+                    [8.0, 0.0, 2.0, 3.0, 3.0],
+                    [8.0, 1.0, 1.0, 2.0, 4.0],
+                    [8.0, 2.0, 2.0, 0.0, 4.0],
+                    [8.0, 2.0, 1.0, 2.0, 3.0],
+                    [8.0, 2.0, 1.0, 2.0, 3.0],
+                    [7.0, 1.0, 2.0, 1.0, 3.0],
+                    [7.0, 3.0, 0.0, 2.0, 2.0],
+                    [5.0, 1.0, 1.0, 2.0, 1.0]]
  
     pages_field = 'pages'
     pages_data = [[8.0, 1.0, 0.0, 4.0, 3.0],
@@ -85,17 +85,17 @@ if __name__ == '__main__':
     #author_data      title_data      year_data      journal_data      volume_data      pages_data
     #author_field     title_field     year_field     journal_field     volume_field     pages_field
     
-    data = pages_data
-    field = pages_field
+    data = author_data
+    field = author_field
     
     
     
     plt.rc("font", family="cmr10")
     plt.rc("font", size=10)
-    
-    #width = 4.50
-    #height = 2.0
-    
+    """
+    width = 4.50
+    height = 2.0
+    """
     width = 2.25
     height = 1.0
     
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     xvalues = range(2, len(data) + 2)
     values = [(x[3] + x[4]) * 100 / x[0] for x in data]
     line = plt.plot(xvalues, values)[0]
-    line.set_color('#DDDDDD')
+    line.set_color('#999999')
     line.set_linestyle('dashed')
     line.set_label('')
     line.set_linewidth(2.0)
@@ -143,7 +143,7 @@ if __name__ == '__main__':
     
     """
     plt.xticks(range(2, len(data) + 2))
-    plt.yticks(range(0, 101, 10))
+    plt.yticks(range(10, 101, 10))
     plt.axis([1.5, len(data) + 1.5, 0, 110])
     plt.title('Cobertura pel camp "%s"' % field)
     plt.ylabel('Percentatge de casos coberts')
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     
 
     plt.xticks(range(2, len(data) + 2))
-    plt.yticks(range(0, 101, 20))
+    plt.yticks(range(20, 101, 20))
     plt.axis([1.5, len(data) + 1.5, 0, 110])
     plt.title('"%s"' % field)
     plt.ylabel('Casos coberts')

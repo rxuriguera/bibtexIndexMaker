@@ -15,18 +15,18 @@ class WrapperInductionStats(object):
         self.eg = gateways.ExtractionGateway(self.session)
         
         self.min_range = 2
-        self.max_range = 11
+        self.max_range = 7
         self.example_range = range(self.min_range, self.max_range)
         
         self.fields = ['addres', 'author', 'isbn', 'issn', 'journal', 'number', 'pages', 'publisher', 'title', 'volume', 'year']
         
     def run(self):
         base_path = '/home/rxuriguera/benchmark/pages/'
-        libraries = ['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
+        libraries = ['springer']#['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
         
         info = {}
         file_pattern = '-local.bib'
-        self.file = open(base_path + 'results2.csv', 'w')
+        self.file = open(base_path + 'resultsspr2.csv', 'w')
     
 
         for library in libraries:
