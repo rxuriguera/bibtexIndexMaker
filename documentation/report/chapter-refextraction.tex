@@ -20,6 +20,15 @@ A la nostra aplicació tindrem els dos tipus de \textit{wrapper} que es descriuen
 \label{chapter:refextraction:section:fieldwrappers}
 S'encarreguen d'extreure únicament un dels camps de la referència cada vegada. Se'n necessita un per cadascun dels camps que volem extreure per cada biblioteca d'articles que vulguem suportar.
 
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/refextraction:field-wrappers.pdf}
+\caption{Esquema de funcionament dels \textit{field wrappers}}
+\label{fig:refextraction:field-wrappers}
+\end{center}
+\end{figure}
+
+
 \paragraph{}
 Internament, aquests tipus de \textit{wrappers} consisteixen en un llistat de regles que cal aplicar en un ordre determinat i que, si tot va bé, dónen com a resultat el valor que volem aconseguir. 
 
@@ -35,7 +44,18 @@ Com es pot deduir, no serà necessari tenir \textit{wrappers} que funcionin en to
 %%%% REFERENCE WRAPPERS %%%%
 \subsection{\textit{Reference Wrappers}}
 \label{refextraction:reference-wrappers}
-Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera. El gran avantatge que tenen és que habitualment permeten extreure molta més informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
+Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera dins de les pàgines HTML dels resultats. El gran avantatge que tenen és que habitualment permeten extreure molta més informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
+
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/refextraction:reference-wrappers.pdf}
+\caption{Esquema de funcionament dels \textit{reference wrappers}}
+\label{fig:refextraction:reference-wrappers}
+\end{center}
+\end{figure}
+
+
+
 
 \paragraph{}
 El principal problema és que moltes vegades el text de les referències no es troba a la mateixa pàgina retornada pels cercadors, sinó que cal seguir algun enllaç o realitzar altres accions abans d'obtenir-les. Això complica força la generació automàtica. A més, si tenim en compte el fet que d'aquests \textit{wrappers} només en necessitem un per cada biblioteca, fa que automatitzar-ho no ens aporti un benefici gaire gran. Per tant, hem decidit implementar-los manualment.

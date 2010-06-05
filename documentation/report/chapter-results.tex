@@ -75,7 +75,23 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 
 \begin{figure}[Ht]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{figures/results:nwrappers-2.pdf}
+\includegraphics[width=0.8\textwidth]{figures/results:nwrappers-2.pdf}
+\caption{Nombre de \textit{Wrappers} generats utilitzant 2 exemples i agrupats per confiança}
+\label{fig:results:nwrappers-2}
+\end{center}
+\end{figure}
+
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:nwrappers-4.pdf}
+\caption{Nombre de \textit{Wrappers} generats utilitzant 4 exemples i agrupats per confiança}
+\label{fig:results:nwrappers-4}
+\end{center}
+\end{figure}
+
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:coverage-journal.pdf}
 \caption{Cobertura dels \textit{wrappers} pel camp \textit{journal}}
 \label{fig:results:coverage-journal}
 \end{center}
@@ -83,23 +99,7 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 
 \begin{figure}[Ht]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{figures/results:nwrappers-4.pdf}
-\caption{Cobertura dels \textit{wrappers} pel camp \textit{journal}}
-\label{fig:results:coverage-journal}
-\end{center}
-\end{figure}
-
-\begin{figure}[Ht]
-\begin{center}
-\includegraphics[width=0.9\textwidth]{figures/results:coverage-journal.pdf}
-\caption{Cobertura dels \textit{wrappers} pel camp \textit{journal}}
-\label{fig:results:coverage-journal}
-\end{center}
-\end{figure}
-
-\begin{figure}[Ht]
-\begin{center}
-\includegraphics[width=0.9\textwidth]{figures/results:coverage-year.pdf}
+\includegraphics[width=0.8\textwidth]{figures/results:coverage-year.pdf}
 \caption{Cobertura dels \textit{wrappers} pel camp \textit{year}}
 \label{fig:results:coverage-year}
 \end{center}
@@ -115,10 +115,34 @@ Altres camps pels quals es té més dificultat per generar \textit{wrappers} són a
 
 %%%% REFERENCE EXTRACTION %%%%
 \section{Extracció de referències}
-text
+Anem a veure ara com de bé ho fan els \textit{wrappers} generats a la secció anterior.
 
+\paragraph{}
+Recordem que només s'aplicaran els \textit{field wrappers} generats si no hi ha cap \textit{reference wrapper} disponible o bé si no s'han obtingut resultats a l'aplicar-lo.
 
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:extraction-2.pdf}
+\caption{Camps extrets amb els \textit{wrappers} generats amb 2 exemples}
+\label{fig:results:extraction-2}
+\end{center}
+\end{figure}
 
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:extraction-4.pdf}
+\caption{Camps extrets amb els \textit{wrappers} generats amb 4 exemples}
+\label{fig:results:extraction-4}
+\end{center}
+\end{figure}
 
+Pel que fa a al resta de camps que no es mostren als gràfics, com ara el número de volum, les pàgines, etc. els resultats són molt similars.
 
+\begin{figure}[Ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:extraction-corrected.pdf}
+\caption{Camps extrets per la biblioteca \textit{InformaWorld} després de corregir els \textit{wrappers}}
+\label{fig:results:extraction-4}
+\end{center}
+\end{figure}
 
