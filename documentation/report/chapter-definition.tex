@@ -1,17 +1,22 @@
 \chapter{Definició del Projecte}
 \label{chapter:definition}
+
+
 \section{Context}
+textasdf
 
-S'assumeix que es tenen coneixements bàsics d'HTML i d'expressions regulars.
+\paragraph{}
+Aomwe
 
-
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=\textwidth]{figures/definition:extraction-diagram.pdf}
 \caption{Esquema del procés a seguir per extreure una referència}
 \label{fig:definition:extraction-diagram}
 \end{center}
 \end{figure}
+
+dlsl
 
 \section{\BibTeX}
 \label{chapter:definition:section:bibtex}
@@ -43,13 +48,22 @@ L'últim camp d'una referència pot acabar o no amb una coma.
 \end{itemize}
 
 \section{Funcionalitats}
-La llista completa de característiques del sistema:
+A continuació es llisten totes les funcionalitats que l'aplicació ofereix a l'usuari final:
 \begin{itemize}
 \item{}
-Extracció de la referència bibliogràfica corresponent a un article d'un fitxer PDF
+Extracció de la referència bibliogràfica corresponent a un o més articles que es troben en fitxers PDF en algun directori.
 
 \item{}
 Possibilitat d'exportar les referències extretes en format \BibTeX{} i desar-les a un fitxer \texttt{.bib}
+
+\item{}
+Generació automàtica de regles d'extracció a partir d'exemples.
+
+\item{}
+Importació de referències en un fitxer \texttt{.bib} per tal de poder-los fer servir d'exemples.
+
+\item{}
+Totes les operacions CRUD per a la gestió de referències i regles d'extracció.
 \end{itemize}
 
 
@@ -88,3 +102,66 @@ La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
 \end{center}
 \end{figure}
 
+
+\section{Llista de tasques}
+A continuació es llisten les diferents tasques que s'han dut a terme durant la realització del projecte:
+\begin{center}
+\begin{tabular}{|l|}
+\hline
+
+\hline
+\textbf{Tasca}                                                             \\
+\hline
+\hline
+
+
+Recerca i proves de concepte                                               \\
+\hline
+
+Infraestructura (repositori, \textit{build tracker}, etc.)                 \\
+\hline
+
+Extracció del text dels PDF (\texttt{bibim.rce})                           \\
+\hline
+
+
+Obtenció de pàgines amb la referència (\texttt{bibim.ir})                  \\
+\tab Obtenir consultes del text                                            \\
+\tab \textit{Browser} per obtenir consultes                                \\
+\tab Cerca de les consultes (múltiples cercadors)                          \\
+\tab Ordenar resultats de la cerca                                         \\
+\hline
+
+
+Extracció d'informació (\texttt{bibim.ie})                                 \\
+\tab \textit{Wrappers} a mà                                                \\
+\tab Generació automàtica de \textit{wrappers}                             \\
+\tab \tab Extracció d'exemples                                             \\
+\tab \tab Generació de regles                                              \\
+\tab \tab \textit{Wrapper} genèric                                         \\
+\hline
+
+Tractament de referències (\texttt{bibim.references})                      \\
+\tab \textit{Parsing}                                                      \\
+\tab Generació                                                             \\
+\tab Crear índexs                                                          \\
+\hline
+
+
+Base de dades (\texttt{bibim.db})                                          \\
+\hline
+
+
+Mòdul principal (\texttt{bibim.main})                                      \\
+\tab Escaneig de fitxers                                                   \\
+\tab Codi principal de l'aplicació                                         \\
+\tab \textit{Threading}                                                    \\
+\tab Validació de referències                                              \\
+\hline
+
+
+Interfície d'usuari (\texttt{bibim.ui})                                    \\
+\hline
+\hline
+\end{tabular}
+\end{center}

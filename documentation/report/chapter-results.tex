@@ -22,7 +22,7 @@ Una altra qüestió sobre la implementació dels tests, és que els resultats obting
 
 \paragraph{}
 Les proves s'han realitzat per conjunts d'articles diferents agrupats depenent la seva capçalera, que és el que pot fer variar més els resultats obtinguts, i un últim grup amb articles de qualsevol tipus. Els gràfics de les figures \ref{fig:results:random-reslen} i \ref{fig:results:random-fqlen} a mostren els resultats d'aquest últim conjunt.
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-reslen.pdf}
 \includegraphics[scale=0.8]{figures/results:search-legend.pdf}
@@ -36,7 +36,7 @@ Tot i que en algunes ocasions els resultats bons retornats per \textit{Bing} o \
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/results:random-fqlen.pdf}
 \includegraphics[scale=0.8]{figures/results:search-legend.pdf}
@@ -73,7 +73,7 @@ Cal remarcar que el fet que per una biblioteca no s'hagi pogut obtenir un \texti
 \paragraph{}
 Com ja s'ha comentat, els camps obligatoris que han de contenir les referències d'articles són: \textit{author}, \textit{title}, \textit{journal} i \textit{year}. A continuació es mostra la confiança que tenim en els \textit{wrappers} per dos d'aquests camps, la informació sobre la resta es poden trobar a l'apèndix \ref{appendix:results:section:wrapperinduction}.
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:nwrappers-2.pdf}
 \caption{Nombre de \textit{Wrappers} generats utilitzant 2 exemples i agrupats per confiança}
@@ -81,7 +81,7 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 \end{center}
 \end{figure}
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:nwrappers-4.pdf}
 \caption{Nombre de \textit{Wrappers} generats utilitzant 4 exemples i agrupats per confiança}
@@ -89,7 +89,7 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 \end{center}
 \end{figure}
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:coverage-journal.pdf}
 \caption{Cobertura dels \textit{wrappers} pel camp \textit{journal}}
@@ -97,7 +97,7 @@ Com ja s'ha comentat, els camps obligatoris que han de contenir les referències 
 \end{center}
 \end{figure}
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:coverage-year.pdf}
 \caption{Cobertura dels \textit{wrappers} pel camp \textit{year}}
@@ -120,7 +120,7 @@ Anem a veure ara com de bé ho fan els \textit{wrappers} generats a la secció ant
 \paragraph{}
 Recordem que només s'aplicaran els \textit{field wrappers} generats si no hi ha cap \textit{reference wrapper} disponible o bé si no s'han obtingut resultats a l'aplicar-lo.
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:extraction-2.pdf}
 \caption{Camps extrets amb els \textit{wrappers} generats amb 2 exemples}
@@ -128,7 +128,7 @@ Recordem que només s'aplicaran els \textit{field wrappers} generats si no hi ha 
 \end{center}
 \end{figure}
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:extraction-4.pdf}
 \caption{Camps extrets amb els \textit{wrappers} generats amb 4 exemples}
@@ -138,7 +138,7 @@ Recordem que només s'aplicaran els \textit{field wrappers} generats si no hi ha 
 
 Pel que fa a al resta de camps que no es mostren als gràfics, com ara el número de volum, les pàgines, etc. els resultats són molt similars.
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:extraction-corrected.pdf}
 \caption{Camps extrets per la biblioteca \textit{InformaWorld} després de corregir els \textit{wrappers}}

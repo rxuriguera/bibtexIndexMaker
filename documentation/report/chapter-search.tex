@@ -27,21 +27,28 @@ Abstract--With the development of parallel computing, distributed [...]
 \subsection{Dificultats}
 Tot hi haver-hi diverses utilitats que permeten l'extracció del contingut d'un fitxer PDF en forma de text pla o HTML, totes presenten problemes similars als que es descriuen a continuació.  Les principals dificultats que es troben a l'hora d'obtenir el text són:
 \begin{itemize}
-\item{Caràcters especials}com ara Unicode o lligadures (e.g. \textit{fi} es representa com un sol caràcter)
-\item{Sub/Superíndexs: }la majoria d'eines els extreuen com un número que forma part de la paraula. Per exemple: \textit{Joan$^{3}$} s'extreu com a \textit{Joan3}
-\item{Flux del text dins del fitxer: }Hi ha casos en que el text es troba en diferents columnes i 
-\item{Fragmentació de paràgrafs:}Relacionat amb el punt anterior. Hi ha ocasions on els paràgrafs es divideixen en un conjunt de línies segons com es troben posicionades dins del document.
+\item{Caràcters especials com ara Unicode o lligadures (e.g. \textit{fi} es representa com un sol caràcter)} 
+
+\item{Sub/Superíndexs:}
+la majoria d'eines els extreuen com text que forma part de la paraula. Per exemple: \textit{Joan$^{3}$} s'extreu com a \textit{Joan3}
+
+\item{Flux del text dins del fitxer:}
+Hi ha casos en que el text es troba en diferents columnes i a l'hora d'extreure'l a questes columnes o seccions no han d'estar mesclades.
+
+\item{Fragmentació de paràgrafs:}
+Relacionat amb el punt anterior. Hi ha ocasions on els paràgrafs es divideixen en un conjunt de línies segons com es troben posicionades dins del document. El text resultant conté salts de línia addicionals que s'han introduït per conservar les mateixes línies del document original, sense tenir en compte l'estructura real.
 \item{Fitxers protegits dels quals no es pot extreure el contingut}
-\item{Documents escanejats:}Aquests fitxers només contenen imatge i, no en podem extreure el contingut amb les eines que hem provat.
 \end{itemize}
-A banda d'aquestes dificultats tècniques també hi influeix el fet que hi ha un número força reduït de programari lliure que ofereixi aquesta funcionalitat.
+
+\paragraph{}
+Una altra situació en què no serem capaços d'extreure el text del PDF és quan el text ha estat escanejat i els fitxers PDF només contenen imatges. Pel que hem vist, això sol passar sobretot per articles de fa uns quants anys. Aquest tipus de fitxers no es tractaran en aquest projecte.
 
 %%%% PROGRAMARI %%%%
 \subsection{Programari}
-Algunes de les opcions que hem tingut en compte a l'hora d'escollir una llibreria o aplicació d'extracció de text han estat: \textit{PyPDF}, \textit{PDFMiner} o \textit{PDFBox}, tot i que finalment ens hem decantat per \textit{xPDF}.
+El llistat de programari lliure disponible per a dur a terme l'extracció del contingut és força reduït. Tot i així, les opcions que hem tingut en compte a l'hora d'escollir una biblioteca o aplicació d'extracció de text han estat: \textit{PyPDF}, \textit{PDFMiner} o \textit{PDFBox}. Finalment ens hem decantat per \textit{xPDF}.
 
 \paragraph{}
-\textit{xPDF} és un conjunt d'eines executables des de la línia de comandes que permeten extreure text i altres elements dels fitxers PDF. Es distribueixen sota la llicència GPL v.2 i hi ha binaris tant per Windows com per Linux (que també funcionen per Mac OS). El motiu principal pel qual hem escollit aquesta eina és la qualitat dels resultats. En especial, el fet que no separa els paràgrams en diferents línies i que en la majoria dels casos respecta el flux del text dins del document. 
+\textit{xPDF} és un conjunt d'eines executables des de la línia de comandes que permeten extreure text i altres elements dels fitxers PDF. Es distribueixen sota la llicència GPL v.2 i hi ha binaris tant per Windows com per Linux (que també funcionen per Mac OS). El motiu principal pel qual hem escollit aquesta eina és la relativa qualitat dels resultats. En especial, el fet que no separa els paràgrafs en diferents línies i que en la majoria dels casos respecta el flux del text dins del document. 
 
 \paragraph{}
 Pel que fa als caràcters especials, transforma bé les lligadures en múltiples caràcters, però té problemes amb la codificació Unicode. Donat que la majoria dels articles científics estan escrits en anglès, aquest és un problema que hem decidit obviar.

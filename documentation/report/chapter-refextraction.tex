@@ -5,7 +5,7 @@ Un cop hem aconseguit trobar pàgines que contenen informació de l'article pel qu
 
 \section{\textit{Wrappers}}
 En el nostre context, anomenarem \textit{wrapper} a una classe que implementa una sèrie de mètodes establerts i que, a partir d'un text o document d'entrada, permet extreure'n certa informació. Podem imaginar-ho com un filtre que només ens deixa veure una part del document que ens interessa.
-\begin{figure}[h!]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.8]{figures/wrapper_sample.pdf}
 \caption{Exemple de la funció d'un \textit{wrapper}}
@@ -20,9 +20,9 @@ A la nostra aplicació tindrem els dos tipus de \textit{wrapper} que es descriuen
 \label{chapter:refextraction:section:fieldwrappers}
 S'encarreguen d'extreure únicament un dels camps de la referència cada vegada. Se'n necessita un per cadascun dels camps que volem extreure per cada biblioteca d'articles que vulguem suportar.
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figures/refextraction:field-wrappers.pdf}
+\includegraphics[width=\textwidth]{figures/refextraction:field-wrappers.pdf}
 \caption{Esquema de funcionament dels \textit{field wrappers}}
 \label{fig:refextraction:field-wrappers}
 \end{center}
@@ -46,7 +46,7 @@ Com es pot deduir, no serà necessari tenir \textit{wrappers} que funcionin en to
 \label{refextraction:reference-wrappers}
 Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera dins de les pàgines HTML dels resultats. El gran avantatge que tenen és que habitualment permeten extreure molta més informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
 
-\begin{figure}[Ht]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/refextraction:reference-wrappers.pdf}
 \caption{Esquema de funcionament dels \textit{reference wrappers}}
