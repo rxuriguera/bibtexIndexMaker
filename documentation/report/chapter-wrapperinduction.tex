@@ -26,7 +26,10 @@ Els detalls respecte com es creen varien depenent de cada tipus de regla, però e
 \end{enumerate}
 Donat que volem extreure informació de documents HTML, les regles mínimes que necessitem són: una per localitzar l'etiqueta HTML que conté el valor que ens interessa i una altra per extreure'n aquest valor entre tot el text que pugui acompanyar-lo dins de la mateixa etiqueta. Les hem anomenat \textit{path rules} i \textit{regex rules} respectivament.
 
+
+%%%% PATH RULES %%%%
 \subsection{\textit{Path Rules}}
+\label{chapter:wrapperinduction:section:pathrules}
 Tal i com acabem de comentar, són les regles que permeten localitzar trossos d'informació dins de la pàgina. Els patrons consisteixen en una mena de ruta que permet arribar a l'etiqueta HTML que conté el valor del camp. Tenen l'aspecte que es mostra a continuació, formats per una expressió regular i una llista de \textit{triplets} compostos pel nom de l'etiqueta, els seus atributs i la posició respecte els seus \textit{germans}: 
 \begin{center}
 \begin{lstlisting}
@@ -127,7 +130,7 @@ Un altre avantatge de tenir aquesta expressió regular és que ens servirà per cor
 %\end{center}
 
 
-
+%%%% REGEX RULES %%%%
 \subsection{\textit{Regex Rules}}
 Aquestes regles permeten extreure un camp quan el valor d'aquest es troba dins d'un element del document HTML acompanyat de més text. Reben una o més cadenes de caràcters com a entrada i els hi apliquen una expressió regular generada automàticament per tal de quedar-se només amb una porció la cadena.  
 
@@ -184,11 +187,13 @@ Issue:\ (.)
 
 Tot i els problemes, cal tornar a remarcar que l'aplicació permet, en tot moment, l'edició de regles per part de l'usuari. De manera que si una expressió regular no s'ha acabat de generar prou bé, sempre es pot modificar amb un esforç mínim.
 
+
+%%%% MULTI-VALUE RULES %%%%
 \subsection{Regles multi valor}
-Alguns camps com ara els autors o editors tenen múltiples valors. Per poder-los extreure per separat, hem creat variants de les regles anteriors.  Assumim que els múltiples valors corresponents al mateix cam copmliran una de les dues condicions següents:
+Alguns camps com ara els autors o editors tenen múltiples valors i per poder-los extreure per separat, hem creat variants de les regles que acabem de descriure. Suposem que múltiples valors corresponenen al mateix camp si compleixen alguna de les dues condicions següents:
 \begin{itemize}
 \item{}
-Es troben en elements HTML diferents, però són germans o cosins. Aquesta condició permet extreure valors quan es troben tant en llistes com en taules:
+Es troben en elements HTML diferents, però són germans, cosins o tenen vincle parentiu similar. És a dir, quan les rutes per arribar als valors estan formades pels mateixos elements, però en posicions diferents. Aquesta condició permet extreure valors quan es troben tant en llistes com en taules:
 \begin{center}
 \begin{minipage}{0.45\linewidth}
 \begin{lstlisting}[language=HTML, title={Germans}, nolol=true]
@@ -232,17 +237,53 @@ Es troben dins el mateix HTML amb un o més separadors entre ells. Per exemple, e
 
 \end{itemize}
 
-\paragraph{}
-La tècnica per generar les regles per obtenir els elements HTML és molt semblant a les que ja hem explicat pels camps d'un sol valor. L'única diferència és que cal realitzar \textit{merging} dels patrons dels múltiples valors dins de la mateixa pàgina.
+De la mateixa manera que pels camps d'un sol valor, també necessitem obtenir els elements HTML que contenen les dades a extreure. La tècnica és molt similar que la que hem explicat a la secció \ref{chapter:wrapperinduction:section:pathrules}, l'única diferència és que cal realitzar la fusió addicional dels patrons d'un mateix exemple en les ocasions en que els diferents valors es troben en elements diferents.
+\\
+\\
+Pel que fa a les \textit{regex rules}, el seu equivalent pels \textit{wrappers} multi-valor, és més diferent. Les substituïm per \textit{Separator rules}, \textit{Multi-value regex rules} i \textit{Person rules}:
 
-\paragraph{}
-Pel que fa a les \textit{regex rules}, les substituïm per:
-\begin{itemize}
-\item{\textit{Separator rules}:} Són les encarregades de dividir l'entrada en múltiples valors segons una sèrie de separadors. El seu patró consisteix en una llista amb aquests separadors.
 
-\item{\textit{Multi-value regex rules}:} Acompleixen la mateixa funció que les \textit{regex rules} de l'apartat anterior, però amb la diferència que reben i retornen múltiples valors. L'expressió regular del patró s'aplica per cadascun dels valors.
+\subsubsection{\textit{Separator rules}} 
+Són les encarregades de dividir el text d'un únic element en múltiples valors segons una sèrie de separadors. El seu patró consisteix en una llista amb aquests separadors. 
+\\
+\\
+El procediment per per generar-les és força trivial. Simplement s'agafa el text de l'element retornat per les \textit{path rules}, i se substitueixen els valors que es volen obtenir per alguna cadena que no existeixi dins del text (e.g. l'expressió \texttt{(.*)}). 
+\begin{center}
+\begin{lstlisting}[nolol=True]
+Liu Jing, Li Jiandong, Wai Kwan and Chen Yanhui
 
-\item{\textit{Person rules}:} Només s'apliquen en el cas dels autors i els editors. Reben el nom complet d'una persona i s'encarreguen de separar-lo les diferents part del nom. Es consideren les parts: \textit{first name}, \textit{middle name} i \textit{last name}. Tenir els noms separats permet que a l'hora de generar la referència \BibTeX{} tots els noms estiguin en el mateix format. A continuació es mostren exemples de com quedarien dos noms:
+(.*), (.*), (.*) and (.*)
+\end{lstlisting}
+\end{center}
+
+Un cop fet això, s'agafen totes les subcadenes o \textit{separadors} que han quedat entre dels elements substituïts i les fusionem. Aquest procés de \textit{merging} és el mateix que el que se segueix per les expressions de les \textit{regex rules}.
+
+\begin{center}
+\begin{lstlisting}[nolol=True]
+[', ', ', ', ' and ']
+
+Fusionem:
+[', ', ' and ']
+\end{lstlisting}
+\end{center}
+
+
+\subsubsection{\textit{Multi-value regex rules}} 
+Funcionen de la mateixa manera que les \textit{regex rules} de l'apartat anterior, però amb la diferència que reben i retornen múltiples valors. L'expressió regular del patró s'aplica per cadascun dels valors de l'entrada. Això permet extreure els valors de forma correcta quan tots, o alguns d'ells, van acompanyats d'altra informació. Per exemple, en el cas de rebre els valors:
+
+\begin{center}
+\begin{lstlisting}[nolol=True]
+Liu Jing    - Department of Electrical Engineering
+Li Jiandong - Department of Applied Physics
+Chen Yanhui - Department of Electrical Engineering
+\end{lstlisting}
+\end{center}
+
+Es generarà el patró \texttt{(.*)\textbackslash{} \textbackslash{}-\textbackslash{} Department\textbackslash{} of\textbackslash{} (?:.*)}, de manera que es podran obtenir els noms dels tres autors.
+
+\subsubsection{\textit{Person rules}}
+Només s'apliquen en el cas que els valors del camp siguin noms de persones, com ara els autors i els editors. Aquestes regles reben el nom complet d'una persona i s'encarreguen de separar-lo en diferents parts. Es tenen en compte les parts: \textit{first name}, \textit{middle name} i \textit{last name}. El fet de tenir els noms separats d'aquesta manera permet que a l'hora de formatar la referència (en el nostre cas en \BibTeX{}) tots els noms tinguin la mateixa estructura. A continuació es mostren exemples de com quedarien dos noms:
+
 \begin{center}
 \begin{minipage}{0.45\linewidth}
 \begin{lstlisting}[nolol=true]
@@ -266,13 +307,24 @@ James Green
  u'middle_name':
    u'',
  u'last_name':
+
    u'Green'}
 \end{lstlisting}
 \end{minipage}
 \end{center}
 
-\end{itemize}
+Les regles que acabem de llistar s'han d'aplicar en aquest mateix ordre i, igual que amb la resta de \textit{wrappers}, estaran connectades en cascada:
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{figures/wrapperinduction:multivaluewrappers.pdf}
+\caption{Exemple d'extracció de múltiples noms}
+\label{fig:wrapperinduction:multivaluewrappers}
+\end{center}
+\end{figure}
+
+
+%%%% AVALUACIO WRAPPERS %%%%
 \section{Avaluació dels \textit{wrappers}}
 Una vegada hem generat el conjunt dels \textit{wrappers} possibles per a cadascun dels camps, cal que avaluem quins d'ells funcionen millor. Primer, els avaluem amb els mateixos exemples que hem fet servir per la generació. Això ens donarà una idea o confiança sobre com poden arribar a funcionar a l'hora de la veritat i ens guiarà a l'hora d'escollir quins aplicar primer. Durant l'extracció de referències, cada vegada que s'utilitza un \textit{wrapper} s'avalua la informació que ha extret i es corregeix la valoració sobre el funcionament d'aquest \textit{wrapper}.
 
