@@ -5,7 +5,8 @@
 \section{Extracció dels continguts d'un PDF}
 El primer pas per aconseguir els objectius proposats és l'extracció del contingut d'un fitxer PDF. Aquest és un dels aspectes que han influït més en l'enfocament que hem donat al sistema, pels motius que es descriuen a continuació.
 \paragraph{}
-En un principi, la solució que vam plantejar va ser intentar extreure la referència bibliogràfica d'un document directament del fitxer PDF del qual es disposa. Tot i que a simple vista ja es veu que això pot tenir limitacions (e.g. informació que no es troba dins del text), després de veure com queden els articles al convertir-los a text ens vam allunyar encara més d'aquesta idea. Els llistats \ref{listing:examplePDFExtraction01} i \ref{listing:examplePDFExtraction02} mostren exemples de les capçaleres de dos articles diferents després d'haver extret el text del fitxer PDF en el que es trobaven. Com es pot veure, no hi ha cap tipus d'estructura que pugui deixar intuir quina part del text correspon a cada fragment d'informació que ens interessa.
+En un principi, la solució que vam plantejar va ser intentar extreure la referència bibliogràfica d'un document directament del fitxer PDF del qual es disposa. Tot i que a simple vista ja es veu que això pot tenir limitacions (e.g. informació que no es troba dins del text), després de veure com queden els articles al convertir-los a text ens vam allunyar encara més d'aquesta idea. 
+\\
 
 \begin{lstlisting}[caption={Text corresponent a la capçalera d'un article després d'haver-lo extret d'un PDF}, label=listing:examplePDFExtraction01]
 Characterization and Armstrong Relations for Degenerate Multivalued Dependencies Using Formal Concept Analysis
@@ -15,6 +16,9 @@ Dept. Llenguatges i Sistemes Inform`tics, a Universitat Polit`cnica de Catalunya
 Abstract. Functional dependencies, a notion originated ...
 \end{lstlisting}
 
+Els llistats \ref{listing:examplePDFExtraction01} i \ref{listing:examplePDFExtraction02} mostren exemples de les capçaleres de dos articles diferents després d'haver extret el text del fitxer PDF en el que es trobaven. Com es pot veure, el resultat no té cap tipus d'estructura que pugui deixar intuir quina part del text correspon a cada fragment d'informació, sinó que és un conglomerat de totes dades. El primer article comença amb el títol i segueix amb els noms dels dos autors i la informació de la universitat. En canvi, el segon comença amb l'any, la conferència on s'ha presentat, títol i per cada autor es dóna informació diferent sobre la universitat. Si comencem a mirar més articles, el número de casos amb estructures diferents no para d'augmentar.
+\\
+
 \begin{lstlisting}[caption={Un altre exemple de text extret d'un PDF}, label=listing:examplePDFExtraction02]
 2010 Second International Conference on Future Networks
 
@@ -22,6 +26,8 @@ Cloud Computing Research and Development Trend
 Shuai Zhang Hebei Polytechnic University College of Science Hebei Polytechnic University NO.46 Xinhua West Street Tangshan 063009, Hebei Province China zhangshuai@heut.edu.cn Xuebin Chen Hebei Polytechnic University College of Science Hebei Polytechnic University NO.46 Xinhua West Street Tangshan 063009, Hebei Province China chxb@qq.comm
 Abstract--With the development of parallel computing, distributed [...]
 \end{lstlisting}
+
+Una vegada vistos els resultats, probablement quedin més clars els motius pels quals hem decidit consultar la informació dels articles que hi ha disponible a la xarxa. De totes maneres, continua sent necessària l'extracció del text dels PDFs per tal de poder fer cerques, i ara cal veure, doncs, com ho podem fer.
 
 %%%% DIFICULTATS %%%%
 \subsection{Dificultats}
@@ -45,29 +51,30 @@ Una altra situació en què no serem capaços d'extreure el text del PDF és quan el
 
 %%%% PROGRAMARI %%%%
 \subsection{Programari}
-El llistat de programari lliure disponible per a dur a terme l'extracció del contingut és força reduït. Tot i així, les opcions que hem tingut en compte a l'hora d'escollir una biblioteca o aplicació d'extracció de text han estat: \textit{PyPDF}, \textit{PDFMiner} o \textit{PDFBox}. Finalment ens hem decantat per \textit{xPDF}.
+El llistat de programari lliure disponible per a dur a terme l'extracció del contingut és força reduït. Tot i així, hem tingut en compte diverses opcions abans d'escollir una biblioteca o aplicació d'extracció. Hem contemplat: \textit{PyPDF}, \textit{PDFMiner}, \textit{PDFBox} i finalment ens hem decantat per \textit{xPDF}.
 
 \paragraph{}
-\textit{xPDF} és un conjunt d'eines executables des de la línia de comandes que permeten extreure text i altres elements dels fitxers PDF. Es distribueixen sota la llicència GPL v.2 i hi ha binaris tant per Windows com per Linux (que també funcionen per Mac OS). El motiu principal pel qual hem escollit aquesta eina és la relativa qualitat dels resultats. En especial, el fet que no separa els paràgrafs en diferents línies i que en la majoria dels casos respecta el flux del text dins del document. 
+\textit{xPDF} és un conjunt d'eines executables des de la línia de comandes que permeten extreure text i altres elements dels fitxers PDF. Es distribueixen sota la llicència GPL v.2 i hi ha binaris tant per Windows com per Linux (que també funcionen per Mac OS). El motiu principal pel qual hem escollit aquesta eina és que s'obtenen resultats relativament bons. En especial, és interessant el fet que no separa els paràgrafs en diferents línies i que en la majoria dels casos respecta el flux del text dins del document. 
 
 \paragraph{}
-Pel que fa als caràcters especials, transforma bé les lligadures en múltiples caràcters, però té problemes amb la codificació Unicode. Donat que la majoria dels articles científics estan escrits en anglès, aquest és un problema que hem decidit obviar.
-
+Pel que fa als caràcters especials, transforma bé les lligadures en múltiples caràcters, però té problemes amb la codificació Unicode. Donat que la majoria dels articles científics estan escrits en anglès, aquest és un problema que hem decidit obviar. Tal i com veurem, a no ser que l'article contingui un percentatge molt elevat d'aquest tipus de caràcters, serà igualment possible extreure'n la referència.
 
 %%%% CONSULTES %%%%
  \section{Consultes}
  \label{section:chapter-search:consultes}
-El punt més important per poder cercar referències bibliogràfiques a Internet és ser capaços de generar consultes que retornin bons resultats. Una primera idea pot consistir en cercar segons el títol de l'article del qual volem informació. El problema és que bona part dels resultats corresponen a pàgines que fan una referència a aquest article, però que no en donen gaires detalls.  Com que a l'extreure el text del PDF la resta de les dades de la capçalera queden desfigurades, és difícil itzar-les per fer les consultes. 
-\paragraph{}
-Per una altra banda, si intentem fer consultes a partir del contingut del propi article ens trobem amb que en molts casos, els cercadors no el tenen indexat. Una tercera opció, que és la que utilitzem, consisteix en generar les consultes a partir del resum o \textit{abstract} que acompanya a la majoria d'articles i que també acostuma a aparéixer a les pàgines que contenen la referència.
-\paragraph{}
-Però com podem saber quina part del text que hem extret correspon al resum? Tot i que en molts articles el primer paràgraf va precedit de la paraula \textit{Abstract}, també n'hi ha molts altres que van precedits d'una paraula completament diferent (e.g. resum o \textit{summary}) o bé per cap. Per tal que el sistema sigui el més general possible, enlloc de fixar-nos en paraules concretes fem servir una expressió regular molt simple que permet trobar cadenes amb un número de paraules determinat. 
+El més important per poder cercar referències bibliogràfiques a Internet és ser capaços de generar consultes que retornin bons resultats. Per fer-ho, agafarem porcions del text extret amb l'eina \textit{xPDF} i les utilitzarem per obtenir resultats que hi coincideixin exactament. 
 
 \paragraph{}
-Un dels trets característics de les capçaleres dels articles una vegada n'hem extret el text és que contenen un nombre elevat de símbols especials. Això ens pot ajudar a distingir entre les parts corresponents a la capçalera i resum. L'expressió regular que obté les consultes és: \verb=([\w()?!]+[ ]){min,max}= i agafarà seqüències de \textit{min} a \textit{max} paraules separades per un espai i formades per caràcters alfanumèrics i un nombre limitat de símbols. Els paràmetres \textit{min} i \textit{max} són configurables. Òbviament, les consultes que ens dóna aquesta expressió no sempre són bones i per tal de contrarrestar aquests errors, en generem un cert nombre que anirem utilitzant mentre no s'obtinguin resultats satisfactoris. De totes maneres, tal i com es pot veure al capítol \ref{chapter:results}, no és necessari ni generar moltes consultes ni cal que aquestes siguin gaire llargues.
+Una primera idea pot consistir en cercar segons el títol de la publicació de la qual volem informació. El problema és que bona part dels resultats corresponen a pàgines que fan una referència a aquesta publicació, però que no en donen gaires detalls. Pel que fa a la resta d'informació de la capçalera (e.g. autors, revista, etc.) les consultes encara seran menys restrictives i retornaran resultats pitjors. Per una altra banda, si intentem fer consultes a partir del contingut del propi article ens trobem amb que en molts casos, els cercadors no el tenen indexat. 
 
 \paragraph{}
-A continuació es llisten cinc consultes extretes d'un article d'exemple. Noteu que les consultes s'envolten de cometes dobles, la forma habitual d'indicar als cercadors que les coincidències han de ser exactes.
+Una tercera opció, que és la que utilitzem, consisteix en generar les consultes a partir del resum o \textit{abstract} que acompanya a la majoria d'articles i que també acostuma a aparéixer a les pàgines que contenen la referència. Però com podem saber quina part del text que hem extret correspon al resum? Tot i que en moltes vegades el primer paràgraf va precedit de la paraula \textit{Abstract}, també n'hi ha moltes altres que van precedits d'una paraula completament diferent (e.g. resum o \textit{summary}) o bé per cap. Per tal que el sistema sigui el més general possible, enlloc de fixar-nos en paraules concretes fem servir una expressió regular molt simple que permet trobar cadenes amb un número de paraules determinat. 
+
+\paragraph{}
+Un dels trets característics de les capçaleres dels articles una vegada n'hem extret el text és que contenen un nombre elevat de símbols especials. Això ens pot ajudar a distingir entre les parts corresponents a la capçalera i resum. L'expressió regular que obté les consultes és: \verb=([\w()?!]+[ ]){min,max}= i agafarà seqüències de \textit{min} a \textit{max} paraules separades per un espai i formades per caràcters alfanumèrics i un nombre limitat de símbols. Els paràmetres \textit{min} i \textit{max} són configurables. Òbviament, les consultes que ens dóna aquesta expressió no sempre són bones i per tal de contrarrestar aquests errors, en generem vàries i les anem utilitzant mentre no s'obtinguin resultats satisfactoris. De totes maneres, tal i com es pot veure al capítol \ref{chapter:results}, no és necessari ni generar moltes consultes ni cal que aquestes siguin gaire llargues.
+
+\paragraph{}
+A continuació es llisten cinc consultes extretes d'un article d'exemple. Noteu que s'envolten de cometes dobles, la forma habitual d'indicar als cercadors que les coincidències han de ser exactes.
 \begin{itemize}
 \item{``are known to admit interesting characterizations in terms of Formal''}
 \item{``natural extensions of the notion of functional dependency are the''}
@@ -78,7 +85,7 @@ A continuació es llisten cinc consultes extretes d'un article d'exemple. Noteu q
 
 \paragraph{}
 \label{chapter:search:skip-queries}
-En molts casos, l'expressió regular anterior també dóna coincidències pel títol de l'article. Per evitar-ho, hem definit un altre paràmetre que defineix el nombre de consultes a saltar-se des del principi de l'article.
+En molts casos, l'expressió regular anterior també dóna coincidències pel títol de l'article. Per evitar el problema que hem descrit, hi ha definit un altre paràmetre que estableix el nombre de consultes a saltar-se des del principi de l'article. És una manera rudimentària d'aconseguir-ho, però funciona la majoria de vegades.
 
 
 

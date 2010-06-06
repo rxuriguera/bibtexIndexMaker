@@ -106,62 +106,64 @@ La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
 \section{Llista de tasques}
 A continuació es llisten les diferents tasques que s'han dut a terme durant la realització del projecte:
 \begin{center}
-\begin{tabular}{|l|}
-\hline
+\begin{longtable}{|l|}
 
 \hline
-\textbf{Tasca}                                                             \\
+\textbf{Tasca}                                                              \\
 \hline
 \hline
+Recerca i proves de concepte                                                \\
+Infraestructura (repositori, \textit{build tracker}, etc.)                  \\   
 
+Extracció del text dels PDF (\texttt{bibim.rce})                            \\
+\tab Comparació de resultats entre les diferents eines                      \\
+\tab Tria de l'eina d'extracció                                             \\
 
-Recerca i proves de concepte                                               \\
+Obtenció de pàgines amb la referència (\texttt{bibim.ir})                   \\
+\tab Obtenir consultes del text                                             \\
+\tab \textit{Browser} per obtenir pàgines de la Web                         \\
+\tab Ús de les APIs dels cercadors                                          \\
+\tab Cerca de les consultes (múltiples cercadors)                           \\
+\tab Ordenació resultats de la cerca                                        \\   
+
+Extracció d'informació (\texttt{bibim.ie})                                  \\
+\tab Anàlisi de l'estructura d'algunes biblioteques digitals disponibles    \\
+\tab \textit{Wrappers} a mà per extreure referències directament            \\
+\tab \textit{Wrappers} a mà per extreure camps                              \\                    
+\tab Validació de les referències extretes                                  \\
+
+Generació automàtica de \textit{wrappers}                                   \\
+\tab Extracció d'exemples                                                   \\
+\tab Generació de regles                                                    \\
+\tab \textit{Wrapper} genèric                                               \\
 \hline
 
-Infraestructura (repositori, \textit{build tracker}, etc.)                 \\
-\hline
-
-Extracció del text dels PDF (\texttt{bibim.rce})                           \\
-\hline
-
-
-Obtenció de pàgines amb la referència (\texttt{bibim.ir})                  \\
-\tab Obtenir consultes del text                                            \\
-\tab \textit{Browser} per obtenir consultes                                \\
-\tab Cerca de les consultes (múltiples cercadors)                          \\
-\tab Ordenar resultats de la cerca                                         \\
-\hline
+Tractament de referències (\texttt{bibim.references})                       \\
+\tab \textit{Parsing}                                                       \\
+\tab Generació                                                              \\
+\tab Crear índexs                                                           \\
 
 
-Extracció d'informació (\texttt{bibim.ie})                                 \\
-\tab \textit{Wrappers} a mà                                                \\
-\tab Generació automàtica de \textit{wrappers}                             \\
-\tab \tab Extracció d'exemples                                             \\
-\tab \tab Generació de regles                                              \\
-\tab \tab \textit{Wrapper} genèric                                         \\
-\hline
 
-Tractament de referències (\texttt{bibim.references})                      \\
-\tab \textit{Parsing}                                                      \\
-\tab Generació                                                             \\
-\tab Crear índexs                                                          \\
+
+Base de dades (\texttt{bibim.db})                                           \\
+\tab Disseny
+\tab 
+
+    
+
+Mòdul principal (\texttt{bibim.main})                                       \\
+\tab Escaneig de fitxers                                                    \\
+\tab Codi principal de l'aplicació                                          \\
+\tab \textit{Threading}                                                     \\
+\tab Validació de referències                                               \\
 \hline
 
 
-Base de dades (\texttt{bibim.db})                                          \\
-\hline
-
-
-Mòdul principal (\texttt{bibim.main})                                      \\
-\tab Escaneig de fitxers                                                   \\
-\tab Codi principal de l'aplicació                                         \\
-\tab \textit{Threading}                                                    \\
-\tab Validació de referències                                              \\
-\hline
-
-
-Interfície d'usuari (\texttt{bibim.ui})                                    \\
+Interfície d'usuari (\texttt{bibim.ui})                                     \\
+\tab Editor de referències                                                  \\
+\tab Editor de \textit{wrappers}                                            \\
 \hline
 \hline
-\end{tabular}
+\end{longtable}
 \end{center}
