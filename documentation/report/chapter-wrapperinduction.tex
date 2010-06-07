@@ -132,6 +132,7 @@ Un altre avantatge de tenir aquesta expressió regular és que ens servirà per cor
 
 %%%% REGEX RULES %%%%
 \subsection{\textit{Regex Rules}}
+\label{chapter:wrapperinduction:section:regexrules}
 Aquestes regles permeten extreure un camp quan el valor d'aquest es troba dins d'un element del document HTML acompanyat de més text. Reben una o més cadenes de caràcters com a entrada i els hi apliquen una expressió regular generada automàticament per tal de quedar-se només amb una porció la cadena.  
 
 \paragraph{}
@@ -335,8 +336,8 @@ El sistema d'avaluació és molt senzill, per cadascuna de les vegades que s'extre
 \end{equation*}
 
 \paragraph{}
-Amb aquesta manera de calcular la puntuació, hem de ser conscients del quue passa quan comparem \textit{wrappers} molt utilitzats amb altres que no ho han estat tant. Per exemple, si tenim un \textit{wrapper} que ha funcionat moltes vegades durant el passat (molts vots positius) i comença a fallar, el percentatge decreixerà i de seguida es donarà pas a un altre \textit{wrapper} menys usat, però que no té vots negatius. Per resoldre això, nombrosos llocs web usen el \textit{Wilson score interval} descrit a \cite{miller09} per ordenar elements.
+Amb aquesta manera de calcular la puntuació, hem de ser conscients sobre què passa quan comparem \textit{wrappers} molt utilitzats amb altres que no ho han estat tant. Per exemple, si tenim un \textit{wrapper} que ha donat bons resultats moltes ocasions durant el passat (i.e. molts vots positius) i comença a fallar, el percentatge decreixerà i de seguida es donarà pas a un altre \textit{wrapper} menys usat, però que no té vots negatius. Per resoldre això, moltes aplicacions usen el \textit{Wilson score interval} descrit a \cite{miller09} per ordenar elements en casos semblants al nostre.
 
 \paragraph{}
-Si ens parem a pensar, però, aquest comportament és probablement el que realment busquem. Quan un \textit{wrapper} comença a fallar, és molt probable que ho faci degut a algun canvi en l'estructura de les pàgines de les quals extreu la informació. Si és així, ja sabem que aquest \textit{wrapper} no tornarà a funcionar més i ens interessa descartar-lo tant ràpid com sigui possible. També podem agilitzar-ho donant més vots negatius que negatius.
+Aquest comportament que sembla problemàtic és, en certa manera, el que busquem. Quan un \textit{wrapper} que ha funcionat gairebé sempre comença a fallar, és molt probable que ho faci degut a algun canvi en l'estructura de les pàgines de les quals extreu la informació. Si és així, ja sabem que aquest \textit{wrapper} no tornarà a funcionar més i ens interessa descartar-lo tant ràpid com sigui possible. De totes maneres, la fórmula per calcular la puntuació es podria canviar fàcilment si en el futur es comencen a descartar \textit{wrappers} bons.
 

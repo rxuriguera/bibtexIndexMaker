@@ -112,6 +112,7 @@ field_validation=
 \end{lstlisting}
 \end{center}
 
+Per anar bé, cal especificar un validador per cadascun dels camps, fins i tot per aquells als que es dóna pes $0.0$. Això garantitza que els \textit{wrappers} per aquests camps es continuin avaluant tot i no tenir-los en compte a l'hora de considerar la referència com a vàlida.
 
 \subsubsection{\textit{Parsing} de referències}
 Per poder validar les referències extretes amb dels \textit{reference wrappers}, és necessari analitzar-les sintàcticament obtenir-ne els diferents camps per separat i poder-los validar. Per aquest motiu, l'aplicació disposa d'un \textit{parser} de referències en format \BibTeX{}.
