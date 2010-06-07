@@ -134,7 +134,7 @@ Si el valor extret conté el valor de control a més d'altra informació. Per exemp
 Qualsevol altre cas.
 \end{itemize}
 
-\paragraph{}
+
 Veiem que utilitzant dos exemples hi ha hagut força problemes, tots deguts a que les regles són massa específiques com per cobrir altres pàgines:
 \begin{itemize}
 \item{}
@@ -157,7 +157,18 @@ Anem a veure què passa quan fem les mateixes proves amb els \textit{wrappers} ge
 El nombre d'extraccions correctes ha augmentat força, i els valors marcats com a \textit{parcialment correctes} corresponen a situacions que realment es podrien considerar vàlides. En canvi, segueixen havent-hi problemes amb els anys i els autors de la biblioteca \textit{InformaWorld}. Podem mirar de corregir-los manualment.
 
 \paragraph{}
-Respecte als autors, 
+Respecte als autors d'\textit{InformaWorld} no s'ha sabut identificar correctament l'element HTML que els conté. Només canviant l'expressió regular de l'inici de la \textit{path rule}, per ajudar a escollir l'element correcte, passem a extreure els autors de forma correcta per a tots els casos.
+\begin{center}
+\begin{lstlisting}[nolol=true]
+[".*", ["div", {"id": "metahead"}, 0], ...
+\end{lstlisting}
+\end{center}
+\begin{center}
+\begin{lstlisting}[nolol=true]
+["Authors?:\ (.*)", ["div", {"id": "metahead"}, 0], ...
+\end{lstlisting}
+\end{center}
+
 
 \paragraph{}
 Pel que fa a l'any de publicació, el problema consisteix, una vegada més, en una expressió regular massa específica:
@@ -172,7 +183,7 @@ Pel que fa a l'any de publicació, el problema consisteix, una vegada més, en una
 \end{lstlisting}
 \end{center}
 
-Un cop fet aquestes correccions, si tornem a executar les proves per extreure les referències, obtenim un 100\% d'encerts pels quatre camps que hem tractat.
+Un cop fetes aquestes correccions, si tornem a executar les proves per extreure les referències, obtenim un 100\% d'encerts pels quatre camps que hem tractat.
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/results:extraction-corrected.pdf}
@@ -181,6 +192,6 @@ Un cop fet aquestes correccions, si tornem a executar les proves per extreure le
 \end{center}
 \end{figure}
 
-Els resultats d'extracció de la resta de camps que no es mostren als gràfics (e.g. número de volum, pàgines) són molt similars als que acabem de veure.  El número de revista i volum tenen problemes similars als de l'any. Altres menys comuns com ara l'ISSN una taxa d'encert molt alta.
+Els resultats d'extracció dels camps que no es mostren als gràfics (e.g. número de volum, pàgines) són molt similars als que acabem de veure.  El número de revista i volum tenen problemes similars als de l'any, en canvi, altres menys comuns com ara l'ISSN una taxa d'encert molt alta.
 
 
