@@ -124,7 +124,7 @@ La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
 
 
 \section{Llista de tasques}
-A continuació es llisten les diferents tasques que s'han dut a terme durant la realització del projecte:
+A continuació es llisten algunes de les diferents tasques que s'han dut a terme i elements que s'han implementat durant la realització del projecte:
 \begin{center}
 \begin{longtable}{|l|}
 
@@ -133,7 +133,9 @@ A continuació es llisten les diferents tasques que s'han dut a terme durant la r
 \hline
 \hline
 Recerca i proves de concepte                                                \\
-Infraestructura (repositori, \textit{build tracker}, etc.)                  \\   
+Configuració de la infraestructura                                          \\
+\tab Repositori (GitHub)                                                    \\
+\tab \textit{Build tracker}                                                 \\   
 
 Extracció del text dels PDF (\texttt{bibim.rce})                            \\
 \tab Comparació de resultats entre les diferents eines                      \\
@@ -143,7 +145,7 @@ Obtenció de pàgines amb la referència (\texttt{bibim.ir})                   \\
 \tab Obtenir consultes del text                                             \\
 \tab \textit{Browser} per obtenir pàgines de la Web                         \\
 \tab Ús de les APIs dels cercadors                                          \\
-\tab Cerca de les consultes (múltiples cercadors)                           \\
+\tab Cerca de les consultes                                                 \\
 \tab Ordenació resultats de la cerca                                        \\   
 
 Extracció d'informació (\texttt{bibim.ie})                                  \\
@@ -154,31 +156,24 @@ Extracció d'informació (\texttt{bibim.ie})                                  \\
 
 Generació automàtica de \textit{wrappers}                                   \\
 \tab Extracció d'exemples                                                   \\
-\tab Generació de regles                                                    \\
+\tab Validació dels exemples extrets                                        \\
 \tab \textit{Wrapper} genèric                                               \\
-\hline
+\tab Generació de regles                                                    \\
+\tab Avaluació de les regles generades                                      \\
 
 Tractament de referències (\texttt{bibim.references})                       \\
 \tab \textit{Parsing}                                                       \\
-\tab Generació                                                              \\
-\tab Crear índexs                                                           \\
-
-
-
+\tab Generació i Format                                                     \\
+\tab Creació índexs                                                         \\
 
 Base de dades (\texttt{bibim.db})                                           \\
-\tab Disseny
-\tab 
-
-    
+\tab Disseny                                                                \\
+\tab \textit{Mappers} amb SQLAlchemy                                        \\    
 
 Mòdul principal (\texttt{bibim.main})                                       \\
 \tab Escaneig de fitxers                                                    \\
-\tab Codi principal de l'aplicació                                          \\
 \tab \textit{Threading}                                                     \\
-\tab Validació de referències                                               \\
-\hline
-
+\tab Comunicació dels mòduls anteriors                                      \\
 
 Interfície d'usuari (\texttt{bibim.ui})                                     \\
 \tab Editor de referències                                                  \\
