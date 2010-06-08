@@ -1,12 +1,31 @@
 \chapter{Definició del Projecte}
 \label{chapter:definition}
 
+En aquest segon capítol es descriuen les línies generals que s'han seguit per dur a terme el projecte i per definir-ne el context. Comencem explicant el procediment que ens permetrà aconseguir els objectius proposats.
 
-\section{Context}
-textasdf
+\section{Procés d'extracció}
+En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF va ser intentar distingir la informació de la referència bibliogràfica directament del fitxer, seguint uns passos semblants als de la figura següent.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/definition:invalid-extraction-diagram.pdf}
+\caption{Primera idea per l'extracció de referències}
+\label{fig:definition:invalid-extraction-diagram}
+\end{center}
+\end{figure}
+
+Això presenta moltes limitacions. Per començar, la impossibilitat d'extreure informació que no es troba dins del text (e.g. el número de pàgines de l'article). A més, el text que dels fitxers PDF no té una estructura prou clara com per poder distingir entre els diferents camp. Aquest segon problema es tracta amb més en detall al proper capítol.
 
 \paragraph{}
-Aomwe
+La solució que hem trobat per poder tirar endavant consisteix en fer ús del que s'anomenem \textit{biblioteques digitals}: grans bases de dades amb informació sobre articles i els corresponents fitxers en format digital. A més, la majoria d'elles estan indexades pels principals cercadors disponibles a Internet. Els diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}. Bàsicament, per cada fitxer l'aplicació:
+\begin{enumerate}
+    \item{Extreu el contingut en forma de text.}
+    \item{Genera un llistat de consultes a partir del text extret.}
+    \item{Obté els resultats d'aquestes consultes amb algun cercador (Google, Bing, etc.).}
+    \item{Mira d'extreure la referència de les pàgines retornades pel cercador.}
+    \item{Comprova que les dades de la referència corresponen al fitxer.}
+    \item{Dóna format a les dades de la referència.}
+\end{enumerate}
 
 \begin{figure}[H]
 \begin{center}
@@ -16,7 +35,8 @@ Aomwe
 \end{center}
 \end{figure}
 
-dlsl
+Així doncs, hem de fer una mica més de tomb per poder aconseguir els resultats desitjats, però els passos són més senzills d'aplicar, donant-nos més garanties que funcionarà.
+
 
 \section{\BibTeX}
 \label{chapter:definition:section:bibtex}
@@ -63,7 +83,7 @@ Generació automàtica de regles d'extracció a partir d'exemples.
 Importació de referències en un fitxer \texttt{.bib} per tal de poder-los fer servir d'exemples.
 
 \item{}
-Totes les operacions CRUD per a la gestió de referències i regles d'extracció.
+Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{update} i \textit{delete}.} per a la gestió de referències i regles d'extracció.
 \end{itemize}
 
 
@@ -94,7 +114,7 @@ Interfície d'usuari més o menys amigable.
 
 La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.6\textwidth]{figures/module_diagram.pdf}
 \caption{Mòduls del sistema}

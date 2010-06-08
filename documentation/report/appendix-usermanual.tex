@@ -1,36 +1,16 @@
 \chapter{Manual d'usuari}
 
+L'aplicació es distribueix en forma d'\texttt{egg} de \textit{Python} i pot ser instal·lada de la forma estàndard amb la comanda \texttt{easy\_install} (més detalls a \cite{pyEasyInstall}). Aquest capítol se centra en descriure alguns dels aspectes d'utilització de l'aplicació un cop instal·lada i mitjançant la interfície gràfica. Bàsicament, tindrem un amb dues grans categories: \textit{references} i \textit{wrappers}. Vegem què hi ha en cadascuna d'elles.
 
 \section{Referències}
 
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:import-references.pdf}
-\caption{Importa referències}
-\label{fig:screenshots:import-references}
-\end{center}
-\end{figure}
-
-Quan es clica comença el procés d'importació i es mostra la finestra. Per 
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:import-references-2.pdf}
-\caption{Un cop s'han importat les referències}
-\label{fig:screenshots:import-references-2}
-\end{center}
-\end{figure}
-
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:manage-references.pdf}
-\caption{Maneig de referències}
-\label{fig:screenshots:manage-references}
-\end{center}
-\end{figure}
-
-\begin{figure}[H]
+%%%% EXTRACT %%%%
+\subsubsection{Extracció}
+La primera opció del menú és la que permet llegir un directori de fitxers PDF i obtenir-ne les referències. El sistema inclou \textit{wrappers} per les biblioteques digitals que s'han descrit en altres capítols d'aquest document, i per tant, des d'un principi ja es pot provar a fer extraccions d'articles indexats per aquestes biblioteques.
+\\
+\\
+La vista de la figura \ref{fig:screenshots:extract-references} mostra el camp únic que cal omplir per tal de començar l'extracció: simplement seleccionem un directori o fitxer i cliquem al botó \textit{Extract References}. Durant l'execució, es mostra una barra de progrés i una vegada finalitzat, se'ns mostrarà una finestra molt semblant a la de la figura \ref{fig:screenshots:import-references-2} indicant-nos que podem veure i editar les referènceies amb l'opció del menú \textit{Manage}.
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:extract-references.pdf}
 \caption{Extreu referències}
@@ -38,9 +18,58 @@ Quan es clica comença el procés d'importació i es mostra la finestra. Per
 \end{center}
 \end{figure}
 
+%%%% MANAGE %%%%
+\subsubsection{Gestió}
+Amb l'opció \textit{Manage} (veure \ref{fig:screenshots:manage-references}) podrem gestionar les referències disponibles i realitzar les operacions CRUD típiques. A la part esquerra es mostra un llistat de totes les referències de la base de dades. Al seleccionar-ne una s'omplirà l'editor de la meitat dreta de la finestra amb tota la informació sobre una referència.
 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:manage-references.pdf}
+\caption{Maneig de referències}
+\label{fig:screenshots:manage-references}
+\end{center}
+\end{figure}
 
-\begin{figure}[H]
+Algunes característiques:
+\begin{itemize}
+\item{}
+Podem afegir nous camps, autors i editors simplement afegint-los al final de la llista adequada, a la línia buida que hi ha. Per eliminar-los, només cal esborrar totes les columnes i deixar la fila en blanc.
+\item{}
+Per afegir o eliminar noves referències podem fer-ho a partir del menú contextual que apareix al clicar amb el botó secundari sobre la llista \textit{Available References}.
+\item{}
+És necessari definir una URL com a valor del camp \textit{Extracted from} si posteriorment es vol utilitzar la referència en qüestió per generar \textit{wrappers}.
+\item{}
+Pel que fa al camp \textit{File Path}, només serveix per ajudar a l'usuari a distingir entre les múltiples referències disponibles de la llista \textit{Available References}.
+\end{itemize}
+
+%%%% IMPORT %%%%
+\subsubsection{Importació}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:import-references.pdf}
+\caption{Importa referències}
+\label{fig:screenshots:import-references}
+\end{center}
+\end{figure}
+Tot i no ser la primera opció del menú, sí que és probablement el primer que ens interessarà fer just després d'instal·lar l'aplicació. , però al principi caldrà adaptar-lo per poder extreure informació del tipus d'articles de cadascú. Per aconseguir-ho caldrà afegir referències d'exemple, i ho podem fer important-les d'un fitxer \texttt{.bib}.
+\\
+\\
+La vista que permet aquesta funcionalitat és la de la figura \ref{fig:screenshots:import-references}. És molt semblant a la de les extraccions, simplement cal seleccionar el fitxer \textit{.bib} que conté les referències i donar l'ordre per començar a importar-les amb el botó \textit{Import References}. Mentre s'està executant l'operació, es mostrarà una barra de progrés i, un cop acabat, se'ns redirigirà a la vista de la figura \ref{fig:screenshots:import-references-2}.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:import-references-2.pdf}
+\caption{Un cop s'han importat les referències}
+\label{fig:screenshots:import-references-2}
+\end{center}
+\end{figure}
+
+%%%% EXPORT %%%%
+\subsubsection{Exportació}
+L'última opció que queda relacionada amb les referències és la funcionalitat que permet exportar-les en format \BibTeX{}. De la mateixa manera que amb la finestra \textit{Manage}, a la part esquerra se'ns lllistaran totes les referències disponibles. Podrem seleccionar les que vulguem i la seva entrada formatada apareixerà a l'àrea de text de la part dreta. Hi ha la possibilitat de seleccionar o bé desseleccionar tots els elements de la llista a partir del menú contextual que apareix al fer clic amb el botó secundari.
+També podem desar totes les entrades seleccionades directament a un fitxer amb el botó \textit{Save to file}.
+
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:export-references.pdf}
 \caption{Exporta referències}
@@ -49,9 +78,20 @@ Quan es clica comença el procés d'importació i es mostra la finestra. Per
 \end{figure}
 
 
+%%%% WRAPPERS %%%%
+\clearpage
 \section{\textit{Wrappers}}
-Per poder extreure les referències, primer cal que tinguem \textit{wrappers} entrenats per les biblioteques digitals que més ens interessen. Per fer-ho, podem seleccionar l'opció \textit{Train} del menú de l'aplicació i se'ns mostrarà la vista següent.
-\begin{figure}[H]
+L'altra categoria és la que permet gestionar els \textit{wrappers}. 
+
+
+%%%% TRAIN %%%%
+\subsubsection{Entrenament}
+Aquesta opció és la que ens permet generar nous \textit{wrappers} a partir de les referències de les que es disposa. La vista que permet executar aquesta funcionalitat és la de la figura \ref{fig:screenshots:wrapper-train}. Les URLs de les biblioteques per les quals ja s'han generat \textit{wrappers} amb anterioritat es mostren a la llista \textit{Available URLs}, facilitant el re-enetrenament quan les dades deixen d'extreure's correctament. En el cas que es tracti d'una biblioteca nova, podem introduir-ne la seva adreça (o un prefix) manualment al camp \textit{URL}.
+\\
+\\
+Un cop hem escollit la biblioteca, només hem de clicar al botó \textit{Train} i deixar que l'aplicació faci la resta. Quan finalitza, es mostra un missatge indicant que podem veure i editar els \textit{wrappers} generats des amb l'opció \textit{Manage}.
+
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:wrapper-train.pdf}
 \caption{Entrenament de \textit{wrappers}}
@@ -60,8 +100,21 @@ Per poder extreure les referències, primer cal que tinguem \textit{wrappers} ent
 \end{figure}
 
 
-Un cop hem generat els \textit{wrappers}, podem veure'ls i modificar-los a partir de l'opció \textit{manage}, que ens porta a l'editor següent. Des d'aquí es poden realitzar les operacions CRUD per gestionar les col·leccions, \textit{wrappers} i les regles.
-\begin{figure}[H]
+%%%% MANAGE %%%%
+\subsubsection{Gestió}
+De la mateixa manera que podíem modificar les referències, també tenim un editor pels \textit{wrappers} generats i es mostra a finestra de la figura \ref{fig:screenshots:wrapper-manager}. En aquest cas tenim tres apartats:
+\begin{itemize}
+\item{}
+Llistat de col·leccions de \textit{wrappers} agrupades segons la biblioteca digital a la qual corresponen.
+\item{}
+Llistat de \textit{wrappers} de la col·lecció seleccionada en un moment donat. Per cadascun d'ells es mostra la puntuació rebuda.
+\item{}
+Editor del \textit{wrapper} seleccionat a la llista anterior. Es mostren els vots positius, negatius, la puntuació calculada i el llistat de regles.
+\end{itemize}
+
+Podem afegir i eliminar regles afegint nous valors a la línia buida que hi ha al final de la llista \textit{Rules}. Les col·leccions i els \textit{wrappers} es poden crear i esborrar amb el menú contextual que apareix al clicar amb el botó secundari. Aquesta inconsistència a l'hora de realitzar la mateixa operació per elements diferents, és un problema que caldrà solucionar en un futur.
+
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:wrapper-manager.pdf}
 \caption{Gestió de \textit{wrappers}}
