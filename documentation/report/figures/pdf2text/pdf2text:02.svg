@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="623.97668"
+   height="287.66788"
+   id="svg4164">
+  <defs
+     id="defs4166">
+    <clipPath
+       id="clipPath4191">
+      <path
+         d="M 0,0 L 454,0 L 454,681 L 0,681 L 0,0 z"
+         id="path4193" />
+    </clipPath>
+  </defs>
+  <g
+     transform="translate(-359.8552,-410.80329)"
+     id="capa1">
+    <path
+       d="M 362.05268,411.43821 L 981.67119,411.43821"
+       id="path4232"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:none;stroke:#000000;stroke-width:1.26983547;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium" />
+    <text
+       x="377.65277"
+       y="447.72415"
+       id="text4236"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="377.65277 392.52274 398.22928 408.52667 416.62924 426.03043 444.32062 454.3071 465.73849 484.02869 503.56265 513.56744 524.41351 530.13837 547.27631 557.28101 569.86469 582.44836 590.86188 600.24475 616.48645 636.02045 641.72699 653.15839 658.88318 670.31458 687.45251 703.27356 711.39441 717.10095 728.53235 745.6886 761.76569 771.77045 779.78156 791.21295 799.60815 809.61292 822.17828 837.54205 846.92499 858.35632 866.75153 876.15277 884.25531 893.65643 904.52087 912.51367 922.51843 930.51129 936.23608 946.5152 957.94659"
+         y="447.72415"
+         id="tspan4238"
+         style="font-size:18.29022026px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">ClosedandMaximalTreeMiningUsingNaturalRepresentations</tspan>
+    </text>
+    <g
+       transform="matrix(1.2749352,0,0,-1.2749352,362.05268,472.74603)"
+       id="g4242"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <path
+         d="M 0,0.498 L 486,0.498"
+         id="path4244"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:none;stroke:#000000;stroke-width:0.99599999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium" />
+    </g>
+    <text
+       x="362.05267"
+       y="509.10464"
+       id="text4248"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="362.05267 369.59778 376.90152 382.36346 382.6683 394.22729 403.01721 411.94684 422.33722 429.43774 433.48975 439.87894 439.98056 447.08105 453.5719 460.67239"
+         y="509.10464"
+         id="tspan4250"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">Jos´eL.Balc´azar</tspan>
+    </text>
+    <text
+       x="860.08826"
+       y="509.10464"
+       id="text4252"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="860.08826 867.45557 875.24194 881.77087 889.83679 897.62323 901.47198 912.19257 918.7088 924.52643 928.36249 932.42719 940.21362 947.30145 954.80841 958.86041 965.94824 973.88708"
+         y="509.10464"
+         id="tspan4254"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">balqui@lsi.upc.edu</tspan>
+    </text>
+    <text
+       x="362.05267"
+       y="524.34778"
+       id="text4256"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="362.05267 373.09088 377.15558 385.67874 392.37277 398.38092 408.93643 419.32681 423.37881 427.84998 434.54401"
+         y="524.34778"
+         id="tspan4258"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">AlbertBifet</tspan>
+    </text>
+    <text
+       x="861.07635"
+       y="524.34778"
+       id="text4260"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="861.07635 868.86279 876.23004 880.0788 886.87445 893.96228 901.4693 912.18988 918.71887 924.52374 928.3725 932.4245 940.21094 947.29877 954.80573 958.87042 965.94556 973.8844"
+         y="524.34778"
+         id="tspan4262"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">abifet@lsi.upc.edu</tspan>
+    </text>
+    <text
+       x="362.05267"
+       y="539.5896"
+       id="text4264"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="362.05267 373.09088 380.80109 386.49167 393.79544 401.89941 410.82904 419.61896 426.9227 433.41351 440.51404 448.63074"
+         y="539.5896"
+         id="tspan4266"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">AntoniLozano</tspan>
+    </text>
+    <text
+       x="858.67688"
+       y="539.5896"
+       id="text4268"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="858.67688 866.46338 874.26251 881.76947 889.83533 897.63446 901.47058 912.19116 918.7074 924.52502 928.36102 932.42578 940.21222 947.30005 954.80701 958.85901 965.94684 973.88568"
+         y="539.5896"
+         id="tspan4270"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">antoni@lsi.upc.edu</tspan>
+    </text>
+    <text
+       x="362.05267"
+       y="557.58533"
+       id="text4272"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="362.05267 371.57932 378.64172 382.16022 388.51132 394.16379 399.13034 404.14771 407.67889 412.60736 418.95844 428.14212 436.42395 442.77502 446.30624 449.83743 454.42291 454.77859 460.41837 466.07083 473.12054 476.65173 482.2915 492.88513 499.93484 509.81714 518.9881 525.33923 530.28033 536.63141 540.16266 547.21234 553.91913 560.2702 566.62128 574.38232 584.08679 589.72656 596.78894 603.14001 608.11932 613.04773 619.39886 629.99243 635.6322 642.33899 651.50995 658.57239 668.44196 676.3808 679.91205 685.56451 692.6142 698.96527 706.02771 712.37878 717.31995 723.67102 729.31079 738.55798 746.31897 753.36871 756.8999 761.9173 766.84576 772.49823 783.07916 788.73163 797.96606 802.55157 809.61395 813.50079 819.85193 824.81848 835.39941 835.39941 841.75049 846.69165 850.22284 855.87531"
+         y="557.58533"
+         id="tspan4274"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">UniversitatPolit`ecnicadeCatalunya,DepartamentdeLlenguatgesiSistemesInform`atics</tspan>
+    </text>
+    <text
+       x="362.05267"
+       y="609.47516"
+       id="text4276"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Bold">
+      <tspan
+         x="362.05267 370.63385 381.10498 387.49133 396.54498 403.20569 410.21692 419.2706 428.79675 438.32291 445.94382 452.60452 457.37521 465.94113"
+         y="609.47516"
+         id="tspan4278"
+         style="font-size:15.2418499px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Bold">1.Introduction</tspan>
+    </text>
+    <text
+       x="362.05267"
+       y="634.1745"
+       id="text4280"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="362.05267 373.70059 377.21909 384.28149 387.81271 394.8624 405.58304 409.46991 414.43646 420.08893 426.79568 433.8454 439.48517 446.19193 455.50262 460.44376 465.423 471.06277 476.70255 486.08948 489.60797 498.99487 506.40024 512.03998 517.6925 524.04358 534.62451 538.1557 545.21808 555.92603 562.27716 573.70911 577.2403 587.82123 595.22656 601.5777 606.55695 611.49811 617.84918 624.54321 633.85394 638.79504 645.14618 650.15082 656.85754"
+         y="634.1745"
+         id="tspan4282"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">Miningfrequenttreesisbecominganimportanttask,</tspan>
+      <tspan
+         x="362.05267 371.22366 374.75485 379.69601 391.77579 398.8255 403.80475 410.15582 416.50693 428.5867 434.93777 441.98749 449.0499 452.58112 456.09961 461.75208 468.10318 473.04431 476.56284 482.91391 489.97632 500.01108 503.52957 510.59195 516.23175 519.76294 526.82538 533.87506 537.40625 544.46869 555.83716 561.12122 568.18365 573.82343 584.41705 587.94824 593.58801 599.93909 608.48767 612.01886 619.0686 622.95544 629.30652 634.27307 644.8667 651.21777 656.15894"
+         y="649.4176"
+         id="tspan4284"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">withbroadapplicationsincludingchemicalinformat-</tspan>
+      <tspan
+         x="362.05267 365.58389 371.22366 376.24103 382.94775 388.58752 394.93863 405.51953 412.58194 419.63165 424.57281 430.22528 438.11334 444.82007 448.33859 453.35596 456.88715 463.23825 470.28796 476.99469 481.93585 487.57562 494.28238 502.14502 507.11157 512.76404 517.7052 522.67175 526.20294 531.84271 537.85083 544.2019 547.72046 554.42719 561.48962 565.02081 571.37189 574.89038 581.95282 585.82697 592.17804 597.15729 607.73822 614.08936 619.03046 622.56165 628.20148 633.21881 639.92554 646.27661 653.32635"
+         y="664.65948"
+         id="tspan4286"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">ics,computervision,textretrieval,bioinformatics,and</tspan>
+      <tspan
+         x="362.05267 374.04355 379.69601 393.55408 399.90518 406.96759 413.31866 416.84988 423.54395 428.56128 432.0925 437.09717 453.99106 465.63895 471.99005 478.68408 492.19919 495.73041 499.26163 506.31134 513.01807 517.24792 524.3103 530.66138 535.66608 541.31854 555.17664 560.19397 565.13513 570.10168 577.16406 582.80383 587.745 594.80743 599.77399 605.42645 617.2395 627.82037 633.82849 647.33093 654.74902"
+         y="679.90131"
+         id="tspan4288"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">Webanalysis.Manylink-basedstructuresmaybe</tspan>
+      <tspan
+         x="362.05267 367.05734 371.99847 379.06091 386.1106 389.64182 395.29428 406.57382 410.46069 416.81177 421.79102 432.37195 438.72302 442.25424 445.77274 456.72202 463.41608 474.35266 484.94626 490.58603 496.93713 503.99951 513.23401 519.58508 527.70178 534.76422 541.8139 548.16504 553.14429 560.20667 565.84644 570.82568 576.46545 587.75769 592.69885 597.66541 603.31787 608.95764"
+         y="695.14319"
+         id="tspan4290"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">studiedformallybymeansofunorderedtrees [...]</tspan>
+      <tspan
+         x="683.33636 688.27753 695.32721 705.20947 710.86194 714.38049 720.73157 725.7489 731.38867 742.68097 749.03198 754.01129 760.36237 767.41205 778.70435 785.76672 792.1178 797.05896 801.98743 807.63989 812.60645 819.66888 828.91602 835.9657 839.49695 844.51428 850.15405 856.14948 862.50061 868.15308 873.11963 878.77209 885.82178"
+         y="609.47644"
+         id="tspan4360"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">theclosedgraphpatternsdiscovered.</tspan>
+      <tspan
+         x="683.33636 687.92188 699.22681 704.16791 711.21759 721.11267 726.75238 733.10352 738.12085 748.00311 754.35425 762.48364 767.42474 772.40405 778.04376 783.69623 788.70093 796.47467 801.41583 808.47821 814.11798 819.09729 828.97955 835.33063 840.30988 850.2049 854.79034 863.60565 874.19928 881.26172 886.22827 892.57935 898.93042 910.23535 916.94214 920.47333 927.52307 934.58545 943.83264 950.18372 958.31311 963.33051 970.38019 977.44257"
+         y="632.33862"
+         id="tspan4362"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">Inthecaseoftrees,therearetwobroadkindsofsub-</tspan>
+      <tspan
+         x="683.33636 688.27753 693.25677 698.89655 704.53625 714.45673 720.09644 726.44757 733.50995 738.51459 742.04584 749.09552 754.74799 759.72723 765.36707 777.31976 780.85101 792.81641 797.75757 804.80731 815.36279 818.88135 822.41254 827.35364 832.99341 837.97266 844.32379 849.26489 856.31464 861.29388 866.94635 877.45105 882.45575 889.51813 896.56781 901.50897 906.48828 912.12799 917.78046 927.68817 936.85919 943.92157 947.45276 952.73688 964.70233 971.05341 976.03271"
+         y="647.58173"
+         id="tspan4364"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">treesconsideredintheliterature:subtreeswhichare</tspan>
+      <tspan
+         x="683.33636 687.22321 694.27295 699.29028 709.89661 713.4278 720.49023 727.53992 734.60236 740.24213 745.89459 758.62213 763.62683 770.68927 777.73895 784.09003 789.06927 795.42041 802.48279 809.53247 814.54987 824.11462 829.75439 836.10547 839.63666 843.15515 848.80762"
+         y="662.82355"
+         id="tspan4366"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">justinducedsubgraphs,called</tspan>
+    </text>
+    <text
+       x="861.53912"
+       y="662.82355"
+       id="text4368"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="861.53912 865.43872 872.57733 879.06818 885.88922 891.07172 896.26691 908.63879 913.82129 920.6424 926.48535 930.70251 935.41504 940.61023 946.45319"
+         y="662.82355"
+         id="tspan4370"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">inducedsubtrees</tspan>
+    </text>
+    <text
+       x="951.64264"
+       y="662.82355"
+       id="text4372"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="951.64264 961.20734 967.55847 974.62085"
+         y="662.82355"
+         id="tspan4374"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">,and</tspan>
+      <tspan
+         x="683.33636 688.341 695.40344 702.46582 707.39429 712.37354 718.01331 723.66577 733.42108 742.59198 749.64172 755.29419 760.27344 770.65112 776.30359 782.65466 789.36145 794.28986 799.26917 805.62024 811.26001 816.20117 819.73236 826.08344 837.88379 844.23486 852.85962 858.49939 865.56183 871.9129 877.55267 887.30792 890.83911 900.59442 906.9455 910.47668 913.99524 919.99066 928.81866 934.45844 941.52087 949.91699 955.55676 961.90784 965.43909 968.97028 974.61005"
+         y="678.06543"
+         id="tspan4376"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">subtreeswherecontractionofedgesisallowed,called</tspan>
+    </text>
+    <text
+       x="683.33636"
+       y="693.30725"
+       id="text4378"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="683.33636 689.17932 699.56976 704.76495 709.94745 716.45093 722.94177 728.1369 738.56543 743.76062 750.56897 756.41199 760.64185 765.34161 770.5368 776.37982"
+         y="693.30725"
+         id="tspan4380"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">embeddedsubtrees[...]</tspan>
+    </text>
+    <text
+       x="781.57263"
+       y="693.30725"
+       id="text4382"
+       style="font-size:15.29922199px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">
+      <tspan
+         x="781.57263"
+         y="693.30725"
+         id="tspan4448"
+         style="font-size:12.70217991px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium" />
+    </text>
+    <text
+       x="682.04297"
+       y="709.10522"
+       id="text6142"
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Medium"><tspan
+         x="682.04297"
+         y="709.10522"
+         id="tspan6144"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium" /></text>
+  </g>
+</svg>
