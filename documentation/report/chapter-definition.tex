@@ -3,8 +3,30 @@
 
 En aquest segon capítol es descriuen les línies generals que s'han seguit per dur a terme el projecte i per definir-ne el context. Comencem explicant el procediment que ens permetrà aconseguir els objectius proposats.
 
-\section{Procés d'extracció}
-En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF va ser intentar distingir la informació de la referència bibliogràfica directament del fitxer, seguint uns passos semblants als de la figura següent.
+
+%%%% FUNCIONALITATS %%%%
+\section{Requeriments}
+A continuació es llisten totes les funcionalitats que l'aplicació haurà d'oferir a l'usuari. Cal comentar que aquests requeriments els hem establert nosaltres mateixos a segons el que ens ha semblat més necessari.
+\begin{itemize}
+\item{}
+Extracció de la referència bibliogràfica corresponent a un o més articles que es troben en fitxers PDF en algun directori.
+
+\item{}
+Possibilitat d'exportar les referències extretes en el format \BibTeX{} i desar-les a un fitxer \texttt{.bib}
+
+\item{}
+Generació automàtica de regles d'extracció a partir d'exemples.
+
+\item{}
+Importació de referències en un fitxer \texttt{.bib} per tal de poder-los fer servir d'exemples.
+
+\item{}
+Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{update} i \textit{delete}.} per a la gestió de referències i regles d'extracció.
+\end{itemize}
+
+
+\section{L'extracció de referències}
+Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat per aconseguir-lo són les que han guiat el disseny de la resta del sistema. En aquesta secció pretenem mostrar, a grans trets, el raonament que es va seguir per definir una estratègia amb certes garanties d'èxit per aquesta funcionalitat. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF va ser intentar distingir la informació de la referència bibliogràfica directament del fitxer, seguint uns passos semblants als de la figura següent.
 
 \begin{figure}[H]
 \begin{center}
@@ -36,28 +58,6 @@ La solució que hem trobat per poder tirar endavant consisteix en fer ús del que 
 \end{figure}
 
 Així doncs, hem de fer una mica més de tomb per poder aconseguir els resultats desitjats, però els passos són més senzills d'aplicar, donant-nos més garanties que funcionarà.
-
-\section{Funcionalitats}
-A continuació es llisten totes les funcionalitats que l'aplicació ofereix a l'usuari final:
-\begin{itemize}
-\item{}
-Extracció de la referència bibliogràfica corresponent a un o més articles que es troben en fitxers PDF en algun directori.
-
-\item{}
-Possibilitat d'exportar les referències extretes en format \BibTeX{} i desar-les a un fitxer \texttt{.bib}
-
-\item{}
-Generació automàtica de regles d'extracció a partir d'exemples.
-
-\item{}
-Importació de referències en un fitxer \texttt{.bib} per tal de poder-los fer servir d'exemples.
-
-\item{}
-Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{update} i \textit{delete}.} per a la gestió de referències i regles d'extracció.
-\end{itemize}
-
-%%% CONTEXT %%%%
-\section{Context}
 
 %%%% BIBTEX %%%%
 \subsection{\BibTeX}
@@ -126,6 +126,12 @@ La figura \ref{fig:module_diagram} mostra com interaccionen entre ells.
 \label{fig:module_diagram}
 \end{center}
 \end{figure}
+
+
+%%%% LLICÈNCIA %%%%
+\subsection{Llicència}
+L'aplicació es distribueix sota la llicència GPL v3 \cite{gpl3}.
+
 
 
 \section{Llista de tasques}
