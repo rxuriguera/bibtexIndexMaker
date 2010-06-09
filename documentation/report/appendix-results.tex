@@ -2,6 +2,7 @@
 \label{appendix-results}
 A continuació es mostren els gràfics amb la resta de resultats de les proves que s'han realitzat. La majoria corresponen al mateix tipus de tests que els del capítol \ref{chapter:results}, però variant algun paràmetre.
 
+%%%% REF SEARCH %%%%
 \section{Cerca de referències}
 Les gràfiques següents són semblants a la de la figura \ref{fig:results:random-reslen}. En aquest cas, però, el tipus de fitxers per als quals extraiem consultes i fem les cerques estan agrupats en dues categories segons l'estructura del seu contingut. Per un costat, a la figura \ref{fig:results:pageheader-reslen}, tenim fitxers que tenen una pàgina sencera com a capçalera abans del resum o \textit{abstract} de l'article.
 \begin{figure}[H]
@@ -37,11 +38,10 @@ El gràfic de la figura següent s'ha obtingut a partir d'articles que tenen una c
 \paragraph{}
 Pel que fa al número de consultes necessàries per començar a obtenir bons resultats, els gràfics per aquests dos conjunts de fitxers són molt semblants al que hem vist a la figura \ref{fig:results:random-fqlen}.
 
+%%% WRAPPER GEN %%%%
 \section{Generació de \textit{wrappers}}
 \label{appendix:results:section:wrapperinduction}
-Pel que fa a la generació automàtica de regles d'extracció, la figura següent mostra els \textit{wrappers} obtinguts al generar-los fent servir només dos exemples. Com es pot comprovar,
-A continuació es mostren els gràfics de la cobertura dels \textit{wrappers} generats per altres camps que no s'han tractat a la secció \ref{chapter:results:section:wrapperinduction}.
-
+Pel que fa a la generació automàtica de regles d'extracció, la figura següent mostra els \textit{wrappers} obtinguts al generar-los fent servir només dos exemples. Com es pot comprovar, no se n'han generat tants com a l'utilitzar quatre exempes, però també hi ha \textit{wrappers} de confiança màxima per a la majoria de camps. Una altra cosa és que realment funcionin a l'executar-los per nous documents, tal i com hem vist que passava.
 
 \begin{figure}[H]
 \begin{center}
@@ -51,6 +51,11 @@ A continuació es mostren els gràfics de la cobertura dels \textit{wrappers} gene
 \end{center}
 \end{figure}
 
+\paragraph{}
+També hem mirat la \textit{cobertura} dels \textit{wrappers} generats per altres camps a part del nom de la revista i l'any. Els gràfics de la figura \ref{fig:appendix:results:wrapperinduction:coverage} en mostren els resultats. És interessant comparar la confiança dels \textit{wrappers} d'autors, un camp multi-valor relativament difícil d'exterue; i la de les pàgines i el número de volum. Els motius són els que ja s'han comentat a la secció de resultats.
+
+\paragraph{}
+Per últim, també hem generat un gràfic (\ref{fig:appendix:results:wrapperinduction:time}) que reflecteix una mitjana del temps necessari per generar els \textit{wrappers} per un camp qualsevol depenent del número d'exemples que s'utilitzen. 
 
 \begin{figure}[H]
 \begin{center}
@@ -63,11 +68,7 @@ A continuació es mostren els gràfics de la cobertura dels \textit{wrappers} gene
 	\centering
 	\includegraphics[width=\textwidth]{figures/results:coverage-author.pdf}
 \end{minipage}
-\end{center}
-\end{figure}
 
-\begin{figure}[H]
-\begin{center}
 \begin{minipage}{0.49\linewidth}
 	\centering
 	\includegraphics[width=\textwidth]{figures/results:coverage-pages.pdf}
@@ -92,7 +93,7 @@ A continuació es mostren els gràfics de la cobertura dels \textit{wrappers} gene
 
 \begin{figure}[H]
 \begin{center}
-	\includegraphics[width=0.8\textwidth]{figures/results:field-time.pdf}
+	\includegraphics[width=0.7\textwidth]{figures/results:field-time.pdf}
 	\caption{Temps mitjà per la generació dels \textit{wrappers} d'un únic camp}
 	\label{fig:appendix:results:wrapperinduction:time}
 \end{center}

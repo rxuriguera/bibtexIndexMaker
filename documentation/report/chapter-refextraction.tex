@@ -1,7 +1,7 @@
 \chapter{Extracció de referències}
 \label{chapter:refextraction}
 
-Un cop hem aconseguit trobar pàgines que contenen informació de l'article pel qual volem generar la referència bibliogràfica, és moment d'extreure aquesta informació i formatar-la. En aquest capítol tractarem els problemes que hem trobat a l'hora d'extreure la in
+Un cop hem aconseguit trobar pàgines que contenen informació de l'article pel qual volem generar la referència bibliogràfica, és moment d'extreure aquesta informació i formatar-la.
 
 \section{\textit{Wrappers}}
 En el nostre context, anomenarem \textit{wrapper} a una classe que implementa una sèrie de mètodes establerts i que, a partir d'un text o document d'entrada, permet extreure'n certa informació. Podem imaginar-ho com un filtre que només ens deixa veure una part del document que ens interessa.
@@ -13,13 +13,13 @@ En el nostre context, anomenarem \textit{wrapper} a una classe que implementa un
 \end{center}
 \end{figure}
 
-Internament, consisteixen en un seguit de regles que saben com extreure les dades de documents amb una estructura concreta. A la nostra aplicació tindrem els dos tipus de \textit{wrapper} que es descriuen a continuació.
+Internament, consisteixen en un seguit de regles especialitzades en extreure les dades de documents estructurats d'una forma concreta. A la nostra aplicació tindrem els dos tipus de \textit{wrappers} que es descriuen a continuació, que es diferencien entre ells per la funció que realitzen.
 
 
 %%%% REFERENCE WRAPPERS %%%%
 \subsection{\textit{Reference Wrappers}}
 \label{refextraction:reference-wrappers}
-Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera dins de les pàgines HTML dels resultats. El gran avantatge que tenen és que habitualment permeten extreure molta informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
+Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera dins de les pàgines HTML dels resultats. El gran avantatge que tenen és que habitualment permeten obtenir molta informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
 
 \begin{figure}[H]
 \begin{center}
@@ -32,26 +32,26 @@ Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència
 El principal problema és que s'han d'implementar manualment ja que moltes vegades el text de les referències no es troba a la mateixa pàgina retornada pels cercadors, sinó que cal seguir algun enllaç o realitzar altres accions abans d'arribar-hi, cosa que complica força la generació automàtica. A més, el fet que d'aquests \textit{wrappers} només en necessitem un per cada biblioteca, fa que no s'hagi considerat oportú automatitzar-ne la generació ja que (de moment) no suposa un estalvi de recursos prou gran.
 
 \paragraph{}
-Un altre inconvenient d'aquest tipus de \textit{wrappers} és que hi ha moltes biblioteques digitals que no ofereixen les referències en \BibTeX{} sinó en altres formats com ara \textit{RIS}, \textit{MODS}, etc. Els formats que s'ofereixen depenen força del camp de coneixement en què s'especialitza la biblioteca.
+Un altre inconvenient d'aquest tipus de \textit{wrappers} és que hi ha moltes biblioteques digitals que no ofereixen les referències en \BibTeX{} sinó en altres formats com ara \textit{RIS}, \textit{MODS}, etc. La llista de formats que s'ofereixen depèn força del camp de coneixement en què s'especialitza la biblioteca. 
 
 \paragraph{}
-Respecte a la manera d'implementar-los, cal estudiar el funcionament de cada biblioteca i aplicar una mica d'enginyeria inversa. Per exemple, en algunes ocasions podem aconseguir alguna drecera per arribar a les referències a partir de les direccions retornades pels cercadors. Un dels casos més senzills és el de la biblioteca digital \textit{ScientificCommons} on per obtenir el codi \BibTeX{} només hem de canviar l'adreça retornada pel cercador:
+Respecte a la manera d'implementar-los, el primer que cal fer és estudiar el funcionament de cada biblioteca i aplicar una mica d'enginyeria inversa. Per exemple, en algunes ocasions podem aconseguir alguna drecera per arribar a les referències a partir de les direccions retornades pels cercadors. Un dels casos més senzills és el de la biblioteca digital \textit{ScientificCommons} on per obtenir el codi \BibTeX{} només hem de canviar l'adreça retornada pel cercador:
 \begin{center}
-\begin{lstlisting}[caption={Adreça d'un artice de \textit{ScientificCommons}}, nolol=true]
-Canviem...
+\begin{lstlisting}[nolol=true]
 http://en.scientificcommons.org/32119993
-per...
+\end{lstlisting}
+\begin{lstlisting}[nolol=True]
 http://en.scientificcommons.org/export/bibtex/32119993
 \end{lstlisting}
 \end{center}
-Altres vegades, obtenir la referència és més complicat, i és necessari construir l'adreça a partir de paràmetres d'una crida a una funció \textit{JavaScript}, com passa per la biblioteca \textit{ACM}; o bé a partir de camps d'un formulari, cas de \textit{ScienceDirect}, etc.
+Altres vegades, obtenir la referència és més complicat, i és necessari construir la URL a partir de paràmetres d'una crida a una funció \textit{JavaScript}, com passa per la biblioteca \textit{ACM}; o bé a partir de camps d'un formulari, cas de \textit{ScienceDirect}, etc.
 
 
 
 %%%%% FIELD WRAPPERS %%%%
 \subsection{\textit{Field Wrappers}}
 \label{chapter:refextraction:section:fieldwrappers}
-A diferència dels que acabem de veure, aquest tipus de \textit{wrappers} s'especialitzen en extreure únicament un dels camps de la referència cada vegada. Per tant, se'n necessita un per cadascun dels camps que volem obtenir per cada biblioteca d'articles que vulguem suportar. El diagrama següent mostra la diferència entre aquest tipus de \textit{wrappers} respecte els de la figura \ref{fig:refextraction:reference-wrappers}:
+A diferència dels que acabem de veure, aquest tipus de \textit{wrappers} s'especialitzen en extreure únicament un dels camps de la referència cada vegada. Per tant, se'n necessita un per cadascun dels camps que volem obtenir per cada biblioteca d'articles que vulguem suportar. El diagrama següent mostra la diferència respecte els de la figura \ref{fig:refextraction:reference-wrappers}:
 
 \begin{figure}[H]
 \begin{center}
@@ -68,7 +68,7 @@ Internament, aquests tipus de \textit{wrappers} consisteixen en un llistat de re
 Per assegurar-nos que l'aplicació pot acomplir els objectius proposats, en un principi vam començar a definir algunes d'aquestes regles manualment, mirant de fer-les prou generals com per poder-les reutilitzar per múltiples biblioteques. És fàcil veure que aquesta és una tasca que consumeix molt temps. A més, s'ha de tenir en compte que els resultats obtinguts es veuen afectats per qualsevol canvi en l'estructura de les pàgines font. Cada vegada que hi ha un redisseny, s'han d'actualitzar les regles o bé crear-les de nou. Per tant, vam decidir dedicar la resta de projecte en trobar la manera de generar aquest tipus de \textit{wrappers} de forma automàtica. La forma de fer-ho es descriu al capítol \ref{chapter:wrapperinduction}.
 
 \paragraph{}
-Si ens centrem en el procés d'extracció, els passos que se segueixen són:
+De totes maneres, cenyint-nos al procés d'extracció, els passos que se segueixen són:
 \begin{itemize}
 \item{Donat el resultat web d'un article mirem si disposem de \textit{wrappers} per algun dels camps a la base de dades de l'aplicació.}
 \item{De ser així, per cada camp obtenim els millors segons una puntuació.}
@@ -76,7 +76,7 @@ Si ens centrem en el procés d'extracció, els passos que se segueixen són:
 \item{Si el resultat es considera vàlid, passem al següent camp. Altrament, provem amb un altre \textit{wrapper}.}
 \end{itemize}
 
-Com es pot deduir, no serà necessari tenir \textit{wrappers} que funcionin en tots els casos sinó que només caldrà tenir-ne uns quants que ho facin en un percentatge prou elevat. Això facilita l'extracció per les biblioteques digitals varien l'estructura de la informació en algunes ocasions.
+Com es pot deduir, no serà necessari tenir \textit{wrappers} que funcionin en tots els casos sinó que només caldrà tenir-ne uns quants que ho facin en un percentatge prou elevat. Això facilita l'extracció per aquelles biblioteques digitals que varien l'estructura de la informació en algunes ocasions.
 
 \section{Validació de referències}
 Després d'obtenir les dades dels documents HTML amb els mètodes indicats, ens interessa validar-les per diversos motius: 
@@ -84,21 +84,21 @@ Després d'obtenir les dades dels documents HTML amb els mètodes indicats, ens in
 \begin{itemize}
 \item{Continuar provant més resultats i regles disponibles abans de donar l'extracció per finalitzada.}
 \item{Indicar a l'usuari que sospitem que algun dels camps no és correcte.}
-\item{Avaluar els \textit{wrappers} per tal d'elegir els millors en properes extraccions.}
+\item{Modificar la puntuació dels \textit{wrappers} per tal d'elegir els millors en properes extraccions.}
 \item{Evitar utilitzar referències incorrectes a l'hora de generar nous \textit{wrappers}}
 \end{itemize}
 
-El procés de validació de les dades depèn de cada camp i és totalment ajustable. Dins del fitxer de configuració de l'aplicació, es pot establir, per cada camp com s'ha de validar i un pes sobre la validesa total de la referència. Pel que fa al primer paràmetre, tindrem diferents tipus de validadors:
+El procés de validació de les dades depèn de cada camp i és totalment ajustable. Dins del fitxer de configuració de l'aplicació, es pot establir, per cada camp, com s'ha de validar i un pes sobre la validesa total de la referència. Pel que fa al primer paràmetre, tindrem diferents tipus de validadors:
 \begin{itemize}
 \item{\textit{WithinTextValidator}:} Basa la validació en comprovar si la cadena extreta es troba dins del text extret de l'article PDF. 
-\item{\textit{PersonValidator}:} Semblant a l'anterior, però ho comprova pels diferents noms noms de les persones.
+\item{\textit{PersonValidator}:} Semblant a l'anterior, però ho comprova pels diferents noms de les persones.
 \item{\textit{RegexValidator}:} Mira que el text extret coincideixi amb una expressió regular que també s'inclou al fitxer de configuració. Útil per aquells casos on el camp no es troba dins del document de l'article (e.g. pàgines, issn).
 \end{itemize}
 
-El pes correspon a un nombre en coma flotant que ens permet donar més importancia a certs camps com ara el títol o nom dels autors a l'hora d'indicar com de vàlida és una referència. La suma total dels pesos ha de ser igual a 1. 
+El pes correspon a un nombre en coma flotant que ens permet donar més importancia a certs camps com ara el títol o nom dels autors a l'hora d'establir com de vàlida és una referència. La suma total dels pesos ha de ser igual a 1. 
 
 \paragraph{}
-Per configurar la validació s'utilitza el valor \texttt{field\_validation} dins del fitxer de configuració. La sintaxi per definir com validar cadascun dels camps és \texttt{<field>; <weight>; <validator>; [<validator params>]}. A continuació es mostra un exemple:
+Per configurar la validació s'utilitza el valor \texttt{field\_validation} dins del fitxer de configuració. La sintaxi per definir com validar cadascun dels camps és \texttt{<field>; <weight>; <validator>[; <validator params>]}. A continuació es mostra un exemple:
 
 \begin{center}
 \begin{lstlisting}[caption={Configuració de la validació de referències}, nolol=true]
@@ -112,10 +112,10 @@ field_validation=
 \end{lstlisting}
 \end{center}
 
-Per anar bé, cal especificar un validador per cadascun dels camps, fins i tot per aquells als que es dóna pes $0.0$. Això garantitza que els \textit{wrappers} per aquests camps es continuin avaluant tot i no tenir-los en compte a l'hora de considerar la referència com a vàlida.
+Per anar bé, cal especificar un validador per cadascun dels camps, fins i tot per aquells als que es dóna pes $0.0$. Això garantitza que la puntuació dels \textit{wrappers} per aquests camps es continuï actualitzant tot i no tenir-los en compte a l'hora de considerar la referència com a vàlida.
 
 \subsubsection{\textit{Parsing} de referències}
-Per poder validar les referències extretes amb dels \textit{reference wrappers}, és necessari analitzar-les sintàcticament obtenir-ne els diferents camps per separat i poder-los validar. Per aquest motiu, l'aplicació disposa d'un \textit{parser} de referències en format \BibTeX{}.
+Per poder validar les referències extretes amb dels \textit{reference wrappers}, és necessari analitzar-les sintàcticament i obtenir-ne els diferents camps per separat. Per aquest motiu, l'aplicació disposa d'un \textit{parser} de referències en format \BibTeX{}.
 
 
 \section{Format de referències}
@@ -123,6 +123,7 @@ Tal com s'ha indicat al diagrama de la figura \ref{fig:definition:extraction-dia
 
 \section{Emmagatzematge}
 \label{chapger:refextraction:storage}
-Totes les referències extretes s'emmagatzemen a la base de dades de l'aplicació per poder-les utilitzar en un futur tant per 
+Totes les referències extretes s'emmagatzemen a la base de dades de l'aplicació per poder-les utilitzar en un futur tant per exportar-les com per regenerar els \textit{wrappers} amb què s'han obtingut en primer lloc. A part de la referència en si, també es desa la consulta extreta del PDF per cercar a Internet i el resultat de la pàgina de la qual s'ha extret la referència.
 
-A part de la referència en si, també es desa la consulta extreta del PDF per cercar a Internet i el resultat de la pàgina de la qual s'ha extret la referència.
+\paragraph{}
+En referència al disseny de la base de dades, a l'apèndix \ref{fig:diagrams:database-diagram} hi ha un diagrama detallant les diferents taules, camps i relacions.
