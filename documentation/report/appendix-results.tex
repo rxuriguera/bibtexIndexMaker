@@ -1,10 +1,45 @@
 \chapter{Resultats dels tests}
 \label{appendix-results}
-A continuació es mostren els resultats complets de totes les proves realitzades a la nostra aplicació. L'explicació d'aquests números s'explica al capítol \ref{chapter:results}.
+A continuació es mostren els gràfics amb la resta de resultats de les proves que s'han realitzat. La majoria corresponen al mateix tipus de tests que els del capítol \ref{chapter:results}, però variant algun paràmetre.
 
+\section{Cerca de referències}
+Les gràfiques següents són semblants a la de la figura \ref{fig:results:random-reslen}. En aquest cas, però, el tipus de fitxers per als quals extraiem consultes i fem les cerques estan agrupats en dues categories segons l'estructura del seu contingut. Per un costat, a la figura \ref{fig:results:pageheader-reslen}, tenim fitxers que tenen una pàgina sencera com a capçalera abans del resum o \textit{abstract} de l'article.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:pageheader-reslen.pdf}
+\includegraphics[scale=0.8]{figures/results:search-legend.pdf}
+\caption{Qualitat dels resultats per fitxers amb una pàgina sencera com a capçalera}
+\label{fig:results:pageheader-reslen}
+\end{center}
+\end{figure}
+
+Veiem que per aquest tipus d'article, el percentatge de pàgines per les quals s'han obtingut bons resultats disminueix molt a mesura que s'augmenta la llargada de la consulta. Cal tenir en compte que les consultes s'han obtingut totes a partir de la primera pàgina del fitxer. Al no contenir el resum, fa que l'expressió regular usada per trobar la consulta no tingui coincidències per la majoria dels articles provats. Si executem les mateixes proves, però agafant les consultes de les dues primeres pàgines, els resultats milloren força:
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:pageheader2-reslen.pdf}
+\includegraphics[scale=0.8]{figures/results:search-legend.pdf}
+\caption{Qualitat dels resultats per fitxers amb una pàgina sencera com a capçalera II}
+\label{fig:results:pageheader2-reslen}
+\end{center}
+\end{figure}
+
+El gràfic de la figura següent s'ha obtingut a partir d'articles que tenen una capçalera \textit{normal}. Considerem que les capçaleres dels articles més habituals són aquelles que tenen l'\textit{abstract} a la mateixa pàgina.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:usualheader-reslen.pdf}
+\includegraphics[scale=0.8]{figures/results:search-legend.pdf}
+\caption{Qualitat dels resultats per fitxers amb capçaleres \textit{normals}}
+\label{fig:results:usualheader-reslen}
+\end{center}
+\end{figure}
+
+\paragraph{}
+Pel que fa al número de consultes necessàries per començar a obtenir bons resultats, els gràfics per aquests dos conjunts de fitxers són molt semblants al que hem vist a la figura \ref{fig:results:random-fqlen}.
 
 \section{Generació de \textit{wrappers}}
 \label{appendix:results:section:wrapperinduction}
+Pel que fa a la generació automàtica de regles d'extracció, la figura següent mostra els \textit{wrappers} obtinguts al generar-los fent servir només dos exemples. Com es pot comprovar,
 A continuació es mostren els gràfics de la cobertura dels \textit{wrappers} generats per altres camps que no s'han tractat a la secció \ref{chapter:results:section:wrapperinduction}.
 
 
