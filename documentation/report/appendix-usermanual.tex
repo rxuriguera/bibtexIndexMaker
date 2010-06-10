@@ -9,7 +9,7 @@ L'aplicació es distribueix en forma d'\texttt{egg} de \textit{Python} i pot ser 
 La primera opció del menú és la que permet llegir un directori de fitxers PDF i obtenir-ne les referències. El sistema inclou \textit{wrappers} per les biblioteques digitals que s'han descrit en altres capítols d'aquest document, i per tant, des d'un principi ja es pot provar a fer extraccions d'articles indexats per aquestes biblioteques.
 \\
 \\
-La vista de la figura \ref{fig:screenshots:extract-references} mostra el camp únic que cal omplir per tal de començar l'extracció: simplement seleccionem un directori o fitxer i cliquem al botó \textit{Extract References}. Durant l'execució, es mostra una barra de progrés i una vegada finalitzat, se'ns mostrarà una finestra molt semblant a la de la figura \ref{fig:screenshots:import-references-2} indicant-nos que podem veure i editar les referènceies amb l'opció del menú \textit{Manage}.
+La vista de la figura \ref{fig:screenshots:extract-references} mostra el camp únic que cal omplir per tal de començar l'extracció: simplement seleccionem un directori o fitxer i cliquem el botó \textit{Extract References}. Durant l'execució, es mostra una barra de progrés i una vegada finalitzat, se'ns mostrarà una finestra molt semblant a la de la figura \ref{fig:screenshots:import-references-2} indicant-nos que podem veure i editar les referènceies amb l'opció del menú \textit{Manage}.
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{figures/screenshots/screenshots:extract-references.pdf}
@@ -20,7 +20,7 @@ La vista de la figura \ref{fig:screenshots:extract-references} mostra el camp ún
 
 %%%% MANAGE %%%%
 \subsubsection{Gestió}
-Amb l'opció \textit{Manage} (veure \ref{fig:screenshots:manage-references}) podrem gestionar les referències disponibles i realitzar les operacions CRUD típiques. A la part esquerra es mostra un llistat de totes les referències de la base de dades. Al seleccionar-ne una s'omplirà l'editor de la meitat dreta de la finestra amb tota la informació sobre una referència.
+Amb l'opció \textit{Manage} (veure \ref{fig:screenshots:manage-references}) podrem gestionar les referències disponibles i realitzar les operacions CRUD típiques. A la part esquerra es mostra un llistat de totes les referències de la base de dades. Al seleccionar-ne una s'omplirà l'editor de la meitat dreta de la finestra amb tota la informació sobre la referència.
 
 \begin{figure}[ht]
 \begin{center}
@@ -33,11 +33,11 @@ Amb l'opció \textit{Manage} (veure \ref{fig:screenshots:manage-references}) podr
 Algunes característiques:
 \begin{itemize}
 \item{}
-Podem afegir nous camps, autors i editors simplement afegint-los al final de la llista adequada, a la línia buida que hi ha. Per eliminar-los, només cal esborrar totes les columnes i deixar la fila en blanc.
+Podem crear nous camps, autors i editors simplement afegint-los al final de la llista adequada, a la línia buida que hi ha. Per eliminar-los, només cal esborrar totes les columnes i deixar la fila en blanc.
 \item{}
 Per afegir o eliminar noves referències podem fer-ho a partir del menú contextual que apareix al clicar amb el botó secundari sobre la llista \textit{Available References}.
 \item{}
-És necessari definir una URL com a valor del camp \textit{Extracted from} si posteriorment es vol utilitzar la referència en qüestió per generar \textit{wrappers}.
+És necessari definir una URL com a valor del camp \textit{Extracted from} si posteriorment es pretén utilitzar la referència en qüestió per generar \textit{wrappers}.
 \item{}
 Pel que fa al camp \textit{File Path}, només serveix per ajudar a l'usuari a distingir entre les múltiples referències disponibles de la llista \textit{Available References}.
 \end{itemize}
@@ -51,10 +51,8 @@ Pel que fa al camp \textit{File Path}, només serveix per ajudar a l'usuari a dis
 \label{fig:screenshots:import-references}
 \end{center}
 \end{figure}
-Tot i no ser la primera opció del menú, sí que és probablement el primer que ens interessarà fer just després d'instal·lar l'aplicació. , però al principi caldrà adaptar-lo per poder extreure informació del tipus d'articles de cadascú. Per aconseguir-ho caldrà afegir referències d'exemple, i ho podem fer important-les d'un fitxer \texttt{.bib}.
-\\
-\\
-La vista que permet aquesta funcionalitat és la de la figura \ref{fig:screenshots:import-references}. És molt semblant a la de les extraccions, simplement cal seleccionar el fitxer \textit{.bib} que conté les referències i donar l'ordre per començar a importar-les amb el botó \textit{Import References}. Mentre s'està executant l'operació, es mostrarà una barra de progrés i, un cop acabat, se'ns redirigirà a la vista de la figura \ref{fig:screenshots:import-references-2}.
+Aquesta opció és la que probablement més ens interessarà la primera vegada que executem l'aplicació just després d'instal·larla. Permet importar referències des de fitxers \texttt{.bib} de manera que sigui ben fàcil començar a generar \textit{wrappers} i configurar el sistema segons les necessitats de cadascú. El funcionament és molt semblant al de les extraccions. Se selecciona un fitxer a la finestra \ref{fig:screenshots:import-references} i un cop s'ha acabat, se'ns redirigirà a la vista de la figura \ref{fig:screenshots:import-references-2}.
+
 
 \begin{figure}[ht]
 \begin{center}
@@ -86,10 +84,10 @@ L'altra categoria és la que permet gestionar els \textit{wrappers}.
 
 %%%% TRAIN %%%%
 \subsubsection{Entrenament}
-Aquesta opció és la que ens permet generar nous \textit{wrappers} a partir de les referències de les que es disposa. La vista que permet executar aquesta funcionalitat és la de la figura \ref{fig:screenshots:wrapper-train}. Les URLs de les biblioteques per les quals ja s'han generat \textit{wrappers} amb anterioritat es mostren a la llista \textit{Available URLs}, facilitant el re-enetrenament quan les dades deixen d'extreure's correctament. En el cas que es tracti d'una biblioteca nova, podem introduir-ne la seva adreça (o un prefix) manualment al camp \textit{URL}.
+Aquesta opció és la que ens permet generar nous \textit{wrappers} a partir de les referències de les que es disposa. La vista que permet executar aquesta funcionalitat és la de la figura \ref{fig:screenshots:wrapper-train}. Les URLs de les biblioteques per les quals ja s'han generat \textit{wrappers} amb anterioritat es mostren a la llista \textit{Available URLs}, facilitant el re-entrenament un cop les dades deixen d'extreure's correctament. En el cas que es tracti d'una biblioteca nova, podem introduir-ne la seva adreça (o un prefix) manualment al camp \textit{URL}.
 \\
 \\
-Un cop hem escollit la biblioteca, només hem de clicar al botó \textit{Train} i deixar que l'aplicació faci la resta. Quan finalitza, es mostra un missatge indicant que podem veure i editar els \textit{wrappers} generats des amb l'opció \textit{Manage}.
+Un cop hem escollit la biblioteca, només hem de clicar el botó \textit{Train} i deixar que l'aplicació faci la resta. Quan finalitza, es mostra un missatge indicant que podem veure i editar els \textit{wrappers} generats des amb l'opció \textit{Manage}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -102,7 +100,7 @@ Un cop hem escollit la biblioteca, només hem de clicar al botó \textit{Train} i 
 
 %%%% MANAGE %%%%
 \subsubsection{Gestió}
-De la mateixa manera que podíem modificar les referències, també tenim un editor pels \textit{wrappers} generats i es mostra a finestra de la figura \ref{fig:screenshots:wrapper-manager}. En aquest cas tenim tres apartats:
+De la mateixa manera que podem modificar les referències, també tenim un editor pels \textit{wrappers} generats; es mostra a finestra de la figura \ref{fig:screenshots:wrapper-manager}. En aquest cas tenim tres apartats:
 \begin{itemize}
 \item{}
 Llistat de col·leccions de \textit{wrappers} agrupades segons la biblioteca digital a la qual corresponen.
@@ -112,7 +110,7 @@ Llistat de \textit{wrappers} de la col·lecció seleccionada en un moment donat. P
 Editor del \textit{wrapper} seleccionat a la llista anterior. Es mostren els vots positius, negatius, la puntuació calculada i el llistat de regles.
 \end{itemize}
 
-Podem afegir i eliminar regles afegint nous valors a la línia buida que hi ha al final de la llista \textit{Rules}. Les col·leccions i els \textit{wrappers} es poden crear i esborrar amb el menú contextual que apareix al clicar amb el botó secundari. Aquesta inconsistència a l'hora de realitzar la mateixa operació per elements diferents, és un problema que caldrà solucionar en un futur.
+Podem crear i eliminar regles afegint nous valors a la línia buida que hi ha al final de la llista \textit{Rules} i deixant línies en blanc, respectivament. Les col·leccions i els \textit{wrappers} es poden crear i esborrar amb el menú contextual que apareix al clicar amb el botó secundari. Aquesta inconsistència a l'hora de realitzar la mateixa operació per elements diferents és un problema que caldrà solucionar en un futur.
 
 \begin{figure}[ht]
 \begin{center}
