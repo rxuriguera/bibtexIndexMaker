@@ -37,7 +37,7 @@ Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat p
 Això presenta moltes limitacions. Per començar, hi ha la impossibilitat d'extreure informació que no es troba dins del text (e.g. el número de pàgines de l'article). Una altra és que la informació dins dels fitxers PDF no té una estructura prou clara com per poder distingir entre els diferents camp. Aquest segon problema es tracta amb més en detall al proper capítol.
 
 \paragraph{}
-La solució que hem trobat per poder tirar endavant consisteix en fer ús del que s'anomenen \textit{biblioteques digitals}: grans bases de dades amb informació sobre articles. La majoria d'elles estan indexades pels principals cercadors disponibles a Internet. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}. Bàsicament, per cada fitxer l'aplicació:
+La solució que hem trobat per poder tirar endavant consisteix en fer ús de les biblioteques digitals descrites a la introducció. La majoria d'elles estan indexades pels principals cercadors disponibles a Internet. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}. Bàsicament, per cada fitxer l'aplicació:
 \begin{enumerate}
     \item{Extreu el contingut en forma de text.}
     \item{Genera un llistat de consultes a partir del text extret.}
@@ -142,6 +142,8 @@ La figura \ref{fig:module_diagram} mostra com interaccionen entre ells. Els mòdu
 \section{Llicència}
 L'aplicació es distribueix sota  una licència lliure que permet als destinataris la possibilitat de copiar, modificar i redistribuir el codi. Concretament, hem escollit la \textit{General Public License} (GPL) v.3, que requereix que qualsevol treball derivat també es distribueixi amb els mateixos permisos. El text complet d'aquesta llicència es pot trobar a \cite{gpl3} així com al fitxer \texttt{LICENSE} que acompanya al codi.
 
+\paragraph{}
+Qualsevol interessat pot agafar el codi i modificar-lo tan per afegir noves funcionalitats com per arreglar errors. La forma més fàcil de fer-ho és anar al repositori on es troba el projecte (\cite{repo}) i fer un \textit{fork}. D'aquesta manera, el nou codi sempre es podrà fusionar a la branca \textit{oficial}.
 
 \section{Llista de tasques}
 A continuació s'esmenten les tasques més importants que s'han dut a terme i elements que s'han implementat durant la realització del projecte. S'acompanyen amb una estimació del temps que ha estat necessari per completar-les, per donar una idea del pes de cadascuna d'elles:
