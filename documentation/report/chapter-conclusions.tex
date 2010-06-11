@@ -9,14 +9,14 @@ En part, podríem dir que el procés d'extracció s'ha basat en un cúmul d'assumpci
 \item{}
 L'extracció del text dels fitxers PDF no es pot fer per documents formats per imatges que han estat escanejats sense utilitzar \textit{software} de reconeixement de caràcters.
 \item{}
-El pas de cercar el document a Internet requereix, com és lògic, que es trobi en alguna de les biblioteques digitals indexades pels cercadors.
+El pas de cercar el document a Internet requereix, com és lògic, que es trobi en alguna de les biblioteques digitals indexades pels cercadors. Es descartarà qualsevol escrit pel qual no es trobin resultats.
 \item{}
 Per últim, pel que fa a extreure informació de les pàgines HTML de forma correcta, ja hem vist que depèn molt de les regles que tinguem definides, però que els resultats tampoc no són perfectes.
 \end{itemize}
 Al final, hem aconseguit una eina que funciona i que, tal i com hem pogut comprovar, obté resultats mitjanament bons. L'èxit de regles generades per a l'extracció varia segons el tipus de dades a obtenir. Mentre els camps com ara el títol, autors, nom de revista, etc. tenen una taxa d'encerts força elevada, altres camps com l'any de publicació, número de volum o número de la revista porta més problemes.
 
 \paragraph{}
-Cal comentar que, tot i que el sistema està destinat a l'extracció de referències, la part de generació de regles i la manera d'aplicar-les podria ser, en realitat, la base d'un \textit{framework} útil per qualsevol altre sistema similar d'extracció d'informació estructurada. En cas de no tractar-se de documents HTML, només caldria afegir els nous tipus de regles necessaris.
+Cal comentar que, tot i que el sistema està destinat a l'extracció de referències, la part de generació de regles i la manera d'aplicar-les podria ser, en realitat, la base d'un \textit{framework} útil per qualsevol altra eina similar d'extracció d'informació estructurada. En cas de no tractar-se de documents HTML, només caldria afegir els nous tipus de regles necessaris.
 
 \paragraph{}
 Un altre punt interessant és que, al tractar-se d'un projecte \textit{open source}, qualsevol persona interessada es pot dirigir al repositori públic que hi ha a \textit{GitHub} (\cite{repo}) i fer un \textit{fork} per desenvolupar noves funcionalitats o bé arreglar errors. Si es tracta d'un treball derivat haurà de distribuir-se sota les mateixes condicions.
@@ -26,7 +26,7 @@ Des d'un punt de vista objectiu, el sistema encara hauria de passar per més iter
 
 \begin{itemize}
 \item{}
-El primer i més important seria incorporar millores a la generació d'expressió regulars a partir d'exemples per tal d'aconseguir expressions generals utilitzant pocs exemples.
+El primer i més important seria incorporar millores a la generació d'expressions regulars a partir d'exemples per tal d'aconseguir expressions generals utilitzant pocs exemples.
 \item{}
 Possibilitat d'actualitzar \textit{wrappers} a mesura que es disposa de nous exemples. Quan una referència s'extreu correctament de forma automàtica significa que les regles funcionen, però quan hi ha errors i l'usuari fa correccions, l'aplicació hauria de ser capaç d'adonar-se'n i actualitzar-se per fer-ho bé en pròximes execucions. Hauria de ser capaç d'aprendre.
 \item{}
