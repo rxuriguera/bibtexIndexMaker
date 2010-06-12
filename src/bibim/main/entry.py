@@ -35,6 +35,7 @@ from bibim.main.factory import (UtilFactory,
 from bibim.references.format.formatter import ReferenceFormatter
 from bibim.util.helpers import ReferenceFormat
 
+
 class IndexMaker(threading.Thread):
     def __init__(self):
         super(IndexMaker, self).__init__()
@@ -99,6 +100,7 @@ class WrapperGenerator(threading.Thread):
 
     def generate_wrappers(self):
         self.ie_controller.generate_wrappers(self.url)
+
 
 class ReferenceEntryFormatter(object):
     def __init__(self, format=ReferenceFormat.BIBTEX):

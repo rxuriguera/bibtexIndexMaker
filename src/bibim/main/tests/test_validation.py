@@ -23,7 +23,7 @@ from bibim.main.validation import (ReferenceValidator,
                                    ValidatorFactory,
                                    WithinTextValidator,
                                    RegexValidator)
-from bibim.references import Reference
+from bibim.references.reference import Reference
 
 class TestReferenceValidator(unittest.TestCase):
 
@@ -42,7 +42,6 @@ class TestReferenceValidator(unittest.TestCase):
             'incremental learning using boundary methods'), True)        
         
         self.rv.validate(correct_ref)
-        x = correct_ref.validity
         self.failUnless(correct_ref.validity == 1.0)
 
     def test_validate_incorrect_reference(self):
@@ -52,7 +51,6 @@ class TestReferenceValidator(unittest.TestCase):
                                             'last_name':'Sancho',
                                             'middle_name':''}], True)
         self.rv.validate(incorrect_ref)
-        x = incorrect_ref.validity
         self.failUnless(incorrect_ref.validity < 0.5)
 
 

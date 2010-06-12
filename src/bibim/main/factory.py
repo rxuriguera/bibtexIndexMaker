@@ -28,8 +28,10 @@ from bibim.ir.search import (Searcher,
 from bibim.references.parsers.bibtex import BibtexParser
 from bibim.references.format.generator import BibtexGenerator
 
+
 class UtilCreationError(Exception):
     pass
+
 
 class UtilFactory(object):
     

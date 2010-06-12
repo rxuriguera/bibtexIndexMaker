@@ -45,11 +45,7 @@ class TestIEController(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def xtest_extract_reference(self):
-        #self.iec.extract_reference(self.top_results)
-        pass
-    
-    def xtest_use_reference_wrappers_page_with_no_wrapper(self):
+    def test_use_reference_wrappers_page_with_no_wrapper(self):
         references = self.iec._use_reference_wrappers('some_source',
                                                       self.empty_page,
                                                       self.text)
@@ -61,12 +57,12 @@ class TestIEController(unittest.TestCase):
                                                       self.text)
         self.failUnless(len(references) == 1)
     
-    def xtest_format_reference_same_format(self):
+    def test_format_reference_same_format(self):
         ref = Reference(format=ReferenceFormat.BIBTEX, entry='formatted entry')
         self.iec._format_reference(ref)
         self.failUnless(ref.get_entry() == 'formatted entry')
         
-    def xtest_format_reference_different_format(self):
+    def test_format_reference_different_format(self):
         ref = Reference()
         ref.set_field('reference_id', 'Lmadsen99')
         ref.set_field('title', 'Some article title')
@@ -81,7 +77,7 @@ class TestIEController(unittest.TestCase):
         self.failUnless(len(references) == 1)
         self.failUnless(len(references[0].fields) == 3)
     
-    def xtest_validate_reference_fields(self):
+    def test_validate_reference_fields(self):
         ref = Reference()
         ref.set_field('title', 'Some article title')
         ref.set_field('year', '32')
@@ -98,14 +94,10 @@ class TestIEController(unittest.TestCase):
         file.close()
         return soup
     
-    def xtest_generate_wrappers(self):
-        self.iec.generate_wrappers("some_url")
-    
     def test_set_value_guides(self):
         value_guides = self.iec.value_guides
-        pass
+        self.failUnless(len(value_guides) == 5)
         
-    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

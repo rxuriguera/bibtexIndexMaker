@@ -40,8 +40,7 @@ from bibim.rce import ExtractionError
 from bibim.references.reference import Reference
 from bibim.references.format.formatter import ReferenceFormatter
 from bibim.util import (Browser,
-                        BrowserError,
-                        BeautifulSoup)
+                        BrowserError)
 from bibim.util.config import configuration
 from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat,
@@ -248,7 +247,6 @@ class IEController(Controller):
         self.secs_between_reqs = secs_between_reqs
         self.wrapper_gen_examples = wrapper_gen_examples
         
-        
     def extract_reference(self, top_results, raw_text):
         """
         Returns a list of References if they can be extracted or an empty 
@@ -277,8 +275,6 @@ class IEController(Controller):
                 references = self._use_rule_wrappers(result.base_url, page,
                                                      raw_text)
                 
-            #if not references:
-            #references = self._use_field_wrappers(result.base_url, page)
             if references:
                 break
         
@@ -305,10 +301,6 @@ class IEController(Controller):
             wrappers = wrapper_manager.get_wrappers(url, field)
             log.debug('Collection %s:%s has %d wrappers' % (url, field, #@UndefinedVariable
                                                             len(wrappers)))
-            
-            #TODO: Remove This
-            #if field != 'author':
-            #    continue
             
             # Get field validator
             try:
@@ -457,12 +449,7 @@ class IEController(Controller):
         for set in example_sets:
             log.info('Starting wrapper training for set %s' % set) #@UndefinedVariable
             
-            # TODo: Remove
-            #if set != 'author':
-            #    continue
-            
-            # TODO: Uncomment editor
-            if set == 'author':# or set == 'editor':
+            if set == 'author' or set == 'editor':
                 rulers = [MultiValuePathRuler(),
                           SeparatorsRegexRuler(),
                           ElementsRegexRuler(),
@@ -538,7 +525,6 @@ class ReferencesController(Controller):
             reference.validity = 1.0
             references.append(reference)
         return references
-        
         
     def persist_file_references(self, file_path):
         """

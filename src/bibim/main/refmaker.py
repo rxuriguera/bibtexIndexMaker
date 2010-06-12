@@ -62,10 +62,6 @@ class ReferenceMaker(object):
             return extraction
         extraction.query_strings.remove(extraction.used_query)
         
-        # TODO: Remove this
-        #extraction.top_results = [SearchResult('Search result title', 'file:///home/rxuriguera/pages/03.html')]
-        #extraction.used_query = 'Some query'
-        
         log.debug("Used query %s" % str(extraction.used_query)) #@UndefinedVariable
         log.debug("Query returned %d top results" % len(extraction.top_results)) #@UndefinedVariable
         

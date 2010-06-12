@@ -74,6 +74,7 @@ class PersonValidator(FieldValidator):
     Validates that the values are a list of people
     """
     def validate(self, value, *kwargs):
+        # TODO: For each name field, check with a WithinTextValidator
         return True
     
 
