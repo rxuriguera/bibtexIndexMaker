@@ -18,7 +18,8 @@
 
 import re
 
-from bibim.util.beautifulsoup import BeautifulSoup, Comment, NavigableString
+from bibim.util.beautifulsoup import (BeautifulSoup,
+                                      Comment)
 
 class Format(object):
     
