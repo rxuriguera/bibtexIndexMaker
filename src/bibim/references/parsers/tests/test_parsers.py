@@ -19,8 +19,8 @@
 from os.path import join, dirname, normpath
 import unittest #@UnresolvedImport
 
-from bibim.references.parsers import (EntryParseError,
-                                      BibtexParser)
+from bibim.references.parsers.bibtex import BibtexParser
+
 
 class TestBibtexParser(unittest.TestCase):
 

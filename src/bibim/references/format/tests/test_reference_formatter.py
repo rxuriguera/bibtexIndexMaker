@@ -19,9 +19,9 @@
 import unittest #@UnresolvedImport
 import os
 
-from bibim.references import Reference
-from bibim.references.format import ReferenceFormatter
-from bibim.references.format import ReferenceFormatGenerator, BibtexGenerator
+from bibim.references.reference import Reference
+from bibim.references.format.formatter import ReferenceFormatter
+from bibim.references.format.generator import BibtexGenerator
 
 class TestReferenceFormatter(unittest.TestCase):
 
