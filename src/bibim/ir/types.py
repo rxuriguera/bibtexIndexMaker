@@ -22,12 +22,14 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker IR.  If not, see <http://www.gnu.org/licenses/>.
 
+
 class SearchError(Exception):
     """
     Base class for search exceptions.
     """
     def __init__(self, error):
         self.error = error
+
 
 class ParseError(SearchError):
     """
@@ -66,7 +68,6 @@ class SearchResult(object):
         else:
             return self.url.rsplit('/', 1)[0]
           
-
 
 class DescSearchResult(SearchResult):
     """

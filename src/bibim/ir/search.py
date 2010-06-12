@@ -22,14 +22,12 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker IR.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import re
 import urllib #@UnresolvedImport
 import simplejson #@UnresolvedImport
 
 from htmlentitydefs import name2codepoint #@UnresolvedImport
 
-from bibim import log
 from bibim.ir.types import (DescSearchResult,
                             ScholarSearchResult,
                             SearchError,
@@ -469,8 +467,6 @@ class JSONSearch(Searcher):
         return DescSearchResult(title, url, desc) 
 
     def _extract_info(self, page):
-        empty_info = {'from': 0, 'to': 0, 'total': 0}
-        
         total = self._extract_field(page, self.total_path)
         from_result = self._extract_field(page, self.from_path)
         to_result = self._extract_field(page, self.to_path)
@@ -488,11 +484,11 @@ class JSONSearch(Searcher):
         for element in field.split('/'):
             try:
                 current = current[element]
-            except KeyError, e:
+            except KeyError:
                 self._maybe_raise(ParseError, ('Could not find field %s' % 
                                   field), root)
                 return None
-            except TypeError, e:
+            except TypeError:
                 return None
         return current
 
