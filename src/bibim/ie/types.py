@@ -73,7 +73,8 @@ class Example(object):
     """
     Represents an example defining a piece of information to be extracted. 
     """
-    def __init__(self, value=None, content=None, url=u'', valid=True, ref_id=None):
+    def __init__(self, value=None, content=None, url=u'', valid=True,
+                 ref_id=None):
         self.ref_id = ref_id
         self.value = value
         self.content = content

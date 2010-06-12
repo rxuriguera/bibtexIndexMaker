@@ -22,7 +22,6 @@ import difflib #@UnresolvedImport
 from bibim import log
 from bibim.ie.types import Rule, Example
 from bibim.references.util import split_name
-from bibim.util.beautifulsoup import NavigableString
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
@@ -104,7 +103,8 @@ class RegexRule(Rule):
 
 class MultiValueRegexRule(Rule):
     def apply(self, input):
-        log.debug('Applying MultiValueRegexRule with pattern %s' % (str(self.pattern)[:30])) #@UndefinedVariable
+        log.debug('Applying MultiValueRegexRule with pattern %s' % #@UndefinedVariable
+                  (str(self.pattern)[:30])) 
         results = []
         regex = re.compile(self.pattern)
         for string in input:
@@ -120,14 +120,7 @@ class SeparatorsRegexRule(MultiValueRegexRule):
     def apply(self, input):
         if not type(input) is list:
             input = [input]
-            #try:
-            #    input = input[0]
-            #except IndexError, e:
-            #    log.warn('Trying to apply SeparatorsRegexRule with empty list' #@UndefinedVariable
-            #             ' as input: %s' % e) 
-            #    return input
-        
-        
+
         regex = [''.join([x, '|']) for x in self.pattern]
         regex = ''.join(regex)[:-1]
         
@@ -136,7 +129,6 @@ class SeparatorsRegexRule(MultiValueRegexRule):
             result.extend(re.split(regex, i))
         
         return result
-        #return re.split(regex, input)
 
 
 class PathRule(Rule):
@@ -159,7 +151,7 @@ class PathRule(Rule):
         if not path:
             return []
         current = input
-        tag, attrs, sibling = path.pop(0)
+        tag, attrs, sibling = path.pop(0) #@UnusedVariable
         
         # First element from the path must be unique
         elements = current.findAll(tag, attrs)
@@ -181,18 +173,7 @@ class PathRule(Rule):
         tag, attrs, sibling = path.pop(0)
         if sibling >= len(start.contents):
             sibling = -1
-        
-        # TODO: Remove this
-        # Has a sibling defined
-        #if sibling >= 0:
-        #    try:
-        #        name = start.contents[sibling].name
-        #        if name == tag:
-        #            start = start.contents[sibling]
-        #            return self._get_elements(list(path), start, elements)
-        #    except:
-        #        log.warn('Error trying to get sibling name') #@UndefinedVariable
-                
+            
         # Try all siblings
         start_elements = start.findAll(name=tag, attrs=attrs, recursive=False)
         
@@ -209,72 +190,7 @@ class PathRule(Rule):
             if match:
                 matches.append(element_text)
         return matches
-        
-# TODO: Remove this
-"""
-class MultiValuePathRule(PathRule):
 
-    def apply(self, input):
-        log.debug('Applying MultiValuePathRule') #@UndefinedVariable
-        values = []
-        pattern = list(self.pattern)
-        self.value_guide = pattern.pop(0)
-        #elements = self._get_path_elements(pattern, input)
-        
-        elements = self._get_path_element(pattern, input)
-        
-        #for element in elements:
-        #    try:
-        #        text = ''.join(element.findAll(text=True))
-        #        if re.search(pattern, text):
-        #            values.append(text) 
-        #    except Exception, e:
-        #        log.warn('MultiValuePathRule cannot find text for element ' #@UndefinedVariable
-        #                 '%s: %s' % (str(element), e)) 
-        #        continue
-        
-        values = self._choose_element(elements)
-        return values
-    
-    def x_get_path_elements(self, path, input):
-        log.debug('Get path element for path: %s' % str(path)) #@UndefinedVariable
-        # Make a local copy
-        current = []
-        path = list(path)
-        if not path:
-            return []
-        tag, attrs, sibling = path.pop(0)
-        
-        # First element from the path must be unique
-        elements = input.findAll(tag, attrs)
-        if len(elements) != 1:
-            return current
-        current.append(elements[0])
-        
-        for tag, attrs, sibling in path:
-            for index in range(len(current)):
-                if current[index] == None:
-                    current.pop(index)
-                
-                try:
-                    if sibling >= 0:
-                        attrMap = current[index].contents[sibling].attrMap
-                        name = current[index].contents[sibling].name
-                        if name == tag and attrMap == attrs:
-                            current[index] = current[index].contents[sibling]
-                            continue
-                    
-                    elements = current[index].findAll(tag, attrs, recursive=False)
-                    current[index] = elements.pop(0)
-                    for element in elements:
-                        current.append(element)
-                except Exception, e:
-                    log.warn('Error trying to get path element for path %s: %s' #@UndefinedVariable
-                             % (str(path)[:50], e)) 
-                    current[index] = None
-                    break
-        return current
-"""
 
 class RuleFactory(object):
     def create_rule(self, rule_type, pattern):
@@ -346,7 +262,7 @@ class RegexRuler(Ruler):
         rules = []
         
         if type(example.content) is str or type(example.content) is unicode:
-            example.content = [str]
+            example.content = [example.content]
         
         for element in example.content:
             rule = self._rule_example_content(example.value, element)
@@ -358,7 +274,7 @@ class RegexRuler(Ruler):
         try:
             text = content.strip()
         except Exception, e:
-            log.warn('Error stripping %s: %s' % (str(example.content)[:40], e)) #@UndefinedVariable
+            log.warn('Error stripping %s: %s' % (str(content)[:40], e)) #@UndefinedVariable
             return None
         
         text = re.escape(text)
@@ -474,10 +390,10 @@ class MultiValueRegexRuler(RegexRuler):
             
     
     def _escape(self, values, pattern):
-        #pattern = re.escape(pattern)
         for value in values:
             pattern = re.sub(value, u'(.*)', pattern)
         return pattern     
+       
        
 class ElementsRegexRuler(MultiValueRegexRuler):
     """
@@ -496,7 +412,8 @@ class ElementsRegexRuler(MultiValueRegexRuler):
             return []
         
         for element in content:
-            g_pattern = self._escape(example.value, content.pop(content.index(element)))        
+            g_pattern = self._escape(example.value,
+                                     content.pop(content.index(element)))        
             g_pattern = self._check_pattern(g_pattern)
             if g_pattern:
                 break
@@ -530,7 +447,6 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
         if type(example.content) == list:
             content = list(example.content)
             if len(content) > 1:
-                #return [DummyRule()]
                 return [SeparatorsRegexRule([])]
             else:
                 content = content.pop()
@@ -567,28 +483,12 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
                                             raw_separators)
         return separators   
 
-    # TODO: Remove this
-    #def _merge_rules(self, g_rules, rules):
-        # Check if there are both DummyRules and SeparatorRules. If so, 
-        # remove the dummy ones
-        #dgr = [x for x in g_rules if isinstance(x, DummyRule)]
-        #sgr = [x for x in g_rules if isinstance(x, SeparatorsRegexRule)]
-        #sr = [x for x in rules if isinstance(x, SeparatorsRegexRule)]
-        
-        #def remove_elements(list01, list02):
-        #    for element in list02:
-        #        list01.remove(element)
-        # 
-        #if sgr and dgr:
-        #    remove_elements(g_rules, dgr)
-        #elif not len(sgr) and len(sr):
-        #    g_rules.append(sr.pop(0))
-        #    remove_elements(g_rules, dgr)
-                   
-        #super(SeparatorsRegexRuler, self)._merge_rules(g_rules, rules)
-    
-
     def _merge_separators(self, separators, raw_separators):
+        separators = [re.escape(self._unscape_pattern(sep)) 
+                      for sep in separators]
+        raw_separators = [re.escape(self._unscape_pattern(sep)) 
+                          for sep in raw_separators]
+        
         for separator in raw_separators:
             should_append = True
             for index in range(len(separators)): 
@@ -633,7 +533,8 @@ class PathRuler(Ruler):
                   str(example.value))
         rules = []
         element_rules = []
-        for element in self._get_content_elements(example.value, example.content):
+        for element in self._get_content_elements(example.value,
+                                                  example.content):
             rule = self._rule_element(example, element)
             if rule:
                 element_rules.append(rule)
@@ -731,11 +632,12 @@ class PathRuler(Ruler):
         
     def _get_element_path(self, document, element):
         """
-        Returns a unique path to the element. The path is composed by all the 
-        necessary parent elements to make it unique. For each element it
-        specifies: name, attributes and sibling number.
+        Returns a unique path to the element. The path is composed by a
+        regular expresssion and all the necessary parent elements to make 
+        it unique. For each element it specifies: name, attributes and sibling 
+        number.
         Example:
-            [[u'table', {u'width': u'100%'}, 7], [u'tr', {}, 0]]
+            ['.*', [u'table', {u'width': u'100%'}, 7], [u'tr', {}, 0]]
         """
         path = []
         
@@ -789,46 +691,15 @@ class MultiValuePathRuler(PathRuler):
             
             for s_rule in more_rules:
                 if self._should_merge(f_rule, s_rule):
-                    f_rule_pattern = self._merge_patterns(f_rule.pattern, s_rule.pattern)
+                    f_rule_pattern = self._merge_patterns(f_rule.pattern,
+                                                          s_rule.pattern)
                 
-            #example_rules.append(MultiValuePathRule(f_rule_pattern))
             example_rules.append(PathRule(f_rule_pattern))
-            
-            """
-            for s_rule in more_rules:
-                s_rule_pattern = list(s_rule.pattern)
-            
-            
-                # All should have same length
-                if not len(f_rule_pattern) == len(s_rule_pattern):
-                    continue
-                
-                # All should have same elements
-                diff = False
-                for element01, element02 in zip(f_rule_pattern, s_rule_pattern):
-                    if element01[0] != element02[0]:
-                        diff = True
-                        break
-                    elif element01[2] != element02[2]:
-                        element01[2] = -1
-                    
-                if diff:
-                    continue
-                example_rules.append(MultiValuePathRule(f_rule_pattern))
-            """
-        return example_rules
 
+        return example_rules
 
 
 class PersonRuler(Ruler):
     def rule(self, training):
         log.debug('Ruling with MultiValuePathRuler') #@UndefinedVariable
         return [PersonRule()]
-
-
-
-
-
-
-
-

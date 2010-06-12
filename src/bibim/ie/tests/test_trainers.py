@@ -19,13 +19,8 @@
 import unittest #@UnresolvedImport
 import random #@UnresolvedImport
 
-from os.path import join, dirname, normpath
+from bibim.ie.trainers import (WrapperTrainer)
 
-from bibim.util.config import BibimConfig
-from bibim.ie.trainers import (WrapperTrainer,
-                               TooFewExamplesError)
-
-from bibim.db.session import create_session
 from bibim.db.gateways import ExampleGateway
 from bibim.ie.types import (Example,
                             Rule,
@@ -43,8 +38,8 @@ class MockExampleManager(ExampleGateway):
         nsets = nsets if nsets < len(fields) else len(fields) - 1
         for i in range(nsets):
             field = fields[i]
-            sets[field] = set([Example('v_%d' % i, 'c_%d' % i) for i in 
-                               range(random.randint(min, max))])
+            sets[field] = [Example('v_%d' % i, 'c_%d' % i) for i in 
+                           range(random.randint(min, max))]
         return sets   
 
 
@@ -61,7 +56,7 @@ class MockRuler(Ruler):
     
 class TestWrapperTrainer(unittest.TestCase):
     def setUp(self):
-        self.wt = WrapperTrainer([MockRuler()], min=3)
+        self.wt = WrapperTrainer([MockRuler()], num_examples=3)
         self.nsets = 5
         self.example_sets = MockExampleManager()._get_examples(self.nsets,
                                                                5, 10)
@@ -70,7 +65,7 @@ class TestWrapperTrainer(unittest.TestCase):
                             Example('v03', 'c03')]
 
     def test_train_too_few_examples(self):
-        self.wt.set_min_examples(20)
+        self.wt.set_num_examples(20)
         result = self.wt.train(self.example_sets)
         self.failUnless(len(result) == 0)
 
@@ -127,6 +122,8 @@ class TestWrapperTrainer(unittest.TestCase):
         self.wt._evaluate_wrapper(wrapper, self.example_set)
         self.failUnless(wrapper.upvotes == 2)
         self.failUnless(wrapper.downvotes == 1)
+        
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

@@ -59,7 +59,6 @@ class TestWrapper(unittest.TestCase):
 class TestWrapperManager(unittest.TestCase):
     
     def setUp(self):
-        #self.wm = RuledWrapperManager()
         self.wm = WrapperGateway(create_session(
             sql_uri='sqlite:///:memory:', debug=True))
     
@@ -82,10 +81,10 @@ class TestWrapperManager(unittest.TestCase):
         self.failUnless(collection1 is collection2)
     
     def test_find_collections(self):
-        collection11 = self.wm.find_wrapper_collection(u'c01', u'f01', True)
-        collection12 = self.wm.find_wrapper_collection(u'c01', u'f02', True)
-        collection21 = self.wm.find_wrapper_collection(u'c02', u'f01', True)
-        collection22 = self.wm.find_wrapper_collection(u'c02', u'f02', True)
+        collection11 = self.wm.find_wrapper_collection(u'c01', u'f01', True) #@UnusedVariable
+        collection12 = self.wm.find_wrapper_collection(u'c01', u'f02', True) #@UnusedVariable
+        collection21 = self.wm.find_wrapper_collection(u'c02', u'f01', True) #@UnusedVariable
+        collection22 = self.wm.find_wrapper_collection(u'c02', u'f02', True) #@UnusedVariable
         
         collections = self.wm.find_wrapper_collections()
         self.failUnless(collections.count() >= 4)
