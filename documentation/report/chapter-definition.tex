@@ -1,30 +1,30 @@
-\chapter{Definició del Projecte}
+\chapter{Definició del projecte}
 \label{chapter:definition}
 
 
 %%%% FUNCIONALITATS %%%%
 \section{Requeriments}
-A continuació es llisten totes les funcionalitats que l'aplicació haurà d'oferir a l'usuari. Cal comentar que aquests requeriments els hem establert nosaltres mateixos a segons el que ens ha semblat més necessari.
+A continuació es llisten totes les funcionalitats que l'aplicació haurà d'oferir a l'usuari. Cal comentar que aquests requeriments els hem establert nosaltres mateixos segons el que ens ha semblat més necessari.
 \begin{itemize}
 \item{}
 Extracció de la referència bibliogràfica corresponent a un o més articles que es troben en fitxers PDF dins d'algun directori.
 
 \item{}
-Possibilitat d'exportar les referències extretes en el format \BibTeX{} i desar-les a un fitxer \texttt{.bib}
+Possibilitat d'exportar les referències extretes en format \BibTeX{} i desar-les a un fitxer \texttt{.bib}
 
 \item{}
 Generació automàtica de regles d'extracció a partir d'exemples.
 
 \item{}
-Importació de referències en un fitxer \texttt{.bib} per tal de poder-los fer servir d'exemples.
+Importació de referències des d'un fitxer \texttt{.bib} per tal de poder-les fer servir d'exemples.
 
 \item{}
-Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{update} i \textit{delete}.} per a la gestió de referències i regles d'extracció.
+Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{update} i \textit{delete}.} per la gestió de referències i regles d'extracció.
 \end{itemize}
 
 
 \section{L'extracció de referències}
-Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat per aconseguir-lo són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint uns passos semblants als de la figura següent.
+Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat per fer-lo possible són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint uns passos semblants als de la figura següent.
 
 \begin{figure}[H]
 \begin{center}
@@ -37,13 +37,13 @@ Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat p
 Això presenta moltes limitacions. Per començar, hi ha la impossibilitat d'extreure informació que no es troba dins del text (e.g. el número de pàgines de l'article). Una altra és que la informació dins dels fitxers PDF no té una estructura prou clara com per poder distingir entre els diferents camp. Aquest segon problema es tracta amb més en detall al proper capítol.
 
 \paragraph{}
-La solució que hem trobat per poder tirar endavant consisteix en fer ús de les biblioteques digitals descrites a la introducció. La majoria d'elles estan indexades pels principals cercadors disponibles a Internet. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}. Bàsicament, per cada fitxer l'aplicació:
+La solució que hem trobat per poder tirar endavant consisteix en fer ús de les biblioteques digitals descrites a la introducció. Enlloc de consultar-les d'una en una, el que farem serà utilitzar cercadors que ens apuntaran a les pàgines que necessitem. Això permetrà cobrir totes aquelles biblioteques que estiguin indexades, sense haver-les de tractar cadascuna per separat. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}, però bàsicament, per cada fitxer s'apliquen aquests passos:
 \begin{enumerate}
     \item{Extreu el contingut en forma de text.}
     \item{Genera un llistat de consultes a partir del text extret.}
     \item{Obté els resultats d'aquestes consultes amb algun cercador (Google, Bing, etc.).}
     \item{Mira d'extreure la referència de les pàgines retornades pel cercador.}
-    \item{Comprova que les dades de la referència realment corresponguin a l'article contingut pel fitxer.}
+    \item{Comprova que les dades de la referència realment corresponguin a l'article contingut pel fitxer. (Validació)}
     \item{Dóna format a les dades de la referència.}
 \end{enumerate}
 
@@ -55,7 +55,7 @@ La solució que hem trobat per poder tirar endavant consisteix en fer ús de les b
 \end{center}
 \end{figure}
 
-El motiu que fa que aquest procediment es pugui implementar en el temps del que disposem és que les dades ofertes per les biblioteques digitals en els documents HTML està molt estructurada. Com és lògic, tenen la informació emmagatzemada en bases de dades, i a l'hora de mostrar-la als usuaris, la formaten de manera automàtica; sempre de la mateixa manera (amb algunes excepcions). Aquesta estructura fixa al llarg de les pàgines d'una mateixa biblioteca és el que realment simplifica la tasca d'extracció, ja permet generar regles que funcionin en un percentatge molt alt dels casos.
+El motiu que fa que aquest procediment es pugui implementar en el temps limitat del que disposem per la realització d'aquest projecte és que les dades ofertes per les biblioteques digitals està molt estructurada dins dels documents HTML. Com és lògic, tenen la informació emmagatzemada en bases de dades, i a l'hora de mostrar-la als usuaris, la formaten automàticament; sempre de la mateixa manera (amb algunes excepcions). Aquesta estructura fixa al llarg de les pàgines d'una mateixa biblioteca és el que realment simplifica la tasca d'extracció, ja que permet generar regles que funcionin en un percentatge molt alt dels casos.
 
 \paragraph{}
 Així doncs, hem de fer una mica més de tomb per poder aconseguir els resultats desitjats, però els passos són més senzills d'aplicar. El problema que teníem al principi ha quedat dividit en tres problemes més petits:
@@ -72,8 +72,8 @@ Cadascuna d'aquestes parts es tracta per separat en els propers capítols.
 %%%% BIBTEX %%%%
 \section{\BibTeX}
 \label{chapter:definition:section:bibtex}
-Per poder entendre el context del projecte cal que descrivim l'eina de maneig de referències \BibTeX{} i la sintaxi del llenguatge que utilitza. 
-En el nostre cas farem servir aquest llenguatge com a format de sortida al generar els índexos bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic expressat en el format \BibTeX:
+Ja hem esmentat \BibTeX{} diverses vegades, però què és? Simplement es tracta d'una eina de maneig de referències. Per poder entendre el projecte cal que descrivim la sintaxi del llenguatge que utilitza. 
+En el nostre cas farem servir aquest llenguatge com a format d'entrada de referències a l'importar-les i també com a format de sortida al generar els índexos bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic expressat en el format \BibTeX:
 \begin{center}
 \begin{lstlisting}[caption={Referència expressada en \BibTeX}, label=listing:exampleBibTeX]
 @article{MoSh:27,
@@ -93,7 +93,7 @@ Alguns aspectes a comentar sobre l'exemple anterior:
 La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps \textit{author}, \textit{title}, \textit{journal} i \textit{year}, que són obligatoris.
 
 \item{}
-Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last}, \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem amb \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
+Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last}, \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem sempre igual: \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
 
 \item{}
 L'últim camp d'una referència pot acabar o no amb una coma.
@@ -127,7 +127,7 @@ Enllaça tots els mòduls anteriors i proporciona punts d'entrada a la interfície 
 Interfície d'usuari més o menys amigable.
 \end{itemize}
 
-La figura \ref{fig:module_diagram} mostra com interaccionen entre ells. Els mòduls que s'encarreguen de les operacions més bàsiques són independents entre ells. El mòdul \textit{main} utilitza aquestes operacions per definir el flux de la informació i ofereix serveis a la capa superior: la interfície d'usuari.
+La figura \ref{fig:module_diagram} mostra com interaccionen. Els mòduls que s'encarreguen de les operacions més bàsiques són independents entre ells. El mòdul \textit{main} utilitza aquestes operacions per definir el flux de la informació i ofereix serveis a la capa superior: la interfície d'usuari.
 
 \begin{figure}[H]
 \begin{center}
@@ -140,13 +140,13 @@ La figura \ref{fig:module_diagram} mostra com interaccionen entre ells. Els mòdu
 
 %%%% LLICÈNCIA %%%%
 \section{Llicència}
-L'aplicació es distribueix sota  una licència lliure que permet als destinataris la possibilitat de copiar, modificar i redistribuir el codi. Concretament, hem escollit la \textit{General Public License} (GPL) v.3, que requereix que qualsevol treball derivat també es distribueixi amb els mateixos permisos. El text complet d'aquesta llicència es pot trobar a \cite{gpl3} així com al fitxer \texttt{LICENSE} que acompanya al codi.
+L'aplicació es distribueix sota  una licència lliure que permet als destinataris la possibilitat de copiar, modificar i redistribuir el codi. Concretament, hem escollit la \textit{General Public License} (GPL) v.3, que requereix que qualsevol treball derivat també es distribueixi amb els mateixos permisos. El text complet d'aquesta llicència es pot trobar a \cite{gpl3} així com al fitxer \texttt{LICENSE} que acompanya el codi.
 
 \paragraph{}
-Qualsevol interessat pot agafar el codi i modificar-lo tan per afegir noves funcionalitats com per arreglar errors. La forma més fàcil de fer-ho és anar al repositori on es troba el projecte (\cite{repo}) i fer un \textit{fork}. D'aquesta manera, el nou codi sempre es podrà fusionar a la branca \textit{oficial}.
+Qualsevol interessat pot agafar aquest projecte i modificar-lo tan per afegir noves funcionalitats com per arreglar errors. La forma més fàcil de fer-ho és anar al repositori on es troba el projecte \cite{repo} i fer un \textit{fork}. D'aquesta manera, el nou codi sempre es podrà fusionar a la branca \textit{oficial}.
 
 \section{Llista de tasques}
-A continuació s'esmenten les tasques més importants que s'han dut a terme i elements que s'han implementat durant la realització del projecte. S'acompanyen amb una estimació del temps que ha estat necessari per completar-les, per donar una idea del pes de cadascuna d'elles:
+A continuació s'esmenten les tasques més importants que s'han dut a terme i alguns elements que s'han implementat durant la realització del projecte (algunes no han arribat fins al final). S'acompanyen amb una estimació del temps que ha estat necessari per completar-les, per donar una idea del pes de cadascuna d'elles:
 
 \begin{center}
 \begin{longtable}{|l r|}
@@ -189,7 +189,7 @@ Generació automàtica de \textit{wrappers} (\texttt{bibim.ie})               & \t
 \hline                                                                            
 Tractament de referències (\texttt{bibim.references})                       & \textbf{5 dies}\\
 \tab \textit{Parsing}                                                       & 2 dies\\
-\tab Generació i Format                                                     & 2 dies\\
+\tab Generació i format                                                     & 2 dies\\
 \tab Creació índexs                                                         & 1 dia\\
 \hline                                                                            
 Base de dades (\texttt{bibim.db})                                           & \textbf{5 dies}\\
