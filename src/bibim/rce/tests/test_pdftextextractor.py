@@ -14,14 +14,14 @@
 # along with BibtexIndexMaker RCE. If not, see <http://www.gnu.org/licenses/>.
 
 import unittest #@UnresolvedImport
-from os.path import join, dirname, normpath
-import subprocess #@UnresolvedImport
+from os.path import (join,
+                     dirname,
+                     normpath)
 
-from bibim.rce import ExtractionError, PDFTextExtractor
+from bibim.rce import (ExtractionError,
+                       PDFTextExtractor)
 
 class TestPDFTextExtractor(unittest.TestCase):
-
-
     def setUp(self):
         self.extractor = PDFTextExtractor()
         self.scanned = normpath(join(dirname(__file__), ('../../../../tests/'

@@ -88,7 +88,7 @@ class PDFTextExtractor(TextExtractor):
         input_file = self._check_input_file(input_file)
         # Extraction command and its options. They may be parametrized in the
         # future
-        command = [self._pdf_extraction_tool, '-q', '-f', '1', '-l', '1',
+        command = [self._pdf_extraction_tool, '-q', '-f', '1', '-l', '2',
                    '-enc', 'ASCII7', '-htmlmeta', input_file, '-']
         try:
             pop = subprocess.Popen(command, stdout=subprocess.PIPE)
