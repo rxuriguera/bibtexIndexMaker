@@ -2,7 +2,6 @@ import sys
 
 from PyQt4 import QtCore, QtGui #@UnresolvedImport
 
-from bibim import log
 from bibim.gui.ui.ui_main_window import Ui_MainWindow
 from bibim.gui.reference_extraction import ReferenceExtractionWizard
 from bibim.gui.reference_manager import ReferenceManagerWizard

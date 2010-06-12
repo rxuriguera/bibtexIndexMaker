@@ -157,6 +157,3 @@ class ReferenceManagerWizard(QtGui.QWizard):
 
     def done(self, status):
         self.extraction_gw.flush()
-
-
-        
