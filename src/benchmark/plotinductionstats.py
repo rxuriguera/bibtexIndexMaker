@@ -1,6 +1,6 @@
 
 import matplotlib.pyplot as plt #@UnresolvedImport
-
+from matplotlib.font_manager import FontProperties #@UnresolvedImport
 import numpy as np
 
 
@@ -73,8 +73,8 @@ if __name__ == '__main__':
     #author_data      title_data      year_data      journal_data      volume_data      pages_data
     #author_field     title_field     year_field     journal_field     volume_field     pages_field
     
-    data = year_data
-    field = year_field
+    data = journal_data
+    field = journal_field
     
     
     
@@ -82,19 +82,15 @@ if __name__ == '__main__':
     plt.rc("font", size=10)
     
     width = 4.50
-    height = 2.0
+    height = 3.0
     """
     width = 2.25
     height = 1.0
     """
     
+    fig = plt.figure(figsize=(width + 1, height + 1))
     
-    #plt.rc("figure.subplot", left=(22 / 72.27) / width)
-    #plt.rc("figure.subplot", right=(width - 10 / 72.27) / width)
-    #plt.rc("figure.subplot", bottom=(14 / 72.27) / height)
-    #plt.rc("figure.subplot", top=(height - 7 / 72.27) / height)
-    plt.figure(figsize=(width + 1, height + 1))
-    plt.subplots_adjust(left=0.125, bottom=0.15, right=0.95, top=0.9)
+    plt.subplots_adjust(left=0.125, bottom=0.30, right=0.95, top=0.9)
         
     
     plt.subplot(111)
@@ -134,8 +130,16 @@ if __name__ == '__main__':
     plt.yticks(range(10, 101, 10))
     plt.axis([1.5, len(data) + 1.5, 0, 110])
     plt.title('Cobertura pel camp "%s"' % field)
-    plt.ylabel('Percentatge de casos coberts')
+    plt.ylabel('Percentatge de biblioteques')
     plt.xlabel('Exemples utilitzats')
+    
+    lines.reverse()
+    legend = fig.legend(tuple(lines), ('Cobreixen del 75% al 100% dels exemples',
+                                       'Cobreixen del 50% al 75% dels exemples',
+                                       'Cumulatiu dels anteriors'), 'lower center',
+                                       prop=FontProperties(size=10))
+    legend.draw_frame(False)
+    
     """
 
     
@@ -161,4 +165,4 @@ if __name__ == '__main__':
     #plt.figlegend(lines, labels, loc=4)
     #plt.show()
     #plt.legend()
-    plt.savefig(''.join(['results:coverage-', field, '.pdf']), bbox_inches="tight")
+    plt.savefig(''.join(['results:coverage-', field, '.pdf']))

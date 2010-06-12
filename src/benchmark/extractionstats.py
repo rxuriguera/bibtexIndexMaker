@@ -16,10 +16,10 @@ class ExtractionStats(object):
 
         self.info = {}
         
-        self.nexamples = 2
+        self.nexamples = 4
         self.base_path = '/home/rxuriguera/benchmark/pages/'
         self.fields = ['addres', 'author', 'isbn', 'issn', 'journal', 'number', 'pages', 'publisher', 'title', 'volume', 'year']
-        self.libraries = ['ideas']#['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
+        self.libraries = ['informaworld']#['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
         
         self.factory = UtilFactory()
         self.iec = IEController(self.factory, secs_between_reqs=0,
@@ -42,8 +42,8 @@ class ExtractionStats(object):
         
         
     def run_library(self, library):
-        self.file = open(''.join([self.base_path, library, '/extraction-results-', str(self.nexamples), '.csv']), 'w')
-        self.session = create_session(''.join(['sqlite:///', self.base_path, '/', library, '/extraction-stats-', library, '-', str(self.nexamples), '.db']), debug=True)
+        self.file = open(''.join([self.base_path, library, '/extraction-results-', str(self.nexamples), '-corrected.csv']), 'w')
+        self.session = create_session(''.join(['sqlite:///', self.base_path, '/', library, '/extraction-stats-', library, '-', str(self.nexamples), '-corrected.db']), debug=True)
         #self.session = create_session('sqlite:///:memory:', debug=True)
         self.wg = gateways.WrapperGateway(self.session)
         self.eg = gateways.ExtractionGateway(self.session)
@@ -58,7 +58,7 @@ class ExtractionStats(object):
         url = html_url.rsplit('/', 1)[0]
         
         
-        self.import_generate(library, url)
+        #self.import_generate(library, url)
         
 
         

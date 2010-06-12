@@ -20,11 +20,8 @@ if __name__ == '__main__':
     colors = ['#666666', '#60a63a', '#999999', '#333333']
     #markers = ['o', '-', '^', 's']
     
-    plt.rc("font", family="cmr10")
-    plt.rc("font", size=10)
-    width = 4.50
-    height = 4.0
-    """
+
+    
   
     nexamples = 2
     y = 5
@@ -51,8 +48,8 @@ if __name__ == '__main__':
             'informaworld':     [0, 0, 0, 2],
             'ideas':            [0, 0, 1, 1]
             }
-
-
+    
+    """ 
     nexamples = 4
     y = 5
     title = {'acm':             [0, 1, 0, 2],
@@ -79,7 +76,7 @@ if __name__ == '__main__':
             'ideas':            [0, 1, 2, 0]
             }
     
-    """   
+      
     nexamples = 6
     y = 5
     title = {'acm':             [1, 0, 1, 1],
@@ -105,27 +102,48 @@ if __name__ == '__main__':
             'informaworld':     [1, 0, 4, 0],
             'ideas':            [1, 2, 1, 0]
             }
-
+    """ 
+    plt.rc("font", family="cmr10")
+    plt.rc("font", size=10)
+    width = 4.50
+    height = 4.50
     
-    
-    fig = plt.figure()
+    fig = plt.figure(figsize=(width + 1, height + 1))
     
     
     figtitle = 'Wrappers generats amb %d exemples' % nexamples
-    fig.text(0.5, 0.97, figtitle,
+    fig.text(0.55, 0.95, figtitle,
              horizontalalignment='center',
              fontproperties=FontProperties(size=12))
     
     xlabel = 'Camps'
-    fig.text(0.5, 0.03, xlabel,
+    fig.text(0.55, 0.17, xlabel,
              horizontalalignment='center',
              fontproperties=FontProperties(size=12))
     
     ylabel = 'Biblioteques'
-    fig.text(0.05, 0.5, ylabel,
-             horizontalalignment='center',
+    fig.text(0.02, 0.5, ylabel,
+             verticalalignment='center',
              rotation='vertical',
              fontproperties=FontProperties(size=12))
+    
+    
+    cLegend = 'Ca: $0.25\\leq$Confidence$ < 0.50$'
+    fig.text(0.37, 0.10, cLegend,
+             horizontalalignment='left',
+             fontproperties=FontProperties(size=12))
+    
+    cLegend = 'Cb: $0.50 \\leq$Confidence$< 0.75$'
+    fig.text(0.37, 0.06, cLegend,
+             horizontalalignment='left',
+             fontproperties=FontProperties(size=12))
+    
+    cLegend = 'Cc: $0.75 \\leq$Confidence'
+    fig.text(0.37, 0.02, cLegend,
+             horizontalalignment='left',
+             fontproperties=FontProperties(size=12))
+    
+    plt.subplots_adjust(left=0.14, top=0.88, bottom=0.27, right=0.98)
     
     #plt.title('Amb %d exemples' % nexamples) 
     bwidth = 0.5
@@ -170,3 +188,4 @@ if __name__ == '__main__':
 
     #plt.show()
     plt.savefig(''.join(['results:nwrappers-', str(nexamples), '.pdf']))
+    print 'Finished'

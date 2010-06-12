@@ -53,8 +53,8 @@ class SearcherBenchmark(object):
         self.results_cache_filename = 'customHeaders_cache_file.txt'
         self.results_cache = {}
         self.browser = Browser()
-        self.basepath = '/home/rxuriguera/benchmark/pdfsets/random/'
-        self.basename = 'random'
+        self.basepath = '/home/rxuriguera/benchmark/pdfsets/pageHeader/'
+        self.basename = 'pageHeader'
         self.len_range = range(4, 15)
 
     def _load_results_cache(self):
