@@ -33,7 +33,6 @@ from bibim.ir.types import SearchResult
 from bibim.references.reference import Reference
 from bibim.util.browser import (Browser,
                                 BrowserError)
-from bibim.util.beautifulsoup import BeautifulSoup
 from bibim.util.helpers import ContentCleaner
 
 class Gateway(object):
