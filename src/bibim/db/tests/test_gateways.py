@@ -20,7 +20,6 @@ import unittest #@UnresolvedImport
 
 from bibim.db.gateways import (ExampleGateway,
                                ReferenceGateway)
-from bibim.references.reference import Reference
 
 class TestExampleGateway(unittest.TestCase):
     def setUp(self):
@@ -30,7 +29,7 @@ class TestExampleGateway(unittest.TestCase):
         pass
 
     def xtestGetExamples(self):
-        examples = self.eg.get_examples(2, "http://zetcode.com", 0.5)
+        examples = self.eg.get_examples(2, "http://zetcode.com", 0.5) #@UnusedVariable
         self.eg.session.flush()
         self.eg.session.close()
         
@@ -40,7 +39,7 @@ class TestReferenceGateway(unittest.TestCase):
         self.eg = ReferenceGateway()
 
     def test_find_by_id(self):
-        reference = self.eg.find_reference_by_id(2)
+        reference = self.eg.find_reference_by_id(2) #@UnusedVariable
         pass
 
 if __name__ == "__main__":

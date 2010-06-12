@@ -15,7 +15,7 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.document import Document
+from bibim.document.document import Document
 
 
 class TestPDFTextExtractor(unittest.TestCase):

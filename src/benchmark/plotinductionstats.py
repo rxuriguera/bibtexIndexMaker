@@ -1,8 +1,6 @@
 
 import matplotlib.pyplot as plt #@UnresolvedImport
 from matplotlib.font_manager import FontProperties #@UnresolvedImport
-import numpy as np
-
 
 if __name__ == '__main__':
     labels = ['Confian\c{c}a$< 0.25$',

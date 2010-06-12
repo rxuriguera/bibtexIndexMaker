@@ -20,7 +20,6 @@ import simplejson #@UnresolvedImport
 import time
 import re
 
-import numpy as nps
 import matplotlib.pyplot as plt #@UnresolvedImport
 
 
@@ -163,7 +162,7 @@ class SearcherBenchmark(object):
             total_files = float(len(word_length_info[0]))
             for i in range(len(data)):
                 try:
-                    s = sum([sum([query_info[i][2] for query_info in file_info[0].values()]) / sum([query_info[i][0] for query_info in file_info[0].values()]) for file_info in word_length_info[0].values()]) / total_files
+                    s = sum([sum([query_info[i][2] for query_info in file_info[0].values()]) / sum([query_info[i][0] for query_info in file_info[0].values()]) for file_info in word_length_info[0].values()]) / total_files #@UnusedVariable
                 except ZeroDivisionError:
                     s = 0    
                 data[i].append(12)

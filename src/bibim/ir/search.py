@@ -32,8 +32,9 @@ from bibim.ir.types import (DescSearchResult,
                             ScholarSearchResult,
                             SearchError,
                             ParseError)
-from bibim.util import BeautifulSoup
-from bibim.util import Browser, BrowserError
+from bibim.util.beautifulsoup import BeautifulSoup
+from bibim.util.browser import (Browser,
+                                BrowserError)
 
 
 class Searcher(object):

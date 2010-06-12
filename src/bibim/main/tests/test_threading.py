@@ -79,7 +79,7 @@ class TestThreading(unittest.TestCase):
         self.failUnless(self.tr.get_pool_size() == 5)
     
     def test_run(self):
-        for i in range(50):
+        for i in range(50): #@UnusedVariable
             self.in_queue.put('somet_object')
         self.tr.run()
         self.failUnless(self.out_queue.qsize() == 50)

@@ -47,7 +47,8 @@ class Test(unittest.TestCase):
                              '</div>'
                              '</html></body>')
         text = soup.findAll('div', text=True)
-        self.failUnless(text == 'Text 01 Text02')
+        self.failUnless(len(text) == 2)
+        self.failUnless(text[0] == u'Text 01')
         
 
 if __name__ == "__main__":

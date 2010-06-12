@@ -3,13 +3,12 @@ import re
 import simplejson #@UnresolvedImport
 
 from bibim.db.session import create_session
-from bibim.db import mappers, gateways
+from bibim.db import gateways
 from bibim.main.entry import ReferenceImporter
 from bibim.main.entry import WrapperGenerator
 from bibim.ir.types import SearchResult
-from bibim.main.factory import UtilFactory, UtilCreationError
+from bibim.main.factory import UtilFactory
 from bibim.main.controllers import IEController, ReferencesController
-from bibim.main.entry import WrapperGenerator
 
 class ExtractionStats(object):
     def __init__(self):
@@ -35,7 +34,7 @@ class ExtractionStats(object):
         self.info = {}
 
         for library in self.libraries:
-            lib_info = self.info.setdefault(library, [])
+            lib_info = self.info.setdefault(library, []) #@UnusedVariable
             
             self.run_library(library)
         
@@ -55,7 +54,7 @@ class ExtractionStats(object):
         files = open(''.join([self.base_path, library, '/', 'filelist.txt']), 'r')
         html_url, text_file = files.readline().split(' ', 1)
         files.seek(0)
-        url = html_url.rsplit('/', 1)[0]
+        url = html_url.rsplit('/', 1)[0] #@UnusedVariable
         
         
         #self.import_generate(library, url)
@@ -74,7 +73,7 @@ class ExtractionStats(object):
             top_results = [SearchResult('Some result', html_url)]
             print html_url
 
-            refs, result = self.iec.extract_reference(top_results, text)
+            refs, result = self.iec.extract_reference(top_results, text) #@UnusedVariable
             
             if refs:
                 references.append(refs[0])
@@ -130,7 +129,7 @@ class ExtractionStats(object):
                 extracted_value = extracted_value.strip()
                 
                 control_regex = re.escape(control_value)
-                extracted_regex = re.escape(extracted_value)
+                extracted_regex = re.escape(extracted_value) #@UnusedVariable
                 
                 self.save_msg('Comparing field %s values:\n\t%s\n\t%s' % (field, control_value, extracted_value))
                 

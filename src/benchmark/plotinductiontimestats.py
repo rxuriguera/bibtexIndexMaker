@@ -1,8 +1,6 @@
 
 import matplotlib.pyplot as plt #@UnresolvedImport
 
-import numpy as np
-
 
 if __name__ == '__main__':
     labels = ['Confian\c{c}a$< 0.25$',
@@ -39,7 +37,7 @@ if __name__ == '__main__':
         # Skip scholar
     #    if i < 2:
     #        continue
-     #   print data[i]
+    #   print data[i]
         #line = plt.plot(range(1, len(data) + 1), data[i], marker=markers[i], markersize=5)[0]
     xvalues = range(2, len(data) + 2)
     values = data

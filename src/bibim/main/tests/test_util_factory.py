@@ -19,7 +19,7 @@
 import unittest #@UnresolvedImport
 
 from bibim.main.factory import UtilFactory, UtilCreationError
-from bibim.util import FileFormat
+from bibim.util.helpers import FileFormat
 
 class TestUtilFactory(unittest.TestCase):
 
@@ -30,7 +30,7 @@ class TestUtilFactory(unittest.TestCase):
         pass
 
     def test_create_extractor(self):
-        extractor = self.uf.create_extractor(FileFormat.PDF, FileFormat.TXT)
+        extractor = self.uf.create_extractor(FileFormat.PDF, FileFormat.TXT) #@UnusedVariable
         self.assertRaises(UtilCreationError,
             self.uf.create_extractor, FileFormat.TXT, FileFormat.PDF)
 

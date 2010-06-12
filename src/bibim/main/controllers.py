@@ -36,11 +36,11 @@ from bibim.ir.types import (SearchError,
                             SearchResult)
 from bibim.main.factory import UtilCreationError                  
 from bibim.main.validation import ValidatorFactory
-from bibim.rce import ExtractionError
+from bibim.rce.extraction import ExtractionError
 from bibim.references.reference import Reference
 from bibim.references.format.formatter import ReferenceFormatter
-from bibim.util import (Browser,
-                        BrowserError)
+from bibim.util.browser import (Browser,
+                                BrowserError)
 from bibim.util.config import configuration
 from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat,

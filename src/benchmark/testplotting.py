@@ -1,9 +1,6 @@
 
 import matplotlib.pyplot as plt #@UnresolvedImport
 
-import numpy as np
-
-
 if __name__ == '__main__':
     engines = ['Google', 'Scholar', 'Bing', 'Yahoo']
     #colors = ['#4272DB', '#60a63a', '#FFA615', '#7D3883']

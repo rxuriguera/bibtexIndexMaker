@@ -19,7 +19,7 @@
 
 from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat)
-from bibim.rce import PDFTextExtractor
+from bibim.rce.extraction import PDFTextExtractor
 from bibim.ir.search import (Searcher,
                              ScholarSearch,
                              BingSearch,

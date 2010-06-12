@@ -18,8 +18,8 @@ from os.path import (join,
                      dirname,
                      normpath)
 
-from bibim.rce import (ExtractionError,
-                       PDFTextExtractor)
+from bibim.rce.extraction import (ExtractionError,
+                                  PDFTextExtractor)
 
 class TestPDFTextExtractor(unittest.TestCase):
     def setUp(self):

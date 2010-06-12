@@ -89,9 +89,9 @@ import types
 import re
 import sgmllib #@UnresolvedImport
 try:
-  from htmlentitydefs import name2codepoint
+    from htmlentitydefs import name2codepoint
 except ImportError:
-  name2codepoint = {}
+    name2codepoint = {}
 
 #This hack makes Beautiful Soup able to parse XML with namespaces
 sgmllib.tagfind = re.compile('[a-zA-Z][-_.:a-zA-Z0-9]*')
@@ -436,7 +436,7 @@ class Tag(PageElement):
 
     """Represents a found HTML tag with its attributes and contents."""
 
-    def _invert(h):
+    def _invert(h): #@NoSelf
         "Cheap function to invert a hash."
         i = {}
         for k, v in h.items():
@@ -841,9 +841,9 @@ class SoupStrainer:
                 markupAttrMap = None
                 for attr, matchAgainst in self.attrs.items():
                     if not markupAttrMap:
-                         if hasattr(markupAttrs, 'get'):
+                        if hasattr(markupAttrs, 'get'):
                             markupAttrMap = markupAttrs
-                         else:
+                        else:
                             markupAttrMap = {}
                             for k, v in markupAttrs:
                                 markupAttrMap[k] = v
@@ -1144,7 +1144,7 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         self.pushTag(self)
 
     def popTag(self):
-        tag = self.tagStack.pop()
+        tag = self.tagStack.pop() #@UnusedVariable
         # Tags with just one string-owning child get the child as a
         # 'string' property, so that soup.tag.string is shorthand for
         # soup.tag.contents[0]
@@ -1378,12 +1378,12 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         declaration as a CData object."""
         j = None
         if self.rawdata[i:i + 9] == '<![CDATA[':
-             k = self.rawdata.find(']]>', i)
-             if k == -1:
-                 k = len(self.rawdata)
-             data = self.rawdata[i + 9:k]
-             j = k + 3
-             self._toStringSubclass(data, CData)
+            k = self.rawdata.find(']]>', i)
+            if k == -1:
+                k = len(self.rawdata)
+            data = self.rawdata[i + 9:k]
+            j = k + 3
+            self._toStringSubclass(data, CData)
         else:
             try:
                 j = SGMLParser.parse_declaration(self, i)
@@ -1665,11 +1665,11 @@ except ImportError:
 # Both are available from http://cjkpython.i18n.org/
 # They're built in if you use Python 2.4.
 try:
-    import cjkcodecs.aliases
+    import cjkcodecs.aliases #@UnusedImport
 except ImportError:
     pass
 try:
-    import iconv_codec
+    import iconv_codec #@UnusedImport
 except ImportError:
     pass
 
@@ -1750,7 +1750,7 @@ class UnicodeDammit:
             u = self._toUnicode(markup, proposed)
             self.markup = u
             self.originalEncoding = proposed
-        except Exception, e:
+        except Exception:
             # print "That didn't work!"
             # print e
             return None

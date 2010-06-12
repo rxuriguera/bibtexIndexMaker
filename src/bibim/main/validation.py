@@ -23,7 +23,7 @@ class Validator(object):
     Superclass that defines the basic methods that validators must implement.
     """
     def validate(self, value, *kwargs):
-        raise False
+        raise NotImplementedError
 
 
 class FieldValidator(Validator):

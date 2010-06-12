@@ -98,7 +98,7 @@ class ThreadRunner(object):
         log.debug('Active threads: %d' % threading.active_count()) #@UndefinedVariable
         
         # Create threads and add them to the pool
-        for i in range(self.pool_size):
+        for i in range(self.pool_size): #@UnusedVariable
             thread = self.thread_class(self.in_queue, self.out_queue,
                                        **self._thread_args)
             self._thread_pool.append(thread)

@@ -22,8 +22,8 @@ import subprocess #@UnresolvedImport
 from os import path
 
 from bibim import log
-from bibim.document import Document
-from bibim.util import BeautifulSoup
+from bibim.document.document import Document
+from bibim.util.beautifulsoup import BeautifulSoup
 
 class ExtractionError(Exception):
     

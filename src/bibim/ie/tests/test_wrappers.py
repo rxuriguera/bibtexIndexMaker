@@ -24,7 +24,7 @@ from bibim.db.session import create_session
 from bibim.db.gateways import WrapperGateway
 from bibim.ie.rules import Rule
 from bibim.ie.types import Wrapper
-from bibim.util import BeautifulSoup
+from bibim.util.beautifulsoup import BeautifulSoup
 
 
 class MockRule01(Rule):

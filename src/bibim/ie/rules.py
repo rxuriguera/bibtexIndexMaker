@@ -20,7 +20,8 @@ import re
 import difflib #@UnresolvedImport
 
 from bibim import log
-from bibim.ie.types import Rule, Example
+from bibim.ie.types import (Rule,
+                            Example)
 from bibim.references.util import split_name
 
 # TODO: Load these values from the configuration file
@@ -247,6 +248,12 @@ class Ruler(object):
                 break
         if append_rule:
             g_rules.append(s_rule)
+    
+    def _should_merge(self):
+        raise NotImplementedError
+    
+    def _merge_patterns(self):
+        raise NotImplementedError
     
     
 class RegexRuler(Ruler):

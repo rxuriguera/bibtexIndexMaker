@@ -1,11 +1,9 @@
 
 import matplotlib.pyplot as plt #@UnresolvedImport
 from matplotlib.font_manager import FontProperties #@UnresolvedImport
-import numpy as np
-
 
 def plot_bar(values):
-    v00, v01, v02 = values
+    v00, v01, v02 = values #@UnusedVariable
 
     width = v02
     xpos = 0.0
@@ -31,7 +29,7 @@ def plot_bar(values):
 def set_plot_look(values):
     plt.axis([0, 1.0, 0, 1])
 
-    v00, v01, v02 = values
+    v00, v01, v02 = values #@UnusedVariable
     v00 = 1 - v01 - v02
 
     ticks = []
@@ -44,7 +42,7 @@ def set_plot_look(values):
         labels.append(''.join([str(v01 * 100), '%']))
         
     if v02 == 0.6 and v01 == 0.2:
-      pass  
+        pass  
     elif v00: 
         ticks.append(v02 + v01 + (v00 / 2))
         labels.append(''.join([str(v00 * 100), '%']))

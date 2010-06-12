@@ -54,7 +54,7 @@ class WrapperInductionStats(object):
     
     def _lib_stats(self, info):
         cases = self.max_range - self.min_range
-        stats = [{} for x in range(cases)]
+        stats = [{} for x in range(cases)] #@UnusedVariable
         
         # info = dict of libraries
         #                    library = list of example_range_data

@@ -19,7 +19,7 @@ import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 import simplejson #@UnresolvedImport
 
-from bibim.util import BeautifulSoup
+from bibim.util.beautifulsoup import BeautifulSoup
 from bibim.ir.search import (GoogleSearch,
                              ScholarSearch,
                              BingSearch,

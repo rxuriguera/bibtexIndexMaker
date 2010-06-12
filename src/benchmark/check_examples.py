@@ -15,7 +15,6 @@ class ExampleChecker(object):
     def run(self):
         base_path = '/home/rxuriguera/benchmark/pages/'
         libraries = ['acm', 'citeulike', 'computerorg', 'econpapers', 'ideas', 'informaworld', 'sciencedirect', 'scientificcommons', 'springer']
-        info = {}
         file_pattern = '-local.bib'
     
         for library in libraries:
@@ -35,7 +34,7 @@ class ExampleChecker(object):
         url = url[0].rsplit('/', 1)[0]
         print url
         example_gateway = gateways.ExampleGateway(self.session, max_examples=10, max_examples_from_db=10, seconds_between_requests=0) 
-        examples = example_gateway.get_examples(10, url=url, break_on_max=False)
+        examples = example_gateway.get_examples(10, url=url, break_on_max=False) #@UnusedVariable
         self._delete_imported_references()
         
     def _delete_imported_references(self):

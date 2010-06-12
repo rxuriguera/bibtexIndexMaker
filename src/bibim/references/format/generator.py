@@ -19,7 +19,7 @@
 import os
 import random #@UnresolvedImport
 
-from bibim.util import ReferenceFormat
+from bibim.util.helpers import ReferenceFormat
 
 class ReferenceFormatGenerator(object):
     
