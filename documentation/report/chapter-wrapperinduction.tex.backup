@@ -9,10 +9,10 @@ Per poder generar \textit{field wrappers}, es necessiten exemples del camp que e
 Totes les referències hauran de tenir associada una URL que apunti a una pàgina que contingui la informació de la referència. En el cas de les que s'han obtingut automàticament, aquesta adreça es desa durant l'extracció.
 
 \paragraph{}
-A l'inici, el context dels valors dels nostres exemples és el codi HTML que conté la referència. Per tant, el primer pas consisteix a obtenir aquestes pàgines d'Internet. Tot i que per cadascun dels camps es generen \textit{sets} d'exemples diferents, les pàgines són les mateixes i només es descarreguen una sola vegada. Tot i així, com que totes es trobaran a la mateixa biblioteca i les peticions les processa el mateix servidor, l'aplicació mira d'evitar bloquejos esperant uns quants segons entre petició i petició. Un cop tenim els exemples generats, mirem si l'HTML conté la informació que volem extreure i si no és així, l'exemple es marca com a invàlid per tal de no tornar-lo a fer servir en un futur.
+A l'inici, el context dels valors dels nostres exemples és el codi HTML que conté la referència. Per tant, el primer pas consisteix a obtenir aquestes pàgines d'Internet. Tot i que per cadascun dels camps es generen \textit{sets} d'exemples diferents, les pàgines són les mateixes i només es descarreguen una sola vegada. Tot i així, com que totes es trobaran a la mateixa biblioteca i les peticions les procesa el mateix servidor, l'aplicació mira d'evitar bloquejos esperant uns quants segons entre petició i petició. Un cop tenim els exemples generats, mirem si l'HTML conté la informació que volem extreure i si no és així, l'exemple es marca com a invàlid per tal de no tornar-lo a fer servir en un futur.
 
 \paragraph{}
-Abans de fer-lo servir, el codi HTML es neteja per tal d'eliminar-ne els comentaris, salts de línia, i altres elements que no ens interessen, com ara codi \textit{JavaScript} o etiquetes d'estil. El número d'exemples a tenir en compte per generar els \textit{field wrappers} és configurable, però com a mínim se'n necessiten dos que siguin vàlids.
+Abans de fer-lo servir, el codi HTML es neteja per tal d'eliminar-ne els comentaris, salts de línia, i altres elements que no ens interessen, com ara codi \textit{JavaScript} o etiquetes d'estil. El número d'exemples a tenir en compte per generar els \textit{field wrappers} és configurable, però com a mímin se'n necessiten dos que siguin vàlids.
 
 %%%% GENERACIÓ AUTO. DE REGLES %%%%
 \section{Generació automàtica de regles}
@@ -179,7 +179,7 @@ Vol\.\ (?:.*)\,\ No\.\ (?:.*)\.\ \((?:.*)\)\,\ pp\. (.*)\.
 El mètode que acabem de descriure per generar les expressions regulars no està exempt de problemes. Ja hem vist la necessitat de tenir bons exemples per poder generar expressions prou generals. Una altra situació en que ens podem trobar és que dues seqüències amb la mateixa estructura siguin massa diferents com per decidir fusionar-les. Quan això passa, acabarem amb múltiples expressions molt específiques. Per exemple, ``\texttt{ISSN: 0000-0000, Issue: (.*)}'' i ``\texttt{ISSN: 1111-1111, Issue: (.*)}'' tenen una similaritat de $0.71$. Si el llindar per la fusió fos $0.75$, aquests dos patrons es quedarien com estan i acabaríem generant dos \textit{wrappers} diferents que segurament no funcionarien per cap altre cas. Veiem doncs, que aquesta tècnica és molt sensible als exemples.
 
 \paragraph{}
-Es podrien aplicar moltes millores per poder convergir a una expressió més general fent servir pocs exemples. En un principi generàvem les expressions de forma creixent, agafant el valor a extreure, i mirant els primers caràcters de la vora (aquesta és una simplificació de com ho feia el sistema \textit{WHISK}\cite{soderland99}). Vam abandonar la idea ja que teníem problemes quan la informació del context també variava entre pàgina i pàgina. En perspectiva, sembla que aquesta idea podria ser aplicada a les expressions que es generen actualment i així acabar amb expressions més curtes i molt mes generals. Si ho apliquéssim amb els exemples que hem vist en aquesta secció, les expressions resultants serien: 
+Es podrien aplicar moltes millores per poder convergir a una expressió més general fent servir pocs exemples. En un principi generàvem les expressions de forma creixent, agafant el valor a extreure, i mirant els primers caràcters de la vora (aquesta és una simplificació de com ho feia el sistema \textit{WHISK}\cite{soderland99}). Vam abandonar la idea ja que teníem problemes quan la informació del context també variava entre pàgina i pàgina. En perspectiva, sembla que aquesta idea podria ser aplicada a les expressions que es generen actualment i així acabar amb expressions més curtes i molt mes generals. Si ho apliquessim amb els exemples que hem vist en aquesta secció, les expressions resultants serien: 
 \begin{center}
 \begin{lstlisting}[nolol=true]
 \ pp\. (.*)\.
@@ -194,7 +194,7 @@ Tot i els problemes, cal tornar a remarcar que l'aplicació permet, en tot moment
 
 %%%% MULTI-VALUE RULES %%%%
 \subsection{Regles multi valor}
-Alguns camps com ara els autors o editors tenen múltiples valors i per poder-los extreure per separat, hem creat variants de les regles que acabem de descriure. Suposem que múltiples valors corresponen al mateix camp si compleixen alguna de les dues condicions següents:
+Alguns camps com ara els autors o editors tenen múltiples valors i per poder-los extreure per separat, hem creat variants de les regles que acabem de descriure. Suposem que múltiples valors corresponenen al mateix camp si compleixen alguna de les dues condicions següents:
 \begin{itemize}
 \item{}
 Es troben en elements HTML diferents, però són germans, cosins o tenen vincle parentiu similar. És a dir, quan les rutes per arribar als valors estan formades pels mateixos elements, però en posicions diferents. Aquesta condició permet extreure valors quan es troben tant en llistes com en taules:
@@ -290,7 +290,7 @@ Es generarà el patró \texttt{(.*)\textbackslash{} \textbackslash{}-\textbackslas
 Només s'apliquen en el cas que els valors del camp siguin noms de persones, com ara els autors i els editors. Aquestes regles reben el nom complet d'una persona i s'encarreguen de separar-lo en diferents parts. Es tenen en compte les parts: \textit{first name}, \textit{middle name} i \textit{last name}. El fet de tenir els noms separats d'aquesta manera permet que a l'hora de formatar la referència (en el nostre cas en \BibTeX{}) tots els noms tinguin la mateixa estructura. A continuació es mostren exemples de com quedarien dos noms:
 
 \begin{center}
-\begin{minipage}{0.49\linewidth}
+\begin{minipage}{0.45\linewidth}
 \begin{lstlisting}[nolol=true]
 David P. Bartel
 
@@ -302,8 +302,8 @@ David P. Bartel
    u'Bartel'}
 \end{lstlisting}
 \end{minipage}
-\hspace{0.0cm}
-\begin{minipage}{0.49\linewidth}
+\hspace{0cm}
+\begin{minipage}{0.45\linewidth}
 \begin{lstlisting}[nolol=true]
 James Green
 

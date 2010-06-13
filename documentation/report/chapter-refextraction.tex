@@ -95,7 +95,7 @@ El procés de validació de les dades depèn de cada camp i és totalment ajustable.
 \item{\textit{RegexValidator}:} Mira que el text extret coincideixi amb una expressió regular que també s'inclou al fitxer de configuració. Útil per aquells casos on el camp no es troba en el document de l'article (e.g. pàgines, issn).
 \end{itemize}
 
-El pes correspon a un nombre en coma flotant que ens permet donar més importancia a certs camps com ara el títol o nom dels autors a l'hora d'establir com de vàlida és una referència. La suma total dels pesos ha de ser igual a 1. 
+El pes correspon a un nombre en coma flotant que ens permet donar més importància a certs camps com ara el títol o nom dels autors a l'hora d'establir com de vàlida és una referència. La suma total dels pesos ha de ser igual a 1. 
 
 \paragraph{}
 Per configurar la validació s'utilitza el valor \texttt{field\_validation} dins del fitxer de configuració. La sintaxi per definir com validar cadascun dels camps és \texttt{<field>; <weight>; <validator>[; <validator params>]}. A continuació es mostra un exemple:
@@ -112,7 +112,7 @@ field_validation=
 \end{lstlisting}
 \end{center}
 
-Per anar bé, cal especificar un validador per cadascun dels camps, fins i tot per aquells als que es dóna pes $0.0$. Això garantitza que la puntuació dels \textit{wrappers} per aquests camps es continuï actualitzant tot i no tenir-los en compte a l'hora de considerar la referència com a vàlida.
+Per anar bé, cal especificar un validador per cadascun dels camps, fins i tot per aquells als que es dóna pes $0.0$. Això garanteix que la puntuació dels \textit{wrappers} per aquests camps es continuï actualitzant tot i no tenir-los en compte a l'hora de considerar la referència com a vàlida.
 
 \subsubsection{\textit{Parsing} de referències}
 Per poder validar les referències extretes amb dels \textit{reference wrappers}, és necessari analitzar-les sintàcticament i obtenir-ne els diferents camps per separat. Per aquest motiu, l'aplicació disposa d'un \textit{parser} de referències en format \BibTeX{}.
@@ -122,7 +122,7 @@ Per poder validar les referències extretes amb dels \textit{reference wrappers},
 Tal com s'ha indicat al diagrama de la figura \ref{fig:definition:extraction-diagram}, un cop tenim les dades extretes cal donar-los-hi format per poder-les exportar en \BibTeX{}. Com a detalls de la implementació, només comentar que tenim un jerarquia de classes anomenades \textit{generadors} que, guiades per una classe formatadora (\texttt{Formatter}) permetran generar les referències en el format desitjat.
 
 \section{Emmagatzematge}
-\label{chapger:refextraction:storage}
+\label{chapter:refextraction:storage}
 Totes les referències extretes s'emmagatzemen a la base de dades de l'aplicació per poder-les utilitzar en un futur tant per exportar-les com per regenerar els \textit{wrappers} amb què s'han obtingut en primer lloc. A part de la referència en si, també es desa la consulta extreta del PDF per cercar a Internet i el resultat de la pàgina de la qual s'ha extret la referència.
 
 \paragraph{}
