@@ -24,7 +24,7 @@ Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{updat
 
 
 \section{L'extracció de referències}
-Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat per fer-lo possible són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint uns passos semblants als de la figura següent.
+Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat per fer-lo possible són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint alguns passos semblants als de la figura següent.
 
 \begin{figure}[H]
 \begin{center}
@@ -37,7 +37,7 @@ Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat p
 Això presenta moltes limitacions. Per començar, hi ha la impossibilitat d'extreure informació que no es troba dins del text (e.g. el número de pàgines de l'article). Una altra és que la informació dins dels fitxers PDF no té una estructura prou clara com per poder distingir entre els diferents camp. Aquest segon problema es tracta amb més en detall al proper capítol.
 
 \paragraph{}
-La solució que hem trobat per poder seguir endavant consisteix en fer ús de les biblioteques digitals descrites a la introducció. Enlloc de consultar-les d'una en una, el que farem serà utilitzar cercadors que ens apuntaran a les pàgines que necessitem. Això permetrà cobrir totes aquelles biblioteques que estiguin indexades, sense haver-les de tractar cadascuna per separat. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}, però bàsicament, per cada fitxer s'apliquen aquests passos:
+La solució que hem trobat per poder seguir endavant consisteix a fer ús de les biblioteques digitals descrites a la introducció. Enlloc de consultar-les d'una en una, el que farem serà utilitzar cercadors que ens apuntaran a les pàgines que necessitem. Això permetrà cobrir totes aquelles biblioteques que estiguin indexades, sense haver-les de tractar cadascuna per separat. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}, però bàsicament, per cada fitxer s'apliquen aquests passos:
 \begin{enumerate}
     \item{Extreu el contingut en forma de text.}
     \item{Genera un llistat de consultes a partir del text extret.}

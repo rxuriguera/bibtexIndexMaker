@@ -17,7 +17,7 @@ En primer lloc provarem com de bé ho fa el sistema a l'hora de cercar pàgines a 
 Per tal de classificar els resultats en bons i dolents només comprovem si algunes porcions de la informació que volem es troben dins de la pàgina resultant. Aquesta no és una solució perfecta, però ens permet fer una aproximació sobre la quantitat de fitxers pels quals podem trobar la referència.
 
 \paragraph{}
-Una altra qüestió sobre la implementació d'aquestes proves, és que els resultats obtinguts se solen repetir entre consultes del mateix article. Per estalviar temps i evitar fer moltes peticions seguides als mateixos servidors (que podrien resultar en un bloqueig), deixem uns segons entre petició i petició i emmagatzemem cada resultat de manera que només l'hàgim de demanar una sola vegada. A banda d'això, també cal tenir en compte que en molts casos els resultats corresponen al mateix fitxer PDF del qual estem buscant informació, els hem d'ometre.
+Una altra qüestió sobre la implementació d'aquestes proves, és que els resultats obtinguts se solen repetir entre consultes del mateix article. Per estalviar temps i evitar fer moltes peticions seguides als mateixos servidors (que podrien resultar en un bloqueig), deixem uns quants segons entre petició i petició i emmagatzemem cada resultat de manera que només l'hàgim de demanar una sola vegada. A banda d'això, també cal tenir en compte que en molts casos els resultats corresponen al mateix fitxer PDF del qual estem buscant informació, els hem d'ometre.
 
 \paragraph{}
 Aquests tests s'han realitzat per conjunts d'articles diferents agrupats depenent de la seva capçalera, que és el que pot fer variar més els resultats obtinguts. Hi ha un últim grup que conté articles de qualsevol tipus. Aquí només es mostren les dades d'aquest darrer conjunt a les figures \ref{fig:results:random-reslen} i \ref{fig:results:random-fqlen}, però a l'apèndix de resultats (\ref{appendix-results}) també hi ha els gràfics per dos més d'aquests conjunts.
@@ -62,7 +62,7 @@ Les mostres no són gaire significatives, però ens donen una idea per poder quant
 \end{center}
 \end{figure}
 
-El primer gràfic permet comparar el número de \textit{wrappers} obtinguts per cadascun dels camps per diferents biblioteques i utilitzant 4 exemples al generar. Tal i com es pot veure a la llegenda, els hem classificat en diferents grups de confiança, depenent de la puntuació rebuda a l'avaluar-los amb aquests mateixos 4 exemples (s'han omès aquells que no han funcionat en cap cas). Aquí ens interesa veure, sobretot, si hi ha almenys un \textit{wrappers} de confiança \textit{Cc}. Quan n'hi més d'un, solen indicar que les dades estan repetides dins la pàgina i que, per tant, hi ha diverses formes de poder-les extreure. En el cas del camp \textit{title} de la biblioteca \textit{acm}, el títol es troba a l'etiqueta \texttt{<title>} i dins d'alguna altra etiqueta dins el \texttt{<body>} de la pàgina.
+El primer gràfic permet comparar el número de \textit{wrappers} obtinguts per cadascun dels camps per diferents biblioteques i utilitzant 4 exemples al generar. Tal i com es pot veure a la llegenda, els hem classificat en diferents grups de confiança, depenent de la puntuació rebuda a l'avaluar-los amb els mateixos 4 exemples. S'han omès aquells que no han funcionat en cap cas. Aquí ens interesa veure, sobretot, si hi ha almenys un \textit{wrapper} de confiança \textit{Cc}. Quan n'hi ha més d'un, solen indicar que les dades estan repetides dins la pàgina i que, per tant, hi ha diverses formes de poder-les extreure. En el cas del camp \textit{title} de la biblioteca \textit{acm}, el títol es troba a l'etiqueta \texttt{<title>} i dins d'alguna altra etiqueta dins el \texttt{<body>} de la pàgina.
 
 \paragraph{}
 El gràfic també mostra dos casos pels quals no s'ha obtingut cap \textit{wrapper} que hagi funcionat per tots els exemples: el camp \textit{author} de la biblioteca \textit{InformaWorld} i el camp \textit{year} d'\textit{Ideas}. Amb una ullada ràpida a les regles generades n'hi ha prou per veure que es tracta de problemes de generalització. Pel cas del camp corresponent a l'any, les expressions regulars de les dues \textit{regex rules} són:
@@ -76,14 +76,14 @@ El gràfic també mostra dos casos pels quals no s'ha obtingut cap \textit{wrapper
 \end{lstlisting}
 \end{center}
 
-Aquest és el problema que s'ha descrit a la secció \ref{chapter:wrapperinduction:section:regexrules} al parlar de la generació d'expressions regulars. Els patrons inicials eren massa diferents com per fusionar-los i s'ha acabat amb regles massa específiques. Si ho corregim manualment, l'expressió resultant seria:
+Aquest és el problema que s'ha descrit a la secció \ref{chapter:wrapperinduction:section:regexrules} al parlar de la generació d'expressions regulars. Els patrons inicials eren massa diferents com per fusionar-los i s'ha acabat amb regles massa específiques. Si ho corregíssim manualment, l'expressió resultant seria:
 \begin{center}
 \begin{lstlisting}[nolol=true]
 "Handle\:\ RePEc\:(?:.*)\:y\:(.*)"
 \end{lstlisting}
 \end{center}
 
-Aquí queda plasmada ara la importància d'escollir bons exemples per la generació de regles. A l'apèndix \ref{fig:results:nwrappers-2} hi ha la mateixa gràfica, però corresponent als \textit{wrappers} obtinguts utilitzant només $2$ exemples. Els resultats són similars.  
+Aquí queda plasmada ara la importància d'escollir bons exemples per la generació de regles. A l'apèndix \ref{fig:results:nwrappers-2} hi ha la mateixa gràfica, però pertanyent als \textit{wrappers} obtinguts utilitzant només $2$ exemples. Els resultats són similars.  
 
 \begin{figure}[H]
 \begin{center}
@@ -94,14 +94,14 @@ Aquí queda plasmada ara la importància d'escollir bons exemples per la generació
 \end{figure}
 
 \paragraph{}
-A part d'aquesta vista dels resultats més detallada, les gràfiques \ref{fig:results:coverage-journal} i \ref{fig:results:coverage-year} també mostren el percentatge de biblioteques provades per les quals s'han obtingut \textit{wrappers} de confiança, depenent del número d'exemples utilitzats per la generació. La línia fosca correspon al percentatge de les biblioteques digitals per les quals hem obtingut almenys un \textit{wrapper} de confiança màxima, la línia més clara indica el mateix percentatge, però corresponent al següent interval de confiança. Finalment, la línia discontinua representa la suma de les dues anteriors.
+A part d'aquesta vista dels resultats més detallada, les gràfiques \ref{fig:results:coverage-journal} i \ref{fig:results:coverage-year} també mostren el percentatge de biblioteques provades per les quals s'han obtingut \textit{wrappers} de confiança, depenent del número d'exemples utilitzats per la generació. La línia fosca indica el percentatge de les biblioteques digitals per les quals hem obtingut almenys un \textit{wrapper} de confiança màxima, la línia més clara indica el mateix percentatge, però del següent interval de confiança. Finalment, la línia discontinua representa la suma de les dues anteriors.
 
 \paragraph{}
 El camp corresponent a l'any és interessant perquè moltes de les pàgines que hem provat contenen múltiples aparicions del valor que busquem, però no sempre descrivint l'any de publicació, sinó la data de revisió, la data a partir de la qual l'article es troba a Internet, \textit{copyright}, etc.
-Aquest tipus de confusions també són habituals quan, a més de la informació de l'article, les pàgines inclouen llistats amb les citacions o referències a d'altres publicacions. Malgrat tot, a mesura que comencem a tenir més exemples el fet d'avaluar ens permetrà escollir aquells que realment són vàlids.
+Aquest tipus de confusions també són habituals quan, a més de la informació de l'article, les pàgines inclouen llistats amb les citacions o referències a d'altres publicacions. Malgrat tot, a mesura que comencem a tenir més exemples el fet d'avaluar ens permetrà escollir aquells valors que realment són vàlids.
 
 \paragraph{}
-Altres camps pels quals es té més dificultat per generar \textit{wrappers} són aquells el valor dels quals consisteix en números petits, com ara el número de volum (\texttt{volume}) o de revista (\texttt{number}). El motiu és el mateix, hi ha moltes aparicions del mateix valor, però que no fan referència al camp que busquem.
+Altres camps pels quals es té més dificultat per generar \textit{wrappers} són aquells el valor dels quals consisteix en números petits, com ara el número de volum (\texttt{volume}) o de revista (\texttt{number}). El motiu és el mateix, hi ha moltes aparicions del valor, però que no fan referència al camp que busquem.
 
 
 \begin{figure}[H]
@@ -115,7 +115,7 @@ Altres camps pels quals es té més dificultat per generar \textit{wrappers} són a
 
 %%%% REFERENCE EXTRACTION %%%%
 \section{Extracció de referències}
-Anem a veure ara com de bé ho fan els \textit{wrappers} generats a la secció anterior a l'hora d'extreure informació per les mateixes biblioteques i camps. Disposem de conjunts de pàgines corresponents a articles diferents i les referències en \BibTeX{} que faran de mostres de control per saber en quins casos s'ha encertat i en quins no. Com que en aquest punt els resultats són més interessants, hem inclòs els gràfics de 2 i 4 exemples aquí mateix. Per començar ens fixarem en la correctesa dels camps extrets amb regles generades a partir de dos exemples:
+Anem a veure ara com de bé ho fan els \textit{wrappers} generats a la secció anterior a l'hora d'extreure informació per les mateixes biblioteques i camps. Disposem de conjunts de pàgines d'articles diferents i les seves referències en \BibTeX{}, que faran de mostres de control per saber en quins casos s'ha encertat i en quins no. Com que en aquest punt els resultats són més interessants, hem inclòs els gràfics de 2 i 4 exemples aquí mateix. Per començar ens fixarem en la correctesa dels camps extrets amb regles generades a partir de dos exemples:
 
 \begin{figure}[H]
 \begin{center}
@@ -130,20 +130,20 @@ Es considera que el valor extret és:
 \item{\textit{Correcte}:}
 Quan el valor obtingut coincideix exactament amb el de la referència de control.
 \item{\textit{Parcialment correcte}:}
-Si el valor extret conté el valor de control a més d'altra informació. Per exemple, un dels valors extrets pel camp \textit{journal} de la biblioteca \textit{ACM} és: \texttt{ACM Computing Surveys \textbf{(CSUR)}} mentre que el valor de la referència de control és \texttt{ACM Computing Surveys}. Tot i que en situacions com aquestes els valors es podrien considerar correctes, s'ha decidit generar els gràfics aplicant les regles de classificació de forma estricta i comentar-ho si fa falta.
+Si el text extret conté el valor de control a més d'altra informació. Per exemple, un dels valors extrets pel camp \textit{journal} de la biblioteca \textit{ACM} és: \texttt{ACM Computing Surveys \textbf{(CSUR)}} mentre que el valor de la referència de control és \texttt{ACM Computing Surveys}. Tot i que en situacions com aquestes els valors es podrien considerar correctes, s'ha decidit generar els gràfics aplicant les regles de classificació de forma estricta i comentar-ho si fa falta.
 \item{\textit{Incorrecte}:}
-Qualsevol altre cas.
+en qualsevol altre cas.
 \end{itemize}
 
 
-Veiem que utilitzant dos exemples hi ha hagut força problemes, tots per culpa que les regles són massa específiques com per cobrir altres pàgines:
+Veiem que utilitzant dos exemples hi ha hagut força problemes, tots per culpa que les regles són massa específiques com per cobrir nous casos:
 \begin{itemize}
 \item{}
 Com ja s'ha anticipat a la secció anterior, un dels camps amb més problemes ha estat l'any, que no s'ha pogut extreure correctament en tres de les quatre biblioteques que es mostren per culpa que no s'ha escollit bé l'element HTML que realment conté aquesta informació.
 \item{}
  Els autors de la biblioteca \textit{SpringlerLink} no s'han extret del tot bé en cap dels casos, per culpa que els separadors de les \textit{separator rules} no són prou genèrics.
 \item{}
-Per acabar, els resultats de la biblioteca \textit{InformaWorld} són pèssims a causa de combinacions dels problemes anteriors.
+Per acabar, els resultats de la biblioteca \textit{InformaWorld} són pèssims a causa de combinacions dels dos problemes anteriors.
 \end{itemize} 
 
 Anem a veure què passa quan fem les mateixes proves amb els \textit{wrappers} generats a partir de quatre exemples diferents:
@@ -155,7 +155,7 @@ Anem a veure què passa quan fem les mateixes proves amb els \textit{wrappers} ge
 \end{center}
 \end{figure}
 
-El nombre d'extraccions correctes ha augmentat força, i els valors marcats com a \textit{parcialment correctes} corresponen a situacions que realment es podrien considerar vàlides. En canvi, segueixen havent-hi problemes amb els anys i els autors de la biblioteca \textit{InformaWorld}. Podem mirar de corregir-los manualment.
+El nombre d'extraccions correctes ha augmentat força, i els valors marcats com a \textit{parcialment correctes} corresponen a situacions que realment es podrien considerar vàlides. En canvi, segueixen havent-hi problemes amb els anys i amb els autors de la biblioteca \textit{InformaWorld}. Podem mirar de corregir-los manualment.
 
 \paragraph{}
 Respecte als autors d'\textit{InformaWorld} no s'ha sabut identificar correctament l'element HTML que els conté. Només canviant l'expressió regular de l'inici de la \textit{path rule}, per ajudar a escollir l'element adequat, passem a extreure els autors de forma correcta per a tots els casos.
@@ -170,7 +170,7 @@ Respecte als autors d'\textit{InformaWorld} no s'ha sabut identificar correctame
 
 
 \paragraph{}
-Pel que fa a l'any de publicació, el problema consisteix, una vegada més, en una expressió regular massa específica:
+En relació amb l'any de publicació, el problema consisteix, una vegada més, en una expressió regular massa específica. La canviem per una de més general:
 \begin{center}
 \begin{lstlisting}[nolol=true]
 "Published\ in\:Accounting\ Education\,\ Volume\ \ 1(?:.*)\,\ Issue\ \ (?:.*)\ \&\ (?:.*)\ \ (?:.*)\ (.*)\ \,\ pages\ (?:.*)\ \-\ "
@@ -189,6 +189,6 @@ Un cop fetes aquestes correccions, si tornem a executar les proves per extreure 
 \end{center}
 \end{figure}
 
-Els resultats d'extracció dels camps que no es mostren als gràfics (e.g. número de volum, pàgines) són molt similars als que acabem de veure. El número de revista i volum tenen problemes similars als del camp referent a l'any, en canvi, altres menys comuns com ara l'ISSN una taxa d'encert molt alta.
+Els resultats d'extracció dels camps que no es mostren als gràfics (e.g. número de volum, pàgines) són molt similars als que acabem de veure. El número de revista i volum tenen problemes similars als del camp referent a l'any, en canvi, altres menys comuns com ara l'ISSN tenen una taxa d'encerts molt alta.
 
 

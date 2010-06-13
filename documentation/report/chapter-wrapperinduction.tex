@@ -1,7 +1,7 @@
 \chapter{Generació de \textit{Wrappers}}
 \label{chapter:wrapperinduction}
 
-En aquest capítol s'expliquen les tècniques utilitzades per la generació automàtica de regles d'extracció de la informació. A grans trets, el procediment a seguir consisteix en agafar exemples de referències i mirar on es troba cada camp dins de la pàgina que conté la referència, per tal d'aplicar-ho en altres pàgines amb la mateixa estructura. Cal comentar que com que els resultats no seran perfectes, l'usuari sempre podrà corregir els \textit{wrappers} generats per maximitzar la correctesa de les dades extretes en cada cas.
+En aquest capítol s'expliquen les tècniques utilitzades per la generació automàtica de regles d'extracció de la informació. A grans trets, el procediment a seguir consisteix a agafar exemples de referències i mirar on es troba cada camp dins de la pàgina que conté la referència, per tal d'aplicar-ho en altres pàgines amb la mateixa estructura. Cal comentar que com que els resultats no seran perfectes, l'usuari sempre podrà corregir els \textit{wrappers} generats per maximitzar la correctesa de les dades extretes en cada cas.
 
 %%%% OBTENCIÓ D'EXEMPLES %%%%
 \section{Obtenció d'exemples}
@@ -9,7 +9,7 @@ Per poder generar \textit{field wrappers}, es necessiten exemples del camp que e
 Totes les referències hauran de tenir associada una URL que apunti a una pàgina que contingui la informació de la referència. En el cas de les que s'han obtingut automàticament, aquesta adreça es desa durant l'extracció.
 
 \paragraph{}
-A l'inici, el context dels valors dels nostres exemples és el codi HTML que conté la referència. Per tant, el primer pas consisteix en obtenir aquestes pàgines d'Internet. Tot i que per cadascun dels camps es generen \textit{sets} d'exemples diferents, les pàgines són les mateixes i només es descarreguen una sola vegada. Tot i així, com que totes es trobaran a la mateixa biblioteca i les peticions les procesa el mateix servidor, l'aplicació mira d'evitar bloquejos esperant uns segons entre petició i petició. Un cop tenim els exemples generats, mirem si l'HTML conté la informació que volem extreure i si no és així, l'exemple es marca com a invàlid per tal de no tornar-lo a fer servir en un futur.
+A l'inici, el context dels valors dels nostres exemples és el codi HTML que conté la referència. Per tant, el primer pas consisteix a obtenir aquestes pàgines d'Internet. Tot i que per cadascun dels camps es generen \textit{sets} d'exemples diferents, les pàgines són les mateixes i només es descarreguen una sola vegada. Tot i així, com que totes es trobaran a la mateixa biblioteca i les peticions les procesa el mateix servidor, l'aplicació mira d'evitar bloquejos esperant uns quants segons entre petició i petició. Un cop tenim els exemples generats, mirem si l'HTML conté la informació que volem extreure i si no és així, l'exemple es marca com a invàlid per tal de no tornar-lo a fer servir en un futur.
 
 \paragraph{}
 Abans de fer-lo servir, el codi HTML es neteja per tal d'eliminar-ne els comentaris, salts de línia, i altres elements que no ens interessen, com ara codi \textit{JavaScript} o etiquetes d'estil. El número d'exemples a tenir en compte per generar els \textit{field wrappers} és configurable, però com a mímin se'n necessiten dos que siguin vàlids.
@@ -40,7 +40,7 @@ Tal i com acabem de comentar, són les regles que permeten localitzar trossos d'i
 Per generar aquests patrons, cerquem el valor que volem extreure dins de l'HTML i anem pujant l'arbre sintàctic que descriu el document fins arribar a un antecessor amb nom d'etiqueta i atributs únics. Per cada element, en desem les seves característiques de manera que després puguem recórrer el mateix camí a l'inrevés.
 
 \paragraph{}
-Pel que fa al número de \textit{sibling} o germà, només l'utilitzem per agilitzar el procés de cerca de la informació a l'hora d'aplicar la regla. En un principi havíem pensat distingir elements segons la seva posició respecte als germans, però això no funciona en aquells casos on múltiples pàgines d'una biblioteca digital mostren la mateixa informació en un ordre diferent. Per exemple, si tinguéssim els dos fragments de codi següents, al cercar el número de volum acabaríem amb les rutes simplificades: \texttt{[(table, 0), (tr, \textbf{1}), (td, 0)]} i \texttt{[(table, 0), (tr, \textbf{0}), (td, 0)]}. En realitat, però, ens interessaria combinar les dues rutes en una de sola i que ens permetés obtenir l'element correcte en qualsevol dels casos. 
+En relació amb el número de \textit{sibling} o germà, només l'utilitzem per agilitzar el procés de cerca de la informació a l'hora d'aplicar la regla. En un principi havíem pensat distingir elements segons la seva posició respecte als germans, però això no funciona en aquells casos on múltiples pàgines d'una biblioteca digital mostren la mateixa informació en un ordre diferent. Per exemple, si tinguéssim els dos fragments de codi següents, al cercar el número de volum acabaríem amb les rutes simplificades: \texttt{[(table, 0), (tr, \textbf{1}), (td, 0)]} i \texttt{[(table, 0), (tr, \textbf{0}), (td, 0)]}. En realitat, però, ens interessaria combinar les dues rutes en una de sola i que ens permetés obtenir l'element correcte en qualsevol dels casos. 
 
 \begin{center}
 \begin{minipage}{0.48\linewidth}
@@ -146,7 +146,7 @@ Vol. 27, No. 6. (1 April 2006), pp. 1204-1209.
 Vol\.\ 27\,\ No\.\ 6\.\ \(1 April 2006\)\,\ pp\. (.*)\.
 \end{lstlisting}
 \end{center}
-De moment, com que només hem generat l'expressió amb una sola regla, no és prou general per extreure els camps de totes les pàgines. A a mesura que es provi amb més exemples, els trossos de text que varien aniran desapareixent. Suposem que ens arriba un altre exemple i la \textit{path rule} ens retorna la primera línia següent, per la qual també en generem l'expressió.
+De moment, com que només hem generat l'expressió amb una sola regla, no és prou general per extreure els camps de totes les pàgines. A mesura que es provi amb més exemples, els trossos de text que varien aniran desapareixent. Suposem que ens arriba un altre exemple i la \textit{path rule} ens retorna la primera línia següent, per la qual també en generem l'expressió.
 
 \begin{center}
 \begin{lstlisting}[nolol=true]

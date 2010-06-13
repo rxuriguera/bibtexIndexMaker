@@ -44,14 +44,14 @@ http://en.scientificcommons.org/32119993
 http://en.scientificcommons.org/export/bibtex/32119993
 \end{lstlisting}
 \end{center}
-Altres vegades, obtenir la referència és més complicat, i és necessari construir la URL a partir de paràmetres d'una crida a una funció \textit{JavaScript}, com passa per la biblioteca \textit{ACM}; o bé a partir de camps d'un formulari, cas de \textit{ScienceDirect}, etc.
+Altres vegades, obtenir la referència és més complicat, i és necessari construir la URL a partir de paràmetres d'una crida a una funció \textit{JavaScript}, com passa per la biblioteca \textit{ACM}; o bé de camps d'un formulari, cas de \textit{ScienceDirect}, etc.
 
 
 
 %%%%% FIELD WRAPPERS %%%%
 \subsection{\textit{Field Wrappers}}
 \label{chapter:refextraction:section:fieldwrappers}
-A diferència dels que acabem de veure, aquest tipus de \textit{wrappers} s'especialitzen en extreure únicament un dels camps de la referència cada vegada. Per tant, se'n necessita un per cadascun dels camps que volem obtenir per cada biblioteca d'articles que vulguem suportar. El diagrama següent mostra la diferència respecte els de la figura \ref{fig:refextraction:reference-wrappers}:
+A diferència dels que acabem de veure, aquest tipus de \textit{wrappers} s'especialitzen a extreure únicament un dels camps de la referència cada vegada. Per tant, se'n necessita un per cadascun dels camps que volem obtenir per cada biblioteca d'articles que vulguem suportar. El diagrama següent mostra la diferència respecte els de la figura \ref{fig:refextraction:reference-wrappers}:
 
 \begin{figure}[H]
 \begin{center}
@@ -65,7 +65,7 @@ Internament, aquests tipus de \textit{wrappers} consisteixen en un llistat de re
 
 
 \paragraph{}
-Per assegurar-nos que l'aplicació pot acomplir els objectius proposats, en un principi vam començar a definir algunes d'aquestes regles manualment, mirant de fer-les prou generals com per poder-les reutilitzar per múltiples biblioteques. És fàcil veure que aquesta és una tasca que consumeix molt temps. A més, s'ha de tenir en compte que els resultats obtinguts es veuen afectats per qualsevol canvi en l'estructura de les pàgines font. Cada vegada que hi ha un redisseny, s'han d'actualitzar les regles o bé crear-les de nou. Per tant, vam decidir dedicar la resta de projecte en trobar la manera de generar aquest tipus de \textit{wrappers} de forma automàtica. La forma de fer-ho es descriu al capítol \ref{chapter:wrapperinduction}.
+Per assegurar-nos que l'aplicació pot acomplir els objectius proposats, en un principi vam començar a definir algunes d'aquestes regles manualment, mirant de fer-les prou generals com per poder-les reutilitzar per múltiples biblioteques. És fàcil veure que aquesta és una tasca que consumeix molt temps. A més, s'ha de tenir en compte que els resultats obtinguts es veuen afectats per qualsevol canvi en l'estructura de les pàgines font. Cada vegada que hi ha un redisseny, s'han d'actualitzar les regles o bé crear-les de nou. Per tant, vam decidir dedicar la resta de projecte a trobar la manera de generar aquest tipus de \textit{wrappers} de forma automàtica. La forma de fer-ho es descriu al capítol \ref{chapter:wrapperinduction}.
 
 \paragraph{}
 De totes maneres, cenyint-nos al procés d'extracció, els passos que se segueixen són:
@@ -88,11 +88,11 @@ Després d'obtenir les dades dels documents HTML amb els mètodes indicats, ens in
 \item{Evitar utilitzar referències incorrectes a l'hora de generar nous \textit{wrappers}}
 \end{itemize}
 
-El procés de validació de les dades depèn de cada camp i és totalment ajustable. Dins del fitxer de configuració de l'aplicació, es pot establir, per cada camp, com s'ha de validar i un pes sobre la validesa total de la referència. Pel que fa al primer paràmetre, tindrem diferents tipus de validadors:
+El procés de validació de les dades depèn de cada camp i és totalment ajustable. En el fitxer de configuració de l'aplicació, es pot establir, per cada camp, com s'ha de validar i un pes sobre la validesa total de la referència. Pel que fa al primer paràmetre, tindrem diferents tipus de validadors:
 \begin{itemize}
-\item{\textit{WithinTextValidator}:} Basa la validació en comprovar si la cadena extreta es troba dins del text extret de l'article PDF. 
+\item{\textit{WithinTextValidator}:} Basa la validació a comprovar si la cadena extreta es troba en el text extret de l'article PDF. 
 \item{\textit{PersonValidator}:} Semblant a l'anterior, però ho comprova pels diferents noms de les persones.
-\item{\textit{RegexValidator}:} Mira que el text extret coincideixi amb una expressió regular que també s'inclou al fitxer de configuració. Útil per aquells casos on el camp no es troba dins del document de l'article (e.g. pàgines, issn).
+\item{\textit{RegexValidator}:} Mira que el text extret coincideixi amb una expressió regular que també s'inclou al fitxer de configuració. Útil per aquells casos on el camp no es troba en el document de l'article (e.g. pàgines, issn).
 \end{itemize}
 
 El pes correspon a un nombre en coma flotant que ens permet donar més importancia a certs camps com ara el títol o nom dels autors a l'hora d'establir com de vàlida és una referència. La suma total dels pesos ha de ser igual a 1. 
