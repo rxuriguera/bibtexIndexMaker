@@ -8,7 +8,7 @@ En el nostre context, anomenarem \textit{wrapper} a una classe que implementa un
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.8]{figures/wrapper_sample.pdf}
-\caption{Exemple de la funció d'un \textit{wrapper}}
+%\caption{Exemple de la funció d'un \textit{wrapper}}
 \label{fig:wrapper-desc}
 \end{center}
 \end{figure}
@@ -19,7 +19,7 @@ Internament, consisteixen en un seguit de regles especialitzades en extreure les
 %%%% REFERENCE WRAPPERS %%%%
 \subsection{\textit{Reference Wrappers}}
 \label{refextraction:reference-wrappers}
-Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera dins de les pàgines HTML dels resultats. El gran avantatge que tenen és que habitualment permeten obtenir molta informació i amb una confiança molt més gran. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
+Aquest tipus de \textit{wrappers} extreuen el text corresponent a una referència sencera dins de les pàgines HTML dels resultats. El gran avantatge que tenen és que habitualment permeten obtenir molta informació i amb una confiança molt més alta. Ara per ara, el sistema només suporta referències \BibTeX{}, però es podria ampliar amb qualsevol altre format.
 
 \begin{figure}[H]
 \begin{center}
@@ -35,7 +35,7 @@ El principal problema és que s'han d'implementar manualment ja que moltes vegade
 Un altre inconvenient d'aquest tipus de \textit{wrappers} és que hi ha moltes biblioteques digitals que no ofereixen les referències en \BibTeX{} sinó en altres formats com ara \textit{RIS}, \textit{MODS}, etc. La llista de formats que s'ofereixen depèn força del camp de coneixement en què s'especialitza la biblioteca. 
 
 \paragraph{}
-Respecte a la manera d'implementar-los, el primer que cal fer és estudiar el funcionament de cada biblioteca i aplicar una mica d'enginyeria inversa. Per exemple, en algunes ocasions podem aconseguir alguna drecera per arribar a les referències a partir de les direccions retornades pels cercadors. Un dels casos més senzills és el de la biblioteca digital \textit{ScientificCommons} on per obtenir el codi \BibTeX{} només hem de canviar l'adreça retornada pel cercador:
+Respecte a la manera d'implementar-los, el primer que cal fer és estudiar el funcionament de cada biblioteca i aplicar una mica d'enginyeria inversa. Per exemple, en algunes ocasions podem aconseguir alguna drecera per arribar a les referències a partir de les adreces retornades pels cercadors. Un dels casos més senzills és el de la biblioteca digital \textit{ScientificCommons} on per obtenir el codi \BibTeX{} només hem de canviar l'adreça retornada pel cercador:
 \begin{center}
 \begin{lstlisting}[nolol=true]
 http://en.scientificcommons.org/32119993
