@@ -27,7 +27,7 @@ Shuai Zhang Hebei Polytechnic University College of Science Hebei Polytechnic Un
 Abstract--With the development of parallel computing, distributed [...]
 \end{lstlisting}
 
-Una vegada vistos els resultats, probablement quedin més clara la inviabilitat de la primera opció i per què hem decidit consultar la informació dels articles que hi ha disponible a la xarxa. De totes maneres, continua sent necessària l'extracció del text dels PDFs per tal de poder fer cerques, i cal veure com ho podem fer.
+Una vegada vistos els resultats, probablement queda més clara la inviabilitat de la primera opció i per què hem decidit consultar la informació dels articles que hi ha disponible a la xarxa. De totes maneres, continua sent necessària l'extracció del text dels PDFs per tal de poder fer cerques, i cal veure com ho podem fer.
 
 %%%% DIFICULTATS %%%%
 \subsection{Dificultats}
@@ -95,7 +95,7 @@ En molts casos, l'expressió regular anterior també dóna coincidències pel títol 
 El següent pas després d'haver obtingut un conjunt de consultes és utilitzar-les amb un cercador per tal d'obtenir pàgines amb informació de la referència que volem aconseguir. Al capítol d'introducció, hem esmentat que hi ha cercadors com ara \textit{Google Scholar} o \textit{Microsoft Academic Search} on els resultats només corresponen a publicacions. En un principi ens va semblar raonable intentar fer ús d'aquests serveis per poder aconseguir els nostres objectius. El problema és que no tenen cap API publicada que permeti fer consultes automàtiques des d'aplicacions de tercers. Tot i que hi ha solucions i \textit{workarounds}, van en contra dels termes i condicions i els servidors bloquegen massa consultes seguides. Per tant, hem descartat aquesta opció.
 
 \paragraph{}
-Així doncs, ens quedem amb els cercadors habituals; hem preparat la nostra aplicació per tal d'utilitzar les APIs de \textit{Google}, \textit{Yahoo} i \textit{Bing}. Tots tres cercadors retornen els resultats en format JSON. Els principals inconvenients són que retornen qualsevol tipus de pàgina i que no tenen indexades algunes blioteques digitals. Tot i així, també podem aconseguir bons resultats amb l'ús de les consultes adequades. Al capítol de resultats (\ref{chapter:results:section:search}) hi ha una comparativa.
+Així doncs, ens quedem amb els cercadors habituals; hem preparat la nostra aplicació per tal d'utilitzar les APIs de \textit{Google}, \textit{Yahoo} i \textit{Bing}. Tots tres cercadors retornen els resultats en format JSON. Els principals inconvenients són que retornen qualsevol tipus de pàgina i que no tenen indexades algunes biblioteques digitals, però en general, podem aconseguir bons resultats amb l'ús de les consultes adequades. Al capítol de resultats (\ref{chapter:results:section:search}) hi ha una comparativa.
 
 
 %%%% ORDENACIÓ RESULTATS %%%%
@@ -117,7 +117,7 @@ En algunes ocasions, es dóna el cas que la consulta generada no és prou restrict
 Per una altra banda,  hi ha ocasions en que els cercadors tenen tendència a retornar resultats que, tot i coincidir amb la consulta que li hem donat, corresponen a una pàgina que no ens aporta massa informació. Per tal d'ajudar a l'aplicació a descartar resultats dolents, podem indicar-li pàgines que volem ometre a partir d'una llista negra. Per exemple, sabem que les pàgines sobre els autors de la biblioteca digital \textit{ACM Portal} contenen un llistat de tots els articles d'un mateix autor, però que no contenen suficient informació com per extreure referències. En aquest cas voldrem descartar els resultats que comencen per \href{http://portal.acm.org/author\_page.cfm?id=}{http://portal.acm.org/author\_page.cfm}.
 
 \section{\textit{Multithreading}}
-Un dels inconvenients més grans que implica el fet d'haver d'accedir a Internet, és que el temps perdut esperant dades és molt alt. Per reduir-lo, s'ha estudiat la possibilitat d'utilitzar diferents fils d'execució per fer més d'una consulta de forma més o menys simultània. La taula següent mostra una comparativa del temps necessari per obtenir mútliples pàgines web de forma seqüencial o bé utilitzant fins a cinc fils d'execució diferents. Les pàgines pàgines corresponen a consultes aleatòries a \textit{Google} per evitar l'efecte dels \textit{proxies} i \textit{caches}. 
+Un dels inconvenients més grans que implica el fet d'haver d'accedir a Internet, és que el temps perdut esperant dades és molt alt. Per reduir-lo, s'ha estudiat la possibilitat d'utilitzar diferents fils d'execució per fer més d'una consulta de forma més o menys simultània. La taula següent mostra una comparativa del temps necessari per obtenir mútliples pàgines web de forma seqüencial o bé utilitzant fins a cinc fils d'execució diferents. Les pàgines corresponen a consultes aleatòries a \textit{Google} per evitar l'efecte dels \textit{proxies} i \textit{caches}. 
 
     \begin{center}
     \begin{tabular}{|r|r|r|r|r|r|r|r|}
@@ -147,4 +147,4 @@ Un dels inconvenients més grans que implica el fet d'haver d'accedir a Internet,
 Tot i que aquestes proves no són riguroses, sí que són suficients per poder-nos fer una idea força clara sobre la millora que s'obté utilitzant múltiples fils respecte no fer-ho. Pere exemple, per obtenir 5 pàgines amb un sol fil només es tarda lleugerament menys que per obtenir-ne 20 amb 5 fils.
 
 \paragraph{}
-En relació amb la forma d'implementar-ho, hem creat un \textit{pool} amb un número màxim configurable de fils d'execució que es van reutilitzant mentre queden referències per extreure. Bàsicament, tenim una cua amb les rutes als fitxers PDF i una cua de sortida amb el resultat d'extreure les referències. Cada \textit{thread} va processant fitxers de la cua d'entrada mentre aquesta no és buida. El número de fils s'haurà d'ajustar segons del tipus de connexió del que es disposi.
+En relació amb la forma d'implementar-ho, hem creat un \textit{pool} amb un número màxim configurable de fils d'execució que es van reutilitzant mentre queden referències per extreure. Bàsicament, tenim una cua amb les rutes als fitxers PDF i una altra cua de sortida amb el resultat d'extreure les referències. Cada \textit{thread} va processant fitxers de la cua d'entrada mentre aquesta no és buida. El número de fils s'haurà d'ajustar segons del tipus de connexió del que es disposi.

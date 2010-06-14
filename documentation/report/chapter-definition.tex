@@ -23,8 +23,8 @@ Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{updat
 \end{itemize}
 
 
-\section{L'extracció de referències}
-Aquest és l'objectiu principal de l'aplicació i les limitacions que hem trobat per fer-lo possible són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint alguns passos semblants als de la figura següent.
+\section{L'estratègia plantejada}
+L'extracció de referències és l'objectiu principal de l'aplicació i les limitacions que hem trobat per fer-lo possible són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint alguns passos semblants als de la figura següent.
 
 \begin{figure}[H]
 \begin{center}
@@ -58,7 +58,7 @@ La solució que hem trobat per poder seguir endavant consisteix a fer ús de les b
 El motiu que fa que aquest procediment es pugui implementar en el temps limitat del que disposem per la realització d'aquest projecte és que les dades ofertes per les biblioteques digitals està molt estructurada dins dels documents HTML. Com és lògic, tenen la informació emmagatzemada en bases de dades, i a l'hora de mostrar-la als usuaris, la formaten automàticament; sempre de la mateixa manera (amb algunes excepcions). Aquesta estructura fixa al llarg de les pàgines d'una mateixa biblioteca és el que realment simplifica la tasca d'extracció, ja que permet generar regles que funcionin en un percentatge molt alt dels casos.
 
 \paragraph{}
-Així doncs, hem de fer una mica més de tomb per poder aconseguir els resultats desitjats, però els passos són més senzills d'aplicar. El problema que teníem al principi ha quedat dividit en tres problemes més petits:
+Així doncs, hem de fer una mica més de tomb per poder aconseguir els resultats desitjats, però els passos són més senzills d'aplicar. El problema que teníem al principi ha quedat dividit en tres problemes més petits que tractarem per separat en els propers capítols:
 \begin{itemize}
 \item{}
 La cerca de les pàgines amb informació de l'article.
@@ -67,13 +67,27 @@ Extracció de la referència d'aquestes pàgines.
 \item{}
 Generació de les regles d'extracció. (Les anomenarem \textit{wrappers})
 \end{itemize}
-Cadascuna d'aquestes parts es tracta per separat en els propers capítols.
+
+
+\paragraph{}
+Sobre la generació de regles, hem de dir que l'arquitectura del nostre sistema per crear les regles d'extracció o \textit{wrappers} està basada en la dels sistemes presentats a \cite{limanto05} i \cite{wang03}; es mostra a continuació:
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.75\textwidth]{figures/definition:wrapperinduction-architecture.pdf}
+\label{fig:definition:wrapperinduction-architecture}
+\end{center}
+\end{figure}
+
+Cal destacar que els detalls en la forma de generar les regles de tots dos articles citats són diferents a com ho fem nosaltres. Per exemple, a diferència d'ells, les nostres regles es generen utilitzant exemples seleccionats, cosa que fa que la creació de regles sigui molt més senzilla. Això no treu, però, que l'arquitectura de les diverses parts del sistema d'extracció d'informació sigui la mateixa: per un costat, un generador que crea les regles a partir de pàgines i les emmagatzema en una base de dades; per l'altre, \textit{wrappers} que, segons les regles generades, extreuen dades de les pàgines HTML que reben.
+
+\paragraph{}
+Un altre aspecte a comentar és la manera d'obtenir les pàgines  d'Internet. Com ja hem dit a la secció anterior, enlloc de tenir un \textit{crawler} que es va passejant per la xarxa, agafem les pàgines que ens interessen de forma més o menys directa, a partir dels resultats de cercadors. Aquesta pràctica també és la que fa servir el sistema {\sc KnowItAll} \cite{etzioni04}.
 
 %%%% BIBTEX %%%%
 \section{\BibTeX}
 \label{chapter:definition:section:bibtex}
-Ja hem esmentat \BibTeX{} diverses vegades, però què és? Simplement es tracta d'una eina de maneig de referències. Per poder entendre el projecte cal que descrivim la sintaxi del llenguatge que utilitza. 
-En el nostre cas farem servir aquest llenguatge com a format d'entrada de referències a l'importar-les i també com a format de sortida al generar els índexs bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic expressat en el format \BibTeX:
+Ja hem esmentat \BibTeX{} diverses vegades, però què és? Simplement es tracta d'una eina de maneig de referències. Per poder entendre aquest projecte cal que descrivim la sintaxi del llenguatge per definir-les. En el nostre cas farem servir aquest llenguatge per l'entrada de referències a l'importar-les i també per la sortida al generar els índexs bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic. Aquí només se'n destaquen els detalls bàsics per comprendre aquest document, però es pot trobar una definició completa del format a \cite{Patashnik88bibtexing}.
 \begin{center}
 \begin{lstlisting}[caption={Referència expressada en \BibTeX}, label=listing:exampleBibTeX]
 @article{MoSh:27,
@@ -87,13 +101,13 @@ En el nostre cas farem servir aquest llenguatge com a format d'entrada de referè
 \end{lstlisting}
 \end{center}
 
-Alguns aspectes a comentar sobre l'exemple anterior:
+Així doncs, els aspectes a comentar sobre l'exemple són:
 \begin{itemize}
 \item{}
-La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps \textit{author}, \textit{title}, \textit{journal} i \textit{year}, que són obligatoris.
+La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un altre document. En el nostre cas només ens interessen les referències de tipus \textit{article} i haurem de definir, com a mínim, els camps \textit{author}, \textit{title}, \textit{journal} i \textit{year}, que són obligatoris.
 
 \item{}
-Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last}, \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem sempre igual: \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
+Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last} i \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem sempre igual: \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
 
 \item{}
 L'últim camp d'una referència pot acabar o no amb una coma.
@@ -143,13 +157,13 @@ La figura \ref{fig:module_diagram} mostra com interaccionen. Els mòduls que s'en
 L'aplicació es distribueix sota  una llicència lliure que permet als destinataris la possibilitat de copiar, modificar i redistribuir el codi. Concretament, hem escollit la \textit{General Public License} (GPL) v.3, que requereix que qualsevol treball derivat també es distribueixi amb els mateixos permisos. El text complet d'aquesta llicència es pot trobar a \cite{gpl3} així com al fitxer \texttt{LICENSE} que acompanya el codi.
 
 \paragraph{}
-Qualsevol interessat pot agafar aquest projecte i modificar-lo tan per afegir noves funcionalitats com per arreglar errors. La forma més fàcil de fer-ho és anar al repositori on es troba el projecte \cite{repo} i fer un \textit{fork}. D'aquesta manera, el nou codi sempre es podrà fusionar a la branca \textit{oficial}.
+Qualsevol interessat pot agafar aquest projecte i modificar-lo, tan per afegir noves funcionalitats com per arreglar errors. La forma més fàcil de fer-ho és anar al repositori on es troba el projecte \cite{repo} i fer un \textit{fork}. D'aquesta manera, el nou codi sempre es podrà fusionar a la branca \textit{oficial}.
 
 \section{Llista de tasques}
 A continuació s'esmenten les tasques més importants que s'han dut a terme i alguns elements que s'han implementat durant la realització del projecte (algunes no han arribat fins al final). S'acompanyen amb una estimació del temps que ha estat necessari per completar-les, per donar una idea del pes de cadascuna d'elles:
 
 \begin{center}
-\begin{longtable}{|l r|}
+\begin{tabular}{|l r|}
 
 \hline
 \textbf{Tasca}                                                              & \textbf{Temps estimat}\\
@@ -212,5 +226,5 @@ Proves                                                                      & \t
 \tab Execució i anàlisi de resultats                                        & 3 dies\\
 \hline
 \hline
-\end{longtable}
+\end{tabular}
 \end{center}
