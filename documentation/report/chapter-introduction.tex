@@ -1,14 +1,14 @@
 \chapter{Introducció}
 \label{chapter:introduction}
 
-%Aquest projecte neix amb la idea d'estalviar temps a l'hora de mantenir un cert ordre dins d'una col·lecció de documents digitals, ja sigui per qüestions de catalogació o bé per poder-los citar des d'alguna altra publicació. 
-Durant la realització d'un treball de recerca, una de les tasques a les que es dedica més temps és la cerca i lectura d'articles sobre el tema que s'està tractant. Els fitxers corresponents a aquestes publicacions habitualment es troben en format PDF \cite{isoPdf} i s'acostumen a acumular en algun directori de l'ordinador de l'investigador. Després de mesos, fins i tot anys, arriba l'hora de començar a escriure i és necessari generar un índex bibliogràfic d'aquests articles i així poder-los citar dins del nou document.
+
+Durant la realització d'un treball de recerca, una de les tasques a les que es dedica més temps és la cerca i la lectura d'articles sobre el tema que s'està tractant. Els fitxers corresponents a aquestes publicacions acostumen a acumular-se en algun directori dels ordinadors dels investigadors durant els mesos, fins i tot anys, que s'allarga el treball. Quan arriba l'hora de començar a escriure per poder publicar, és necessari generar un índex bibliogràfic d'aquesta col·lecció articles i així poder-los citar dins del nou document.
 
 \paragraph{}
-El procés de creació d'índexs és repetitiu, pesat i porta molt de temps si es fa manualment. És aquí on entra en joc aquest projecte ja que aquesta és una tasca que, en gran mesura, es pot automatitzar. L'objectiu principal és el desenvolupament d'un sistema que generi automàticament índexs bibliogràfics a partir de col·leccions de PDFs. Al llarg d'aquest document, però, veurem que per aconseguir-ho haurem de tenir en compte altres temes interessants com poden ser l'extracció d'informació estructurada i la generació automàtica de regles a partir d'exemples.
+El procés de creació d'índexs és repetitiu, pesat i requereix molt de temps si s'ha de fer manualment. Aquesta és una tasca que, en gran mesura, es pot automatitzar i és aquí on entra en joc el nostre projecte. L'objectiu principal és el desenvolupament d'un sistema que generi automàticament índexs bibliogràfics a partir de col·leccions de PDFs, que és el format estàndard \cite{isoPdf} en el que s'acostumen a trobar els articles digitals. Al llarg d'aquest document, veurem que per acomplir l'objectiu definit, haurem de tenir en compte altres temes interessants com poden ser l'extracció d'informació estructurada i la generació automàtica de regles a partir d'exemples.
 
 \paragraph{}
-Un altre aspecte a tenir en compte sobre els índexs és el format que s'utilitza per crear-los, n'existeixen moltíssims. En disciplines de caire científic i tècnic com ara les matemàtiques, física o informàtica, l'eina estàndard usada per escriure articles és \LaTeX{}, i normalment es complementa amb el gestor bibliogràfic \BibTeX{}. És per això que s'ha optat per aquest format i, de fet, és el que dóna nom al projecte.
+Un altre aspecte a considerar sobre els índexs és el format que s'utilitza per crear-los. N'existeixen moltíssims, però en disciplines de caire científic i tècnic com ara les matemàtiques, física o informàtica, l'eina estàndard usada per escriure articles és \LaTeX{}, i normalment es complementa amb el gestor bibliogràfic \BibTeX{}. És per això que s'ha optat per aquest format i, de fet, és el que dóna nom al projecte.
 
 
 %En principi, això pot interessar a qualsevol persona que hagi de redactar un text i necessiti portar un control de tots els altres documents als quals es refereix. De totes maneres, el punt de vista que s'ha adoptat és una mica més restringit, semblant al que poden tenir els membres de la comunitat científica a l'hora d'escriure articles, ja que ens aprofitarem d'algunes de les peculiaritats d'aquest tipus d'escrits. 
@@ -27,22 +27,22 @@ Un altre aspecte a tenir en compte sobre els índexs és el format que s'utilitza 
 
 
 \paragraph{}
-El problema que acabem de descriure no és nou i existeix un gran nombre d'eines destinades a facilitar la gestió de referències o bé a oferir altres serveis relacionats. Totes les que coneixem es poden classificar en alguna d'aquestes tres categories:
+El problema que acabem de descriure no és nou i existeix un gran nombre d'aplicacions destinades a facilitar la gestió de referències o bé a oferir altres serveis relacionats. Totes les que coneixem es poden classificar en alguna d'aquestes tres categories:
 \begin{itemize}
 \item{}
 %\paragraph{}
-En primer lloc, hi ha el que s'anomenen \textit{biblioteques digitals}, grans bases de dades amb informació sobre articles, els seus autors i, en alguns casos, també sobre les relacions de citació entre ells. Estan disponibles en línia i tothom pot consultar-les. Alguns exemples són \textit{DBLP} o bé \textit{RePEc}.
+En primer lloc, hi ha el que s'anomenen \textit{biblioteques digitals}, bases de dades amb informació sobre articles, els seus autors i, en alguns casos, també sobre les relacions de citació entre ells. Estan disponibles en línia i tothom pot consultar-les. Alguns exemples són \textit{DBLP} o bé \textit{RePEc}.
 \item{}
 %\paragraph{}
 Després, tenim nombroses aplicacions dedicades al maneig de referències com ara \textit{JabRef} \cite{JabRef} o \textit{Mendeley}\cite{Mendeley}. Algunes d'aquestes eines inclouen funcionalitats no tant relacionades amb la gestió sinó amb l'obtenció de referències. Per exemple, n'hi ha que ofereixen la possibilitat de cercar en les biblioteques esmentades al punt anterior. Altres, permeten obtenir informació continguda dins de les meta-dades dels fitxers. A part d'això, no hem trobat cap eina que aprofiti el contingut dels documents per generar la referència.
 
 \item{}
 %\paragraph{}
-Finalment, també existeixen serveis com ara \textit{Google Scholar}, \textit{Microsoft Academic Search} o \textit{CiteSeer} que es dediquen a recol·lectar i indexar informació sobre articles i que comptabilitzen les referències entre diferents publicacions. En el cas de \textit{CiteSeer}, al ser un projecte lliure, sabem que funciona analitzant les diferents parts dels articles, com ara les cites, però que té problemes per obtenir els camps de la capçalera \cite{Giles98citeseer}.
+Finalment, també hi ha serveis com ara \textit{Google Scholar}, \textit{Microsoft Academic Search} o \textit{CiteSeer} que es dediquen a recol·lectar i indexar informació sobre articles i que comptabilitzen les referències entre diferents publicacions. En el cas de \textit{CiteSeer}, al ser un projecte lliure, sabem que funciona analitzant les diferents parts dels articles, com ara les cites, però que té problemes per obtenir els diferents camps inclosos a les capçaleres dels fitxers \cite{Giles98citeseer}.
 \end{itemize}
 
 \paragraph{}
-El sistema que resulta d'aquest projecte mira d'unir, de cara a l'usuari, aquests tres tipus de programari: primer, genera referències recolzant-se a les biblioteques digitals i cercadors; un cop generades, poden ser importades i gestionades amb les eines de maneig descrites al segon punt. 
+El sistema que resultant d'aquest projecte intentarà unir, de cara a l'usuari, aquests tres tipus de programari: primer, extraurà referències recolzant-se a les biblioteques digitals i cercadors; un cop extretes, es podran exportar i gestionar amb les eines de maneig descrites al segon punt. 
 
 %%%% ESTRUCTURA DOCUMENT %%%%
 \section{Sobre aquest document}
