@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="390.60001"
+   height="80.099998"
+   id="svg4095"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="results:extraction-springer.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4097">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective4103" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2518" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2719" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2435" />
+    <inkscape:perspective
+       id="perspective2844"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="161.21559"
+     inkscape:cy="39.076411"
+     inkscape:document-units="px"
+     inkscape:current-layer="g4156"
+     showgrid="false"
+     units="in"
+     inkscape:window-width="1680"
+     inkscape:window-height="1025"
+     inkscape:window-x="1280"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata4100">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="capa1"
+     transform="translate(-0.1356729,-12.006663)">
+    <g
+       id="g4156"
+       transform="translate(-77.193774,186.8)">
+      <text
+         id="text4348"
+         y="-160.29735"
+         x="291.94995"
+         style="font-size:6.38451099px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Medium"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           id="tspan4374"
+           y="-160.29735"
+           x="291.94995"
+           sodipodi:role="line">@article{7F10E,</tspan><tspan
+           id="tspan2535"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-152.31671"
+           x="291.94995"
+           sodipodi:role="line">title = {Formal Concept Analysis for Knowledge </tspan><tspan
+           id="tspan2537"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-144.33607"
+           x="291.94995"
+           sodipodi:role="line">    Discovery and Data Mining: The New Challenges},</tspan><tspan
+           id="tspan2539"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-136.35544"
+           x="291.94995"
+           sodipodi:role="line">author = {Valtchev, Petko and Missaoui, Rokia and </tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-128.37479"
+           x="291.94995"
+           sodipodi:role="line"
+           id="tspan2918">    Godin, Robert},</tspan><tspan
+           id="tspan2523"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-120.39416"
+           x="291.94995"
+           sodipodi:role="line">journal = {Lecture Notes in Computer Science},</tspan><tspan
+           id="tspan2527"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-112.41351"
+           x="291.94995"
+           sodipodi:role="line">pages = {0302-9743 (Print) 1611-3349 (Online)},</tspan><tspan
+           id="tspan2529"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-104.43288"
+           x="291.94995"
+           sodipodi:role="line">}</tspan><tspan
+           id="tspan2531"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-96.45224"
+           x="291.94995"
+           sodipodi:role="line" /><tspan
+           id="tspan2533"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           y="-88.471596"
+           x="291.94995"
+           sodipodi:role="line" /></text>
+      <path
+         id="path3421"
+         d="M 270.06414,-144.74334 L 270.06414,-124.74334 L 285.06414,-134.74334 L 270.06414,-144.74334 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#aeaeae;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium" />
+      <g
+         transform="matrix(1.0383647,0,0,1.0383647,292.82199,54.591335)"
+         id="g2809">
+        <g
+           id="g2819"
+           transform="matrix(0.4846265,0,0,0.4846265,-161.52276,-38.905603)">
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-345.68381"
+             x="-95.504738"
+             id="text2640">
+            <tspan
+               id="tspan2642"
+               sodipodi:role="line"
+               y="-345.68381"
+               x="-95.504738 -85.389587 -76.725136 -69.062355 -54.681473 -46.051563 -36.955357 -24.491465 -15.861553 -6.2645116 1.3982706 9.0610533 18.658094 28.773237 41.202595 50.799637 59.429554 64.225479 72.855385 79.568306 84.36425 95.481049 100.82963 109.45954 121.45714 134.88817 144.48521 153.01151 165.44086 170.23679 177.89955 187.4966 196.12653 208.26227 220.69164 225.48758 232.20049 239.86327 248.38954 256.91586 264.57861 272.24139"
+               style="font-size:17.27018547px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">FormalConceptAnalysisforKnowledgeDiscovery</tspan>
+            <tspan
+               id="tspan2644"
+               sodipodi:role="line"
+               y="-324.01492"
+               x="-50.578079 -41.946438 -32.416752 -18.552248 -6.121171 2.5104723 8.257988 21.258984 37.575855 42.373512 51.903198 56.700855 66.230537 74.86219 85.117218 96.632973 106.16267 118.14471 130.57581 138.24031 154.98894 167.45456 176.98424 185.61589 190.41354 195.21118 202.8757 212.40538 221.07158 228.73608"
+               style="font-size:17.27018547px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">andDataMining:TheNewChallenges</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-282.41113"
+             x="-38.154945"
+             id="text2646">
+            <tspan
+               id="tspan2648"
+               sodipodi:role="line"
+               y="-282.41113"
+               x="-38.154945 -31.487961 -26.164207 -22.831314 -16.907904 -7.9502282 -0.58764237 4.7361107 8.069005 11.401896 16.725649 22.792978 27.852882"
+               style="font-size:11.99313736px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">PetkoValtchev</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-286.74487"
+             x="33.929554"
+             id="text2650">
+            <tspan
+               id="tspan2652"
+               y="-286.74487"
+               x="33.929554"
+               style="font-size:8.39517212px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">1</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-282.41113"
+             x="38.98558"
+             id="text2654">
+            <tspan
+               id="tspan2656"
+               sodipodi:role="line"
+               y="-282.41113"
+               x="38.98558 45.05291 53.003162 59.070488 65.137817 68.458717 76.6968 87.381485 90.702385 95.31855 99.934708 105.28245 111.34977 117.4171"
+               style="font-size:11.99313736px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">,RokiaMissaoui</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-286.74487"
+             x="120.74876"
+             id="text2658">
+            <tspan
+               id="tspan2660"
+               y="-286.74487"
+               x="120.74876"
+               style="font-size:8.39517212px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">2</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-282.41113"
+             x="126.0937"
+             id="text2662">
+            <tspan
+               id="tspan2664"
+               sodipodi:role="line"
+               y="-282.41113"
+               x="126.0937 132.02071 137.36006 143.41899 152.38026 160.32211 166.38106 172.43999 177.8273 181.88338 188.09822 196.75967 202.8186 208.87753 212.20203"
+               style="font-size:11.99313736px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">,andRobertGodin</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-286.74487"
+             x="218.25786"
+             id="text2666">
+            <tspan
+               id="tspan2668"
+               y="-286.74487"
+               x="218.25786"
+               style="font-size:8.39517212px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">3</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-261.75366"
+             x="-30.787592"
+             id="text2670">
+            <tspan
+               id="tspan2672"
+               y="-261.75366"
+               x="-30.787592"
+               style="font-size:7.19593048px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">1</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-257.27545"
+             x="-20.386621"
+             id="text2674">
+            <tspan
+               id="tspan2676"
+               sodipodi:role="line"
+               y="-257.27545"
+               x="-20.386621 -12.577238 -8.9666796 -2.1827161 5.6158733 10.96425 18.762838 24.111216 26.858261 32.055523 36.821026 40.431583 44.646603 47.663494 51.274055 50.689022 58.200497 63.542393 71.053864 80.583794 85.925697 91.267601 94.299599 98.486549 97.928513 102.68214 107.43578 110.47317 116.11191 125.64723 131.00533 136.3634 139.40082 143.59317 143.00058 147.77365 152.54671 158.32359 161.89854 169.6723 174.44534 178.02029 183.50575 190.72903 195.50208 200.87961 205.65266 211.03018"
+               style="font-size:10.79389572px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">DIRO,Universit´edeMontr´eal,Montr´eal(Qc),Canada</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-248.60799"
+             x="-73.547142"
+             id="text2678">
+            <tspan
+               id="tspan2680"
+               y="-248.60799"
+               x="-73.547142"
+               style="font-size:7.19593048px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">2</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-243.98534"
+             x="-63.146168"
+             id="text2682">
+            <tspan
+               id="tspan2684"
+               sodipodi:role="line"
+               y="-243.98534"
+               x="-63.146168 -54.766869 -55.345421 -50.592869 -45.235855 -40.483307 -36.874905 -33.838581 -29.075235 -20.717524 -15.964971 -10.607961 -4.829989 0.52702051 4.1354237 7.1717458 12.517963 16.126362 21.472576 25.080975 33.460278 38.21283 41.249153 44.285473 49.642487 54.9995 62.655605 67.408157 73.186134 78.543144 82.151543 85.187866 90.534081 96.452377 95.907288 100.69654 106.03627 109.03374 113.823 117.41412 120.41158 125.20084 130.69168 138.48164 146.27161 154.06155 159.40129 167.19124 171.9805 174.97797 177.97542 183.31517 188.10443 192.89368 201.12617 204.71732 212.50726 217.29652 220.88763 226.22739 233.44527 238.23451 243.57425 248.36353 253.70325"
+               style="font-size:10.79389572px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">D´epartementd’informatiqueetd’ing´enierie,UQO,Gatineau(Qc),Canada</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-235.46231"
+             x="-45.955673"
+             id="text2686">
+            <tspan
+               id="tspan2688"
+               y="-235.46231"
+               x="-45.955673"
+               style="font-size:7.19593048px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">3</tspan>
+          </text>
+          <text
+             style="font-size:14.4457922px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+             y="-230.83966"
+             x="-35.554703"
+             id="text2690">
+            <tspan
+               id="tspan2692"
+               sodipodi:role="line"
+               y="-230.83966"
+               x="-35.554703 -27.175402 -27.753954 -22.957148 -17.60985 -12.813044 -9.2143574 -6.2093387 -1.4125307 6.9894361 11.786244 17.133541 22.912592 28.25989 31.869368 34.87439 40.221687 43.820374 49.167667 52.76635 61.16832 65.965126 68.970146 71.975166 77.322464 82.669762 87.434181 93.072914 100.87042 108.66793 116.46545 126.00078 131.34808 140.88341 146.2307 151.57799 154.6154 158.80774 158.16982 162.94289 167.71594 173.63316 177.2081 184.98186 189.75493 193.32985 198.675 205.89827 210.67134 216.04884 220.82191 226.19943"
+               style="font-size:10.79389572px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium">D´epartementd’informatique,UQAM,Montr´eal(Qc),Canada</tspan>
+          </text>
+          <flowRoot
+             xml:space="preserve"
+             id="flowRoot2868"
+             style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"><flowRegion
+               id="flowRegion2870"><rect
+                 id="rect2872"
+                 width="188.44395"
+                 height="31.112698"
+                 x="-13.435029"
+                 y="4.3443918" /></flowRegion><flowPara
+               id="flowPara2874" /></flowRoot>        </g>
+      </g>
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot4257"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Medium"
+         transform="translate(73.617811,-15.484369)"><flowRegion
+           id="flowRegion4259"><rect
+             id="rect4261"
+             width="531.42859"
+             height="127.14286"
+             x="-378.57144"
+             y="123.79076" /></flowRegion><flowPara
+           id="flowPara4263" /></flowRoot>      <text
+         xml:space="preserve"
+         style="font-size:11.07726192px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         x="349.64697"
+         y="-43.325714"
+         id="text2758"><tspan
+           sodipodi:role="line"
+           x="349.64697"
+           y="-43.325714"
+           id="tspan2784" /></text>
+    </g>
+  </g>
+</svg>
