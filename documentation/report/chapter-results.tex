@@ -195,7 +195,7 @@ Els resultats d'extracció dels camps que no es mostren als gràfics (e.g. número 
 %%% GENERAL %%%%
 \section{Funcionament de tot el sistema}
 \label{appendix:results:section:wholesystem}
-Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solucionar per aconseguir l'objectiu d'extreure referències. Aquí es mostren els resultats obtinguts una vegada hem unit les tres parts anteriors. Per realitzar les proves s'ha creat un conjunt aleatori de fitxers PDF corresponents a articles relacionats amb el camp de la informàtica. 
+Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solucionar per aconseguir l'objectiu d'extreure referències. Aquí es mostren els resultats obtinguts una vegada hem unit les tres parts anteriors. Per realitzar les proves s'ha creat un conjunt aleatori de fitxers PDF corresponents a articles relacionats amb el camp de la informàtica. Això afecta bastant a les biblioteques per les quals es trobaran resultats, ja que molts articles d'aquest tipus acostumen a estar indexats per \textit{ACM Portal}, \textit{SpringerLink} i \textit{CiteSeerX}.
 
 \paragraph{}
 Els tres gràfics següents exposen els resultat depenent de l'estat de l'aplicació: el primer, quan no hi ha cap \textit{fiel wrapper} definit; el segon, una vegada hem generat \textit{field wrappers} per les pàgines que més s'utilitzen; i la tercera, un cop hem corregit algunes de les regles manualment.
@@ -208,6 +208,8 @@ Els tres gràfics següents exposen els resultat depenent de l'estat de l'aplicaci
 \label{fig:results:general-extraction}
 \end{center}
 \end{figure}
+
+Es considera que una referència s'ha extret de forma correcta si tots els quatre obligatoris tenen el valor esperat. Parcialment correcta, si algun d'aquests camps no hi és present, o bé té un valor incorrecte, però la resta estan bé. I incorrecta, altrament.
 
 \paragraph{}
 El temps necessari per executar pot variar segons la connexió a Internet de la qual es disposa, tot i que en situacions \textit{normals} el temps mitjà per fitxer sol estar entre 1 i 1.5 segons. Una de les conseqüències de fer servir diferents fils d'execució és que si l'espera d'algun dels fitxers tarda més del compte, els altres es poden anar processant.
