@@ -18,6 +18,7 @@
 
 
 import re
+import heapq #@UnresolvedImport
 
 from bibim import log
 from bibim.db.gateways import (WrapperGateway,
@@ -184,8 +185,10 @@ class IRController(Controller):
                 log.debug('Search with query %s yielded too many results ' #@UndefinedVariable
                           '(%d or more)' % (query, self.too_many_results)) 
                 continue
-
-            results = self._sort_results(results)
+            
+            if results:
+                results = self._sort_results(results)
+                
             if results:
                 break
             
@@ -195,27 +198,34 @@ class IRController(Controller):
         """
         Sorts the results depending on the available wrappers. 
         Returns a list with the results that have a wrapper available on top
-        of it. If two or more results have a wrapper available, the order 
-        from the search engine is preserved.
+        of it, and those with no wrapper are discarded.
+        The list is ordered depending on the quality of the wrappers.
         """
-        # TODO: Refactor this method an extend it to sort depending on the
-        # ruled wrappers as well.
-        has_wrapper = []
-        doesnt_have_wrapper = []
-    
-        log.debug('Sorting %d results' % len(results)) #@UndefinedVariable
-    
-        available_wrappers = ReferenceWrapper().get_available_wrappers()
+        log.debug('Sorting %d results:' % len(results)) #@UndefinedVariable
         for result in results:
+            log.debug('\t- %s' % result.url[:120]) #@UndefinedVariable
+            
+        # Create a list with all the available wrappers ordered by priority
+        # Reference wrapper will be at the very beginning of the priority queue
+        reference_wrappers = ReferenceWrapper().get_available_wrappers()
+        available_wrappers = list(reference_wrappers)
+         
+        field_wrappers = WrapperGateway().get_available_wrappers()
+        available_wrappers.extend(list(field_wrappers))
+        
+        wrappers_heap = [] 
+        for result in results:
+            base_url = result.base_url
             if self._in_black_list(result.url):
                 continue
-            elif result.base_url in available_wrappers:
-                has_wrapper.append(result)
+            elif not base_url in available_wrappers:
+                continue
             else:
-                doesnt_have_wrapper.append(result)
-        has_wrapper.extend(doesnt_have_wrapper)
-        return has_wrapper
-    
+                wrapper_index = available_wrappers.index(base_url)
+                heapq.heappush(wrappers_heap, (wrapper_index, result))
+        results = heapq.nsmallest(len(results), wrappers_heap)
+        return [result[1] for result in results] 
+         
     def _in_black_list(self, url):
         is_in_it = False
         for element in configuration.black_list:
@@ -224,7 +234,7 @@ class IRController(Controller):
                 break
         return is_in_it
     
-
+        
 class IEController(Controller):
     def __init__(self, factory, target_format=ReferenceFormat.BIBTEX,
                  max_wrappers=MAX_WRAPPERS,
@@ -371,12 +381,15 @@ class IEController(Controller):
         
         # There may be more than one entry for the same file.
         log.debug('Parsing extracted entries') #@UndefinedVariable
-        entries = parser.split_source(entry)
-        for entry in entries:
-            fields = parser.parse_entry(entry)
-            reference = Reference(fields, format, entry)
-            self._validate_reference_fields(reference, raw_text)
-            references.append(reference)
+        try:
+            entries = parser.split_source(entry)
+            for entry in entries:
+                fields = parser.parse_entry(entry)
+                reference = Reference(fields, format, entry)
+                self._validate_reference_fields(reference, raw_text)
+                references.append(reference)
+        except Exception, e:
+            log.error('Error parsing extracted entry: %s ' % e) #@UndefinedVariable
 
         return references
     

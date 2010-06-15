@@ -50,6 +50,8 @@ class ContentCleaner(object):
         to_replace = {'\n':' ',
                       '\r':'',
                       '\t':'',
+                      '<br>':' ',
+                      '<br/>':' ',
                       '&amp;':'&',
                       '&#38;':'&',
                       '&#34;':'"',

@@ -26,7 +26,8 @@ class TestReferenceWrappers(TestWrapper):
     def setUp(self):
         self.rw = ReferenceWrapper()
         self.acm = ('http://portal.acm.org', self._get_soup('acm01.html'))
-
+        self.citeseerx = ('http://citeseerx.ist.psu.edu', self._get_soup('citeseer01.html'))
+        
     def tearDown(self):
         pass
 
@@ -38,6 +39,11 @@ class TestReferenceWrappers(TestWrapper):
         self.failUnless(reference[0].startswith('@article{1316105,'))
         self.failUnless(reference[0].endswith('}'))
 
+    def test_citeseerx_wrapper(self):
+        reference = self.rw.extract_info(self.citeseerx[0], self.citeseerx[1])
+        self.failUnless(reference[0].startswith('@INPROCEEDINGS{Johnson96dynamicsource'))
+        self.failUnless(reference[0].endswith('}'))
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

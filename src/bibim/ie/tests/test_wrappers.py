@@ -25,7 +25,7 @@ from bibim.db.gateways import WrapperGateway
 from bibim.ie.rules import Rule
 from bibim.ie.types import Wrapper
 from bibim.util.beautifulsoup import BeautifulSoup
-
+from bibim.util.helpers import ContentCleaner
 
 class MockRule01(Rule):
     pass
@@ -47,13 +47,12 @@ class TestWrapper(unittest.TestCase):
         file_path = normpath(join(dirname(__file__), ('../../../../tests/'
                                      'fixtures/wrappers/' + file_name)))
         file = open(file_path)
+        
+        
         contents = file.read()
-        contents = contents.replace('\n', '')
-        contents = contents.replace('\r', '')
-        contents = contents.replace('\t', '')
-        soup = BeautifulSoup(contents)
+        contents = ContentCleaner().clean_content(contents)
         file.close()
-        return soup
+        return contents
 
 
 class TestWrapperManager(unittest.TestCase):

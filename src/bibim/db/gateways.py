@@ -21,6 +21,7 @@ from time import sleep
 import re
 import simplejson #@UnresolvedImport
 from sqlalchemy import desc #@UnresolvedImport
+from sqlalchemy.sql import func
 
 from bibim import log
 from bibim.db import mappers
@@ -450,6 +451,19 @@ class WrapperGateway(Gateway):
                     wrapper.add_rule(r_rule)
             wrappers.append(wrapper)
         return wrappers
+
+    def get_available_wrappers(self, min_validity=0.6):
+        """
+        Returns a list of URLs for all the libraries with some valid available
+        wrappers
+        """
+        collections = (self.session.query(mappers.WrapperCollection,
+                        func.count(mappers.Wrapper.id)).
+                        join(mappers.Wrapper).
+                        group_by(mappers.WrapperCollection.url).
+                        filter(mappers.Wrapper.score > min_validity).
+                        order_by(desc(func.count(mappers.Wrapper.id))))
+        return [collection[0].url for collection in collections]
 
     def _get_wrapper_mappers(self, url):
         """

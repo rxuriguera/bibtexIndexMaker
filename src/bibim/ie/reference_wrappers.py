@@ -31,7 +31,8 @@ class ReferenceWrapper(Wrapper):
     """
     Offers methods to extract complete references from som webpages
     """
-    _available_wrappers = {'http://portal.acm.org':'portal_acm'}
+    _available_wrappers = {'http://portal.acm.org':'portal_acm',
+                           'http://citeseerx.ist.psu.edu':'citeseerx'}
     _browser = Browser()
     
     def extract_info(self, source, page):
@@ -44,7 +45,6 @@ class ReferenceWrapper(Wrapper):
         
         wrapper_method = getattr(self,
                                  '_do_' + self._available_wrappers[source])
-        
         return wrapper_method(source, page) 
 
     def get_available_wrappers(self):
@@ -78,4 +78,23 @@ class ReferenceWrapper(Wrapper):
         # As the wrapper has been hardcoded, we already know what will be the
         # format of the reference
         return (pre.find(text=True).strip(), ReferenceFormat.BIBTEX)
-       
+    
+    def _do_citeseerx(self, source, page):
+        """
+        Searches the page for a link to the reference, and then retrieves the
+        reference.
+        Returns a tuple with the full reference and its format.
+        """ 
+        log.debug('Using CiteSeerX reference wrapper') #@UndefinedVariable
+        ref = (None, None)
+        
+        try:
+            ref_element = page.find('div', {'class':'content'},
+                                    text=re.compile('@\w*{'))
+            ref_element = ref_element.parent.findAll(text=True)
+            reference = ''.join(ref_element)
+        except Exception, e:
+            log.warn('Could not find reference in citeseerx page: %s' % e) #@UndefinedVariable
+            return ref
+        
+        return (reference.strip(), ReferenceFormat.BIBTEX)

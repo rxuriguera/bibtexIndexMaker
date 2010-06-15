@@ -178,7 +178,12 @@ class ReferenceMakerThread(threading.Thread):
                     continue
             if file:
                 log.debug("Processing file %s" % file) #@UndefinedVariable
-                reference = ReferenceMaker().make_reference(file,
+                try:
+                    reference = ReferenceMaker().make_reference(file,
                                                             self.target_format)
-                self.out_queue.put(reference)
+                    self.out_queue.put(reference)
+                except Exception, e:
+                    log.error('Unexpected exception while extracting reference' #@UndefinedVariable
+                              'for file %s: %s' % (file, str(e)))
+                    continue
     
