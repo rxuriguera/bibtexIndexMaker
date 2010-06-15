@@ -201,3 +201,14 @@ Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solu
 Els tres gràfics següents exposen els resultat depenent de l'estat de l'aplicació: el primer, quan no hi ha cap \textit{fiel wrapper} definit; el segon, una vegada hem generat \textit{field wrappers} per les pàgines que més s'utilitzen; i la tercera, un cop hem corregit algunes de les regles manualment.
 
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/results:general-extraction.pdf}
+%\caption{Camps extrets per la biblioteca \textit{InformaWorld} després de corregir els \textit{wrappers}}
+\label{fig:results:general-extraction}
+\end{center}
+\end{figure}
+
+\paragraph{}
+El temps necessari per executar pot variar segons la connexió a Internet de la qual es disposa, tot i que en situacions \textit{normals} el temps mitjà per fitxer sol estar entre 1 i 1.5 segons. Una de les conseqüències de fer servir diferents fils d'execució és que si l'espera d'algun dels fitxers tarda més del compte, els altres es poden anar processant.
+
