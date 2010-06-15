@@ -195,10 +195,8 @@ Els resultats d'extracció dels camps que no es mostren als gràfics (e.g. número 
 %%% GENERAL %%%%
 \section{Funcionament de tot el sistema}
 \label{appendix:results:section:wholesystem}
-Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solucionar per aconseguir l'objectiu d'extreure referències. En aquesta secció es mostren els resultats obtinguts una vegada hem unit les tres parts anteriors. Per realitzar les proves s'ha creat un conjunt aleatori de fitxers PDF corresponents a articles relacionats amb el camp de la informàtica. Això afecta força a les biblioteques per les quals es trobaran resultats, ja que molts articles d'aquest tipus acostumen a estar indexats per \textit{ACM Portal}, \textit{SpringerLink} i \textit{CiteSeerX}, per les quals sabem extreure'n les dades.
+Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solucionar per aconseguir l'objectiu d'extreure referències. En aquesta secció es mostren els resultats obtinguts una vegada unides les tres parts anteriors. Per realitzar les proves s'ha creat un conjunt més o menys aleatori de fitxers PDF corresponents a articles relacionats amb el camp de la informàtica. El fet que tots tinguin una temàtica similar afecta força al número de biblioteques diferents per les quals es trobaran resultats; acostumaran a ser poques. En el conjunt de prova, molts dels articles estan indexats a \textit{ACM Portal}, \textit{SpringerLink} i \textit{CiteSeerX}. Com que sabem com tractar-les per extreure'n les dades, podem esperar relativament bons.
 
-\paragraph{}
-Els tres gràfics següents exposen els resultat depenent de l'estat de l'aplicació: el primer, quan no hi ha cap \textit{field wrapper} definit, només \textit{reference wrappers} (\ref{refextraction:reference-wrappers}); el segon, una vegada hem generat \textit{field wrappers} per les pàgines que més s'utilitzen; i el tercer, després de corregir algunes de les regles manualment.
 
 \begin{figure}[H]
 \begin{center}
@@ -208,7 +206,10 @@ Els tres gràfics següents exposen els resultat depenent de l'estat de l'aplicaci
 \end{center}
 \end{figure}
 
-Es considera que una referència s'ha extret de forma correcta si tots els quatre obligatoris tenen el valor esperat. Parcialment correcta, si algun d'aquests camps no hi és present, o bé té un valor incorrecte, però la resta estan bé. I incorrecta, altrament. Les tres figures següents mostren un exemple de cadascuna de les tres categories. A la primera, totes les dades són correctes; a la segona, no s'ha sabut extreure el camp obligatori \textit{year} i, a més, el camp \textit{pages} s'ha confós per l'\textit{issn}. Finalment, la darrera figura mostra una referència extreta amb el \textit{reference wrapper} de \textit{CiteSeerX}. En aquest cas, la referència que contenia la pàgina no era correcta.
+Els tres gràfics exposen els resultats depenent de l'estat de l'aplicació: el primer, quan no hi ha cap \textit{field wrapper} definit, només \textit{reference wrappers} (\ref{refextraction:reference-wrappers}); el segon, una vegada hem generat \textit{field wrappers} per les pàgines que més s'utilitzen; i el tercer, després de corregir algunes de les regles manualment.
+
+\paragraph{}
+Es considera que una referència s'ha extret de forma correcta si tots els quatre camps obligatoris tenen el valor esperat. Parcialment correcta, si algun d'aquests camps no hi és present, o bé té un valor incorrecte, però la resta estan bé. I incorrecta, altrament. Les tres figures següents mostren un exemple de cadascuna de les tres categories. A la primera, totes les dades són correctes; a la segona, no s'ha sabut extreure el camp obligatori \textit{year} i, a més, el camp \textit{pages} s'ha confós per l'\textit{issn}; finalment, la darrera figura mostra una referència extreta amb el \textit{reference wrapper} de \textit{CiteSeerX}. El problema en aquest cas ha estat que la referència hi havia dins la pàgina no era correcta.
 
 
 \begin{figure}[H]
@@ -242,5 +243,5 @@ Si parem atenció a què ha passat per cada article veiem que els que no s'han pog
 
 
 \paragraph{}
-El temps necessari per executar pot variar segons la connexió a Internet de la qual es disposa, tot i que en situacions \textit{normals} el temps mitjà per fitxer sol estar entre 1 i 1.5 segons. Una de les conseqüències de fer servir diferents fils d'execució és que si l'espera d'algun dels fitxers tarda més del compte, els altres es poden anar processant.
+El temps necessari per executar pot variar segons la connexió a Internet de la qual es disposa, tot i que en condicions \textit{normals} el temps mitjà per fitxer sol estar entre 1 i 1.5 segons. Una de les conseqüències de fer servir diferents fils d'execució és que si el temps d'espera d'algun dels fitxers s'allarga més del compte, els altres es poden anar processant.
 
