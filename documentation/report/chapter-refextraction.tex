@@ -117,11 +117,17 @@ Per poder validar les referències extretes amb dels \textit{reference wrappers},
 
 
 \section{Format de referències}
-Tal com s'ha indicat al diagrama de la figura \ref{fig:definition:extraction-diagram}, un cop tenim les dades extretes cal donar-los-hi format per poder-les exportar en \BibTeX{}. Com a detalls de la implementació, només comentar que tenim un jerarquia de classes anomenades \textit{generadors} que, guiades per una classe formatadora (\texttt{Formatter}) permetran generar les referències en el format desitjat.
+Tal com s'ha indicat al diagrama de la figura \ref{fig:definition:extraction-diagram}, un cop tenim les dades extretes cal donar-los-hi format per poder-les exportar en \BibTeX{}. Com a detalls de la implementació, només comentar que se segueix el patró \textit{Builder} \cite{GoF}. Bàsicament, tenim una jerarquia de classes anomenades generadors o \textit{builders} que, guiades per una classe directora (en el nostre cas, \texttt{Formatter}) permetran generar les referències en el format desitjat. Cada classe generadora ofereix mètodes per formatar les diferents parts d'una referència.
+
+\paragraph{}
+Amb aquesta arquitectura, si es volen suportar nous formats de sortida només cal crear la subclasse generadora experta en el format en qüestió.
 
 \section{Emmagatzematge}
 \label{chapter:refextraction:storage}
 Totes les referències extretes s'emmagatzemen a la base de dades de l'aplicació per poder-les utilitzar en un futur tant per exportar-les com per regenerar els \textit{wrappers} amb què s'han obtingut en primer lloc. A part de la referència en si, també es desa la consulta extreta del PDF per cercar a Internet i el resultat de la pàgina de la qual s'ha extret la referència.
 
 \paragraph{}
-En referència al disseny de la base de dades, a l'apèndix \ref{fig:diagrams:database-diagram} hi ha un diagrama detallant les diferents taules, camps i relacions.
+En referència al disseny de la base de dades, a l'apèndix \ref{fig:diagrams:database-diagram} hi ha un diagrama detallant les diferents taules, camps i relacions. Com es tracta de bases de dades locals de mida reduïda, hem optat per utilitzar \textit{SQLite} que no necessita un procés separat pel servidor i desa tota la informació en un sol fitxer.
+
+\paragraph{}
+Tot i així, hem volgut que la nostra aplicació fos completament transparent al sistema gestor de base de dades. Per aquest motiu, es fa servir la biblioteca \textit{SQLAlchemy}, que a part de fer d'ORM, també ens ofereix una capa d'abstracció que permet treballar de forma independent a la tecnologia subjacent.

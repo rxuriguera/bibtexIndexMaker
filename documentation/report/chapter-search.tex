@@ -95,15 +95,15 @@ En molts casos, l'expressió regular anterior també dóna coincidències pel títol 
 El següent pas després d'haver obtingut un conjunt de consultes és utilitzar-les amb un cercador per tal d'obtenir pàgines amb informació de la referència que volem aconseguir. Al capítol d'introducció, hem esmentat que hi ha cercadors com ara \textit{Google Scholar} o \textit{Microsoft Academic Search} on els resultats només corresponen a publicacions. En un principi ens va semblar raonable intentar fer ús d'aquests serveis per poder aconseguir els nostres objectius. El problema és que no tenen cap API publicada que permeti fer consultes automàtiques des d'aplicacions de tercers. Tot i que hi ha solucions i \textit{workarounds}, van en contra dels termes i condicions i els servidors bloquegen massa consultes seguides. Per tant, hem descartat aquesta opció.
 
 \paragraph{}
-Així doncs, ens quedem amb els cercadors habituals; hem preparat la nostra aplicació per tal d'utilitzar les APIs de \textit{Google}, \textit{Yahoo} i \textit{Bing}. Tots tres cercadors retornen els resultats en format JSON. Els principals inconvenients són que retornen qualsevol tipus de pàgina i que no tenen indexades algunes biblioteques digitals, però en general, podem aconseguir bons resultats amb l'ús de les consultes adequades. Al capítol de resultats (\ref{chapter:results:section:search}) hi ha una comparativa.
+Així doncs, ens quedem amb els cercadors de propòsit general; hem preparat la nostra aplicació per tal d'utilitzar les APIs de \textit{Google}, \textit{Yahoo} i \textit{Bing}. Tots tres cercadors retornen els resultats en format JSON. Els principals inconvenients són que retornen qualsevol tipus de pàgina i que no tenen indexades algunes biblioteques digitals, però en general, podem aconseguir bons resultats amb l'ús de les consultes adequades. Al capítol de resultats (\ref{chapter:results:section:search}) hi ha una comparativa.
 
 
 %%%% ORDENACIÓ RESULTATS %%%%
 \subsection{Ordenació de resultats}
-La majoria de vegades, no ens convindrà l'ordre dels resultats donat pels diferents cercadors sinó que voldrem processar les pàgines segons aquelles per les quals tenim regles d'extracció. És per això que un cop hem consultat al cercador, comprovem si tenim regles per alguna de les pàgines resultants i, en cas afirmatiu, la movem a dalt de tot de la llista.
+La majoria de vegades, no ens convindrà l'ordre dels resultats donat pels diferents cercadors sinó que voldrem processar les pàgines segons aquelles per les quals tenim regles d'extracció. És per això que un cop hem consultat al cercador, comprovem si tenim regles per alguna de les pàgines resultants i, en cas afirmatiu, la movem a dalt de tot de la llista. 
 
 \paragraph{}
-En cas d'haver-hi múltiples pàgines de les quals sabem extreure les dades, ho farem segons una puntuació assignada a les regles de les que disposem. Aquest tema de les puntuacions es tracta amb més detall al capítol sobre generació de \textit{wrappers} (\ref{chapter:wrapperinduction}).
+Fem ús d'una cua de prioritats a l'hora de fer l'ordenació, així podem establir, segons la qualitat de les regles, quines s'han de provar primer. Un dels factors que intervenen per establir la \textit{qualitat}, és una puntuació que s'assigna a les regles de les que disposem. Aquest tema de les puntuacions es tracta amb més detall al capítol sobre generació de \textit{wrappers} (\ref{chapter:wrapperinduction}). 
 
 
 %%%% AJUSTAMENTS %%%%
@@ -120,9 +120,9 @@ Per una altra banda,  hi ha ocasions en que els cercadors tenen tendència a reto
 Un dels inconvenients més grans que implica el fet d'haver d'accedir a Internet, és que el temps perdut esperant dades és molt alt. Per reduir-lo, s'ha estudiat la possibilitat d'utilitzar diferents fils d'execució per fer més d'una consulta de forma més o menys simultània. La taula següent mostra una comparativa del temps necessari per obtenir mútliples pàgines web de forma seqüencial o bé utilitzant fins a cinc fils d'execució diferents. Les pàgines corresponen a consultes aleatòries a \textit{Google} per evitar l'efecte dels \textit{proxies} i \textit{caches}. 
 
     \begin{center}
-    \begin{tabular}{|r|r|r|r|r|r|r|r|}
+    \begin{tabular}{|r|r||r|r||r|r||r|r|}
         \hline
-        \multicolumn{2}{|c|}{2 pàgines} & \multicolumn{2}{|c|}{5 pàgines} & \multicolumn{2}{|c|}{10 pàgines} & \multicolumn{2}{|c|}{20 pàgines} \\
+        \multicolumn{2}{|c||}{2 pàgines} & \multicolumn{2}{|c||}{5 pàgines} & \multicolumn{2}{|c||}{10 pàgines} & \multicolumn{2}{|c|}{20 pàgines} \\
         \hline
         Seq. & 5 Threads          & Seq. & 5 Threads          & Seq. & 5 Threads           & Seq. & 5 Threads \\
         \hline
@@ -139,12 +139,15 @@ Un dels inconvenients més grans que implica el fet d'haver d'accedir a Internet,
         \hline
         \multicolumn{8}{|l|}{Guany:} \\
         \hline
-        \multicolumn{2}{|c|}{\textbf{-44.96\%}} &  \multicolumn{2}{|c|}{\textbf{-65.6\%}} &  \multicolumn{2}{|c|}{\textbf{-74.87\%}} &  \multicolumn{2}{|c|}{\textbf{-72.35\%}} \\
+        \multicolumn{2}{|c||}{\textbf{-44.96\%}} &  \multicolumn{2}{|c||}{\textbf{-65.6\%}} &  \multicolumn{2}{|c||}{\textbf{-74.87\%}} &  \multicolumn{2}{|c|}{\textbf{-72.35\%}} \\
         \hline
     \end{tabular}
     \end{center}
 
-Tot i que aquestes proves no són riguroses, sí que són suficients per poder-nos fer una idea força clara sobre la millora que s'obté utilitzant múltiples fils respecte no fer-ho. Pere exemple, per obtenir 5 pàgines amb un sol fil només es tarda lleugerament menys que per obtenir-ne 20 amb 5 fils.
+Tenim quatre columnes que comparen el temps que ha calgut per obtenir diferents números de pàgines depenent de si s'utilitza un sol fil o més. Totes les dades estan expressades en segons, menys la darrera fila, que està formada per percentatges que representen el guany temporal de fer servir fils d'execució respecte no fer-ho. 
+
+\paragraph{}
+A l'analitzar les dades ens adonem que, per exemple, per obtenir 5 pàgines amb un sol fil (2.12 s) només es tarda lleugerament menys que per obtenir-ne 20 amb 5 fils (2.37 s) i que, per tant, amb un número raonable de fils, els accessos són gairebé simultanis. Aquestes proves no són riguroses, però sí que són suficients per poder-nos fer una idea força clara sobre la millora que s'obté utilitzant múltiples fils respecte no fer-ho. 
 
 \paragraph{}
 En relació amb la forma d'implementar-ho, hem creat un \textit{pool} amb un número màxim configurable de fils d'execució que es van reutilitzant mentre queden referències per extreure. Bàsicament, tenim una cua amb les rutes als fitxers PDF i una altra cua de sortida amb el resultat d'extreure les referències. Cada \textit{thread} va processant fitxers de la cua d'entrada mentre aquesta no és buida. El número de fils s'haurà d'ajustar segons del tipus de connexió del que es disposi.
