@@ -5,7 +5,7 @@ En aquest capítol s'expliquen les tècniques utilitzades per la generació automàt
 
 %%%% OBTENCIÓ D'EXEMPLES %%%%
 \section{Obtenció d'exemples}
-Per poder generar \textit{field wrappers}, es necessiten exemples del camp que es vol extreure. Un exemple està format pel valor que volem obtenir i pel context en què es troba aquest valor. S'obtenen a partir de les referències emmagatzemades a la base de dades de l'aplicació, que poden haver estat importades d'un fitxer \texttt{.bib} o bé extretes anteriorment utilitzant \textit{wrappers} que amb el temps han deixat de funcionar.
+Per poder generar \textit{field wrappers}, es necessiten exemples del camp que es vol extreure. Un exemple està format pel valor que volem obtenir i pel context en que es troba aquest valor. S'obtenen a partir de les referències emmagatzemades a la base de dades de l'aplicació, que poden haver estat importades d'un fitxer \texttt{.bib} o bé extretes anteriorment utilitzant \textit{wrappers} que amb el temps han deixat de funcionar.
 Totes les referències hauran de tenir associada una URL que apunti a una pàgina que contingui la informació de la referència. En el cas de les que s'han obtingut automàticament, aquesta adreça es desa durant l'extracció.
 
 \paragraph{}
@@ -103,7 +103,7 @@ Mentre apliquem el patró, si veiem un $-1$ al número de \textit{sibling},  enllo
 \end{center}
 \end{figure}
 
-Aquí és on entra en joc l'expressió regular de l'inici del patró. Amb aquesta expressió, podem ajudar a l'aplicació a descartar des d'un principi aquells elements que estem segurs que no ens interessaran. En l'exemple anterior, per obtenir l'any, podem tenir definida l'expressió \texttt{(\textbackslash{}d\{4\})} i així quedar-nos només amb el primer element. El patró de la regla en realitat serà:  \texttt{[\texttt{(\textbackslash{}d\{4\})}, ('table',5), ('tr',-1), ('td', 1)]}. Dins del fitxer de configuració es poden definir expressions regulars per cada camp. Com és lògic, en alguns casos ens serà més útil que en altres. Si estem intentant extreure camps que solen tenir sempre la mateixa forma com ara anys o bé codis com l'ISSN d'un article, serà fàcil indicar-li una expressió. En canvi, pels valors que no tenen cap tipus d'estructura, com ara els noms de revistes, no ens quedarà cap més remei que deixar-ho amb el valor per defecte \texttt{(.*)}
+Aquí és on entra en joc l'expressió regular de l'inici del patró. Amb aquesta expressió, podem ajudar a l'aplicació a descartar des d'un principi aquells elements que estem segurs que no ens interessaran. En l'exemple anterior, per obtenir l'any, podem tenir definida l'expressió \texttt{(\textbackslash{}d\{4\})} i així quedar-nos només amb el primer element. El patró complet de la regla en realitat serà:  \texttt{[\texttt{(\textbackslash{}d\{4\})}, ('table',5), ('tr',-1), ('td', 1)]}. Dins del fitxer de configuració es poden definir expressions regulars per cada camp. Com és lògic, en alguns casos ens serà més útil que en altres. Si estem intentant extreure camps que solen tenir sempre la mateixa forma com ara anys o bé codis com l'ISSN d'un article, serà fàcil indicar-li una expressió. En canvi, pels valors que no tenen cap tipus d'estructura, com ara els noms de revistes, no ens quedarà cap més remei que deixar-ho amb el valor per defecte \texttt{(.*)}
 
 \paragraph{}
 Un altre avantatge de tenir aquesta expressió regular és que ens servirà per corregir el comportament dels \textit{wrappers} una vegada generats. Per exemple, si veiem que l'any de publicació no s'extreu correctament per una biblioteca determinada amb l'expressió \texttt{(\textbackslash{}d\{4\})}, podem restringir més el número de coincidències canviant-la per \texttt{(Year\textbackslash{}:\textbackslash{} \textbackslash{}d\{4\})}
@@ -197,7 +197,7 @@ Tot i els problemes, cal tornar a remarcar que l'aplicació permet, en tot moment
 Alguns camps com ara els autors o editors tenen múltiples valors i per poder-los extreure per separat, hem creat variants de les regles que acabem de descriure. Suposem que múltiples valors corresponen al mateix camp si compleixen alguna de les dues condicions següents:
 \begin{itemize}
 \item{}
-Es troben en elements HTML diferents, però són germans, cosins o tenen vincle parentiu similar. És a dir, quan les rutes per arribar als valors estan formades pels mateixos elements, però en posicions diferents. Aquesta condició permet extreure valors quan es troben tant en llistes com en taules:
+Es troben en elements HTML diferents, però són germans, cosins o tenen vincle parentiu similar. És a dir, quan les rutes per arribar als valors estan formades pels mateixos elements, però en posicions diferents. Aquesta condició permet extreure valors quan es troben tan en llistes com en taules:
 \begin{center}
 \begin{minipage}{0.45\linewidth}
 \begin{lstlisting}[language=HTML, title={Germans}, nolol=true]

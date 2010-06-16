@@ -62,7 +62,7 @@ Les mostres no són gaire significatives, però ens donen una idea per poder quant
 \end{center}
 \end{figure}
 
-El primer gràfic permet comparar el número de \textit{wrappers} obtinguts per cadascun dels camps per diferents biblioteques i utilitzant 4 exemples al generar. Tal i com es pot veure a la llegenda, els hem classificat en diferents grups de confiança, depenent de la puntuació rebuda a l'avaluar-los amb els mateixos 4 exemples. S'han omès aquells que no han funcionat en cap cas. Aquí ens interessa veure, sobretot, si hi ha almenys un \textit{wrapper} de confiança \textit{Cc}. Quan n'hi ha més d'un, solen indicar que les dades estan repetides dins la pàgina i que, per tant, hi ha diverses formes de poder-les extreure. En el cas del camp \textit{title} de la biblioteca \textit{acm}, el títol es troba a l'etiqueta \texttt{<title>} i dins d'alguna altra etiqueta dins el \texttt{<body>} de la pàgina.
+El primer gràfic permet comparar el número de \textit{wrappers} obtinguts per cadascun dels camps per diferents biblioteques i utilitzant 4 exemples al generar. Tal i com es pot veure a la llegenda, els hem classificat en diferents grups de confiança, depenent de la puntuació rebuda a l'avaluar-los amb els mateixos 4 exemples. S'han omès aquells que no han funcionat en cap cas. Aquí ens interessa veure, sobretot, si hi ha \underline{almenys un} \textit{wrapper} de confiança \textit{Cc}. Quan n'hi ha més d'un, solen indicar que les dades estan repetides dins la pàgina i que, per tant, hi ha diverses formes de poder-les extreure. En el cas del camp \textit{title} de la biblioteca \textit{acm}, el títol es troba a l'etiqueta \texttt{<title>} i dins d'alguna altra etiqueta en el \texttt{<body>} de la pàgina.
 
 \paragraph{}
 El gràfic també mostra dos casos pels quals no s'ha obtingut cap \textit{wrapper} que hagi funcionat per tots els exemples: el camp \textit{author} de la biblioteca \textit{InformaWorld} i el camp \textit{year} d'\textit{Ideas}. Amb una ullada ràpida a les regles generades n'hi ha prou per veure que es tracta de problemes de generalització. Pel cas del camp corresponent a l'any, les expressions regulars de les dues \textit{regex rules} són:
@@ -83,7 +83,7 @@ Aquest és el problema que s'ha descrit a la secció \ref{chapter:wrapperinduction
 \end{lstlisting}
 \end{center}
 
-Aquí queda plasmada ara la importància d'escollir bons exemples per la generació de regles. A l'apèndix \ref{fig:results:nwrappers-2} hi ha la mateixa gràfica, però pertanyent als \textit{wrappers} obtinguts utilitzant només $2$ exemples. Els resultats són similars.  
+Ara queda plasmada la importància d'escollir bons exemples per la generació de regles. A l'apèndix \ref{fig:results:nwrappers-2} hi ha la mateixa gràfica, però pertanyent als \textit{wrappers} obtinguts utilitzant només $2$ exemples. Els resultats són similars.  
 
 \begin{figure}[H]
 \begin{center}
@@ -98,7 +98,7 @@ A part d'aquesta vista dels resultats més detallada, les gràfiques \ref{fig:resu
 
 \paragraph{}
 El camp corresponent a l'any és interessant perquè moltes de les pàgines que hem provat contenen múltiples aparicions del valor que busquem, però no sempre descrivint l'any de publicació, sinó la data de revisió, la data a partir de la qual l'article es troba a Internet, \textit{copyright}, etc.
-Aquest tipus de confusions també són habituals quan, a més de la informació de l'article, les pàgines inclouen llistats amb les citacions o referències a d'altres publicacions. Malgrat tot, a mesura que comencem a tenir més exemples el fet d'avaluar ens permetrà escollir aquells valors que realment són vàlids.
+Aquest tipus de confusions també són habituals quan, a més de la informació de l'article, les pàgines inclouen llistats amb les citacions o referències a d'altres publicacions. Malgrat tot, a mesura que comencem a tenir més exemples, el fet d'avaluar ens permetrà escollir aquells valors que realment són vàlids.
 
 \paragraph{}
 Altres camps pels quals es té més dificultat per generar \textit{wrappers} són aquells el valor dels quals consisteix en números petits, com ara el número de volum (\texttt{volume}) o de revista (\texttt{number}). El motiu és el mateix, hi ha moltes aparicions del valor, però que no fan referència al camp que busquem.
@@ -195,7 +195,7 @@ Els resultats d'extracció dels camps que no es mostren als gràfics (e.g. número 
 %%% GENERAL %%%%
 \section{Funcionament de tot el sistema}
 \label{appendix:results:section:wholesystem}
-Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solucionar per aconseguir l'objectiu d'extreure referències. En aquesta secció es mostren els resultats obtinguts una vegada unides les tres parts anteriors. Per realitzar les proves s'ha creat un conjunt més o menys aleatori de fitxers PDF corresponents a articles relacionats amb el camp de la informàtica. El fet que tots tinguin una temàtica similar afecta força al número de biblioteques diferents per les quals es trobaran resultats; acostumaran a ser poques. En el conjunt de prova, molts dels articles estan indexats a \textit{ACM Portal}, \textit{SpringerLink} i \textit{CiteSeerX}. Com que sabem com tractar-les per extreure'n les dades, podem esperar relativament bons.
+Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solucionar per aconseguir l'objectiu d'extreure referències. En aquesta secció es mostren els resultats obtinguts una vegada unides les tres parts anteriors. Per realitzar les proves s'ha creat un conjunt més o menys aleatori de fitxers PDF corresponents a articles relacionats amb el camp de la informàtica. El fet que tots tinguin una temàtica similar afecta força al número de biblioteques diferents per les quals es trobaran resultats; acostumaran a ser poques. En el conjunt de prova, molts dels articles estan indexats a \textit{ACM Portal}, \textit{SpringerLink} i \textit{CiteSeerX}. Com que sabem com tractar-les per extreure'n les dades, podem esperar resultats relativament bons.
 
 
 \begin{figure}[H]
@@ -209,7 +209,7 @@ Acabem de veure com ho fa la nostra aplicació per cadascun dels problemes a solu
 Els tres gràfics exposen els resultats depenent de l'estat de l'aplicació: el primer, quan no hi ha cap \textit{field wrapper} definit, només \textit{reference wrappers} (\ref{refextraction:reference-wrappers}); el segon, una vegada hem generat \textit{field wrappers} per les pàgines que més s'utilitzen; i el tercer, després de corregir algunes de les regles manualment.
 
 \paragraph{}
-Es considera que una referència s'ha extret de forma correcta si tots els quatre camps obligatoris tenen el valor esperat. Parcialment correcta, si algun d'aquests camps no hi és present, o bé té un valor incorrecte, però la resta estan bé. I incorrecta, altrament. Les tres figures següents mostren un exemple de cadascuna de les tres categories. A la primera, totes les dades són correctes; a la segona, no s'ha sabut extreure el camp obligatori \textit{year} i, a més, el camp \textit{pages} s'ha confós per l'\textit{issn}; finalment, la darrera figura mostra una referència extreta amb el \textit{reference wrapper} de \textit{CiteSeerX}. El problema en aquest cas ha estat que la referència hi havia dins la pàgina no era correcta.
+Es considera que una referència s'ha extret de forma correcta si tots els quatre camps obligatoris tenen el valor esperat. Parcialment correcta, si algun d'aquests camps no hi és present, o bé té un valor incorrecte, però la resta estan bé. I incorrecta, altrament. Les tres figures següents mostren un exemple de cadascuna de les tres categories. A la primera, totes les dades són correctes; a la segona, no s'ha sabut extreure el camp obligatori \textit{year} i, a més, el camp \textit{pages} s'ha confós per l'\textit{issn}; finalment, la darrera figura mostra una referència extreta amb el \textit{reference wrapper} de \textit{CiteSeerX}. El problema en aquest cas ha estat que la referència que hi havia dins la pàgina no era correcta.
 
 
 \begin{figure}[H]
@@ -219,7 +219,6 @@ Es considera que una referència s'ha extret de forma correcta si tots els quatre
 \caption{Referència correctament extreta amb el \textit{reference wrapper} d'\textit{ACM Portal}}
 \end{center}
 \end{figure}
-
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.95\textwidth]{figures/results:extraction-springer.pdf}
@@ -227,7 +226,6 @@ Es considera que una referència s'ha extret de forma correcta si tots els quatre
 \caption{Referència extreta amb els \textit{field wrappers} de \textit{SpringerLink}}
 \end{center}
 \end{figure}
-
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.95\textwidth]{figures/results:extraction-citeseer.pdf}
@@ -238,10 +236,10 @@ Es considera que una referència s'ha extret de forma correcta si tots els quatre
 
 
 \paragraph{}
-Si parem atenció a què ha passat per cada article veiem que els que no s'han pogut extreure han fallat per culpa que el text no s'ha pogut extreure dels PDFs, o be que no hi havia \textit{wrappers} disponibles. D'articles amb la referència parcialment correcta en tenim de dues classes: aquells en que els \textit{wrappers} no han sabut aplicar les regles i els altres en que les pàgines obtingudes no contenien tots els camps necessaris.
+Si parem atenció a què ha passat per cada article veiem que el grup d'extraccions incorrectes han fallat per culpa que el text no s'ha pogut extreure dels PDFs, o be perquè no hi havia \textit{wrappers} disponibles. D'articles amb la referència parcialment correcta en tenim de dues classes: aquells en que els \textit{wrappers} no han sabut aplicar les regles i aquells pels quals les pàgines obtingudes no contenien tots els camps necessaris.
 
 
 
 \paragraph{}
-El temps necessari per executar pot variar segons la connexió a Internet de la qual es disposa, tot i que en condicions \textit{normals} el temps mitjà per fitxer sol estar entre 1 i 1.5 segons. Una de les conseqüències de fer servir diferents fils d'execució és que si el temps d'espera d'algun dels fitxers s'allarga més del compte, els altres es poden anar processant.
+El temps necessari per executar pot variar segons la connexió a Internet de la qual es disposa, tot i que en condicions \textit{normals}\footnote{Un ordinador personal qualsevol amb una connexió de banda ampla} el temps mitjà per fitxer sol estar entre 1 i 1.5 segons. Una de les conseqüències de fer servir diferents fils d'execució és que si el temps d'espera d'algun dels fitxers s'allarga més del compte, els altres es poden anar processant.
 
