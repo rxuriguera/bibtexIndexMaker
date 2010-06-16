@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="557.10547"
+   height="86.074219"
+   id="svg14472"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="refextraction:reference-wrappers.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="101.70124"
+     inkscape:cy="72.741948"
+     inkscape:document-units="px"
+     inkscape:current-layer="capa1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="1025"
+     inkscape:window-x="1280"
+     inkscape:window-y="0" />
+  <defs
+     id="defs14474">
+    <marker
+       inkscape:stockid="TriangleOutM"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutM"
+       style="overflow:visible">
+      <path
+         id="path3602"
+         d="M 5.77,0 L -2.88,5 L -2.88,-5 L 5.77,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="scale(0.4,0.4)" />
+    </marker>
+    <linearGradient
+       id="linearGradient3321">
+      <stop
+         id="stop3323"
+         offset="0"
+         style="stop-color:#c0c0c0;stop-opacity:1;" />
+      <stop
+         id="stop3325"
+         offset="1"
+         style="stop-color:#f0f0f0;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3321"
+       id="linearGradient11246"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(334.16022,-2.4164051e-5)"
+       x1="210"
+       y1="112.36218"
+       x2="210"
+       y2="62.362183" />
+    <inkscape:perspective
+       id="perspective14480"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <marker
+       inkscape:stockid="TriangleOutM5"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutM5"
+       style="overflow:visible">
+      <path
+         id="path15034"
+         d="M 5.77,0 L -2.88,5 L -2.88,-5 L 5.77,0 z"
+         style="marker-start:none;stroke:#484848;stroke-width:1pt;fill:#484848;fill-rule:evenodd"
+         transform="scale(0.4,0.4)" />
+    </marker>
+    <marker
+       inkscape:stockid="TriangleOutMf"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutMf"
+       style="overflow:visible">
+      <path
+         id="path15037"
+         d="M 5.77,0 L -2.88,5 L -2.88,-5 L 5.77,0 z"
+         style="marker-start:none;stroke:#484848;stroke-width:1pt;fill:#484848;fill-rule:evenodd"
+         transform="scale(0.4,0.4)" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata14477">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(218.55275,-475.03937)"
+     id="capa1"
+     inkscape:groupmode="layer"
+     inkscape:label="Capa 1">
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+       x="146.44728"
+       y="484.15656"
+       id="text2607"
+       inkscape:export-filename="/home/rxuriguera/enlistments/bibtexIndexMaker/documentation/report/figures/refextraction:reference-wrapper.pdf.png"
+       inkscape:export-xdpi="149"
+       inkscape:export-ydpi="149"><tspan
+         sodipodi:role="line"
+         id="tspan2609"
+         x="146.44728"
+         y="484.15656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono">@{brown98,</tspan><tspan
+         sodipodi:role="line"
+         x="146.44728"
+         y="499.15656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2611">  author={Brown, J.},</tspan><tspan
+         sodipodi:role="line"
+         x="146.44728"
+         y="514.15656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2613">  journal={Journal of ...},</tspan><tspan
+         sodipodi:role="line"
+         x="146.44728"
+         y="529.15656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2615">  year={1998},</tspan><tspan
+         sodipodi:role="line"
+         x="146.44728"
+         y="544.15656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2617">  ...</tspan><tspan
+         sodipodi:role="line"
+         x="146.44728"
+         y="559.15656"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2619">}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+       x="-218.55275"
+       y="484.57843"
+       id="text2621"
+       inkscape:export-filename="/home/rxuriguera/enlistments/bibtexIndexMaker/documentation/report/figures/refextraction:reference-wrapper.pdf.png"
+       inkscape:export-xdpi="149"
+       inkscape:export-ydpi="149"><tspan
+         sodipodi:role="line"
+         x="-218.55275"
+         y="484.57843"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2671">&lt;html&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="-218.55275"
+         y="499.57843"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2657">  &lt;body&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="-218.55275"
+         y="514.57843"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2669">    ...</tspan><tspan
+         sodipodi:role="line"
+         x="-218.55275"
+         y="529.57843"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2675" /><tspan
+         sodipodi:role="line"
+         x="-218.55275"
+         y="544.57843"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2665">  &lt;/body&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="-218.55275"
+         y="559.57843"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono"
+         id="tspan2655">&lt;/html&gt;</tspan></text>
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#TriangleOutM5);stroke-opacity:1;fill-rule:evenodd;stroke:#484848;stroke-linecap:butt;stroke-miterlimit:2.50000000000000000;stroke-dasharray:none;stroke-width:2;fill:none"
+       d="M -140.25231,518.04424 L -98.25231,518.04424 L -98.25231,518.04424"
+       id="path2681"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/rxuriguera/enlistments/bibtexIndexMaker/documentation/report/figures/refextraction:reference-wrapper.pdf.png"
+       inkscape:export-xdpi="149"
+       inkscape:export-ydpi="149" />
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#TriangleOutMf);stroke-opacity:1;fill-rule:evenodd;stroke:#484848;stroke-linecap:butt;stroke-miterlimit:2.50000000000000000;stroke-dasharray:none;stroke-width:2;fill:none"
+       d="M 86.48982,518.04424 L 128.48982,518.04424 L 128.48982,518.04424"
+       id="path9234"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/rxuriguera/enlistments/bibtexIndexMaker/documentation/report/figures/refextraction:reference-wrapper.pdf.png"
+       inkscape:export-xdpi="149"
+       inkscape:export-ydpi="149" />
+    <g
+       transform="translate(-271.18523,-94.317943)"
+       id="g11235"
+       inkscape:export-filename="/home/rxuriguera/enlistments/bibtexIndexMaker/documentation/report/figures/refextraction:reference-wrapper.pdf.png"
+       inkscape:export-xdpi="149"
+       inkscape:export-ydpi="149">
+      <g
+         id="g11237"
+         transform="matrix(0.8349992,0,0,0.8349992,-128.63061,553.63982)"
+         inkscape:export-filename="/home/rxuriguera/Escriptori/httprequest.png"
+         inkscape:export-xdpi="46.855663"
+         inkscape:export-ydpi="46.855663">
+        <rect
+           ry="10"
+           rx="10"
+           y="52.362164"
+           x="384.16022"
+           height="35.928173"
+           width="179.64088"
+           id="rect11239"
+           style="opacity:1;fill:url(#linearGradient11246);fill-opacity:1;fill-rule:nonzero;stroke:#acacac;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmsy10;-inkscape-font-specification:cmsy10 Medium"
+         x="199.88837"
+         y="617.36218"
+         id="text11241"><tspan
+           sodipodi:role="line"
+           id="tspan11244"
+           x="199.88837"
+           y="617.36218"
+           style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:cmr10;-inkscape-font-specification:cmr10 Medium">Reference Wrapper</tspan></text>
+    </g>
+  </g>
+</svg>

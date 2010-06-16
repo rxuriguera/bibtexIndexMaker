@@ -1,0 +1,209 @@
+\documentclass{beamer}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{url} 
+\usepackage{fancyvrb}
+
+\mode<presentation>
+  %\usetheme{default}
+  %\usetheme{Boadilla}
+  %\usetheme{Singapore}
+  %\usetheme{Rochester}
+  \usetheme{Malmoe}
+
+  \setbeamercovered{transparent}
+
+\def\R{{\mathbb R}}
+\def\C{{\mathbb C}}
+\def\bS{{\mathbb S}}
+
+
+
+%%% TITLEPAGE %%%%
+\title[{\sc Bib}\TeX{} Index Maker]{{\sc Bib}\TeX{} Bibliography Index Maker}
+\author[] % (optional, use only with lots of authors)
+{Ramon Xuriguera Albareda}
+\date[ ] % (optional)
+{Primavera 2010}
+\subject{Lectura PFC}
+
+
+\begin{document}
+
+%%% TITLEPAGE %%%%
+\begin{frame}[t]
+\titlepage
+\end{frame}
+
+
+%%%% INDEX %%%%
+\begin{frame}[t]{Índex}
+  \tableofcontents
+\end{frame}
+
+%%%% MOTIVACIÓ %%%%
+\section[Motivació]{Motivació}
+\begin{frame}[t]{Motivació}
+  
+    \begin{block}{Guió típic en un treball de recerca:}
+			\begin{enumerate}
+				\pause\item
+                Lectura d'articles (PDF)
+				\pause\item
+                S'acumulen els fitxers en un directori
+                \pause\item
+                A l'hora d'escriure, per poder citar, fa falta tenir un índex bibliogràfic
+			\end{enumerate}
+	\end{block}
+					
+
+\end{frame}
+
+
+%%%% OBJECTIUS %%%%
+\section[Objectiu]{Objectiu}
+\begin{frame}{Objectiu}
+    \begin{block}{Un únic objectiu principal:}
+        \begin{itemize}
+      		\item
+            La creació d'índexs bibliogràfics de forma automàtica
+        \end{itemize}
+    \end{block}
+    \pause
+    \begin{block}{Però per aconseguir-lo necessitarem:}
+        \begin{itemize}
+            \pause
+      		\item
+            Cercar referències a Internet pels PDFs que tenim
+            \pause
+            \item
+            Extreure la informació de les pàgines HTML
+            \pause
+            \item
+            Crear regles d'extracció automàticament 
+        \end{itemize}
+    \end{block}
+   
+\end{frame}
+
+
+\begin{frame}{Objectiu}
+    \framesubtitle{Esquema d'extracció}
+    \begin{figure}
+	    \centering 
+	    \includegraphics[width=\textwidth]{figures/definition:extraction-diagram.pdf} 
+	    \label{fig:definition:extraction-diagram} 
+    \end{figure}
+\end{frame}
+
+
+%%%% CERCA %%%%
+\section[Cerca]{Cerca de referències}
+\begin{frame}{Cerca de referències}
+    \begin{block}{Passos a seguir:}
+        \begin{itemize}
+      		\item
+            Extreu el contingut dels fitxers PDF
+            \item
+            Genera consultes a partir del text
+            \item
+            Obté els resultats de les consultes (\textit{Google}, \textit{Bing}, \textit{Yahoo})
+            \item
+            Filtra i ordena els resultats
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+%%%% EXTRACCIO %%%%
+\section[Extracció]{Extracció d'informació}
+\begin{frame}{Extracció d'informació}
+    \begin{block}{Dos mètodes d'extracció:}
+        \begin{itemize}
+      		\item
+            \textit{Reference Wrappers}
+            \item
+            \textit{Field Wrappers}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Extracció d'informació}
+    \framesubtitle{Reference Wrappers}
+    \begin{block}{Característiques:}
+        \begin{itemize}
+      		\item
+            Extreuren referències senceres
+            \item
+            Només se'n necessita un per cada biblioteca digital
+            \item
+            Implementats manualment
+            \item
+            Els resultats solen ser bons
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Extracció d'informació}
+    \framesubtitle{Reference Wrappers}
+    \begin{figure}
+	    \centering 
+	    \includegraphics[width=\textwidth]{figures/refextraction:reference-wrappers.pdf} 
+	    \label{fig:refextraction:reference-wrappers} 
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Extracció d'informació}
+    \framesubtitle{Field Wrappers}
+    \begin{block}{Característiques:}
+        \begin{itemize}
+      		\item
+            Especialitzats en treure un sol camp
+            \item
+            Se'n necessita un per cada camp i per cada biblioteca
+            \item
+            Implementats automàticament
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Extracció d'informació}
+    \framesubtitle{Field Wrappers}
+    \begin{figure}
+	    \centering 
+	    \includegraphics[width=\textwidth]{figures/refextraction:field-wrappers.pdf} 
+	    \label{fig:refextraction:field-wrappers} 
+    \end{figure}
+\end{frame}
+
+
+
+%%%% WRAPPERGEN %%%%
+\section[Regles]{Generació de regles}
+\begin{frame}{Generació de regles}
+Només es generen \textit{Field Wrappers}\\
+Consisteixen en regles\\
+Trobar l'element que conté la informació\\
+Generar una expressió regular per extreure-la\\
+Avaluar el \textit{wrapper}
+\end{frame}
+
+%%%% DEMOSTRACIÓ %%%%
+\section[Demostració]{Demostració}
+\begin{frame}{Demostració}
+\end{frame}
+
+%%%% CONCLUSIONS %%%%
+\section[Conclusions]{Conclusions i Treball Futur}
+\begin{frame}{Conclusions i Treball Futur}
+\end{frame}
+
+
+
+\end{document}

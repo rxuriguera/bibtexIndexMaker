@@ -1,0 +1,13 @@
+*.out
+*.log
+*.aux
+*.toc
+*.bbl
+*.blg
+*.snm
+*.nav
+*.dvi
+*.mp
+*.vrb
+example.tex
+example.pdf
