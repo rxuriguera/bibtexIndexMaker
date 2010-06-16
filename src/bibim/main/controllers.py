@@ -221,7 +221,11 @@ class IRController(Controller):
             elif not base_url in available_wrappers:
                 continue
             else:
-                wrapper_index = available_wrappers.index(base_url)
+                # TODO: Remove this conditional
+                if base_url.startswith('http://citeseerx'):
+                    wrapper_index = len(results) + 5
+                else:
+                    wrapper_index = available_wrappers.index(base_url)
                 heapq.heappush(wrappers_heap, (wrapper_index, result))
         results = heapq.nsmallest(len(results), wrappers_heap)
         return [result[1] for result in results] 

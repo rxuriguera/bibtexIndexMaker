@@ -22,9 +22,9 @@ import Queue #@UnresolvedImport
 from bibim import log
 from bibim.main.refmaker import ReferenceMaker
 from bibim.util.helpers import ReferenceFormat
+from bibim.ie.types import Extraction
 
-
-MAX_THREADS = 5
+MAX_THREADS = 1
 MIN_CLIENTS_PER_THREAD = 2
 
 
@@ -185,5 +185,6 @@ class ReferenceMakerThread(threading.Thread):
                 except Exception, e:
                     log.error('Unexpected exception while extracting reference' #@UndefinedVariable
                               'for file %s: %s' % (file, str(e)))
+                    self.out_queue.put(Extraction())
                     continue
     

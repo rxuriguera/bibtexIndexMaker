@@ -74,8 +74,10 @@ class ReferenceMaker(object):
         for entry in extraction.entries:
             validator.validate(entry, raw_text)
         
+        
         # Persist the extraction
         ExtractionGateway().persist_extraction(extraction)
+        
         
         return extraction
         
