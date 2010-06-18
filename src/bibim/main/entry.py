@@ -25,7 +25,8 @@ import threading #@UnresolvedImport
 
 from bibim import log
 from bibim.db.session import flush_changes
-from bibim.db.gateways import ReferenceGateway
+from bibim.db.gateways import (ReferenceGateway,
+                               ExtractionGateway)
 from bibim.main.files import FileManager
 from bibim.main.threads import ThreadRunner, ReferenceMakerThread
 from bibim.main.controllers import (IEController,
@@ -76,7 +77,11 @@ class IndexMaker(threading.Thread):
         self.thread_runner.run()
         
         while not self._out_queue.empty():
-            self.processed.append(self._out_queue.get())
+            extraction = self._out_queue.get()
+            # Persist the extraction
+            ExtractionGateway().persist_extraction(extraction)
+            
+            self.processed.append(extraction)
 
         # Commit changes to the database
         flush_changes()

@@ -24,7 +24,7 @@ from bibim.main.refmaker import ReferenceMaker
 from bibim.util.helpers import ReferenceFormat
 from bibim.ie.types import Extraction
 
-MAX_THREADS = 1
+MAX_THREADS = 5
 MIN_CLIENTS_PER_THREAD = 2
 
 
