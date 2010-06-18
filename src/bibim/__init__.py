@@ -17,7 +17,6 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 
-
 from logging import config #@UnresolvedImport
 from logging import getLogger #@UnresolvedImport
 from os import path
