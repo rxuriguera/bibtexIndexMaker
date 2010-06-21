@@ -61,6 +61,24 @@ class FileChooser(QtGui.QWidget):
             self.ui.pathLine.setText(self.path)
 
 
+class LogsTextEdit(QtGui.QTextEdit):
+    
+    colors = {'DEBUG':QtGui.QColor(100, 100, 100),
+              'INFO':QtGui.QColor(0, 0, 0),
+              'WARNING':QtGui.QColor(222, 145, 2),
+              'ERROR':QtGui.QColor(191, 21, 43),
+              'CRITICAL':QtGui.QColor(191, 21, 43)}
+    
+    def __init__(self, parent):
+        QtGui.QTextEdit.__init__(self, parent)
+        self.setReadOnly(True)
+    
+    @QtCore.pyqtSlot(QtCore.QString, QtCore.QString)
+    def updateText(self, message, level='INFO'):
+        self.setTextColor(self.colors[str(level)])
+        self.append(message)
+        
+
 class WrapperCollectionBox(QtGui.QDialog):
     def __init__(self, parent=None):
         super(WrapperCollectionBox, self).__init__()
