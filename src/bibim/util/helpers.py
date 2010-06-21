@@ -80,4 +80,3 @@ class ContentCleaner(object):
             [element.extract() for element in elements]
 
         return content
-    
