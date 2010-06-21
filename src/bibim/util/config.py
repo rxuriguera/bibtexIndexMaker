@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from ConfigParser import ConfigParser #@UnresolvedImport
 import re
+from ConfigParser import ConfigParser #@UnresolvedImport
 
 from bibim import bibim_config
 
@@ -136,6 +136,15 @@ class BibimConfig(object):
             values[key] = value
         
         return values
+    
+    def _get_validation_weights(self, section='wrappers',
+                                name='field_validation', default={}):
+        properties = self._get_validation_properties(section, name, default)
+        weights = {}
+        for property in properties:
+            if len(properties[property]):
+                weights[property] = properties[property][0]
+        return weights
 
     def _get_value_guide_properties(self, section='wrappers',
                                     name='value_guide', default={}):
