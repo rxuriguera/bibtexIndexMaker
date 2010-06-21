@@ -269,7 +269,7 @@ class IEController(Controller):
         and its proceedings)
         """
         
-        log.info('Extracting reference from %d ' % len(top_results)) #@UndefinedVariable
+        log.info('Using %d top results' % len(top_results)) #@UndefinedVariable
         page = None
         references = []
         for result in top_results:
@@ -464,7 +464,7 @@ class IEController(Controller):
         
         rulers = []
         for set in example_sets:
-            log.info('Starting wrapper training for set %s' % set) #@UndefinedVariable
+            log.info('Starting wrapper training for set "%s"' % set) #@UndefinedVariable
             
             if set == 'author' or set == 'editor':
                 rulers = [MultiValuePathRuler(),
@@ -484,8 +484,9 @@ class IEController(Controller):
                 wrappers = trainer.train(example_sets[set])
                 wrappers = self._prune_wrappers(wrappers)
                 wrapper_manager.persist_wrappers(url, set, wrappers)
+                log.info('Trainer generated %d wrappers' % len(wrappers)) #@UndefinedVariable
             except Exception, e:
-                log.error('Error training wrapper for set %s: %s' % (set, e)) #@UndefinedVariable
+                log.error('Error training wrapper for set "%s": %s' % (set, e)) #@UndefinedVariable
 
 
 class ReferencesController(Controller):
@@ -552,6 +553,7 @@ class ReferencesController(Controller):
         extractions = []
         
         for reference, index in zip(references, range(len(references))):
+            
             extraction = Extraction()
             
             # Clean fields that we don't want
@@ -566,11 +568,13 @@ class ReferencesController(Controller):
                 url = url.value
             
             extraction.used_result = SearchResult('', url)
-            extraction.file_path = unicode('Reference %d from %s' % (index,
-                                           file_path.rsplit('/', 1)[-1]))
+            text = unicode('Reference %d from %s' % (index,
+                                file_path.rsplit('/', 1)[-1]))
+            extraction.file_path = text
             extraction.entries.append(reference)
             extractions.append(extraction)
             extraction_gw.persist_extraction(extraction)
+            log.info(''.join(['Imported ', text.lower()])) #@UndefinedVariable
         
         return extractions
 

@@ -17,15 +17,16 @@
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
 from bibim import log
-from bibim.db.gateways import ExtractionGateway
 from bibim.ie.types import Extraction
 from bibim.main.controllers import (RCEController,
                                     IRController,
                                     IEController)
 from bibim.main.factory import UtilFactory
 from bibim.main.validation import ReferenceValidator
+from bibim.util.config import configuration
 from bibim.util.helpers import FileFormat
 
+FIELD_WEIGHTS = configuration._get_validation_weights()
 
 class ReferenceMaker(object):
     def __init__(self):
@@ -43,6 +44,7 @@ class ReferenceMaker(object):
         extraction.target_format = target_format
         
         log.info("Making reference for file: %s" % file) #@UndefinedVariable
+
         rce = RCEController(self.factory)
         raw_text = rce.extract_content(file, FileFormat.TXT)
         if not raw_text:
@@ -53,7 +55,6 @@ class ReferenceMaker(object):
             log.debug('No query strings') #@UndefinedVariable
             return extraction
         log.debug("Query strings %s" % str(extraction.query_strings)) #@UndefinedVariable
-        
         
         ir = IRController(self.factory)
         extraction.top_results, extraction.used_query = ir.get_top_results(extraction.query_strings)
@@ -68,9 +69,9 @@ class ReferenceMaker(object):
         ie = IEController(self.factory, target_format)
         extraction.entries, extraction.used_result = ie.extract_reference(extraction.top_results, raw_text)
         extraction.top_results.remove(extraction.used_result)
-        log.debug("Used result %s" % str(extraction.used_result)) #@UndefinedVariable
+        log.info("Used result: %s" % str(extraction.used_result)) #@UndefinedVariable
         
-        validator = ReferenceValidator()
+        validator = ReferenceValidator(FIELD_WEIGHTS)
         for entry in extraction.entries:
             validator.validate(entry, raw_text)
         

@@ -56,7 +56,7 @@ class ReferenceWrapper(Wrapper):
         reference.
         Returns a tuple with the full reference and its format.
         """ 
-        log.debug('Using ACM Portal reference wrapper') #@UndefinedVariable
+        log.info('Using ACM Portal reference wrapper') #@UndefinedVariable
         ref = (None, None)
         anchor = page.find('a', {'onclick':re.compile('popBibTex.cfm')})
         if not anchor:
@@ -85,7 +85,7 @@ class ReferenceWrapper(Wrapper):
         reference.
         Returns a tuple with the full reference and its format.
         """ 
-        log.debug('Using CiteSeerX reference wrapper') #@UndefinedVariable
+        log.info('Using CiteSeerX reference wrapper') #@UndefinedVariable
         ref = (None, None)
         
         try:

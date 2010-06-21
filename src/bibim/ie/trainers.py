@@ -74,7 +74,8 @@ class WrapperTrainer(object):
             wrapper = Wrapper(rules=rule_set)
             self._evaluate_wrapper(wrapper, examples)
             wrappers.append(wrapper)
-        log.info('Trainer generated %d wrappers' % len(wrappers)) #@UndefinedVariable
+        log.debug('Trainer generated %d wrappers (not prunned)' % #@UndefinedVariable 
+                  len(wrappers))
         return wrappers
      
     def _get_rule_sets(self, rulers, example_set):
@@ -123,7 +124,7 @@ class WrapperTrainer(object):
         and downvotes otherwise.
         """
         for example in examples:
-            log.info('Evaluating wrapper with example value %s ' % #@UndefinedVariable
+            log.debug('Evaluating wrapper with example value %s ' % #@UndefinedVariable
                       str(example.value)) 
             info = wrapper.extract_info(example.content)
             
@@ -141,7 +142,7 @@ class WrapperTrainer(object):
                 wrapper.upvotes += 1
             else:
                 wrapper.downvotes += 1
-            log.info('Result of evaluation: %s' % str(ev_result)) #@UndefinedVariable
+            log.debug('Result of evaluation: %s' % str(ev_result)) #@UndefinedVariable
         
     def _evaluate_single_value_wrapper(self, info, value):
         if re.search(value, info):
