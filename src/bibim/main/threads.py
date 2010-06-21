@@ -28,7 +28,7 @@ MAX_THREADS = 5
 MIN_CLIENTS_PER_THREAD = 2
 
 
-class ThreadRunner(object):
+class ThreadRunner(threading.Thread):
     """
     This class will create a thread pool and run tasks on its threads. 
     It is extremely important that the thread removes objects from the 
@@ -43,12 +43,15 @@ class ThreadRunner(object):
         'kwargs' allows us to pass a variable number of keyworded parameters
         to the threads. 
         """
+        threading.Thread.__init__(self)
+        self.name = 'Runner'
         self.thread_class = thread_class
         self.in_queue = in_queue
         self.out_queue = out_queue
         self._thread_pool = []
         self._pool_size = 0
         self._thread_args = kwargs
+        self.finished = False
 
     def get_thread_class(self):
         return self.__thread_class
@@ -82,11 +85,18 @@ class ThreadRunner(object):
     def set_out_queue(self, value):
         self.__out_queue = value
 
+    def get_finished(self):
+        return self.__finished
+
+    def set_finished(self, value):
+        self.__finished = value
+
     thread_class = property(get_thread_class, set_thread_class)
     in_queue = property(get_in_queue, set_in_queue)
     out_queue = property(get_out_queue, set_out_queue)
     pool_size = property(get_pool_size)
-
+    finished = property(get_finished, set_finished)
+    
     def run(self):
         """
         This method creates a pool of threads, starts them, and waits for the
@@ -101,6 +111,7 @@ class ThreadRunner(object):
         for i in range(self.pool_size): #@UnusedVariable
             thread = self.thread_class(self.in_queue, self.out_queue,
                                        **self._thread_args)
+            thread.name = 'Worker-%02d' % i
             self._thread_pool.append(thread)
             thread.start()
         
@@ -113,6 +124,7 @@ class ThreadRunner(object):
         # Ask threads to stop
         for thread in self._thread_pool:
             thread.join()
+        self.finished = True
             
 
 class ReferenceMakerThread(threading.Thread):
@@ -184,7 +196,7 @@ class ReferenceMakerThread(threading.Thread):
                     self.out_queue.put(reference)
                 except Exception, e:
                     log.error('Unexpected exception while extracting reference' #@UndefinedVariable
-                              'for file %s: %s' % (file, str(e)))
+                              ' for file %s: %s' % (file, str(e)))
                     self.out_queue.put(Extraction())
                     continue
     

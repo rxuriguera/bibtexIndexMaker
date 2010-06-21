@@ -41,6 +41,7 @@ class IndexMaker(threading.Thread):
     def __init__(self):
         super(IndexMaker, self).__init__()
         self.__path = ''
+        self.name = 'IndexMaker'
         self._in_queue = Queue.Queue(0)
         self._out_queue = Queue.Queue(0)
         self.processed = []
@@ -74,13 +75,13 @@ class IndexMaker(threading.Thread):
         # Run threads
         self.thread_runner = ThreadRunner(self.trhead_class,
                                           self._in_queue, self._out_queue)
-        self.thread_runner.run()
+        self.thread_runner.start()
         
-        while not self._out_queue.empty():
+        while not (self.thread_runner.finished and self._out_queue.empty()):
             extraction = self._out_queue.get()
+            log.info('Persisting extraction results') #@UndefinedVariable
             # Persist the extraction
             ExtractionGateway().persist_extraction(extraction)
-            
             self.processed.append(extraction)
 
         # Commit changes to the database
@@ -93,6 +94,7 @@ class IndexMaker(threading.Thread):
 class WrapperGenerator(threading.Thread):               
     def __init__(self, url):
         super(WrapperGenerator, self).__init__()
+        self.name = 'WrapTrainer'
         self.url = url
         self.factory = UtilFactory()
         self.ie_controller = IEController(self.factory)
@@ -135,13 +137,30 @@ class ReferenceEntryFormatter(object):
         return reference.entry
 
 
-class ReferenceImporter(object):
+class ReferenceImporter(threading.Thread):
     def __init__(self, format=ReferenceFormat.BIBTEX):
+        super(ReferenceImporter, self).__init__()
+        self.name = 'Importer'
         self.format = format
         self.util_factory = UtilFactory()
         self.ref_controller = ReferencesController(self.util_factory,
                                                    self.format)
-    
+        self.path = ''
+
+    def get_path(self):
+        return self.__path
+
+    def set_path(self, value):
+        self.__path = value
+
     def import_references(self, path):
+        log.info('Importing references from %s' % path) #@UndefinedVariable
         references = self.ref_controller.persist_file_references(path)
         return len(references)
+    
+    def run(self):
+        if not self.path:
+            return
+        self.import_references(self.path)
+        
+    path = property(get_path, set_path)
