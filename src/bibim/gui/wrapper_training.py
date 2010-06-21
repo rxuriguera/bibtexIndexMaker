@@ -20,8 +20,11 @@ from PyQt4 import QtCore, QtGui #@UnresolvedImport
 
 from bibim import log
 from bibim.db.gateways import WrapperGateway
+from bibim.gui.custom_widgets import LogsTextEdit
+from bibim.gui.outlog import GUIHandler
 from bibim.gui.ui.ui_wrapper_training import Ui_WrapperTrainingPage
 from bibim.main.entry import WrapperGenerator
+
 
 
 class WrapperTrainingThread(QtCore.QThread):
@@ -90,32 +93,50 @@ class ProgressPage(QtGui.QWizardPage):
         self.progressBar.setMaximum(self.max)
         self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
+        self.progressBar.setTextVisible(False)
+        
+        # Show logs
+        self.logsLabel = QtGui.QLabel(self)
+        self.logsLabel.setText('Status:')
+        
+        self.guihandler = GUIHandler(omit_levels=['WARNING'])
+        self.logs = LogsTextEdit(self)
+        self.guihandler.messageLogged.connect(self.logs.updateText)
 
         # Register an empty label so next button is disabled
-        self.empty_label = QtGui.QLabel("")
-        self.registerField('completed*', self.empty_label)
+        self.empty_edit = QtGui.QLineEdit(self)
+        self.empty_edit.setVisible(False)
+        self.registerField('completed*', self.empty_edit)        
 
         # Add Widgets to layout
         layout = QtGui.QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.progressBar)
+        layout.addWidget(self.logsLabel)
+        layout.addWidget(self.logs)        
         self.setLayout(layout)
 
     def initializePage(self):
+        log.addHandler(self.guihandler) #@UndefinedVariable
+                
         url = self.field('url').toPyObject()
-        log.debug("Starting training for URL: %s" % url) #@UndefinedVariable
+        log.info("Starting training for URL: %s" % url) #@UndefinedVariable
         
         self.thread = WrapperTrainingThread(self, url)
         # Connect thread signals
         self.connect(self.thread, QtCore.SIGNAL("finished()"),
-                     self.next)
+                     self.finish)
         self.connect(self.thread, QtCore.SIGNAL("terminated()"),
-                     self.next)
+                     self.finish)
         self.thread.start()
 
-    def next(self):
-        log.debug("Stopping thread and jumping to next page") #@UndefinedVariable
-        self.parent.next()
+    def finish(self):
+        self.progressBar.setMaximum(1)
+        self.progressBar.setValue(1)
+        log.info('Finished training. Results can be found in the Manage page') #@UndefinedVariable
+        log.removeHandler(self.guihandler) #@UndefinedVariable
+        self.empty_edit.setText('Done!')
+
         
         
 class FinishedPage(QtGui.QWizardPage):
@@ -149,17 +170,16 @@ class WrapperTrainingWizard(QtGui.QWizard):
         
         self.wrapper_gw = WrapperGateway()
         
-        #self.setOption(QtGui.QWizard.HaveHelpButton, True)
         self.page01 = URLChoosePage(self)
         self.page02 = ProgressPage(self)
-        self.page03 = FinishedPage(self) 
+        #self.page03 = FinishedPage(self) 
         self.addPage(self.page01)
         self.addPage(self.page02)
-        self.addPage(self.page03)
+        #self.addPage(self.page03)
         
     def done(self, status):
         self.removePage(0)
         self.removePage(1)
-        self.removePage(2)
+        #self.removePage(2)
         self.initialize()
         self.restart()        

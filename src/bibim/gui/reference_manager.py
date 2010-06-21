@@ -24,10 +24,10 @@ from bibim.gui.reference_editor import ReferenceEditor
 from bibim.gui.ui.ui_reference_manager import Ui_ReferenceManagerPage
 from bibim.gui.custom_widgets import ConfirmMessageBox
 
-class ReferenceManagerpage(QtGui.QWizardPage):
+class ReferenceManagerPage(QtGui.QWizardPage):
     
     def __init__(self, title, parent=None):
-        super(ReferenceManagerpage, self).__init__(parent)
+        super(ReferenceManagerPage, self).__init__(parent)
         self.parent = parent
         self.last_selected = None
         
@@ -146,7 +146,7 @@ class ReferenceManagerWizard(QtGui.QWizard):
         self.extraction_gw = ExtractionGateway()
         
         wizard_title = 'Manage References'
-        self.page01 = ReferenceManagerpage(wizard_title, self)
+        self.page01 = ReferenceManagerPage(wizard_title, self)
         self.addPage(self.page01)
 
     def show(self):

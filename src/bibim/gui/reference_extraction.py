@@ -16,10 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
+
 from PyQt4 import QtCore, QtGui #@UnresolvedImport
 
 from bibim import log
-from bibim.gui.custom_widgets import FileChooser
+from bibim.gui.custom_widgets import (FileChooser,
+                                      LogsTextEdit)
+from bibim.gui.outlog import GUIHandler
 from bibim.main.entry import IndexMaker
 
 import time
@@ -30,7 +33,7 @@ class ReferenceExtractionThread(QtCore.QThread):
         self.exiting = False
         self.index_maker = index_maker
         self.maximum = maximum
-        
+
     def __del__(self):
         self.exiting = True
         self.wait()
@@ -82,19 +85,34 @@ class ProgressPage(QtGui.QWizardPage):
         self.progressBar.setProperty("value", 30)
         self.progressBar.setObjectName("progressBar")
 
+        # Show logs
+        self.logsLabel = QtGui.QLabel(self)
+        self.logsLabel.setText('Status:')
+        
+        self.guihandler = GUIHandler()
+        self.logs = LogsTextEdit(self)
+        self.guihandler.messageLogged.connect(self.logs.updateText)
+
         # Register an empty label so next button is disabled
-        self.empty_label = QtGui.QLabel("")
-        self.registerField('completed*', self.empty_label)
+        self.empty_edit = QtGui.QLineEdit(self)
+        self.empty_edit.setVisible(False)
+        self.registerField('completed*', self.empty_edit)
 
         # Add Widgets to layout
         layout = QtGui.QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.progressBar)
+        layout.addWidget(self.logsLabel)
+        layout.addWidget(self.logs)
         self.setLayout(layout)
-
+        
     def initializePage(self):
+        log.addHandler(self.guihandler) #@UndefinedVariable
+
         path = self.field('filePath').toPyObject()
         self.parent.index_maker.set_path(str(path))
+        
+        self.logs.setText('')
         
         n_files = self.parent.index_maker.get_n_files()
         
@@ -104,12 +122,12 @@ class ProgressPage(QtGui.QWizardPage):
         # This thread will update the GUI
         self.thread = ReferenceExtractionThread(self, self.parent.index_maker,
                                                 n_files)
-        
+
         # Connect thread signals
         self.connect(self.thread, QtCore.SIGNAL("finished()"),
-                     self.next)
+                     self.finish)
         self.connect(self.thread, QtCore.SIGNAL("terminated()"),
-                     self.next)
+                     self.finish)
         self.connect(self.thread, QtCore.SIGNAL("output(int)"),
                      self.updateProgressBar)
         
@@ -121,35 +139,20 @@ class ProgressPage(QtGui.QWizardPage):
     def updateProgressBar(self, value=0):
         self.progressBar.setValue(value)
 
-    def next(self):
-        log.debug("Stopping thread and jumping to next page") #@UndefinedVariable
+    def finish(self):
+        log.info('Finished extracting. Results can be found in the Manage ' #@UndefinedVariable
+                 'page') 
         # Stop the thread before jumping to next page
-        self.thread.exiting = True
-        self.parent.next()
-
-
-class FinishedPage(QtGui.QWizardPage):
-    def __init__(self, title, parent=None):
-        super(FinishedPage, self).__init__(parent)
-        self.setTitle(title)
-        self.parent = parent
+        self.thread.exiting = True        
+        log.removeHandler(self.guihandler) #@UndefinedVariable
+        self.empty_edit.setText('Done!')
         
-        self.label01 = QtGui.QLabel("Extraction finished")
-        self.label02 = QtGui.QLabel("You can see the extracted references in the 'Manage' page")
 
-        # Add Widgets to layout
-        layout = QtGui.QVBoxLayout()
-        layout.addWidget(self.label01)
-        layout.addWidget(self.label02)
-        self.setLayout(layout)
-        
-        
 class ReferenceExtractionWizard(QtGui.QWizard):
     
     def __init__(self):
         super(ReferenceExtractionWizard, self).__init__()
         self.initialize()
-        #self.setOption(QtGui.QWizard.HaveHelpButton, True)
     
     def initialize(self):
         self.setDefaultProperty('FileChooser', 'path', QtCore.SIGNAL('pathChanged()'))
@@ -162,15 +165,12 @@ class ReferenceExtractionWizard(QtGui.QWizard):
         self.wizard_title = 'Extract References'
         self.page01 = PathChoosePage(self.wizard_title, self)
         self.page02 = ProgressPage(self.wizard_title, self)
-        self.page03 = FinishedPage(self.wizard_title, self) 
         self.addPage(self.page01)
         self.addPage(self.page02)
-        self.addPage(self.page03)
         self.index_maker = IndexMaker()
     
     def done(self, status):
         self.removePage(0)
         self.removePage(1)
-        self.removePage(2)
         self.initialize()
         self.restart()
