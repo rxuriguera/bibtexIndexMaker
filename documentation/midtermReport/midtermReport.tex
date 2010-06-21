@@ -35,25 +35,25 @@
 
 \title{\BibTeX{} Bibliography Index Maker: Informe del Projecte}
 \author{Ramon Xuriguera\\ \texttt{rxuriguera@gmail.com}}
-\date{Marï¿½ 2010}
+\date{Març 2010}
 
 \begin{document}
 \maketitle
 
 \section{Objectius del projecte}
-\textit{\BibTeX{} Bibliography Index Maker} ï¿½s una eina d'ajuda a la creaciï¿½ d'ï¿½ndexs bibliogrï¿½fics pensada com un complement a aplicacions de maneig de referï¿½ncies ja existents com poden ser \textit{\href{http://jabref.sourceforge.net/}{JabRef}}\footnote{\href{http://jabref.sourceforge.net/}{http://jabref.sourceforge.net}} o \textit{\href{http://www.mendeley.com/}{Mendeley}}\footnote{\href{http://www.mendeley.com/}{http://www.mendeley.com}}.
+\textit{\BibTeX{} Bibliography Index Maker} és una eina d'ajuda a la creació d'índexs bibliogràfics pensada com un complement a aplicacions de maneig de referències ja existents com poden ser \textit{\href{http://jabref.sourceforge.net/}{JabRef}}\footnote{\href{http://jabref.sourceforge.net/}{http://jabref.sourceforge.net}} o \textit{\href{http://www.mendeley.com/}{Mendeley}}\footnote{\href{http://www.mendeley.com/}{http://www.mendeley.com}}.
 
 \paragraph{}
-La principal funcionalitat consisteix en escanejar un directori que contï¿½ articles cientï¿½fics en PDF i generar un ï¿½ndex bibliogrï¿½fic en \BibTeX{} amb les referï¿½ncies d'aquests fitxers. Aquest ï¿½ndex es pot importar des de les aplicacions esmentades o bï¿½ pot ser referenciat directament des d'un nou document \TeX.
+La principal funcionalitat consisteix en escanejar un directori que conté articles científics en PDF i generar un índex bibliogràfic en \BibTeX{} amb les referències d'aquests fitxers. Aquest índex es pot importar des de les aplicacions esmentades o bé pot ser referenciat directament des d'un nou document \TeX.
 
 \section{Treball existent}
-Actualment existeixen nombroses aplicacions dedicades al maneig de referï¿½ncies. Algunes d'elles utilitzen les meta-dades dels fitxers per tal de trobar informaciï¿½ com ara el tï¿½tol o l'autor, perï¿½ cap de les eines que hem trobat llegeix el contingut dels documents.
+Actualment existeixen nombroses aplicacions dedicades al maneig de referències. Algunes d'elles utilitzen les meta-dades dels fitxers per tal de trobar informació com ara el títol o l'autor, però cap de les eines que hem trobat llegeix el contingut dels documents.
 
 \paragraph{}
-Empreses com ara \textit{Google} o \textit{Microsoft} agafen la informaciï¿½ de documents PDF per oferir serveis com ara \textit{Scholar} o \textit{Academic Search}, perï¿½ no ofereixen el codi font i per tant, no sabem com funcionen. \textit{CiteSeer} ï¿½s un projecte \textit{open source} de caracterï¿½stiques similars, perï¿½ que tambï¿½ tï¿½ limitacions. El sistema funciona analitzant la bibliografia dels articles, perï¿½ tï¿½ problemes per obtenir els camps de la capï¿½alera del propi fitxer, que ï¿½s el que ens interessa.
+Empreses com ara \textit{Google} o \textit{Microsoft} agafen la informació de documents PDF per oferir serveis com ara \textit{Scholar} o \textit{Academic Search}, però no ofereixen el codi font i per tant, no sabem com funcionen. \textit{CiteSeer} és un projecte \textit{open source} de característiques similars, però que també té limitacions. El sistema funciona analitzant la bibliografia dels articles, però té problemes per obtenir els camps de la capçalera del propi fitxer, que és el que ens interessa.
 
-\section{Descripciï¿½ detallada}
-Per entendre el per quï¿½ de l'enfocament que hem donat a la nostra aplicaciï¿½, cal que comencem explicant el principals problemes que que hem trobat: l'extracciï¿½ de text dels fitxers PDF. Aquest procï¿½s no ï¿½s trivial i, per tant, les eines que que es poden trobar per fer-ho no obtenen resultats gaire bons. En especial hi ha problemes amb el flux del text dins el fitxer, els carï¿½cters Unicode, les lligadures (e.g. \textit{fi} es representa amb un sol carï¿½cter), superï¿½ndexs, etc. Als articles cientï¿½fics, la informaciï¿½ que volem extreure acostuma a contenir molts carï¿½cters d'aquest tipus.
+\section{Descripció detallada}
+Per entendre el per què de l'enfocament que hem donat a la nostra aplicació, cal que comencem explicant el principals problemes que que hem trobat: l'extracció de text dels fitxers PDF. Aquest procés no és trivial i, per tant, les eines que que es poden trobar per fer-ho no obtenen resultats gaire bons. En especial hi ha problemes amb el flux del text dins el fitxer, els caràcters Unicode, les lligadures (e.g. \textit{fi} es representa amb un sol caràcter), superíndexs, etc. Als articles científics, la informació que volem extreure acostuma a contenir molts caràcters d'aquest tipus.
 
 \begin{center}
 \begin{lstlisting}[caption={Part del text extret d'un article}]
@@ -65,56 +65,56 @@ e e i a M. Hanzich2 , and P. Hern ndez2 1
 \end{center}
 
 \paragraph{}
-A mï¿½s, els documents no acostumen a contenir certa informaciï¿½ necessï¿½ria per poder crear la referï¿½ncia (e.g. pï¿½gines, editor) i la seva estructura sol ser molt variada depenent de la revista a la qual s'ha publicat l'article. Aquestes dificultats ens han fet mirar d'abordar el problema d'alguna altra manera.
+A més, els documents no acostumen a contenir certa informació necessària per poder crear la referència (e.g. pàgines, editor) i la seva estructura sol ser molt variada depenent de la revista a la qual s'ha publicat l'article. Aquestes dificultats ens han fet mirar d'abordar el problema d'alguna altra manera.
 
 \paragraph{}
-La soluciï¿½ que hem trobat ï¿½s fer ï¿½s de les biblioteques digitals disponibles a Internet, per exemple \textit{SpringerLink} o \textit{ACM}. Per poder aconseguir la referï¿½ncia corresponent a un article seguirem el procediment que mostra la figura \ref{fig:process_diagram}. Bï¿½sicament, per cada document PDF, l'aplicaciï¿½:
+La solució que hem trobat és fer ús de les biblioteques digitals disponibles a Internet, per exemple \textit{SpringerLink} o \textit{ACM}. Per poder aconseguir la referència corresponent a un article seguirem el procediment que mostra la figura \ref{fig:process_diagram}. Bàsicament, per cada document PDF, l'aplicació:
 \begin{enumerate}
     \item{Extreu el contingut en forma de text.}
     \item{Genera un llistat de consultes a partir del text. Agafa frases de l'\textit{abstract}.}
-    \item{Obtï¿½ els resultats d'aquestes consultes en algun cercador (Google, Bing, etc.).}
-    \item{Mira d'extreure la referï¿½ncia de les pï¿½gines retornades pel cercador.}
-    \item{Comprova que les dades de la referï¿½ncia corresponen al fitxer.}
+    \item{Obté els resultats d'aquestes consultes en algun cercador (Google, Bing, etc.).}
+    \item{Mira d'extreure la referència de les pàgines retornades pel cercador.}
+    \item{Comprova que les dades de la referència corresponen al fitxer.}
 \end{enumerate}
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=0.95\textwidth]{images/process_diagram.pdf}
-\caption{Procediment per obtenir la referï¿½ncia a un article}
+\caption{Procediment per obtenir la referència a un article}
 \label{fig:process_diagram}
 \end{center}
 \end{figure}
 
-\subsection{Extracciï¿½ de contingut}
-El pas mï¿½s interessant d'aquest procï¿½s ï¿½s l'extracciï¿½ de la referï¿½ncia a partir de les pï¿½gines resultants de fer la cerca. Com ï¿½s lï¿½gic, els resultats obtinguts d'Internet corresponen a pï¿½gines completament diferents i el nostre programa ha de ser capaï¿½ de detectar on es troba cada fragment d'informaciï¿½ i agafar-lo. A primera vista podria semblar que si les pï¿½gines sï¿½n tant diferents, el fet de buscar l'article a Internet no ens ha solucionat res. La principal diferï¿½ncia, perï¿½, ï¿½s que la informaciï¿½ d'aquestes pï¿½gines estï¿½ estructurada.
+\subsection{Extracció de contingut}
+El pas més interessant d'aquest procés és l'extracció de la referència a partir de les pàgines resultants de fer la cerca. Com és lògic, els resultats obtinguts d'Internet corresponen a pàgines completament diferents i el nostre programa ha de ser capaç de detectar on es troba cada fragment d'informació i agafar-lo. A primera vista podria semblar que si les pàgines són tant diferents, el fet de buscar l'article a Internet no ens ha solucionat res. La principal diferència, però, és que la informació d'aquestes pàgines està estructurada.
 
 \paragraph{}
-Una primera idea per fer-ho ï¿½s tenir un conjunt de \textit{wrappers} de manera que cadascun d'ells sap localitzar la informaciï¿½ en una de les pï¿½gines. Aquesta soluciï¿½ no ï¿½s perfecta, perï¿½ pot arribar a funcionar. Hem pogut comprovar que els articles d'un mateix camp de coneixement acostumen a aparï¿½ixer a les mateixes biblioteques. Aixï¿½ implica que, a la prï¿½ctica, amb un nï¿½mero no molt gran de \textit{wrappers} es poden obtenir resultats prou bons. El principal problema d'aquesta tï¿½cnica ï¿½s que quan alguna de les pï¿½gines de les quals es depï¿½n canvia la seva estructura, cal modificar tambï¿½ el \textit{wrapper} corresponent.
+Una primera idea per fer-ho és tenir un conjunt de \textit{wrappers} de manera que cadascun d'ells sap localitzar la informació en una de les pàgines. Aquesta solució no és perfecta, però pot arribar a funcionar. Hem pogut comprovar que els articles d'un mateix camp de coneixement acostumen a aparèixer a les mateixes biblioteques. Això implica que, a la pràctica, amb un número no molt gran de \textit{wrappers} es poden obtenir resultats prou bons. El principal problema d'aquesta tècnica és que quan alguna de les pàgines de les quals es depèn canvia la seva estructura, cal modificar també el \textit{wrapper} corresponent.
 
 \paragraph{}
-Una alternativa ï¿½s la possibilitat de generar aquests \textit{wrappers} de forma automï¿½tica a partir d'un nï¿½mero reduï¿½t d'exemples. Aixï¿½ no nomï¿½s facilita la possibilitat d'extreure informaciï¿½ de noves pï¿½gines sinï¿½ que quan l'aplicaciï¿½ detecta que els resultats comencen a empitjorar es poden reaprendre les regles. Per poder fer aixï¿½, necessitem tenir les dades de les extraccions anteriors emmagatzemades a una base de dades d'exemples. Per cada exemple hem de tenir, com a mï¿½nim, la URL de la pï¿½gina i les dades que volem obtenir. El procediment ï¿½s el segï¿½ent:
+Una alternativa és la possibilitat de generar aquests \textit{wrappers} de forma automàtica a partir d'un número reduït d'exemples. Això no només facilita la possibilitat d'extreure informació de noves pàgines sinó que quan l'aplicació detecta que els resultats comencen a empitjorar es poden reaprendre les regles. Per poder fer això, necessitem tenir les dades de les extraccions anteriors emmagatzemades a una base de dades d'exemples. Per cada exemple hem de tenir, com a mínim, la URL de la pàgina i les dades que volem obtenir. El procediment és el següent:
 \begin{enumerate}
-    \item{Cerquem cada un dels camps que volem extreure dins de la pï¿½gina.}
-    \item{Establim la posiciï¿½ de l'etiqueta HTML que contï¿½ la informaciï¿½ dins de la pï¿½gina.}
-    \item{Trobem la posiciï¿½ del tros d'informaciï¿½ dins de l'etiqueta HTML}
-    \item{Generem la regla d'extracciï¿½}
+    \item{Cerquem cada un dels camps que volem extreure dins de la pàgina.}
+    \item{Establim la posició de l'etiqueta HTML que conté la informació dins de la pàgina.}
+    \item{Trobem la posició del tros d'informació dins de l'etiqueta HTML}
+    \item{Generem la regla d'extracció}
     \item{Validem la regla amb la resta d'exemples}
 \end{enumerate}
 
-\subsection{Mï¿½duls de l'aplicaciï¿½}
-Hem decidit dividir el codi de l'aplicaciï¿½ en diferents mï¿½duls segons la seva funcionalitat, tot mirant que entre ells hi hagi el mï¿½nim de dependï¿½ncies possibles. El resultat es pot veure a continuaciï¿½. A la figura \ref{fig:process_diagram} de la secciï¿½ anterior, ja hem pogut veure quï¿½ fa cadascun d'ells, excepte \texttt{bibim.ui}, que correspon a la interfï¿½cie d'usuari i \texttt{bibim.db}, que contï¿½ el codi relacionat amb la base de dades.
+\subsection{Mòduls de l'aplicació}
+Hem decidit dividir el codi de l'aplicació en diferents mòduls segons la seva funcionalitat, tot mirant que entre ells hi hagi el mínim de dependències possibles. El resultat es pot veure a continuació. A la figura \ref{fig:process_diagram} de la secció anterior, ja hem pogut veure què fa cadascun d'ells, excepte \texttt{bibim.ui}, que correspon a la interfície d'usuari i \texttt{bibim.db}, que conté el codi relacionat amb la base de dades.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.4]{images/module_diagram.pdf}
-\caption{Diagrama de mï¿½duls i dependï¿½ncies}
+\caption{Diagrama de mòduls i dependències}
 \label{fig:module_diagram}
 \end{center}
 \end{figure}
 
 
 \section{Paquets de treball}
-La taula segï¿½ent mostra, de forma general, el llistat de paquets de treball acompanyats del temps estimat que ha calgut o caldrï¿½ per finalitzar-los i l'estat en quï¿½ es troben. Per poder aproximar el temps necessari, els paquets s'han subdividit en tasques mï¿½s petites (de l'ordre d'hores). Les tasques amb un estat $\geq 95\%$ es consideren completes, perï¿½ susceptibles de correccions.
+La taula següent mostra, de forma general, el llistat de paquets de treball acompanyats del temps estimat que ha calgut o caldrà per finalitzar-los i l'estat en què es troben. Per poder aproximar el temps necessari, els paquets s'han subdividit en tasques més petites (de l'ordre d'hores). Les tasques amb un estat $\geq 95\%$ es consideren completes, però susceptibles de correccions.
 
 \begin{center}
 \begin{tabular}{|l|r|r|}
@@ -132,30 +132,30 @@ Recerca i proves de concepte                                                &20 
 Infraestructura (repositori, \textit{build tracker}, etc.)                  &4 dies     & 100\% \\
 \hline
 
-Extracciï¿½ del text dels PDF (\texttt{bibim.rce})                            &4 dies     & 95\% \\
+Extracció del text dels PDF (\texttt{bibim.rce})                            &4 dies     & 95\% \\
 \hline
 
 
-Obtenciï¿½ de pï¿½gines amb la referï¿½ncia (\texttt{bibim.ir})                   &9 dies     & 93\%\\
+Obtenció de pàgines amb la referència (\texttt{bibim.ir})                   &9 dies     & 93\%\\
 \tab Obtenir consultes del text                                             &1 dia      & 95\%\\
 \tab \textit{Browser} per obtenir consultes                                 &2 dies     & 95\% \\
-\tab Cerca de les consultes (mï¿½ltiples cercadors)                           &5 dies     & 95\%\\
+\tab Cerca de les consultes (múltiples cercadors)                           &5 dies     & 95\%\\
 \tab Ordenar resultats de la cerca                                          &1 dia      & 80\%\\
 \hline
 
 
-Extracciï¿½ d'informaciï¿½ (\texttt{bibim.ie})                                  &21 dies    & \textbf{26\%}\\
-\tab \textit{Wrappers} a mï¿½                                                 &5 dies     & 60\% \\
-\tab Generaciï¿½ automï¿½tica de \textit{wrappers}                              &12 dies    & 13\%\\
-\tab \tab Extracciï¿½ d'exemples                                              &1 dia      & 50\%\\
-\tab \tab Generaciï¿½ de regles                                               &12 dies    & 10\%\\
-\tab \tab \textit{Wrapper} genï¿½ric                                          &3 dies     & 15\%\\
+Extracció d'informació (\texttt{bibim.ie})                                  &21 dies    & \textbf{26\%}\\
+\tab \textit{Wrappers} a mà                                                 &5 dies     & 60\% \\
+\tab Generació automàtica de \textit{wrappers}                              &12 dies    & 13\%\\
+\tab \tab Extracció d'exemples                                              &1 dia      & 50\%\\
+\tab \tab Generació de regles                                               &12 dies    & 10\%\\
+\tab \tab \textit{Wrapper} genèric                                          &3 dies     & 15\%\\
 \hline
 
-Tractament de referï¿½ncies (\texttt{bibim.references})                       &5 dies     & 94\%\\
+Tractament de referències (\texttt{bibim.references})                       &5 dies     & 94\%\\
 \tab \textit{Parsing}                                                       &2 dies     & 95\%\\
-\tab Generaciï¿½                                                              &2 dies     & 95\%\\
-\tab Crear ï¿½ndexs                                                           &1 dia      & 90\%\\
+\tab Generació                                                              &2 dies     & 95\%\\
+\tab Crear índexs                                                           &1 dia      & 90\%\\
 \hline
 
 
@@ -163,18 +163,18 @@ Base de dades (\texttt{bibim.db})                                           &3 d
 \hline
 
 
-Mï¿½dul principal (\texttt{bibim.main})                                       &8 dies     & 90\%\\
+Mòdul principal (\texttt{bibim.main})                                       &8 dies     & 90\%\\
 \tab Escaneig de fitxers                                                    &1 dia      & 95\%\\
-\tab Codi principal de l'aplicaciï¿½                                          &3 dies     & 95\%\\
+\tab Codi principal de l'aplicació                                          &3 dies     & 95\%\\
 \tab \textit{Threading}                                                     &2 dies     & 95\%\\
-\tab Validaciï¿½ de referï¿½ncies                                               &2 dies     & 75\%\\
+\tab Validació de referències                                               &2 dies     & 75\%\\
 \hline
 
 
-Interfï¿½cie d'usuari (\texttt{bibim.ui})                                     &4 dies     & \textbf{15\%}\\
+Interfície d'usuari (\texttt{bibim.ui})                                     &4 dies     & \textbf{15\%}\\
 \hline
 
-Memï¿½ria                                                                     & -         &\textbf{$\approx$ 10\%}\\
+Memòria                                                                     & -         &\textbf{$\approx$ 10\%}\\
 \hline
 
 
@@ -185,13 +185,13 @@ Memï¿½ria                                                                     & 
 \paragraph{}
 Alguns aspectes que cal comentar:
 \begin{itemize}
-\item{}La implementaciï¿½ de \textit{wrappers} a mï¿½ estï¿½ aturada. Aquests \textit{wrappers} seran substituï¿½ts si s'obtenen bons resultats amb la generaciï¿½ automï¿½tica.
+\item{}La implementació de \textit{wrappers} a mà està aturada. Aquests \textit{wrappers} seran substituïts si s'obtenen bons resultats amb la generació automàtica.
 
 \item{}
-El procï¿½s de \textit{parsing} ï¿½s necessari per poder validar els camps de la referï¿½ncia en aquells casos en que se s'ha extret el codi complet \BibTeX.
+El procés de \textit{parsing} és necessari per poder validar els camps de la referència en aquells casos en que se s'ha extret el codi complet \BibTeX.
 
 \item{}
-Els \textit{threads} s'utilitzen per poder processar mï¿½s d'un fitxer a la vegada. Per exemple, mentre s'estan esperant els resultats d'una cerca a Internet, es pot anar extraient el text d'un altre PDF.
+Els \textit{threads} s'utilitzen per poder processar més d'un fitxer a la vegada. Per exemple, mentre s'estan esperant els resultats d'una cerca a Internet, es pot anar extraient el text d'un altre PDF.
 \end{itemize}
 \end{document}
 
