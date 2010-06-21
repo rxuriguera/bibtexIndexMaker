@@ -50,16 +50,18 @@ class Extractor(object):
         return path.normpath(input_file)
         
     def extract(self, input_file):
-        raise NotImplementedError()
+        raise NotImplementedError
     
 
 class TextExtractor(Extractor):
-    
     """
     TextExtractor provides methods to extract text from other kind of 
     documents.  
     """
-
+    
+    def extract(self, input_file):
+        raise NotImplementedError
+        
 
 class PDFTextExtractor(TextExtractor):
     """
@@ -126,3 +128,20 @@ class PDFTextExtractor(TextExtractor):
             raise ExtractionError('Could not extract content') 
         document.content = raw_content
         
+class TXTTextExtractor(TextExtractor):
+    """
+    Implements TextExtractor methods to wrap the process of loading text 
+    documents.
+    """
+    
+    def extract(self, input_file):
+        input_file = self._check_input_file(input_file)
+        
+        document = Document()
+        file = open(input_file)
+        document.content = file.read()
+        file.close()
+        
+        return document
+    
+    
