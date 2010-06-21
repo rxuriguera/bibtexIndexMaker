@@ -19,7 +19,8 @@
 
 from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat)
-from bibim.rce.extraction import PDFTextExtractor
+from bibim.rce.extraction import (PDFTextExtractor,
+                                  TXTTextExtractor)
 from bibim.ir.search import (Searcher,
                              ScholarSearch,
                              BingSearch,
@@ -35,7 +36,8 @@ class UtilCreationError(Exception):
 
 class UtilFactory(object):
     
-    _extractors = {FileFormat.TXT:{FileFormat.PDF:PDFTextExtractor}}
+    _extractors = {FileFormat.TXT:{FileFormat.PDF:PDFTextExtractor,
+                                   FileFormat.TXT:TXTTextExtractor}}
     
     def create_extractor(self, source_format, target_format):
         if target_format in self._extractors.keys():
