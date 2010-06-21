@@ -85,7 +85,7 @@ class ReferenceValidator(Validator):
     try to check if the title of a publication is correct, but not its number 
     of pages.
     """
-    def __init__(self, weights={'title':0.75, 'authors':0.25}):
+    def __init__(self, weights={}):
         """
         Creates a ReferenceValidator. The parameters that have to be checked
         can be passed as a parameter.
