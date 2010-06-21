@@ -18,6 +18,7 @@
 
 import os.path
 
+
 class FileManager(object):  
     def get_files_list(self, path, ext=None):
         path = os.path.normpath(path)

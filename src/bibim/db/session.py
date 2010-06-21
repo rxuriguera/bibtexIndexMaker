@@ -23,23 +23,30 @@
 from sqlalchemy import create_engine #@UnresolvedImport
 from sqlalchemy.orm import sessionmaker #@UnresolvedImport
 
-
 from bibim.util.config import BibimConfig
 from bibim.db.mappers import Base #@UnresolvedImport
 
 metadata = Base.metadata #@UndefinedVariable
-
 session = None
 
-def create_session(sql_uri=BibimConfig().database):
+def create_session(sql_uri=BibimConfig().database, debug=False):
     """
     Creates a session.
     If 'global' is True creates a global session variable.
     """
     global session
-    if not session:
+    if not session or debug:
         engine = create_engine(sql_uri)
         metadata.create_all(engine)
-        Session = sessionmaker(bind=engine, autoflush=True, autocommit=False)
+        Session = sessionmaker(bind=engine, autoflush=True, autocommit=True)
         session = Session()
     return session
+
+def flush_changes():
+    global session
+    if not session:
+        return
+    session.flush()
+
+if __name__ == '__main__':
+    pass

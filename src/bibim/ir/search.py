@@ -22,87 +22,20 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker IR.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import re
 import urllib #@UnresolvedImport
-import time
-import random #@UnresolvedImport
 import simplejson #@UnresolvedImport
 
 from htmlentitydefs import name2codepoint #@UnresolvedImport
 
-from bibim import log
-from bibim.util import BeautifulSoup
-from bibim.util import Browser, BrowserError
+from bibim.ir.types import (DescSearchResult,
+                            ScholarSearchResult,
+                            SearchError,
+                            ParseError)
+from bibim.util.beautifulsoup import BeautifulSoup
+from bibim.util.browser import (Browser,
+                                BrowserError)
 
-
-class SearchError(Exception):
-    """
-    Base class for search exceptions.
-    """
-    def __init__(self, error):
-        self.error = error
-
-
-class ParseError(SearchError):
-    
-    """
-    Parse error in search results.
-    self.msg attribute contains explanation why parsing failed
-    self.tag attribute contains BeautifulSoup object with the most relevant tag
-    that failed to parse
-    Thrown only in debug mode
-    """
-     
-    def __init__(self, msg, tag):
-        self.msg = msg
-        self.tag = tag
-
-    def __str__(self):
-        return self.msg
-
-    def html(self):
-        return self.tag.prettify()
-
-
-class SearchResult(object):
-    
-    """
-    """
-    
-    def __init__(self, title, url):
-        self.title = title
-        self.url = url
-
-    def __str__(self):
-        return 'Search Result: "%s\n%s"' % (self.title, self.url)
-    
-    @property
-    def base_url(self):
-        return 'http://' + self.url.split('/')[2]    
-
-
-class DescSearchResult(SearchResult):
-    
-    """
-    """
-    
-    def __init__(self, title, url, desc):
-        super(DescSearchResult, self).__init__(title, url)
-        self.desc = desc
-
-
-class ScholarSearchResult(SearchResult):
-    
-    """
-    """
-    
-    def __init__(self, title, url, desc, authors=[], year=None, base=None):
-        super(ScholarSearchResult, self).__init__(title, url)
-        self.desc = desc
-        self.authors = authors
-        self.year = year
-    
 
 class Searcher(object):
     """
@@ -117,22 +50,24 @@ class Searcher(object):
         self.query = query
         self.debug = debug
         self.browser = Browser(debug=debug)
-        self.results_info = None
-        self.eor = False # end of results
-        self._page = 0
-        self._results_per_page = 10
-        self._last_from = 0
+        self.prepare()
 
         if random_agent:
             self.browser.set_random_user_agent() 
+
+    def prepare(self):
+        self.results_info = None
+        self.eor = False # end of results
+        self._page = 0
+        self._results_per_page = 30
+        self._last_from = 0
 
     def get_query(self):
         return self.__query
 
     def set_query(self, value):
         self.__query = value
-        self.eor = False
-        self.results_info = None
+        self.prepare()
         
     query = property(get_query, set_query)
             
@@ -533,8 +468,6 @@ class JSONSearch(Searcher):
         return DescSearchResult(title, url, desc) 
 
     def _extract_info(self, page):
-        empty_info = {'from': 0, 'to': 0, 'total': 0}
-        
         total = self._extract_field(page, self.total_path)
         from_result = self._extract_field(page, self.from_path)
         to_result = self._extract_field(page, self.to_path)
@@ -552,9 +485,11 @@ class JSONSearch(Searcher):
         for element in field.split('/'):
             try:
                 current = current[element]
-            except KeyError, e:
+            except KeyError:
                 self._maybe_raise(ParseError, ('Could not find field %s' % 
                                   field), root)
+                return None
+            except TypeError:
                 return None
         return current
 

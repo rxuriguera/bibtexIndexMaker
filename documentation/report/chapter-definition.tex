@@ -1,0 +1,230 @@
+\chapter{Definició del projecte}
+\label{chapter:definition}
+
+
+%%%% FUNCIONALITATS %%%%
+\section{Requeriments}
+A continuació es llisten totes les funcionalitats que l'aplicació haurà d'oferir a l'usuari. Cal comentar que aquests requeriments els hem establert nosaltres mateixos segons el que ens ha semblat més convenient.
+\begin{itemize}
+\item{}
+Extracció de les referències bibliogràfiques corresponents a un o més articles que es troben en fitxers PDF dins d'algun directori.
+
+\item{}
+Possibilitat d'exportar les referències extretes en format \BibTeX{} i desar-les a un fitxer \texttt{.bib}
+
+\item{}
+Generació automàtica de regles d'extracció a partir d'exemples.
+
+\item{}
+Importació de referències des d'un fitxer \texttt{.bib} per tal de poder-les fer servir d'exemples.
+
+\item{}
+Totes les operacions CRUD\footnote{\textit{Create}, \textit{read}, \textit{update} i \textit{delete}.} per la gestió de referències i regles d'extracció.
+\end{itemize}
+
+
+\section{L'estratègia plantejada}
+L'extracció de referències és l'objectiu principal de l'aplicació i les limitacions que hem trobat per fer-lo possible són les que han guiat el disseny de la resta del sistema. A continuació es pretén mostrar, a grans trets, el raonament seguit a l'hora de definir una estratègia amb certes garanties d'èxit. En un principi, la idea que vam plantejar per resoldre el problema de l'extracció de referències d'un document PDF era intentar agafar la informació de la referència bibliogràfica directament del fitxer, seguint alguns passos semblants als de la figura següent.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/definition:invalid-extraction-diagram.pdf}
+\caption{Primera idea per l'extracció de referències}
+\label{fig:definition:invalid-extraction-diagram}
+\end{center}
+\end{figure}
+
+Això presenta moltes limitacions. Per començar, hi ha la impossibilitat d'extreure informació que no es troba dins del text (e.g. el número de pàgines de l'article). Una altra és que la informació dins dels fitxers PDF no té una estructura prou clara com per poder distingir entre els diferents camps. Aquest segon problema es tracta amb més en detall al proper capítol.
+
+\paragraph{}
+La solució que hem trobat per poder seguir endavant consisteix a fer ús de les biblioteques digitals. Enlloc de consultar-les d'una en una, el que farem serà utilitzar cercadors que ens apuntaran a les pàgines que necessitem. Això permetrà cobrir totes aquelles biblioteques que estiguin indexades, sense haver-les de tractar cadascuna per separat. El diagrama actualitzat es mostra a la figura \ref{fig:definition:extraction-diagram}, però bàsicament, per cada fitxer s'apliquen aquests passos:
+\begin{enumerate}
+    \item{Extreu el contingut en forma de text.}
+    \item{Genera un llistat de consultes a partir del text extret.}
+    \item{Obté els resultats d'aquestes consultes amb algun cercador.}
+    \item{Mira d'extreure la referència de les pàgines retornades pel cercador.}
+    \item{Comprova que les dades de la referència realment corresponguin a l'article contingut pel fitxer. (Validació)}
+    \item{Dóna format a les dades de la referència.}
+\end{enumerate}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/definition:extraction-diagram.pdf}
+\caption{Esquema del procés a seguir per extreure una referència}
+\label{fig:definition:extraction-diagram}
+\end{center}
+\end{figure}
+
+El motiu que fa que aquest procediment es pugui implementar en el temps limitat del que disposem per la realització d'aquest projecte és que les dades ofertes per les biblioteques digitals està molt estructurada dins dels documents HTML. Com és lògic, tenen la informació emmagatzemada en bases de dades, i a l'hora de mostrar-la als usuaris, la formaten automàticament, sempre de la mateixa manera (amb algunes excepcions). Aquesta estructura fixa al llarg de les pàgines d'una mateixa biblioteca és el que realment simplifica la tasca d'extracció, ja que permet generar regles que funcionin en un percentatge molt alt dels casos.
+
+\paragraph{}
+Així doncs, hem de fer una mica més de tomb per poder aconseguir els resultats desitjats, però els passos són més senzills d'aplicar. El problema que teníem al principi ha quedat dividit en tres problemes més petits que tractarem per separat en els propers capítols:
+\begin{itemize}
+\item{}
+La cerca de les pàgines amb informació de l'article.
+\item{}
+Extracció de la referència d'aquestes pàgines.
+\item{}
+Generació de les regles d'extracció (les anomenarem \textit{wrappers})
+\end{itemize}
+
+
+\paragraph{}
+Pel que fa a l'arquitectura per la generació de les regles d'extracció o \textit{wrappers}, hem de comentar que està basada en la dels sistemes presentats a \cite{limanto05} i \cite{wang03}; es mostra a continuació:
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.75\textwidth]{figures/definition:wrapperinduction-architecture.pdf}
+\label{fig:definition:wrapperinduction-architecture}
+\end{center}
+\end{figure}
+
+Cal destacar que els detalls en la forma de generar les regles de tots dos articles citats són diferents a com ho fem nosaltres. Per exemple, a diferència d'ells, les nostres regles es generen utilitzant exemples seleccionats, cosa que fa que la creació de regles sigui molt més senzilla. Això no treu, però, que l'arquitectura de les diverses parts del sistema d'extracció d'informació sigui la mateixa: per un costat, un generador que crea les regles a partir de pàgines i les emmagatzema en una base de dades; per l'altre, \textit{wrappers} que, segons les regles generades, extreuen dades de les pàgines HTML que reben.
+
+\paragraph{}
+Un altre aspecte diferenciador és la manera d'obtenir les pàgines  d'Internet. Com ja hem dit, enlloc de tenir un \textit{crawler} que es va passejant per la xarxa, agafem les pàgines que ens interessen de forma més o menys directa, a partir dels resultats de cercadors. Aquesta tècnica també és la que fa servir el sistema {\sc KnowItAll} \cite{etzioni04}.
+
+%%%% BIBTEX %%%%
+\section{\BibTeX}
+\label{chapter:definition:section:bibtex}
+Ja hem esmentat que es tracta d'una eina de maneig de referències, però per poder entendre el nostre projecte també és convenient descriure la sintaxi del llenguatge que s'utilitza per definir aquestes referències. En el nostre cas farem servir el format \BibTeX{} per l'entrada de referències a l'importar-les i també per la sortida al generar els índexs bibliogràfics. Al llistat \ref{listing:exampleBibTeX} es mostra un exemple d'una referència d'un article científic. Aquí només se'n destaquen els detalls bàsics per comprendre aquest document, però es pot trobar una definició completa del format a \cite{Patashnik88bibtexing}.
+\begin{center}
+\begin{lstlisting}[caption={Referència expressada en \BibTeX}, label=listing:exampleBibTeX]
+@article{MoSh:27,
+  title = {Size direction games over the real line},
+  author = {Moran, Gadi and Shelah, M., Saharon},
+  journal = {Israel Journal of Mathematics},
+  pages = {442--449},
+  volume = {14},
+  year = {1973},
+}
+\end{lstlisting}
+\end{center}
+
+Així doncs, els aspectes a comentar sobre l'exemple són:
+\begin{itemize}
+\item{}
+La primera línia conté el tipus de document i un identificador. El primer defineix els camps obligatoris que s'han d'especificar, i el segon ens permetrà citar a la referència des d'un altre document. En el nostre cas només ens interessen les referències de tipus \textit{article} i, per tant,  haurem de definir, com a mínim, els camps \textit{author}, \textit{title}, \textit{journal} i \textit{year}, que són obligatoris.
+
+\item{}
+Es considera que el nom d'un autor o editor pot constar de quatre parts diferents: \textit{First}, \textit{von}, \textit{Last} i \textit{Jr.}. Es poden ordenar de diverses maneres, però nosaltres ho farem sempre igual: \texttt{<von> <last>, <middle>, <first>}. Cal separar múltiples noms amb la paraula \texttt{and}.
+
+\item{}
+L'últim camp d'una referència pot acabar o no amb una coma.
+\end{itemize}
+
+
+
+
+\section{Disseny del sistema}
+Hem estructurat el codi en diferents mòduls independents; es llisten a continuació:
+\begin{itemize}
+\item{\textit{Raw Content Extraction} (\texttt{rce}):}
+Agrupa totes les classes encarregades d'extreure el contingut dels documents PDF.
+
+\item{\textit{Information Retrieval} (\texttt{ir}):}
+Encarregat de comunicar-se amb els diferents cercadors suportats per obtenir pàgines que contenen informació de la referència que volem extreure.
+
+\item{\textit{Information Extraction} (\texttt{ie}):}
+Conté tot el codi que permet obtenir la referència a partir d'una pàgina HTML. A més, també és l'encarregat de generar nous \textit{wrappers}.
+
+\item{\textit{References} (\texttt{references}):}
+Per una banda fa un anàlisis sintàctic de les referències extretes per poder-les validar. Per l'altra, les transforma a \BibTeX{}.
+
+\item{Base de dades (\texttt{db}):}
+Tal i com indica el seu nom, duu a terme els accessos la base de dades.
+
+\item{\textit{Main} (\texttt{main}): }
+Enllaça tots els mòduls anteriors i proporciona punts d'entrada a la interfície d'usuari. Fa de façana del sistema.
+
+\item{\textit{Graphical User Interface} (\texttt{ui}):}
+Interfície d'usuari més o menys amigable.
+\end{itemize}
+
+La figura \ref{fig:module_diagram} mostra com interaccionen. Els mòduls que s'encarreguen de les operacions més bàsiques són independents entre ells. El mòdul \textit{main} utilitza aquestes operacions per definir el flux de la informació i ofereix serveis a la capa superior, la interfície d'usuari.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/module_diagram.pdf}
+\caption{Mòduls del sistema}
+\label{fig:module_diagram}
+\end{center}
+\end{figure}
+
+
+%%%% LLICÈNCIA %%%%
+\section{Llicència}
+L'aplicació es distribueix sota  una llicència lliure que permet als destinataris la possibilitat de copiar, modificar i redistribuir el codi. Concretament, hem escollit la \textit{General Public License} (GPL) v.3, que requereix que qualsevol treball derivat també es distribueixi amb les mateixes condicions. El text complet d'aquesta llicència es pot trobar a \cite{gpl3}, així com al fitxer \texttt{LICENSE} que acompanya el codi.
+
+\paragraph{}
+Qualsevol interessat pot agafar aquest projecte i modificar-lo, tan per afegir noves funcionalitats com per arreglar errors. La forma més fàcil de fer-ho és anar al repositori on es troba el projecte \cite{repo} i fer un \textit{fork}. D'aquesta manera, el nou codi sempre es podrà fusionar a la branca \textit{oficial}.
+
+\section{Llista de tasques}
+A continuació s'esmenten les tasques més importants que s'han dut a terme i alguns elements que s'han implementat durant la realització del projecte (tot i que algunes no han arribat fins al final). S'acompanyen amb una estimació del temps que ha estat necessari per completar-les i així donar una idea del pes de cadascuna d'elles:
+
+\begin{center}
+\begin{tabular}{|l r|}
+
+\hline
+\textbf{Tasca}                                                              & \textbf{Temps estimat}\\
+\hline
+\hline
+Recerca i proves de concepte                                                & \textbf{20 dies}\\
+\hline
+Configuració de la infraestructura                                          & \textbf{4 dies}\\
+\tab Repositori (\textit{GitHub}): Creació i estructura del projecte        & 1 dia\\
+\tab \textit{Build tracker}                                                 & 3 dies\\   
+\hline                                                                            
+Extracció del text dels PDF (\texttt{bibim.rce})                            & \textbf{8 dies}\\
+\tab Cerca d'eines i comparació de resultats                                & 5 dies\\
+\tab Codi de l'extracció                                                    & 3 dies\\
+\hline                                                                            
+Obtenció de pàgines amb la referència (\texttt{bibim.ir})                   & \textbf{13.5 dies}\\
+\tab Proves amb diferents cercadors i \textit{XGoogle} (veure l'apèndix \ref{appendix:libraries:xgoogle})                     & 4 dies\\
+\tab Obtenir consultes del text                                             & 1.5 dies\\
+\tab \textit{Browser} per obtenir pàgines de la Web                         & 2 dies\\
+\tab Codi per la cerca de les consultes                                     & 5 dies\\
+\tab Ordenació resultats de la cerca                                        & 1 dia\\   
+\hline                                                                            
+Extracció d'informació (\texttt{bibim.ie})                                  & \textbf{14 dies}\\
+\tab Anàlisi de l'estructura d'algunes biblioteques digitals disponibles    & 5 dies\\
+\tab Regles a mà per extreure referències senceres directament              & 3 dies\\
+\tab Regles a mà per extreure camps                                         & 2 dies\\                    
+\tab Validació de les referències extretes                                  & 4 dies\\
+\hline                                                                            
+Generació automàtica de \textit{wrappers} (\texttt{bibim.ie})               & \textbf{32.5 dies}\\
+\tab Extracció d'exemples                                                   & 1.5 dies\\
+\tab Validació dels exemples extrets                                        & 0.5 dies\\
+\tab \textit{Wrapper} genèric                                               & 0.5 dies\\
+\tab Generació automàtica de regles                                         & 27 dies\\
+\tab \tab Camps de valor únic                                               & 17 dies\\
+\tab \tab Camps multi valor                                                 & 10 dies\\
+\tab Avaluació de les regles generades                                      & 3 dies\\
+\hline                                                                            
+Tractament de referències (\texttt{bibim.references})                       & \textbf{5 dies}\\
+\tab \textit{Parsing}                                                       & 2 dies\\
+\tab Generació i format                                                     & 2 dies\\
+\tab Creació d'índexs                                                         & 1 dia\\
+\hline                                                                            
+Base de dades (\texttt{bibim.db})                                           & \textbf{5 dies}\\
+\tab Disseny                                                                & 1 dia\\
+\tab \textit{Mappers} amb SQLAlchemy                                        & 4 dies\\    
+\hline                                                                            
+Mòdul principal (\texttt{bibim.main})                                       & \textbf{11 dies}\\
+\tab Escaneig de fitxers                                                    & 1 dia\\
+\tab \textit{Threading}                                                     & 2 dies\\
+\tab Comunicació dels mòduls anteriors                                      & 8 dies\\
+\hline                                                                            
+Interfície d'usuari (\texttt{bibim.ui})                                     & \textbf{4 dies}\\
+\tab Editor de referències                                                  & 1.5 dies\\
+\tab Editor de \textit{wrappers}                                            & 1 dia\\
+\tab Resta de vistes                                                        & 1.5 dies\\ 
+\hline
+Proves                                                                      & \textbf{12 dies}\\
+\tab Col·leccionar PDF, HTML i \BibTeX{} de mostra                          & 3 dies\\
+\tab \textit{Scripts} per automatitzar                                      & 6 dies\\
+\tab Execució i anàlisi dels resultats                                      & 3 dies\\
+\hline
+\hline
+\end{tabular}
+\end{center}

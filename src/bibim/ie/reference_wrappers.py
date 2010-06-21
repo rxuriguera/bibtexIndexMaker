@@ -1,3 +1,4 @@
+
 # Copyright 2010 Ramon Xuriguera
 #
 # This file is part of BibtexIndexMaker. 
@@ -18,15 +19,20 @@
 
 import re
 
-from bibim.ie.wrappers import Wrapper
-from bibim.util import BeautifulSoup, Browser, BrowserError, ReferenceFormat
+from bibim import log
+from bibim.ie.types import Wrapper
+from bibim.util.beautifulsoup import BeautifulSoup
+from bibim.util.browser import (Browser,
+                                BrowserError)
+from bibim.util.helpers import ReferenceFormat
 
 
 class ReferenceWrapper(Wrapper):
     """
     Offers methods to extract complete references from som webpages
     """
-    _available_wrappers = {'http://portal.acm.org':'portal_acm'}
+    _available_wrappers = {'http://portal.acm.org':'portal_acm',
+                           'http://citeseerx.ist.psu.edu':'citeseerx'}
     _browser = Browser()
     
     def extract_info(self, source, page):
@@ -34,11 +40,11 @@ class ReferenceWrapper(Wrapper):
         Extracts a reference from the given page.
         """
         if source not in self._available_wrappers.keys():
+            log.debug('No reference wrapper available for source %s' % source) #@UndefinedVariable
             return (None, None)
         
         wrapper_method = getattr(self,
                                  '_do_' + self._available_wrappers[source])
-        
         return wrapper_method(source, page) 
 
     def get_available_wrappers(self):
@@ -50,6 +56,7 @@ class ReferenceWrapper(Wrapper):
         reference.
         Returns a tuple with the full reference and its format.
         """ 
+        log.info('Using ACM Portal reference wrapper') #@UndefinedVariable
         ref = (None, None)
         anchor = page.find('a', {'onclick':re.compile('popBibTex.cfm')})
         if not anchor:
@@ -61,13 +68,33 @@ class ReferenceWrapper(Wrapper):
         try:
             page = BeautifulSoup(self._browser.get_page(ref_url))
         except BrowserError:
+            log.error('Browse error while retrieving entry page') #@UndefinedVariable
             return ref
         
         pre = page.find('pre')
         if not pre:
             return ref
         
-        # As teh wrapper has been hardcoded, we already know what will be the
+        # As the wrapper has been hardcoded, we already know what will be the
         # format of the reference
         return (pre.find(text=True).strip(), ReferenceFormat.BIBTEX)
-       
+    
+    def _do_citeseerx(self, source, page):
+        """
+        Searches the page for a link to the reference, and then retrieves the
+        reference.
+        Returns a tuple with the full reference and its format.
+        """ 
+        log.info('Using CiteSeerX reference wrapper') #@UndefinedVariable
+        ref = (None, None)
+        
+        try:
+            ref_element = page.find('div', {'class':'content'},
+                                    text=re.compile('@\w*{'))
+            ref_element = ref_element.parent.findAll(text=True)
+            reference = ''.join(ref_element)
+        except Exception, e:
+            log.warn('Could not find reference in citeseerx page: %s' % e) #@UndefinedVariable
+            return ref
+        
+        return (reference.strip(), ReferenceFormat.BIBTEX)

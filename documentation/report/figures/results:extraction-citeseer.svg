@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="390.60001"
+   height="104.4"
+   id="svg4419"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="results:extraction-citeseer.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4421">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective4427" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective4103" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2719" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2435" />
+    <inkscape:perspective
+       id="perspective2844"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.56"
+     inkscape:cx="124.17604"
+     inkscape:cy="-36.682522"
+     inkscape:document-units="px"
+     inkscape:current-layer="capa1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="1025"
+     inkscape:window-x="1280"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata4424">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="capa1">
+    <g
+       id="g3959"
+       transform="matrix(0.7909045,0,0,0.7909045,11.37353,-104.04052)">
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Bold"
+         y="146.00351"
+         x="-14.665536"
+         id="text3565">
+        <tspan
+           style="font-size:8.14666557px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Bold"
+           x="-14.665536 -7.8304839 -3.6675353 0.40579468 4.992373 10.084033 13.701159 17.269394 21.008711 26.100382 30.173712 33.741947 36.275562 41.367233 49.073975 52.642223 57.733887 64.951828 68.699287 73.790962 76.324577 80.487511 87.232956 91.819527 97.685135 102.27171 112.35728 116.43061 120.59355 123.12716 125.66077 130.76874 133.30235 137.74228 144.61806 149.05801 154.14966 157.7179 162.30449 169.94606 174.38597 177.93793 185.57137 190.67931 194.29643 196.83005 201.92172"
+           y="146.00351"
+           sodipodi:role="line"
+           id="tspan3567">Reconstructingtherulesof1Dcellularautomatausing</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Bold"
+         y="156.15665"
+         x="61.586437"
+         id="text3569">
+        <tspan
+           style="font-size:8.14666557px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Bold"
+           x="61.586437 65.659775 68.209679 72.796242 76.413376 81.505035 85.244347 92.462311 96.079414 100.91855 104.53565 108.1039 112.28314 119.92471"
+           y="156.15665"
+           sodipodi:role="line"
+           id="tspan3571">closuresystems</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="174.54065"
+         x="13.750297"
+         id="text3577">
+        <tspan
+           style="font-size:6.1948657px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="13.750297 16.953039 20.025696 22.280621"
+           y="174.54065"
+           sodipodi:role="line"
+           id="tspan3579">Jos´</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="174.54065"
+         x="22.405134"
+         id="text3581">
+        <tspan
+           style="font-size:6.1948657px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="22.405134 27.311474 31.19565 34.943542 39.310925 42.383583 44.093361 46.825298"
+           y="174.54065"
+           sodipodi:role="line"
+           id="tspan3583">eL.Balc´</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="174.54065"
+         x="46.801125"
+         id="text3585">
+        <tspan
+           style="font-size:6.1948657px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="46.801125 49.873779 52.599522 55.672169 58.12534 62.077663 66.92205 69.647789 74.826691 80.005608 85.184509 89.681984 93.429878 98.268074 101.34071 103.79388 106.24706 107.95684 111.0295 114.10214 117.98634 121.05898 124.53431 130.06012 134.08676 137.15944 140.63477 142.33214 147.51106 151.53772"
+           y="174.54065"
+           sodipodi:role="line"
+           id="tspan3587">azar,GemmaC.Garriga,andPabloD´</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="174.54065"
+         x="152.1541"
+         id="text3589">
+        <tspan
+           style="font-size:6.1948657px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="152.1541 153.87009 156.96132 159.70564 161.76234 165.62794"
+           y="174.54065"
+           sodipodi:role="line"
+           id="tspan3591">ıaz-L´</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="174.54065"
+         x="165.57898"
+         id="text3593">
+        <tspan
+           style="font-size:6.1948657px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="165.57898 168.65164 172.33759 175.06334"
+           y="174.54065"
+           sodipodi:role="line"
+           id="tspan3595">opez</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="186.39761"
+         x="67.311058"
+         id="text3597">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="67.311058 70.574829 74.531059 78.283638 82.036194 87.693047 91.572906 93.894722 95.951759 98.273575 100.8856 102.92736 105.11679 109.8215 113.91011 115.95189 118.56392 121.49673"
+           y="186.39761"
+           sodipodi:role="line"
+           id="tspan3599">LARCAResearchGroup</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="192.5988"
+         x="36.782902"
+         id="text3601">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="36.782902 40.795143 43.116951 46.039577 48.63633 50.698463 52.750404 55.347168 59.705639 62.027451 64.827873 68.646629 71.579437 75.601868 78.870735 80.30658 82.628387 85.551018 88.147758 91.070396 93.667145 95.719093 98.315857 100.63764 104.51752 107.72019 110.6479 112.08376 114.13062 116.18255 118.50436 122.87812 125.19993 129.01358 130.92296 133.8456 135.41891 138.01569 140.06253 144.43629"
+           y="192.5988"
+           sodipodi:role="line"
+           id="tspan3603">DepartamentdeLlenguatgesiSistemesInform`</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="192.5988"
+         x="144.31709"
+         id="text3605">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="144.31709 146.91895 148.96581 150.40164 152.71327"
+           y="192.5988"
+           sodipodi:role="line"
+           id="tspan3607">atics</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="198.79996"
+         x="53.682652"
+         id="text3609">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="53.682652 57.638885 60.566601 62.002449 64.660309 66.971931 69.00351 71.050377 72.486214 74.533073 77.129837 80.948586 84.360023 86.961868 88.397728 89.833588 91.748047"
+           y="198.79996"
+           sodipodi:role="line"
+           id="tspan3611">UniversitatPolit`</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="198.79996"
+         x="91.844292"
+         id="text3613">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="91.844292 94.1661 96.487915 99.415619 100.85148 103.17329 107.60304 110.53077 114.54811 118.30067 120.89743 122.95448 125.55122 126.98708 129.91989 132.72031 135.37816"
+           y="198.79996"
+           sodipodi:role="line"
+           id="tspan3615">ecnicadeCatalunya</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="205.06935"
+         x="58.316063"
+         id="text3617">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="58.316063 62.068638 64.66539 69.044243 71.971954 74.899666 78.713348 82.659386 85.256149 87.323372 90.251076 93.448662 96.11161 98.708359 100.75521 103.68294 106.8856 109.81332 112.41008 113.84592 116.44269 119.03945 121.96716 126.39691 128.99367 130.76048"
+           y="205.06935"
+           sodipodi:role="line"
+           id="tspan3619">CampusNord,JordiSalgado1-3</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="211.27049"
+         x="69.082962"
+         id="text3621">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="69.082962 71.684807 74.286659 76.888496 79.490356 83.986313 87.672684 90.274529 92.306114 94.612633 96.919182 98.349945 100.95178 103.88459 106.48645 109.8215 112.7543 115.68201 118.27878 119.71464"
+           y="211.27049"
+           sodipodi:role="line"
+           id="tspan3623">08034Barcelona,Spain</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="217.47162"
+         x="51.093029"
+         id="text3625">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="51.093029"
+           y="217.47162"
+           id="tspan3627">{</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="217.47162"
+         x="53.682652"
+         id="text3629">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="53.682652 56.345596 59.008545 61.671497 64.334442 66.997391 69.660347 72.32328 74.986244 77.649193 80.312134 82.975082 85.638031 88.30098 90.963921 93.626884 96.289833 98.952774 101.61572"
+           y="217.47162"
+           sodipodi:role="line"
+           id="tspan3631">balqui,gcasas,pdiaz</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="217.47162"
+         x="104.17888"
+         id="text3633">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="104.17888"
+           y="217.47162"
+           id="tspan3635">}</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="217.47162"
+         x="106.76851"
+         id="text3637">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="106.76851"
+           y="217.47162"
+           id="tspan3639">@</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="217.47162"
+         x="110.85712"
+         id="text3641">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="110.85712 113.52007 116.18301 118.84596 121.50893 124.17187 126.83482 129.49776 132.16071 134.88475 137.5477"
+           y="217.47162"
+           sodipodi:role="line"
+           id="tspan3643">lsi.upc.edu</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="242.74553"
+         x="-13.302495"
+         id="text3645">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="-13.302495 -8.7403536 -5.400209 -3.0071158 -0.68531555 1.7739702 4.7016892 7.3646379 9.6864386"
+           y="242.74553"
+           sodipodi:role="line"
+           id="tspan3647">Abstract.</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="242.74553"
+         x="14.50118"
+         id="text3649">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="14.50118 19.480839 24.251745 26.563364 29.165215 32.098019 34.144882 35.580734 38.513538 40.825169 45.392395 47.439259 50.372063 55.142963 58.070679 60.102261 62.704105 65.636917 67.072777 69.384392 76.19706 78.79892 82.887535 84.323387 87.251106 89.562721 92.363144 94.410004 95.845856 97.429367 100.2196 101.65546 104.58826 109.70031 111.74717 114.67999 119.3796 121.41119 124.34399 125.77985 128.09146 132.65359 134.97542 137.57727 140.51007 142.09358 144.69542 146.72702 151.07021 152.50606 155.43889 160.6171 162.66396 165.59677 170.2964 171.73225 174.45628 176.76791 179.36975 183.3871 187.74557 190.34744 195.72934 198.33118 202.4198"
+           y="242.74553"
+           sodipodi:role="line"
+           id="tspan3651">Weconsidertheproblemofidentifyingtherulesconformingthelocalmapofa</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="248.94672"
+         x="-13.302495"
+         id="text3653">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="-13.302495 -10.990876 -8.6792459 -7.2433944 -5.8075423 -2.8747344 -1.4388822 1.1629664 5.3177819 7.9145379 10.847342 12.894198 15.496047 19.839252 22.441095 24.487959 27.0898 30.022614 33.566425 37.181511 41.539993 43.861794 46.652035 49.584843 51.020699 53.622551 55.654129 60.012604 62.059464 64.992264 69.284561 71.606369 74.208206 77.141014 79.742874 82.675674 84.111534 85.547379 86.983231 89.03009 90.46595 92.777573 96.998566 99.595329 103.20533 107.91004 110.22166 111.65752 114.25938 116.30623 119.23904 121.2859 123.59751 125.36942 128.30222 130.89897 132.94583 135.25746 140.23204 142.82878 144.26465 146.86649 149.46834 151.49991 152.93578 154.98264 157.91035 164.38185 165.96538 168.56723 172.72205 174.76889 177.69661 179.13246 183.1498 185.19666 187.79851 189.84537 192.6356 196.10814 199.87088 202.80368"
+           y="248.94672"
+           sodipodi:role="line"
+           id="tspan3655">cellularautomaton;weexplorethecapabilitiesofaclosure-basedalgorithmforthistask.The</tspan>
+      </text>
+      <text
+         style="font-size:6.81434679px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         y="255.14783"
+         x="-13.302495"
+         id="text3657">
+        <tspan
+           style="font-size:5.09168005px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+           x="-13.302495 -10.705731 -9.2698832 -6.6731277 -4.0763717 -2.0295157 -0.593656 1.4531962 4.3758225 10.368728 13.291354 15.888108 19.498108 22.563295 24.885105 27.206915 31.636675 34.559299 36.621429 38.94323 41.733475 43.169331 45.766087 48.688709 50.735565 52.171413 56.463707 59.386333 61.448456 63.907742 66.565605 68.887405 73.317162 75.369118 79.523926 80.959785 83.892593 86.214401 89.014824 91.066772 92.502617 94.075951 98.368225 100.96499 105.46094 108.0577 110.99052 113.04247 114.4783 118.85207 121.44883 124.44273 128.39897 130.99571 133.04259 135.96521 137.72693 139.16277 140.59863 143.26157 147.07526 148.64856 151.24532 153.29219 157.51828 160.44598 161.88184 166.10794 168.15988 170.22203 173.14465 176.95831 178.53165 181.12842 184.73842 186.78526 189.70787"
+           y="255.14783"
+           sodipodi:role="line"
+           id="tspan3659">algorithmhasbeenpreviouslyproventoidentifyanoptimalHorn-likeformulatrueforthe [...]</tspan>
+      </text>
+    </g>
+    <path
+       style="fill:#aeaeae;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 192.87037,42.2 L 192.87037,62.20001 L 207.87037,52.20001 L 192.87037,42.2 z"
+       id="path4007" />
+    <text
+       xml:space="preserve"
+       style="font-size:6.38451099px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Medium"
+       x="214.62053"
+       y="47.184978"
+       id="text4009"><tspan
+         sodipodi:role="line"
+         x="214.62053"
+         y="47.184978"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         id="tspan4029">@misc{Garriga_,</tspan><tspan
+         sodipodi:role="line"
+         x="214.62053"
+         y="55.165619"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         id="tspan4089">author = {Garriga, C., Gemma}</tspan><tspan
+         sodipodi:role="line"
+         x="214.62053"
+         y="63.146255"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         id="tspan4091">}</tspan><tspan
+         sodipodi:role="line"
+         x="214.62053"
+         y="71.126892"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         id="tspan4093" /><tspan
+         sodipodi:role="line"
+         x="214.62053"
+         y="79.107536"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         id="tspan4031" /><tspan
+         sodipodi:role="line"
+         x="214.62053"
+         y="87.088173"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+         id="tspan4033" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4257"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:cmr10;-inkscape-font-specification:cmr10 Medium"
+       transform="translate(-3.7116312,183.36979)"><flowRegion
+         id="flowRegion4259"><rect
+           id="rect4261"
+           width="531.42859"
+           height="127.14286"
+           x="-378.57144"
+           y="123.79076" /></flowRegion><flowPara
+         id="flowPara4263" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:11.07726192px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:CMU Serif;-inkscape-font-specification:CMU Serif Medium"
+       x="272.31754"
+       y="155.52844"
+       id="text2758"><tspan
+         sodipodi:role="line"
+         x="272.31754"
+         y="155.52844"
+         id="tspan2784" /></text>
+  </g>
+</svg>

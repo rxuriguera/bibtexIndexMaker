@@ -1,0 +1,104 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{url} 
+\usepackage{color}
+\usepackage{lscape}
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,                  % sets default tabsize to 2 spaces
+    captionpos=b,               % sets the caption-position to bottom
+    frame=single,
+    xleftmargin=3em,
+    xrightmargin=3em,
+    backgroundcolor = \color{lightgrey}
+}        
+
+
+\title{BibTeX Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{25-03-2010}
+
+\setlength{\parindent}{0in}
+\definecolor{lightgrey}{gray}{0.85}
+
+\begin{document}
+\maketitle
+
+\section{Comentar informe}
+
+\section{Wrapper induction}
+Tenir com a mínim dos exemples de la pàgina etiquetats. Per nosaltres, les etiquetes seran aquells trossos d'informació que ens interessa extreure. 
+
+\begin{itemize}
+\item{Posició relativa dins del document:}\\
+Calculem la posició \textit{bottom-up}, des de les fulles i fins on sigui necessari. Si no necessitem arribar a l'arrel per identificar l'element, no ho farem.
+
+\begin{center}
+\begin{lstlisting}
+[(u'table', {u'width': u'100%'}, 7), (u'tr', {}, 0)]
+\end{lstlisting}
+\end{center}
+
+A l'hora de crear el \textit{path} es podria mirar d'utilitzar el número de \textit{sibling} per desambiguar. (Ara per ara, aquest número es posa a la llista, però no es té en compte per determinar si l'element passa a ser únic). Això permetria tenir rutes més curtes i poder estalviar passos a l'hora d'obtenir l'element.
+\\
+\\
+Utilitzarem tant etiquetes com atributs. Tots els atributs, excepte aquells que sabem que poden variar entre document i document del mateix lloc web, per \texttt{onclick} o \texttt{href}. Els que segurament ens seran més útils són \texttt{id} i \texttt{class} ja que no variaran entre document i document del mateix lloc web i són molt comuns ja que avui en dia gairebé tots els llocs web utilitzen CSS.
+\item{Posició relativa dins de l'element:}\\
+De la mateixa manera que WHISK (Stephen Soderland 1999), si el contingut de l'element no només conté la peça d'informació que estem buscant, l'haurem d'extreure utilitzant expressions regulars.
+\\
+\\
+Podem crear aquestes expressions regulars mirant la resta de contingut de l'etiqueta. Comencem agafant el fragment d'informació que ens interessa i mirem si està acompanyat d'altres caràcters. Si és així, agafem els caràcters del voltant. Finalment creem l'expressió regular.
+Per exemple, pels següents camps:
+\begin{itemize}
+\item{}
+Info: \texttt{2007}\\
+Text complet: \texttt{Year of Publication:\&nbsp;2007}\\
+Regex: \texttt{p;(.*)}\\
+
+\item{}
+Info: \texttt{0925-2312}\\
+Text complet: \texttt{ISSN:0925-2312}\\
+Regex: \texttt{N:(.*)}\\
+
+\item{}
+Info: \texttt{2668-2678}\\
+Text complet: \texttt{Pages: 2668-2678\&nbsp;\&nbsp;}\\
+Regex: \texttt{: (.*)\&n}
+\end{itemize}
+
+
+Tot i funcionar la majoria de vegades, ens podem trobar en que els caràcters que envolten la informació que ens interessa també variïn entre pàgina i pàgina. Per això cal comparar l'expressió regular que hem obtingut amb la resta d'exemples disponibles.
+\\
+\\
+Una altra manera de fer això podria ser agafant directament el text del mateix element corresponent a diferents exemples i comparant-los. Així també podríem saber si el text sempre te la mateixa llargada, o bé si es tracta de números.
+\end{itemize}
+
+\subsection{\textit{Wrapper} genèric}
+El conjunt de regles necessàries per cada pàgina s'emmagatzemaran a la base de dades. Tindrem un \textit{wrapper} genèric que a partir de les rutes i expressions regulars de cada element, podrà extreure la informació.
+
+\begin{landscape}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.3]{figures/wrapper_induction.pdf}
+\caption{Diagrama de seqüència}
+\end{center}
+\end{figure}
+\end{landscape}
+\end{document}
+
+

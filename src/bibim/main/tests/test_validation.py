@@ -19,35 +19,17 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.main.validation import ReferenceValidator
-from bibim.references import Reference
+from bibim.main.validation import (ReferenceValidator,
+                                   ValidatorFactory,
+                                   WithinTextValidator,
+                                   RegexValidator)
+from bibim.references.reference import Reference
 
 class TestReferenceValidator(unittest.TestCase):
 
     def setUp(self):
-        self.rv = ReferenceValidator(fields=['title', 'author'])
-        self.text = """
-        Neurocomputing 35 (2000) 3}26
+        self.rv = ReferenceValidator(weights={'title':0.75, 'author':0.25})
 
-        Class separability estimation and incremental learning using 
-        boundary methods Jose-Luis Sancho *, William E. Pierson , 
-        Batu Ulug , H AnmH bal R. Figueiras-Vidal , Stanley C. Ahalt 
-        ATSC-DI, Escuela Politecnica Superior. Universidad Carlos III 
-        Leganes-Madrid, Spain & & Department of Electrical Engineering, 
-        he Ohio State University Columbus, OH 43210, USA Received 7 
-        January 1999; revised 5 April 1999; accepted 10 April 2000
-
-        Abstract In this paper we discuss the use of boundary methods 
-        (BMs) for distribution analysis. We view these methods as tools 
-        which can be used to extract useful information from sample 
-        distributions. We believe that the information thus extracted has 
-        utility for a number of applications, but in particular we discuss 
-        the use of BMs as a mechanism for class separability estimation and 
-        as an aid to constructing robust and e$cient neural networks (NNs) 
-        to solve classi"cation problems. In the "rst case, BMs can 
-        establish the utili...
-        """
-        
     def tearDown(self):
         pass
 
@@ -55,30 +37,62 @@ class TestReferenceValidator(unittest.TestCase):
         correct_ref = Reference()
         correct_ref.set_field('author', [{'first_name':'Jose-Luis',
                                           'last_name':'Sancho',
-                                          'middle_name':''}])
+                                          'middle_name':''}], True)
         correct_ref.set_field('title', ('Class separability estimation and '
-            'incremental learning using boundary methods'))        
+            'incremental learning using boundary methods'), True)        
         
-        self.rv.validate_reference(correct_ref, self.text)
-        self.failUnless(correct_ref.is_valid())
-    
-    def test_validate_missing_fields_reference(self):
-        missing_field_ref = Reference()
-        missing_field_ref.set_field('title', ('Class separability estimation '
-            ' and incremental learning using boundary methods'))
-        
-        self.rv.validate_reference(missing_field_ref, self.text)
-        self.failUnless(not missing_field_ref.is_valid())
+        self.rv.validate(correct_ref)
+        self.failUnless(correct_ref.validity == 1.0)
 
     def test_validate_incorrect_reference(self):
         incorrect_ref = Reference()
-        incorrect_ref.set_field('title', ('some arbitrary text'))
+        incorrect_ref.set_field('title', ('some arbitrary text'), False)
         incorrect_ref.set_field('author', [{'first_name':'Jose-Luis',
                                             'last_name':'Sancho',
-                                            'middle_name':''}])
-        self.rv.validate_reference(incorrect_ref, self.text)
-        self.failUnless(not incorrect_ref.is_valid())
+                                            'middle_name':''}], True)
+        self.rv.validate(incorrect_ref)
+        self.failUnless(incorrect_ref.validity < 0.5)
 
+
+class TestRegexValidator(unittest.TestCase):
+    def setUp(self):
+        self.validator = RegexValidator('(\d{4})')
+    
+    def test_validate(self):
+        result = self.validator.validate('2003')
+        self.failUnless(result)
+        
+        result = self.validator.validate('abcd')
+        self.failIf(result)
+
+
+class TestWithinTextValidator(unittest.TestCase):
+    def setUp(self):
+        self.validator = WithinTextValidator()
+        
+    def test_validate(self):
+        result = self.validator.validate('apple', 'I like apples')
+        self.failUnless(result)
+        
+        result = self.validator.validate('apple', 'I am a PC')
+        self.failIf(result)
+
+class TestValidatorFactory(unittest.TestCase):
+    
+    def test_create_validator(self):
+        validator = ValidatorFactory.create_validator('WithinTextValidator')
+        self.failUnless(validator.__class__.__name__ == 'WithinTextValidator')
+        
+        validator = ValidatorFactory.create_validator('RegexValidator', 'ptrn')
+        self.failUnless(validator.__class__.__name__ == 'RegexValidator')
+        self.failUnless(validator.pattern == 'ptrn')
+        
+        validator = ValidatorFactory.create_validator('RegexValidator',
+                                                      *['ptrn2'])
+        self.failUnless(validator.__class__.__name__ == 'RegexValidator')
+        self.failUnless(validator.pattern == 'ptrn2')
+        
+        pass
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

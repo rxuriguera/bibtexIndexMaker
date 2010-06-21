@@ -74,7 +74,7 @@ class PoolHTTPHandler(urllib2.HTTPHandler):
 
 
 class Browser(object):
-    def __init__(self, user_agent=BROWSERS[0], debug=False, use_pool=False):
+    def __init__(self, user_agent=BROWSERS[1], debug=False, use_pool=False):
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language': 'en-us,en;q=0.5',

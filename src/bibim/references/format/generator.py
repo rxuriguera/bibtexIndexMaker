@@ -16,10 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import #@UnresolvedImport
 import os
+import random #@UnresolvedImport
 
-from bibim.util import ReferenceFormat
+from bibim.util.helpers import ReferenceFormat
 
 class ReferenceFormatGenerator(object):
     
@@ -66,6 +66,10 @@ class ReferenceFormatGenerator(object):
 
     def generate_pages(self):
         pass
+    
+    def generate_default(self):
+        pass
+    
     format = property(get_format, None, None, None)
 
 
@@ -90,7 +94,7 @@ class BibtexGenerator(ReferenceFormatGenerator):
         reference.
         """
         self._type = 'article'
-        self._id = 'refid'
+        self._id = self._random_refid()
         self.setup_new_reference()     
 
     def _get_id(self):
@@ -108,13 +112,21 @@ class BibtexGenerator(ReferenceFormatGenerator):
     id = property(_get_id, _set_id)
     type = property(_get_type, _set_type)
    
+    def _random_refid(self):
+        refid = ''
+        for i in range(5): #@UnusedVariable
+            refid = ''.join([refid, random.choice('0123456789ABCDEF')])
+        return refid
+
     def setup_new_reference(self):
-        self._temp_ref = {'header':'@article{refid,',
+        self.run_key_order = list(self._key_order)
+        self._temp_ref = {'header':'@article{%s,' % self._random_refid(),
                           'footer':'}'}
         
     def get_generated_reference(self):
         reference = self._temp_ref['header'] + os.linesep
-        for key in self._key_order:
+        
+        for key in self.run_key_order:
             if self._temp_ref.has_key(key):
                 reference += self._temp_ref[key] + os.linesep
         reference = reference.rstrip(' ,' + os.linesep)
@@ -130,7 +142,10 @@ class BibtexGenerator(ReferenceFormatGenerator):
         # In Bibtex, the header depends on the type, so we have to generate it
         self.generate_header()
 
-    def generate_reference_id(self, reference_id='refid'):
+    def generate_reference_id(self, reference_id=''):
+        if not reference_id:
+            reference_id = self._random_refid()
+            
         self.id = reference_id
         # In Bibtes, the header depends on the reference id, so we have to 
         # generate it again.
@@ -167,3 +182,7 @@ class BibtexGenerator(ReferenceFormatGenerator):
     
     def _in_braces_value(self, key, value):
         self._temp_ref[key] = key + ' = {' + value + '},'
+    
+    def generate_default(self, field_name='', value=''):
+        self.run_key_order.append(field_name)
+        self._in_braces_value(field_name, value)

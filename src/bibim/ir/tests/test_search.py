@@ -19,7 +19,7 @@ import unittest #@UnresolvedImport
 from os.path import join, dirname, normpath
 import simplejson #@UnresolvedImport
 
-from bibim.util import BeautifulSoup
+from bibim.util.beautifulsoup import BeautifulSoup
 from bibim.ir.search import (GoogleSearch,
                              ScholarSearch,
                              BingSearch,
@@ -28,7 +28,6 @@ from bibim.ir.search import (GoogleSearch,
 
 
 class TestGoogleSearch(unittest.TestCase):
-
     def setUp(self):
         self.gs = GoogleSearch('query text')
         fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
@@ -47,7 +46,6 @@ class TestGoogleSearch(unittest.TestCase):
 
 
 class TestScholarSearch(unittest.TestCase):
-    
     def setUp(self):
         self.ss = ScholarSearch('query text')
         fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
@@ -86,7 +84,6 @@ class TestScholarSearch(unittest.TestCase):
         
         
 class TestBingSearch(unittest.TestCase):
-     
     def setUp(self):
         self.bs = BingSearch('query text')
         fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
@@ -114,7 +111,6 @@ class TestBingSearch(unittest.TestCase):
 
 
 class TestYahooSearch(unittest.TestCase):
-     
     def setUp(self):
         self.ys = YahooSearch('"query text"')
         fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'
@@ -139,8 +135,8 @@ class TestYahooSearch(unittest.TestCase):
                                        '/message/21494?l=1'))
         self.failUnless(result.desc.startswith('Re: <b>Some query'))
 
+
 class TestGoogleJSNSearch(unittest.TestCase):
-     
     def setUp(self):
         self.gjs = GoogleJSONSearch('"query text"')
         fixture_path = normpath(join(dirname(__file__), ('../../../../tests/'

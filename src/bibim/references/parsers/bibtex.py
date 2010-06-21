@@ -88,7 +88,8 @@ class BibtexParser(BibliographyParser):
         source = '\n'.join(sourcelns)
         for macro in macros:
             split_on = re.compile('[{=}]+')
-            matches = [m for m in split_on.split(macro) if m not in ['', ' ', '\r']]
+            matches = [m for m in split_on.split(macro) if m not in ['', ' ',
+                                                                     '\r']]
             short = matches[1].strip()
             long = matches[-1].strip()
             old = re.compile("\\b" + short + "\\b")
@@ -127,7 +128,8 @@ class BibtexParser(BibliographyParser):
                 if waiting_for_first_brace and (braces_nesting_level == 1):
                     waiting_for_first_brace = False
 
-                if (braces_nesting_level == 0) and not waiting_for_first_brace and (char == '}'):
+                if ((braces_nesting_level == 0) and not waiting_for_first_brace 
+                    and (char == '}')):
                     inside_entry = False
                     newsource = newsource + "\n"
         return newsource

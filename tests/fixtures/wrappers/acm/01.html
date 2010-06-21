@@ -1,0 +1,2102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+
+
+	
+		
+		
+
+
+ 
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+ 		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.note-header-text {font-family: Times, Times New Roman, serif;
+		color:#ff0000; font-size: .95em;
+		margin-left: .75em; margin-right: .75em;}
+</style> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+
+
+
+		
+	
+	
+  		
+		
+	
+
+
+
+
+
+
+
+
+  	 
+     
+
+
+
+	
+	
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+	
+		
+		
+   	 
+
+
+
+
+ 	
+ 	
+	
+
+
+
+
+
+<link rel="STYLESHEET" type="text/css" href="acm01_files/dl.css">
+
+
+<title>Estimation of rotor angles of synchronous machines using artificial neural networks and local PMU-based quantities</title>
+<style type="text/css"><!--
+    body {margin-left: 0em; margin-top: 0}
+    a:link {text-decoration: underline; 	Color: #006699;}
+    a:visited  { color: #990033; text-decoration: underline;}
+    a:hover {color: red; text-decoration: none}
+    a.dLink1:link {color:#336699}
+    a.dLink1:visited {color:#666666}
+	a.isblack:link {text-decoration: underline; 	Color: #000000;}
+    a.isblack:visited  { color: #000000; text-decoration: underline;}
+    a.isblack:hover {color: #000000; text-decoration: none}
+    h1 {font-size: 140%; margin-bottom: 0}
+	ul {margin-top: .25em; list-style-type: disc}
+	ol {margin-top: .25em;}
+	li {padding-bottom: .25em}
+    h2 {color: white; background-color: #069; 
+        font-size: 100%; padding-left: 1em;
+		margin: 0}
+	h3 {color: black; background-color: yellow; 
+    	font-size: 100%;
+		margin: 0}
+	 h4 {color: black; background-color: #99c5e8; 
+        font-size: 100%;
+		margin: 0}
+    hr {color: #39176d;}
+    form {margin-top: 10}
+    form.xrs {margin-top: 0}
+	
+	a {text-decoration: none; }
+	
+	input {font-size: 1em;}
+	.chevron {color: #ff0000;}
+	.light-blue {color:#336699;}
+	.black {color:#000000;}
+	
+	/* ### standard text styles, smallest to largest ### */
+	
+	.footer-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#336699; font-size: .75em; line-height: 1.33em;
+		text-indent: -.75 em; margin-left: 2em; margin-right: .75em;}
+		
+	.footer-copy-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .75em; line-height: 1.3em;
+		margin-left: .75em; margin-right: .75em;}
+		
+	.small-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em; padding-bottom : 2px;
+	  	padding-top : 2px;}
+
+	.smallerer-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .65em;}
+	.smaller-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .75em;}		
+	.small-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em;}
+	.small-textb {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em; font-weight: bold;}
+	.medium-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: 1em;}
+	.mediumb-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: 1em; font-weight: bold;}
+	.large-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: 1.3em;}		
+	.instr-text {font-family: Arial, Helvetica, sans-serif;
+		color:#666666; font-size: .83em;}
+		
+	.list-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#336699; font-size: .83em; line-height: 1.3em;}
+	.list-link-btext {font-family: Arial, Helvetica, sans-serif;
+		color:#000000; font-size: .83em; line-height: 1.3em;}
+	
+	.searchbox-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000066; font-size: 1em; font-weight: bold;}
+	.footer-header-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000066; font-size: 1em; font-weight: bold;
+		margin-left: .75em; margin-right: .75em;}
+	.medium-link-text {font-family: Arial, Helvetica, sans-serif;
+		color:#000066; font-size: 1em; font-weight: bold; line-height: 1em;
+		text-indent: -1.25em; margin-left: 2em; margin-right: .75em;}
+	
+	
+	.small-copy-text {font-family: Times, Times New Roman, serif;
+		color:#000066; font-size: .75em; line-height: 1.2em;
+		margin-left: .75em; margin-right: .75em;}
+
+	.medium-copy-text {font-family: Times, Times New Roman, serif;
+		color:#000066; font-size: 1em; line-height: 1.2em;
+		margin-left: .75em; margin-right: .75em;}
+	
+	.large-copy-text {font-family: Times, Times New Roman, serif;
+		color:#000066; font-size: 1.3em; line-height: 1.5em;
+		margin-left: .75em; margin-right: .75em;}
+	
+	.medium-header-text {font-family: Times, Times New Roman, serif;
+		color:#ff0000; font-size: 1em;
+		margin-left: .75em; margin-right: .75em;}
+	
+	.large-header-text {font-family: Times, Times New Roman, serif;
+		color:#ff0000; font-size: 1.5em;
+		margin-left: .75em; margin-right: .75em;}
+
+		#side {
+			width: 10px;
+			float: left;
+			margin-left: -1px;
+			padding: 2px;
+			}
+							
+		#content {
+			padding: 2px;
+			margin-left: 25px;
+			
+		        
+		        }
+  --></style>
+ 
+<script language="JavaScript">
+ /* <!-- Begin
+	if(document.layers || document.all) {
+	a = 1;
+	setInterval("Jump()", 10);
+	}
+	function Jump() {
+	a = a + 1;
+	//self.moveBy((Math.random() * a * 2 - a), (Math.random() * a * 2) - a);
+	}
+//  End --> */
+</script>
+
+
+
+
+
+
+
+
+	
+	
+  
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+	 
+	
+	
+	
+	
+	
+	
+
+
+
+ 
+ 
+
+
+
+
+
+	
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+<style type="text/css" charset="utf-8">/* See license.txt for terms of usage */
+
+#firebugBody {
+    position: fixed;
+    top:0;
+    left:0;
+    margin:0;
+    padding:0;
+    width:1px;
+    height:1px;
+    overflow:visible;
+}
+
+.firebugCanvas {
+    position:fixed;
+    top: 0;
+    left: 0;
+    display:none;
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+.firebugHighlight {
+    z-index: 2147483647;
+    position: absolute;
+    background-color: #3875d7;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0 none;
+}
+
+.firebugLayoutBoxParent {
+    z-index: 2147483647;
+    position: absolute;
+    background-color: transparent;
+    border-top: 0 none;
+    border-right: 1px dashed #BBBBBB;
+    border-bottom: 1px dashed #BBBBBB;
+    border-left: 0 none;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+.firebugRuler {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0 none;
+}
+
+.firebugRulerH {
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 14px;
+    background: url(chrome://firebug/skin/rulerH.png) repeat-x;
+    border-top: 1px solid #BBBBBB;
+    border-right: 1px dashed #BBBBBB;
+    border-bottom: 1px solid #000000;
+}
+
+.firebugRulerV {
+    top: 0;
+    left: -15px;
+    width: 14px;
+    height: 100%;
+    background: url(chrome://firebug/skin/rulerV.png) repeat-y;
+    border-left: 1px solid #BBBBBB;
+    border-right: 1px solid #000000;
+    border-bottom: 1px dashed #BBBBBB;
+}
+
+.overflowRulerX > .firebugRulerV {
+    left: 0;
+}
+
+.overflowRulerY > .firebugRulerH {
+    top: 0;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBox {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    outline: 0;
+}
+
+.firebugLayoutBoxOffset {
+    z-index: 2147483647;
+    position: absolute;
+    opacity: 0.8;
+}
+
+.firebugLayoutBoxMargin {
+    background-color: #EDFF64;
+}
+
+.firebugLayoutBoxBorder {
+    background-color: #666666;
+}
+
+.firebugLayoutBoxPadding {
+    background-color: SlateBlue;
+}
+
+.firebugLayoutBoxContent {
+    background-color: SkyBlue;
+}
+
+/*.firebugHighlightGroup .firebugLayoutBox {
+    background-color: transparent;
+}
+
+.firebugHighlightBox {
+    background-color: Blue !important;
+}*/
+
+.firebugLayoutLine {
+    z-index: 2147483647;
+    background-color: #000000;
+    opacity: 0.4;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0 none;
+}
+
+.firebugLayoutLineLeft,
+.firebugLayoutLineRight {
+    position: fixed;
+    width: 1px;
+    height: 100%;
+}
+
+.firebugLayoutLineTop,
+.firebugLayoutLineBottom {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+}
+
+.firebugLayoutLineTop {
+    margin-top: -1px;
+    border-top: 1px solid #999999;
+}
+
+.firebugLayoutLineRight {
+    border-right: 1px solid #999999;
+}
+
+.firebugLayoutLineBottom {
+    border-bottom: 1px solid #999999;
+}
+
+.firebugLayoutLineLeft {
+    margin-left: -1px;
+    border-left: 1px solid #999999;
+}
+</style></head><body onload="window.focus(); " bgcolor="#ffffff">
+<div align="center">
+<a name="CIT"></a>
+<table border="0" cellpadding="0" cellspacing="0" width="85%">
+<tbody><tr>
+<td>
+
+
+	
+		
+				
+				
+					
+				  
+		
+	 
+
+
+
+
+
+
+
+
+		
+
+	
+
+
+
+	
+
+
+	
+
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr valign="top">
+		<td class="small-link-text" align="center" background="acm01_files/horiz-bar.jpg" width="1%"><img src="acm01_files/logo_acm_portal2.jpg" alt="ACM Portal" usemap="#PORT" border="0" width="263" height="54">
+			
+			
+		</td>
+		<td class="small-link-text" align="left" width="99%">
+			<table border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td>&nbsp;</td>
+				
+					<td class="small-link-text"><a href="https://campus.acm.org/Public/login_genpubqj.cfm?rdr=http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584&amp;promo=QJPUB&amp;offering=200&amp;form_type=PUB&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">Subscribe</a><span class="small-link-text">&nbsp;(Full Service)</span>&nbsp;&nbsp;&nbsp;</td>
+					<td class="small-link-text"><a href="https://portal.acm.org/poplogin.cfm?dl=GUIDE&amp;coll=Portal&amp;want_href=citation%2Ecfm%3Fid%3D1316076%2E1316105%26coll%3DPortal%26dl%3DGUIDE%26CFID%3D77133158%26CFTOKEN%3D85956584&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">Register</a><span class="small-link-text">&nbsp;(Limited Service, <font color="Red">Free</font>)</span>&nbsp;&nbsp;&nbsp;</td>
+				
+				<td class="small-link-text" valign="bot">
+					
+					
+		 					<a href="https://portal.acm.org/poplogin.cfm?dl=GUIDE&amp;coll=Portal&amp;want_href=citation%2Ecfm%3Fid%3D1316076%2E1316105%26coll%3DPortal%26dl%3DGUIDE%26CFID%3D77133158%26CFTOKEN%3D85956584&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">Login</a>
+					
+				</td>			
+			</tr>
+			</tbody></table>
+			
+			
+			
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				
+					
+					
+					     
+					
+					<form name="qiksearch" action="results.cfm?coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" method="post"></form>
+					<tbody><tr>
+						<td height="5"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+					</tr>
+					<input name="parser" value="Internet" type="hidden">
+					<tr>
+						<td class="small-link-text">&nbsp;</td>
+						<td class="small-link-text">
+							 
+							  	
+							
+							
+							
+							<b>Search:</b>&nbsp;&nbsp;&nbsp;<input name="whichDL" value="acm" type="radio">The ACM Digital Library&nbsp;&nbsp;&nbsp;<input name="whichDL" value="guide" checked="checked" type="radio">The Guide
+
+							
+							<br><input class="pubdescr" name="query" size="60" value=" " type="text">&nbsp;&nbsp;
+							<input alt="Search" name="Go" src="acm01_files/search_small.jpg" border="0" type="image">
+<script type="text/javascript" src="acm01_files/wz_tooltip.js"></script> 
+
+
+						</td>
+					</tr>
+
+					
+				
+			</tbody></table>
+
+			
+		</td>
+	<!-- top nav END -->
+	</tr>
+	</tbody></table>
+	
+
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td height="12"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	</tbody></table>
+
+<map name="PORT"> 
+  <area shape="rect" coords="1,1,55,60" href="http://www.acm.org/" alt="ACM Home Page">
+  <area shape="rect" coords="65,1,300,78" href="http://portal.acm.org/portal.cfm?coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584">
+</map>
+
+	
+
+<table align="left" border="0" width="100%">
+	<col width="40%">
+	<col width="60%">
+	<tbody><tr>
+		<td>
+			
+				<a href="http://portal.acm.org/guide.cfm?coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584"><img src="acm01_files/acm_guide_bar_large2.jpg" alt="" border="0" width="350" height="25"></a>
+			
+		</td>
+ 		<td class="small-text" align="center">
+			<img src="acm01_files/feedback.gif" alt="Please provide us with feedback." border="0" width="20" height="19">&nbsp;<a href="http://portal.acm.org/feedback.cfm?CFID=77133158&amp;CFTOKEN=85956584">Feedback</a>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="medium-text" style="padding-top: 20px; padding-bottom: 20px;" height="6">
+         <a title="beta version" href="http://portal.acm.org/beta/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584"><img style="vertical-align: middle;" src="acm01_files/ACMDL_Symbol_new.jpg" alt="Digital Library logo" border="0"></a>Take a look at the new version of this page: [ <a title="beta version" href="http://portal.acm.org/beta/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584">beta version</a> ]. 
+        Tell us what you think.
+		</td>
+	</tr>
+</tbody></table>
+</td>
+</tr>
+
+
+ 	
+
+
+
+
+<tr>
+	<td colspan="3" background="acm01_files/horiz-bar-long.jpg" valign="top" height="1"></td>
+</tr>
+
+
+
+
+
+<tr>
+<td class="small-text">
+	<table border="0" cellpadding="2" width="100%">
+		<col width="1%">
+		<col width="8%">
+		<col width="91%">
+	<tbody><tr>
+		<td class="medium-text" colspan="3"><strong>Estimation of rotor angles of synchronous machines using artificial neural networks and local PMU-based quantities</strong></td>
+	</tr>
+			
+	
+		<tr valign="top">
+			
+			
+		</tr>
+		
+		
+		
+		
+		<tr valign="top">
+			
+            
+            
+                
+            
+                
+            
+            
+            
+            
+		</tr>
+
+		<tr valign="top">
+			<td class="small-text"><strong>Source</strong>
+				
+				
+						
+				
+				
+					
+
+					
+				
+				
+			</td>
+			<td class="small-text" colspan="2">
+			
+								
+										
+											
+											
+										
+											
+											
+										
+											
+											
+												
+										
+											
+											
+											
+											
+											
+											
+												
+												
+												
+													
+													
+												
+											
+											
+											
+													
+													
+													
+												    
+													
+														
+														
+															
+													
+														
+														
+														
+														
+														
+														<span class="mediumb-text">Neurocomputing </span>
+																			<a href="http://portal.acm.org/toc.cfm?id=J1048&amp;type=periodical&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self" class="small-link-text">archive</a><br>
+														
+															 <span class="small-text"> Volume 70 ,&nbsp; Issue 16-18 &nbsp;(October 2007)</span>
+															 					  <a href="http://portal.acm.org/toc.cfm?id=1316076&amp;type=issue&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self" class="small-link-text">table of contents</a><br>
+																				  <span class="small-text"> </span>
+														   
+													
+												 
+										
+								
+		
+
+		
+		<div class="medium-text">
+			
+			
+			
+		</div>
+		
+		
+		    
+			
+			
+		
+
+			
+			
+			<div class="small-text">
+				 Pages: 2668-2678&nbsp;&nbsp;
+			</div>
+					
+			
+			
+			
+				<div class="small-text">
+					Year of Publication:&nbsp;2007
+				</div>
+			
+					
+			
+				<div class="small-text">
+					
+						
+						
+						  	
+						  	
+						
+					  
+					ISSN:0925-2312
+				</div>
+				
+
+			
+			
+				
+					
+					
+					
+				
+					
+					
+					
+				
+					
+					
+					
+				
+			
+			
+		
+			 
+			  	
+			 
+			 
+		
+		
+		
+			
+				
+			</td>
+		</tr>
+		
+		
+		
+			<tr valign="top">
+				<td class="small-text">							
+										  	<strong>Authors</strong>
+										
+				</td>
+				
+				
+					
+					
+				<td colspan="2">
+				<div class="authors">
+					<table cellpadding="0" cellspacing="0">		
+					
+							<tbody><tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81340488744&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Alberto Del Angel</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+									
+										<small>&nbsp;Department of Electrical Engineering and Computer Science, University of Liege, Sart Tilman B-28, B-4000 Liege, Belgium</small>
+										
+								</td>
+							</tr>
+					
+							<tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81100360352&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Pierre Geurts</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+									
+										<small>&nbsp;Department of Electrical Engineering and Computer Science, University of Liege, Sart Tilman B-28, B-4000 Liege, Belgium</small>
+										
+								</td>
+							</tr>
+					
+							<tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81100203907&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Damien Ernst</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+									
+										<small>&nbsp;Department of Electrical Engineering and Computer Science, University of Liege, Sart Tilman B-28, B-4000 Liege, Belgium</small>
+										
+								</td>
+							</tr>
+					
+							<tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81340489482&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Mevludin Glavic</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+									
+										<small>&nbsp;Department of Electrical Engineering and Computer Science, University of Liege, Sart Tilman B-28, B-4000 Liege, Belgium</small>
+										
+								</td>
+							</tr>
+					
+							<tr>
+								<td class="small-text">
+									
+									  	<a href="http://portal.acm.org/author_page.cfm?id=81100172542&amp;coll=Portal&amp;dl=GUIDE&amp;trk=0&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Louis Wehenkel</a>
+									
+									
+
+ 									 
+										
+										
+										
+										
+							    </td>
+								<td class="small-text">
+									
+										<small>&nbsp;Department of Electrical Engineering and Computer Science, University of Liege, Sart Tilman B-28, B-4000 Liege, Belgium</small>
+										
+								</td>
+							</tr>
+					
+					</tbody></table>	
+				</div>
+				</td>
+			</tr>
+			
+		
+		
+		
+	    
+
+		
+		
+		
+		
+			
+		
+		
+		
+		
+			
+					<tr valign="top">
+						<td class="small-text"><strong>Publisher</strong></td>
+						<td colspan="2">
+							<div class="publishers">
+									
+									  	Elsevier Science Publishers B. V.&nbsp;
+									
+									
+										<small>Amsterdam, The Netherlands, The Netherlands</small>
+									
+							</div>
+						</td>
+					</tr>
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+					<tr valign="top">
+						<td class="small-text"><strong>Bibliometrics</strong></td>
+						<td colspan="2">
+							<div class="publishers">
+									Downloads (6 Weeks): n/a,&nbsp;&nbsp;  Downloads (12 Months): n/a,&nbsp;&nbsp;  Citation Count: 0
+							</div>
+						</td>
+					</tr>
+			
+		
+		
+		
+		
+		</tbody></table>
+	
+ 
+ 
+  
+ 		
+</td>
+</tr>
+
+
+<tr>
+<td>
+
+<!-- third main table: main content START -->
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr>
+		<td height="6"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	<tr>
+		<td colspan="4" background="acm01_files/horiz-bar-long.jpg" valign="top" height="1"></td>
+	</tr>
+	<tr>
+		<td height="6"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+
+	
+
+	<tr valign="top">
+	<!-- buttons -->
+		<td colspan="4" width="100%">
+	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+		<col width="22%">
+	    <col width="78%">
+		<tbody><tr>
+			<td class="small-text"><b>Additional Information:</b></td>
+			<td>
+			<p class="small-text">
+				
+				
+				
+					<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#abstract">abstract</a>&nbsp;&nbsp;
+				
+				
+				  
+					<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#references">references</a>&nbsp;&nbsp;
+				    
+				
+				
+				
+				
+				
+					<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#IndexTerms">index terms</a>&nbsp;&nbsp;
+				
+				
+				
+						<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#collab">collaborative colleagues</a>&nbsp;&nbsp;
+				
+				
+				</p>
+			</td>
+		</tr>
+		</tbody></table>
+		</td>
+	</tr>
+	<tr>
+		<td height="6"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	
+	<tr valign="top">
+	<!-- buttons -->
+		<form name="popbinder"></form>
+		<td colspan="4" width="100%">
+		
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+		  <col width="22%">
+		  <col width="78%">
+		  <tbody><tr valign="top">
+		  	<td class="small-text" style="padding-top: 0.75em;"><b>Tools and Actions:</b></td>
+			<td style="padding-top: 0.75em;">
+			
+			  	
+			
+			
+			
+			
+
+			
+			
+		    
+			
+			<a href="http://www.reviews.com/reviewer/quickreview/frameset_toplevel.cfm?bib_id=1316105" target="reviews" class="small-link-text">Review this Article</a>&nbsp;&nbsp;
+			<div style="margin-top: 0.5em; margin-bottom: 0pt;">
+			
+				
+				
+					<a href="https://portal.acm.org/poplogin.cfm?dl=GUIDE&amp;coll=Portal&amp;comp_id=COMPONENT034&amp;want_href=citation%2Ecfm%3Fid%3D1316076%2E1316105%26coll%3DPortal%26dl%3DGUIDE%26CFID%3D77133158%26CFTOKEN%3D85956584%26backfrombind%3D1&amp;CFID=77133158&amp;CFTOKEN=85956584" class="small-link-text">
+				
+				Save this Article to a Binder</a><img src="acm01_files/blanks.gif" name="saved" border="0">
+			  
+			&nbsp;&nbsp;
+			<span class="small-text">Display Formats:</span>
+			<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#" onclick="window.open('popBibTex.cfm?id=1316105&amp;ids=J1048.1316076.1316105&amp;types=periodical.issue.article&amp;reqtype=article&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584','BibTex','width=800,height=100,top=100,left=100,scrollbars=Yes,resizable=yes');" class="small-link-text">
+			BibTeX</a>&nbsp;
+
+			<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#" onclick="window.open('testpopendnotes.cfm?id=1316105&amp;ids=J1048.1316076.1316105&amp;types=periodical.issue.article&amp;reqtype=article&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584','BibTex','width=800,height=100,top=100,left=100,scrollbars=Yes,resizable=yes');" class="small-link-text">
+			EndNote</a>
+
+			
+			 
+				<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#" onclick="window.open('popacmref.cfm?id=1316105&amp;ids=J1048.1316076.1316105&amp;types=periodical.issue.article&amp;reqtype=article&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584','BibTeX','width=800,height=100,top=100,left=100,scrollbars=Yes,resizable=yes');" class="small-link-text">
+			ACM Ref</a>
+			
+			
+			&nbsp;&nbsp;				
+			
+			</div>
+			
+			
+			
+			
+			</td>
+		</tr>
+		<tr>
+			<td height="10"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+		</tr>
+		
+		<tr valign="top">
+			<td class="small-text"><b>DOI Bookmark:</b></td>
+			<td class="small-text">
+				
+			    <a href="http://dx.doi.org/10.1016/j.neucom.2006.12.017">10.1016/j.neucom.2006.12.017</a>
+			</td>
+		</tr> 
+		
+		</tbody></table>
+		
+		</td>
+		
+	</tr>
+	<tr>
+		<td height="6"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	<tr>
+		<td colspan="4" background="acm01_files/horiz-bar-long.jpg" valign="top" height="1"></td>
+	</tr>
+	<tr>
+		<td height="6"><img src="acm01_files/blanks.gif" alt="" border="0" width="1" height="1"></td>
+	</tr>
+	</tbody></table>
+<!-- third main table: main content END -->
+	
+
+		
+		
+
+
+
+		
+		
+		  	<div class="abstract">
+			
+			
+			  	
+			 
+			 
+			
+			</div>
+		
+		
+		
+
+		
+			<br>
+			<div class="abstract">
+			
+			<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm01_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="abstract">ABSTRACT</a></span>
+			
+			  	
+			 
+			 
+			
+				<p class="abstract">
+This paper investigates a possibility for estimating rotor angles in
+the time frame of transient (angle) stability of electric power
+systems, for use in real-time. The proposed dynamic state estimation
+technique is based on the use of voltage and current phasors obtained
+from a phasor measurement unit supposed to be installed on the
+extra-high voltage side of the substation of a power plant, together
+with a multilayer perceptron trained off-line from simulations. We
+demonstrate that an intuitive approach to directly map phasor
+measurement inputs to the neural network to generator rotor angle does
+not offer satisfactory results. We found out that a good way to
+approach the angle estimation problem is to use two neural networks in
+order to estimate the sin(@d) and cos(@d) of the angle and recover the
+latter from these values by simple post-processing. Simulation results
+on a part of the Mexican interconnected system show that the approach
+could yield satisfactory accuracy for real-time monitoring and control
+of transient instability. </p>
+			
+			
+			</div>
+		  
+			
+		
+			<br>
+			<div class="abstract">
+			
+			<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm01_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="references">REFERENCES</a></span>
+			<p class="abstract"><font color="Red">Note:
+OCR errors may be found in this Reference List extracted from the full
+text article. ACM has opted to expose the complete List rather than
+only correct and linked references.</font></p>
+			
+			
+			  	
+			
+			
+			
+				
+				<table border="0" cellpadding="5">
+					
+						<tbody><tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[1]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+									 
+									Bonneville Power Administration, WAMS Final Report, BPA, 1999.
+									
+
+																		
+								</div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[2]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Decker, I.C., Ehrensperger, J.G., Agostini, M.N., De Silva, A.S.,
+Bettiol, A.L. and Zimath, S.L., Synchronized phasor measurement system:
+development and applications. In: Proceedings of IX Symposium of
+Specialists in Electric Operational and Expansion Planning (SEPOPE),
+Paper SP-086, Rio de Janeiro, Brasil. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[3]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+A. Del Angel, M. Glavic, L. Wehenkel, Using artificial neural networks
+to estimate rotor angles and speeds from phasor measurements, in:
+Proceedings of Intelligent System Applications in Power ISAP2003,
+Lemnos, Greece, Paper ISAP03/017, 2003. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[4]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Diu, A. and Wehenkel, L., EXaMINE-experimentation of a monitoring and
+control system for managing vulnerabilities of the European
+infrastructure for electric power exchange. In: Proceedings of IEEE/PES
+Summer Meeting, Chicago, USA. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[5]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+ELORSK: wide area measurements of power system dynamics-the North
+American WAMS project and its applicability to the Nordic countries,
+ELFORSK, Lund, Sweden, 2000. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[6]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+									 
+										
+										<a href="http://portal.acm.org/citation.cfm?id=541500&amp;dl=GUIDE&amp;coll=Portal&amp;CFID=77133158&amp;CFTOKEN=85956584">
+									
+									Simon Haykin, Neural Networks: A Comprehensive Foundation, Prentice Hall PTR, Upper Saddle River, NJ, 1994
+									</a>
+
+																		
+								</div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[7]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+									 
+									IEEE 1344, Standard for synchrophasors for power systems, New York, 1995.
+									
+
+																		
+								</div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[8]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Kamwa, I. and Grondin, R., PMU configuration for system dynamic
+performance measurement in large multiarea power systems. IEEE Trans.
+Power Syst. v17. 385-394. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[9]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Kamwa, I., Grondin, R. and Hebert, Y., Wide-area measurement based
+stabilizing control of large power systems-a decentralized/hierarchical
+approach. IEEE Trans. Power Syst. v16. 136-153. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[10]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+D. Karlsson, Convener, CIGRE Task Force 38.02.19, System protection
+schemes in power networks, CIGRE Technical Brochure, No. 187, 2001. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[11]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Karlsson, D., Hemmingsson, M. and Lindahl, S., Wide area system
+monitoring and control. IEEE Power Energy Mag. v2. 68-76. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[12]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Liu, C.W., Su, M.Ch., Tsay, S.-S. and Wang, Y.J., Application of a
+novel fuzzy neural network to real-time transient stability swings
+prediction based on synchronized phasor measurements. IEEE Trans. Power
+Syst. v14. 685-692. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[13]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+									 
+									Manitoba HVDC Research Centre, PSCAD/EMTDC power system simulation software tutorial manual, 2003.
+									
+
+																		
+								</div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[14]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+A.R. Messina, J.M. Ramí¿rez, J.M. Cañedo, An investigation on the use
+of power system stabilizer for damping inter-area oscillations in
+longitudinal power systems, IEEE/PES Winter Meeting, New York, NY,
+February 1997, Paper 94SM 532-2. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[15]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Pavella, M., Ernst, D. and Ruiz-Vega, D., Transient Stability of Power
+Systems: A Unified Approach to Assessment and Control. 2000. Kluwer
+Academic Publishers, Dordrecht. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[16]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+									 
+									PEPITo user's manual, 2004, {www.pepite.be}.
+									
+
+																		
+								</div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[17]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+									 
+									Phadke, A.G., Synchronized phasor measurements in power systems. IEEE Comput. Appl. Power. v6. 10-15.
+									
+
+																		
+								</div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[18]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Rovnyak, S., Liu, C.-W., Lu, J., Ma, W. and Thorp, J., Predicting
+future behavior of transient events rapidly enough to evaluate remedial
+control options in real time. IEEE Trans. Power Syst. v10. 1195-1203. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[19]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+C. Taylor, Convener, CIGRE Task Force 38.02.17, Advanced angle
+stability controls, CIGRE Technical Brochure, No. 155, 2000. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[20]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Wang, Y.J., Liu, C.W. and Liu, C.H., A PMU based special protection
+scheme: a case study of Taiwan power system. Electr. Power Syst. Res.
+v27. 215-223. </div>
+							</td>
+						</tr>
+					
+						<tr valign="top">
+							<td valign="top"> &nbsp;</td>
+							<td>
+								<div class="abstract">
+									[21]
+								</div>
+							</td>
+							<td>
+								<div class="abstract">
+Wehenkel, L., Ruiz-Vega, D., Ernst, D. and Pavella, M., . In:
+Savulescu, S. (Ed.), Preventive and Emergency Control of Power Systems
+in Real Time Stability in Power Systems-Techniques for Early Detection
+of the Risk of Blackout, Springer, Berlin. pp. 199-232. </div>
+							</td>
+						</tr>
+					
+				</tbody></table>
+				
+			  
+			
+			</div>
+		
+		
+		
+
+		
+			
+			
+			  	
+			 
+			 
+			
+		
+		
+		
+		  	<br>
+			<div class="indterms">
+			
+			<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm01_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="IndexTerms">INDEX TERMS</a></span>
+			
+				
+					<p class="Categories">
+						<span class="heading"><a name="GenTerms">Primary Classification:</a></span>
+						
+						  	
+						
+						
+						
+							<br>&nbsp;
+							
+							
+								  
+									
+									
+									
+									<b>J.</b>
+									
+									
+									
+									<a href="http://portal.acm.org/results.cfm?query=PrimaryCCS%3AJ&amp;querydisp=PrimaryCCS%3AJ&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+									
+									Computer Applications</a><br>
+								  
+							
+								  
+									
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									
+									<b>J.2</b>
+									
+									
+									
+									<a href="http://portal.acm.org/results.cfm?query=PrimaryCCS%3AJ2&amp;querydisp=PrimaryCCS%3AJ2&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+									
+									 PHYSICAL SCIENCES AND ENGINEERING</a><br>
+								  
+							
+								
+									  	
+										
+										
+											
+											
+												&nbsp;
+											
+												&nbsp;
+											
+												&nbsp;
+											
+											
+												<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+											 
+											<b>Subjects:</b>
+										    
+												<a href="http://portal.acm.org/results.cfm?query=PrimarySubject%3A%22Engineering%22&amp;querydisp=PrimarySubject%3A%22Engineering%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Engineering</a>											
+
+											
+										
+										<br>
+										
+								
+							
+						
+					 </p>
+				  
+				
+				  <p class="Categories">
+					<span class="heading"><a name="GenTerms">Additional&nbsp;Classification:</a></span>
+					 
+					  	
+					 
+					 
+					
+							<br>&nbsp;
+							
+							
+								 
+									
+									
+									 
+									<b>G.</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AG&amp;querydisp=CCS%3AG&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									Mathematics of Computing</a><br>
+								 
+							
+								 
+									
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									 
+									<b>G.1</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AG1&amp;querydisp=CCS%3AG1&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 NUMERICAL ANALYSIS</a><br>
+								 
+							
+								 
+									
+									
+										&nbsp;
+									
+										&nbsp;
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									 
+									<b>G.1.0</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AG10&amp;querydisp=CCS%3AG10&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 General</a><br>
+								 
+							
+								
+								  	
+									
+									
+										
+										
+											&nbsp;
+										
+											&nbsp;
+										
+											&nbsp;
+										
+											&nbsp;
+										
+											&nbsp;
+										
+										
+											<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+										 
+										<b>Subjects:</b>
+									    
+											<a href="http://portal.acm.org/results.cfm?query=Subject%3A%22Numerical%20algorithms%22&amp;querydisp=Subject%3A%22Numerical%20algorithms%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Numerical algorithms</a>;																					
+
+										
+											<a href="http://portal.acm.org/results.cfm?query=Subject%3A%22Stability%20%28and%20instability%29%22&amp;querydisp=Subject%3A%22Stability%20%28and%20instability%29%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Stability (and instability)</a>																					
+
+										
+									
+									<br>
+									
+								
+							
+					
+							<br>&nbsp;
+							
+							
+								 
+									
+									
+									 
+									<b>I.</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AI&amp;querydisp=CCS%3AI&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 Computing Methodologies</a><br>
+								 
+							
+								 
+									
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									 
+									<b>I.2</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AI2&amp;querydisp=CCS%3AI2&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 ARTIFICIAL INTELLIGENCE</a><br>
+								 
+							
+								 
+									
+									
+										&nbsp;
+									
+										&nbsp;
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									 
+									<b>I.2.6</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AI26&amp;querydisp=CCS%3AI26&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 Learning</a><br>
+								 
+							
+								
+								  	
+									
+									
+										
+										
+											&nbsp;
+										
+											&nbsp;
+										
+											&nbsp;
+										
+											&nbsp;
+										
+											&nbsp;
+										
+										
+											<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+										 
+										<b>Subjects:</b>
+									    
+											<a href="http://portal.acm.org/results.cfm?query=Subject%3A%22Connectionism%20and%20neural%20nets%22&amp;querydisp=Subject%3A%22Connectionism%20and%20neural%20nets%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">Connectionism and neural nets</a>																					
+
+										
+									
+									<br>
+									
+								
+							
+								 
+									
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									 
+									<b>I.6</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AI6&amp;querydisp=CCS%3AI6&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 SIMULATION AND MODELING</a><br>
+								 
+							
+								 
+									
+									
+										&nbsp;
+									
+										&nbsp;
+									
+										&nbsp;
+									
+									
+										<img src="acm01_files/tree.gif" border="0" width="20" height="20">
+									 
+									<b>I.6.5</b>
+									
+									
+
+									<a href="http://portal.acm.org/results.cfm?query=CCS%3AI65&amp;querydisp=CCS%3AI65&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">									 
+
+									 Model Development</a><br>
+								 
+							
+					
+
+					</p>
+				   
+			
+				
+				<br>
+					<p class="GenTerms">
+						<span class="heading"><a name="GenTerms">General Terms:</a></span>
+						
+						  	
+						
+						
+						<br>
+						 
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=General%20Terms%3A%22Algorithms%22&amp;querydisp=General%20Terms%3A%22Algorithms%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+
+							Algorithms</a>,
+							
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=General%20Terms%3A%22Design%22&amp;querydisp=General%20Terms%3A%22Design%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+
+							 Design</a>,
+							
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=General%20Terms%3A%22Theory%22&amp;querydisp=General%20Terms%3A%22Theory%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">
+
+							 Theory</a>
+							
+						
+					</p>
+				  
+				
+				
+				<br>
+					<p class="keywords">
+						<span class="heading"><a name="Keywords">Keywords:</a></span>
+						
+						  	
+						
+						
+						<br>
+						 
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=Keywords%3A%22Electric%20power%20systems%22&amp;querydisp=Keywords%3A%22Electric%20power%20systems%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">							
+
+							Electric power systems</a>,
+							
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=Keywords%3A%22Multilayer%20perceptrons%22&amp;querydisp=Keywords%3A%22Multilayer%20perceptrons%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">							
+
+							 Multilayer perceptrons</a>,
+							
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=Keywords%3A%22Phasor%20measurement%20units%22&amp;querydisp=Keywords%3A%22Phasor%20measurement%20units%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">							
+
+							 Phasor measurement units</a>,
+							
+						
+							
+							<a href="http://portal.acm.org/results.cfm?query=Keywords%3A%22Transient%20stability%20monitoring%20and%20control%22&amp;querydisp=Keywords%3A%22Transient%20stability%20monitoring%20and%20control%22&amp;termshow=matchboolean&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">							
+
+							 Transient stability monitoring and control</a>
+							
+												
+					</p>
+				  
+				
+			
+			</div>
+		 
+		
+		
+				
+		
+			<div class="abstract">
+				
+				<a href="http://portal.acm.org/citation.cfm?id=1316076.1316105&amp;coll=Portal&amp;dl=GUIDE&amp;CFID=77133158&amp;CFTOKEN=85956584#CIT"><img name="top" src="acm01_files/arrowu.gif" border="0" hspace="10"></a><span class="heading"><a name="collab">Collaborative Colleagues:</a></span>
+				
+				<table style="margin-left: 2em;" border="0" cellpadding="2">
+				
+				
+				
+				
+				
+				
+					<tbody><tr>
+						<td>
+							<div class="abstract">
+							
+							  	Alberto Del Angel: <a href="http://portal.acm.org/author_page.cfm?id=81340488744&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							<div class="abstract">
+							
+							  	Pierre Geurts: <a href="http://portal.acm.org/author_page.cfm?id=81100360352&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							<div class="abstract">
+							
+							  	Damien Ernst: <a href="http://portal.acm.org/author_page.cfm?id=81100203907&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							<div class="abstract">
+							
+							  	Mevludin Glavic: <a href="http://portal.acm.org/author_page.cfm?id=81340489482&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							<div class="abstract">
+							
+							  	Louis Wehenkel: <a href="http://portal.acm.org/author_page.cfm?id=81100172542&amp;dsp=coll&amp;coll=Portal&amp;dl=GUIDE&amp;trk=1&amp;CFID=77133158&amp;CFTOKEN=85956584" target="_self">colleagues</a>
+							
+							</div>
+						</td>
+					</tr>
+				
+				
+				</tbody></table>
+			</div>
+						
+		
+		
+		
+		
+		
+		
+		
+			
+				
+				
+				
+			
+				
+				
+				
+			
+				
+				
+				
+			
+		
+				
+			
+  	
+
+
+
+
+<br>
+<div class="footer-copy-text" align="center">
+	
+
+
+
+	The ACM Portal is published by the Association for Computing Machinery. Copyright © 2010 ACM, Inc.<br>
+	<a href="http://www.acm.org/publications/policies/usage">Terms of Usage</a>&nbsp;&nbsp;
+	<a href="http://www.acm.org/about/privacy-policy">Privacy Policy</a>&nbsp;&nbsp;
+	<a href="http://www.acm.org/about/code-of-ethics">Code of Ethics</a>&nbsp;&nbsp;	  
+	<a href="http://www.acm.org/about/contact-us">Contact Us</a>
+
+<br><br>
+Useful downloads: 
+<a href="http://www.adobe.com/products/acrobat/readstep2.html"><img src="acm01_files/pdf_logo.gif" alt="" border="0" width="16" height="16"> Adobe Acrobat</a>
+&nbsp;&nbsp;
+<a href="http://www.apple.com/quicktime/download/" target="_blank"><img src="acm01_files/qtlogo.gif" alt="" border="0" width="16" height="16"> QuickTime</a>
+&nbsp;&nbsp;
+<a href="http://www.microsoft.com/windows/windowsmedia/download/default.asp" target="_blank"><img src="acm01_files/wmv.gif" alt="" border="0" width="16" height="15"> Windows Media Player</a>
+&nbsp;&nbsp;
+<a href="http://www.real.com/" target="_blank"><img src="acm01_files/realplayer.gif" alt="" border="0" width="20" height="18"> Real Player</a>
+
+
+</div>
+
+</td>
+</tr>
+</tbody></table>
+</div><div style="padding: 0px; overflow: hidden; visibility: hidden; position: absolute; width: 0px; left: 0px; top: 0px;" id="WzTtDiV"></div>
+
+</body></html>

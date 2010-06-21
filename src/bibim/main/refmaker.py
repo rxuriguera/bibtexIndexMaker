@@ -16,24 +16,17 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from bibim.util.helpers import FileFormat
-from bibim.main.factory import UtilFactory
+from bibim import log
+from bibim.ie.types import Extraction
 from bibim.main.controllers import (RCEController,
                                     IRController,
                                     IEController)
+from bibim.main.factory import UtilFactory
 from bibim.main.validation import ReferenceValidator
+from bibim.util.config import configuration
+from bibim.util.helpers import FileFormat
 
-class ReferenceMakerDTO(object):
-    def __init__(self, file='', target_format='',
-                 query_strings=[], top_results=[], entries=[]):
-        self.file = file
-        self.target_format = target_format
-        self.query_strings = query_strings
-        self.top_results = top_results
-        self.entries = entries
-        self.used_query = ''
-        self.used_result = None
-        
+FIELD_WEIGHTS = configuration._get_validation_weights()
 
 class ReferenceMaker(object):
     def __init__(self):
@@ -45,31 +38,42 @@ class ReferenceMaker(object):
         strings, retrieve results from a search engine, and extract the
         reference.
         """
-        dto = ReferenceMakerDTO(file, target_format)
+        extraction = Extraction()
         
+        extraction.file_path = file
+        extraction.target_format = target_format
+        
+        log.info("Making reference for file: %s" % file) #@UndefinedVariable
+
         rce = RCEController(self.factory)
-        content = rce.extract_content(file, FileFormat.TXT)
-        if not content:
-            return dto
+        raw_text = rce.extract_content(file, FileFormat.TXT)
+        if not raw_text:
+            return extraction
         
-        dto.query_strings = rce.get_query_strings(content)
-        if not dto.query_strings:
-            return dto
+        extraction.query_strings = rce.get_query_strings(raw_text)
+        if not extraction.query_strings:
+            log.debug('No query strings') #@UndefinedVariable
+            return extraction
+        log.debug("Query strings %s" % str(extraction.query_strings)) #@UndefinedVariable
         
         ir = IRController(self.factory)
-        dto.top_results, dto.used_query = ir.get_top_results(dto.query_strings)
-        if not dto.top_results:
-            return dto
-        dto.query_strings.remove(dto.used_query)
+        extraction.top_results, extraction.used_query = ir.get_top_results(extraction.query_strings)
+        if not extraction.top_results:
+            log.debug('No top results for the given queries') #@UndefinedVariable
+            return extraction
+        extraction.query_strings.remove(extraction.used_query)
+        
+        log.debug("Used query %s" % str(extraction.used_query)) #@UndefinedVariable
+        log.debug("Query returned %d top results" % len(extraction.top_results)) #@UndefinedVariable
         
         ie = IEController(self.factory, target_format)
-        dto.entries, dto.used_result = ie.extract_reference(dto.top_results)
-        dto.top_results.remove(dto.used_result)
+        extraction.entries, extraction.used_result = ie.extract_reference(extraction.top_results, raw_text)
+        extraction.top_results.remove(extraction.used_result)
+        log.info("Used result: %s" % str(extraction.used_result)) #@UndefinedVariable
         
-        validator = ReferenceValidator(['title'])
-        for entry in dto.entries:
-            validator.validate_reference(entry, content)
-            
-        return dto
+        validator = ReferenceValidator(FIELD_WEIGHTS)
+        for entry in extraction.entries:
+            validator.validate(entry, raw_text)
         
+        return extraction
         

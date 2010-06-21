@@ -18,7 +18,7 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.references import Reference
+from bibim.references.reference import Reference
 
 class TestReference(unittest.TestCase):
 

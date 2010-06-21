@@ -15,7 +15,8 @@
 
 import unittest #@UnresolvedImport
 
-from bibim.document import Document
+from bibim.document.document import Document
+
 
 class TestPDFTextExtractor(unittest.TestCase):
 
@@ -41,6 +42,7 @@ class TestPDFTextExtractor(unittest.TestCase):
     def test_content(self):
         self.document.content = "Some text content"
         self.failUnless(self.document.content == "Some text content")
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

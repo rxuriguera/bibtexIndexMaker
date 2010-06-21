@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<project name="Bibtex Bibliography Index Maker" company="" manager="" phase="" project-start="20100125T000000Z" mrproject-version="2" calendar="1">
+  <properties/>
+  <phases/>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Laborable" description="Un dia laborable predeterminat"/>
+      <day-type id="1" name="Festiu" description="Un dia festiu predeterminat"/>
+      <day-type id="2" name="Fes servir la base" description="Fes servir un dia del calendari base"/>
+    </day-types>
+    <calendar id="1" name="Predeterminat">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days>
+        <day date="20100405" type="day-type" id="1"/>
+        <day date="20100624" type="day-type" id="1"/>
+        <day date="20100402" type="day-type" id="1"/>
+        <day date="20100401" type="day-type" id="1"/>
+        <day date="20100331" type="day-type" id="1"/>
+        <day date="20100330" type="day-type" id="1"/>
+        <day date="20100329" type="day-type" id="1"/>
+        <day date="20100327" type="day-type" id="1"/>
+      </days>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="Especificaci&#xF3;" note="" work="28800" start="20100125T000000Z" end="20100125T170000Z" work-start="20100125T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="2" name="Infraestructura" note="" work="115200" start="20100125T000000Z" end="20100128T170000Z" work-start="20100125T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="3" name="Repositori" note="" work="14400" start="20100125T000000Z" end="20100125T120000Z" work-start="20100125T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="4" name="Estructura del projecte" note="" work="28800" start="20100125T120000Z" end="20100126T120000Z" work-start="20100125T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="3" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="5" name="Build Infrastructure" note="" work="28800" start="20100126T120000Z" end="20100127T120000Z" work-start="20100126T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="4" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="6" name="Build Tracker" note="" work="28800" start="20100127T120000Z" end="20100128T120000Z" work-start="20100127T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="5" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="7" name="Test runner" note="" work="14400" start="20100128T120000Z" end="20100128T170000Z" work-start="20100128T120000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="6" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="8" name="M&#xF2;dul RCE" note="" work="115200" start="20100128T170000Z" end="20100203T170000Z" work-start="20100129T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="2" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="9" name="M&#xF2;dul IR" note="" work="230400" start="20100203T170000Z" end="20100215T170000Z" work-start="20100204T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="8" type="FS"/>
+        <predecessor id="1" predecessor-id="2" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="10" name="M&#xF2;dul BibTex" note="" work="144000" start="20100215T170000Z" end="20100222T170000Z" work-start="20100216T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="9" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="11" name="M&#xF2;dul Principal" note="" work="230400" start="20100222T170000Z" end="20100304T170000Z" work-start="20100223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="10" type="FS"/>
+        <predecessor id="1" predecessor-id="2" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="12" name="M&#xF2;dul IE" note="" work="432000" start="20100304T170000Z" end="20100325T170000Z" work-start="20100305T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="11" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="13" name="M&#xF2;dul DB" note="" work="86400" start="20100125T000000Z" end="20100127T170000Z" work-start="20100125T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="14" name="CLI" note="" work="115200" start="20100304T170000Z" end="20100310T170000Z" work-start="20100305T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="11" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="15" name="Plug-in JabRef" note="" work="230400" start="20100310T170000Z" end="20100322T170000Z" work-start="20100311T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="14" type="FS"/>
+        <predecessor id="1" predecessor-id="11" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="16" name="Distribuci&#xF3;" note="" work="86400" start="20100322T170000Z" end="20100325T170000Z" work-start="20100323T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="14" type="FS"/>
+        <predecessor id="1" predecessor-id="15" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="17" name="Mem&#xF2;ria" note="" work="1123200" start="20100315T000000Z" end="20100514T170000Z" work-start="20100315T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="start-no-earlier-than" time="20100315T000000Z"/>
+    </task>
+  </tasks>
+  <resource-groups/>
+  <resources/>
+  <allocations/>
+</project>

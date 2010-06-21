@@ -22,13 +22,13 @@ import Queue #@UnresolvedImport
 from bibim import log
 from bibim.main.refmaker import ReferenceMaker
 from bibim.util.helpers import ReferenceFormat
-
+from bibim.ie.types import Extraction
 
 MAX_THREADS = 5
 MIN_CLIENTS_PER_THREAD = 2
 
 
-class ThreadRunner(object):
+class ThreadRunner(threading.Thread):
     """
     This class will create a thread pool and run tasks on its threads. 
     It is extremely important that the thread removes objects from the 
@@ -43,12 +43,15 @@ class ThreadRunner(object):
         'kwargs' allows us to pass a variable number of keyworded parameters
         to the threads. 
         """
+        threading.Thread.__init__(self)
+        self.name = 'Runner'
         self.thread_class = thread_class
         self.in_queue = in_queue
         self.out_queue = out_queue
         self._thread_pool = []
         self._pool_size = 0
         self._thread_args = kwargs
+        self.finished = False
 
     def get_thread_class(self):
         return self.__thread_class
@@ -82,11 +85,18 @@ class ThreadRunner(object):
     def set_out_queue(self, value):
         self.__out_queue = value
 
+    def get_finished(self):
+        return self.__finished
+
+    def set_finished(self, value):
+        self.__finished = value
+
     thread_class = property(get_thread_class, set_thread_class)
     in_queue = property(get_in_queue, set_in_queue)
     out_queue = property(get_out_queue, set_out_queue)
     pool_size = property(get_pool_size)
-
+    finished = property(get_finished, set_finished)
+    
     def run(self):
         """
         This method creates a pool of threads, starts them, and waits for the
@@ -95,16 +105,17 @@ class ThreadRunner(object):
         """
         self._set_pool_size()
         
-        log.debug('Active threads: %d' % threading.active_count())
+        log.debug('Active threads: %d' % threading.active_count()) #@UndefinedVariable
         
         # Create threads and add them to the pool
-        for i in range(self.pool_size):
+        for i in range(self.pool_size): #@UnusedVariable
             thread = self.thread_class(self.in_queue, self.out_queue,
                                        **self._thread_args)
+            thread.name = 'Worker-%02d' % i
             self._thread_pool.append(thread)
             thread.start()
         
-        log.debug('Active threads: %d' % threading.active_count())
+        log.debug('Active threads: %d' % threading.active_count()) #@UndefinedVariable
         
         # Wait for the threads to process all the clients in the queue
         while not self.in_queue.empty():
@@ -113,6 +124,7 @@ class ThreadRunner(object):
         # Ask threads to stop
         for thread in self._thread_pool:
             thread.join()
+        self.finished = True
             
 
 class ReferenceMakerThread(threading.Thread):
@@ -168,7 +180,7 @@ class ReferenceMakerThread(threading.Thread):
         Once the ReferenceMaker is done, it stores the results in tuples
         (file, reference) to the output queue.
         """
-        log.debug("Running thread", extra={'threadname':self.getName()})
+        log.debug("Running thread", extra={'threadname':self.getName()}) #@UndefinedVariable
         while not self.stop_event.isSet():
             file = None
             if not self.in_queue.empty():
@@ -177,8 +189,14 @@ class ReferenceMakerThread(threading.Thread):
                 except Queue.Empty:
                     continue
             if file:
-                log.debug("Processing file %s" % file)
-                reference = ReferenceMaker().make_reference(file,
+                log.debug("Processing file %s" % file) #@UndefinedVariable
+                try:
+                    reference = ReferenceMaker().make_reference(file,
                                                             self.target_format)
-                self.out_queue.put(reference)
+                    self.out_queue.put(reference)
+                except Exception, e:
+                    log.error('Unexpected exception while extracting reference' #@UndefinedVariable
+                              ' for file %s: %s' % (file, str(e)))
+                    self.out_queue.put(Extraction())
+                    continue
     

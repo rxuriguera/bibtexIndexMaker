@@ -1,0 +1,7 @@
+*.out
+*.log
+*.aux
+*.toc
+*.bbl
+*.blg
+test.tex

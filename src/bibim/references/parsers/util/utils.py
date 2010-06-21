@@ -10,9 +10,6 @@ $Id$
 __docformat__ = 'reStructuredText'
 __author__ = 'Tom Gross <itconsense@gmail.com>'
 
-
-from bibim.references.parsers.util import _utf8enc2latex_mapping
-
 _default_encoding = 'utf-8'
 _entity_mapping = {'&mdash;':'{---}',
                    '&ndash;':'{--}',

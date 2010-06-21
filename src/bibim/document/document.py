@@ -1,3 +1,4 @@
+
 # Copyright 2010 Ramon Xuriguera
 #
 # This file is part of BibtexIndexMaker. 

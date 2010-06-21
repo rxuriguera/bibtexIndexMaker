@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from ConfigParser import ConfigParser #@UnresolvedImport
 import re
+from ConfigParser import ConfigParser #@UnresolvedImport
 
 from bibim import bibim_config
 
@@ -77,10 +77,105 @@ class BibimConfig(object):
             line = re.sub(r'"(.*?)"', _rep, line)
             line = [element.replace(':::', ' ')
                     for element in line.split() if element != '']
-            return line[0].strip(), tuple([el.strip()
-                                           for el in line[1:]])
+            return line[0].strip(), tuple([el.strip() for el in line[1:]])
         return [_args(line) for line in lines if line.strip() != '']
 
+
+    def _get_comma_separated_dictionary(self, section, name, default=None):
+        """
+        Returns a multi-value option located in the configuration file in the
+        form of a dictionary
+        """
+        if not self._parser.has_option(section, name):
+            return default is None and None or []
+        lines = self._parser.get(section, name).split('\n')
+        # crappy pattern matching
+        def _rep(match):
+            return match.groups()[0].replace(' ', ':::')
+        def _args(line):
+            line = re.sub(r'"(.*?)"', _rep, line)
+            line = [element.replace(':::', ' ')
+                    for element in line.split(',') if element != '']
+            return line[0].strip(), tuple([el.strip() for el in line[1:]])
+            
+        values = {}
+        for line in lines:
+            if line.strip() == '':
+                continue
+            key, value = _args(line)
+            values[key] = value
+        
+        return values
+    
+    def _get_validation_properties(self, section='wrappers',
+                                   name='field_validation', default={}):
+        """
+        Returns a dictionary of tuples associated to fields
+        """
+        if not self._parser.has_option(section, name):
+            return default is None and None or {}
+        lines = self._parser.get(section, name).split('\n')
+        # crappy pattern matching
+        def _rep(match):
+            return match.groups()[0].replace(' ', ':::')
+        def _args(line):
+            line = re.sub(r'"(.*?)"', _rep, line)
+            # Elements must be separated by semicolons in the configuration
+            # file
+            line = [element.replace(':::', ' ')
+                    for element in line.split(';') if element != '']
+            value_list = [float(line[1])]
+            value_list.extend([el.strip() for el in line[2:]])
+            return line[0].strip(), value_list
+            
+        values = {}
+        for line in lines:
+            if line.strip() == '':
+                continue
+            key, value = _args(line)
+            values[key] = value
+        
+        return values
+    
+    def _get_validation_weights(self, section='wrappers',
+                                name='field_validation', default={}):
+        properties = self._get_validation_properties(section, name, default)
+        weights = {}
+        for property in properties:
+            if len(properties[property]):
+                weights[property] = properties[property][0]
+        return weights
+
+    def _get_value_guide_properties(self, section='wrappers',
+                                    name='value_guide', default={}):
+        """
+        Returns a dictionary of tuples associated to fields
+        """
+        if not self._parser.has_option(section, name):
+            return default is None and None or {}
+        lines = self._parser.get(section, name).split('\n')
+        # crappy pattern matching
+        def _rep(match):
+            return match.groups()[0].replace(' ', ':::')
+        def _args(line):
+            line = re.sub(r'"(.*?)"', _rep, line)
+            # Elements must be separated by semicolons in the configuration
+            # file
+            line = [element.replace(':::', ' ').strip()
+                    for element in line.split(';') if element != '']
+            if len(line) < 2:
+                line.append('.*')
+            return line[0], line[1]
+            
+        values = {}
+        for line in lines:
+            if line.strip() == '':
+                continue
+            key, value = _args(line)
+            values[key] = value
+        
+        return values
+    
     def write(self):
         """
         Saves the configuration.
@@ -115,6 +210,28 @@ class BibimConfig(object):
             int(self._get_simple_field('search', 'too_many_results', 25)))
         return properties
     
+    def _get_wrapper_properties(self):
+        properties = {}
+        properties['max_wrappers'] = (
+            int(self._get_simple_field('wrappers', 'max_wrappers', 50)))
+        properties['field_validation'] = (
+            self._get_validation_properties())
+        properties['value_guide'] = (
+            self._get_value_guide_properties())
+        properties['min_validity'] = (
+            float(self._get_simple_field('wrappers', 'min_validity', 0.7))) 
+        properties['wrapper_gen_examples'] = (
+            int(self._get_simple_field('wrappers', 'wrapper_gen_examples', 2)))
+        properties['max_examples_from_db'] = (
+            int(self._get_simple_field('wrappers', 'max_examples_from_db',
+                                       15)))  
+        properties['max_examples'] = (
+            int(self._get_simple_field('wrappers', 'max_examples', 5)))
+        properties['seconds_between_requests'] = (
+            float(self._get_simple_field('wrappers',
+                                         'seconds_between_requests', 5.0)))                 
+        return properties
+    
     def _get_black_list(self):
         black_list = self._get_multiline_value('search', 'black_list')
         # Remove any args
@@ -124,8 +241,8 @@ class BibimConfig(object):
     database = property(_get_database, _set_database)
     search_engine = property(_get_search_engine)
     search_properties = property(_get_search_properties)
+    wrapper_properties = property(_get_wrapper_properties)
     black_list = property(_get_black_list)
-
 
 # The rest of modules will export the configuration object. This way, we'll
 # only have one instance of BibimConfig.

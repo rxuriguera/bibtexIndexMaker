@@ -21,68 +21,146 @@ Entry points to the application
 """
 
 import Queue #@UnresolvedImport
+import threading #@UnresolvedImport
 
 from bibim import log
+from bibim.db.session import flush_changes
+from bibim.db.gateways import (ReferenceGateway,
+                               ExtractionGateway)
 from bibim.main.files import FileManager
 from bibim.main.threads import ThreadRunner, ReferenceMakerThread
-from bibim.main.persistence import Persistor
+from bibim.main.controllers import (IEController,
+                                    ReferencesController)
+from bibim.main.factory import (UtilFactory,
+                                UtilCreationError)
+from bibim.references.format.formatter import ReferenceFormatter
+from bibim.util.helpers import ReferenceFormat
 
-class IndexMaker(object):
+
+class IndexMaker(threading.Thread):
     def __init__(self):
+        super(IndexMaker, self).__init__()
+        self.__path = ''
+        self.name = 'IndexMaker'
         self._in_queue = Queue.Queue(0)
         self._out_queue = Queue.Queue(0)
-    
-    def make_index(self, path, source_format='pdf', target_format='bibtex'):
-        log.debug("Start making index")
-        files = FileManager().get_files_list(path)        
-        for file in files:
+        self.processed = []
+        self.thread_runner = None
+        self.trhead_class = ReferenceMakerThread
+
+    def get_processed(self):
+        return self.__processed
+
+    def set_processed(self, value):
+        self.__processed = value
+
+    def set_path(self, path):
+        self.__path = path
+        
+        # Read all the files from the given path and put them in a queue
+        self.files = FileManager().get_files_list(path)        
+        for file in self.files:
             self._in_queue.put(file)
+    
+    def get_n_files(self):
+        return self._in_queue.qsize()
         
-        thread_runner = ThreadRunner(ReferenceMakerThread,
-                                     self._in_queue, self._out_queue)
-        thread_runner.run()
+    def make_index(self):
+        self.trhead_class = ReferenceMakerThread
+        self.start()
         
-        # TODO: Add results to database
-        # TODO: Remove printing from this class
-        num_refs = 0
-        content_extract = 0
-        found_resutls = 0
-        valid = 0
-        invalid = 0
-        while not self._out_queue.empty():
-            entry = self._out_queue.get()
-            
-            try:
-                persistor = Persistor()
-                persistor.persist_dto(entry)
-                persistor.commit()
-            except Exception, e:
-                log.error('Exception while storing to db.')
-                
-            print "File: %s" % entry.file
-            if entry.used_query:
-                print "Query: %s" % entry.used_query
-                content_extract += 1
-            if entry.used_result:
-                print "Result: %s" % entry.used_result.url
-                found_resutls += 1
-            for ref in entry.entries:
-                num_refs += 1
-                print "Ref: \n%s" % ref.get_entry()
-                if ref.is_valid():
-                    print 'Valid'
-                    valid += 1
-                else:
-                    print 'Not Valid'
-                    invalid += 1 
-            print "\n\n\n"
+    def run(self):
+        log.debug("Start running index maker") #@UndefinedVariable
+
+        # Run threads
+        self.thread_runner = ThreadRunner(self.trhead_class,
+                                          self._in_queue, self._out_queue)
+        self.thread_runner.start()
         
+        while not (self.thread_runner.finished and self._out_queue.empty()):
+            extraction = self._out_queue.get()
+            log.info('Persisting extraction results') #@UndefinedVariable
+            # Persist the extraction
+            ExtractionGateway().persist_extraction(extraction)
+            self.processed.append(extraction)
+
+        # Commit changes to the database
+        flush_changes()
+        log.debug("Total processed: %d" % len(self.processed)) #@UndefinedVariable
+
+    processed = property(get_processed, set_processed)
+
+
+class WrapperGenerator(threading.Thread):               
+    def __init__(self, url):
+        super(WrapperGenerator, self).__init__()
+        self.name = 'WrapTrainer'
+        self.url = url
+        self.factory = UtilFactory()
+        self.ie_controller = IEController(self.factory)
+
+    def run(self):
+        self.generate_wrappers()
+
+    def set_wrapper_gen_examples(self, num_examples):
+        self.ie_controller.wrapper_gen_examples = num_examples
+
+    def generate_wrappers(self):
+        self.ie_controller.generate_wrappers(self.url)
+
+
+class ReferenceEntryFormatter(object):
+    def __init__(self, format=ReferenceFormat.BIBTEX):
+        self.reference_gw = ReferenceGateway()
+        self.format = format
+        self.util_factory = UtilFactory()
         
-        print 'Total files: %d' % len(files)
-        print 'Could extract content: %d' % content_extract
-        print 'Could find results: %d' % found_resutls
-        print 'Total references: %d' % num_refs
-        print 'Total valid references: %d' % valid
-        print 'Total invalid references: %d' % invalid    
+    def format_reference(self, reference_id):
+        log.debug('Retrieving reference from the database') #@UndefinedVariable
+        reference = self.reference_gw.find_reference_by_id(reference_id)
+        if not reference:
+            log.error('Reference with id %d could not be retrieved'  #@UndefinedVariable
+                      % reference_id)
+            return None
         
+        formatter = ReferenceFormatter()
+        try:
+            generator = self.util_factory.create_generator(self.format)
+        except UtilCreationError as e:
+            log.error('Could not create a formatter for %s: %s' % #@UndefinedVariable
+                      (self.format, e.args))
+            return None
         
+        log.debug('Starting to format') #@UndefinedVariable
+        formatter.format_reference(reference, generator)
+        
+        return reference.entry
+
+
+class ReferenceImporter(threading.Thread):
+    def __init__(self, format=ReferenceFormat.BIBTEX):
+        super(ReferenceImporter, self).__init__()
+        self.name = 'Importer'
+        self.format = format
+        self.util_factory = UtilFactory()
+        self.ref_controller = ReferencesController(self.util_factory,
+                                                   self.format)
+        self.path = ''
+
+    def get_path(self):
+        return self.__path
+
+    def set_path(self, value):
+        self.__path = value
+
+    def import_references(self, path):
+        log.info('Importing references from %s' % path) #@UndefinedVariable
+        references = self.ref_controller.persist_file_references(path)
+        return len(references)
+    
+    def run(self):
+        if not self.path:
+            return
+        self.import_references(self.path)
+        
+    path = property(get_path, set_path)

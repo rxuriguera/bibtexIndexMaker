@@ -38,9 +38,13 @@ class TestBibimConfig(unittest.TestCase):
         properties = configuration._get_search_properties()
         self.failUnless(properties['min_query_length'] == 6)
 
+    def test_wrapper_properties(self):
+        properties = configuration._get_wrapper_properties()
+        self.failUnless(properties['max_wrappers'] > 0)
+
     def test_black_list(self):
         black_list = configuration.black_list
-        pass
+        self.failUnless(len(black_list) == 2)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

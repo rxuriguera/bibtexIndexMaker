@@ -1,0 +1,57 @@
+\chapter{Introducció}
+\label{chapter:introduction}
+
+
+Durant la realització d'un treball de recerca, una de les tasques a les que es dedica més temps és a la cerca i la lectura d'articles sobre el tema que s'està tractant. Els fitxers corresponents a aquestes publicacions acostumen a acumular-se en algun directori dels ordinadors dels investigadors durant els mesos, fins i tot anys, que s'allarga el treball. Quan arriba l'hora de començar a escriure per poder publicar, és necessari generar un índex bibliogràfic d'aquesta col·lecció d'articles i així poder-los citar dins del nou document.
+
+\paragraph{}
+El procés de creació d'índexs és repetitiu, pesat i requereix molt de temps si s'ha de fer manualment. Aquesta és una tasca que, en gran mesura, es pot automatitzar i és aquí on intervé el nostre projecte. La finalitat principal és el desenvolupament d'un sistema que generi automàticament índexs bibliogràfics a partir de col·leccions de PDFs, que és el format estàndard \cite{isoPdf} en el que s'acostumen a trobar els articles digitals. Al llarg d'aquest document, veurem que per acomplir els objectius establerts, també haurem de tenir en compte altres temes com poden ser l'extracció d'informació estructurada i la generació automàtica de regles a partir d'exemples.
+
+\paragraph{}
+Un altre aspecte a considerar sobre els índexs és el format que s'utilitza per crear-los. N'existeixen moltíssims, però en disciplines de caire científic i tècnic com ara les matemàtiques, física o informàtica, l'eina més usada per escriure articles és \LaTeX{}, i normalment es complementa amb el gestor bibliogràfic \BibTeX{}. És per això que s'ha optat per aquest format i, de fet, és el que dóna nom al projecte.
+
+
+\paragraph{}
+El problema que acabem de descriure no és nou i hi ha un gran nombre d'aplicacions destinades a facilitar la gestió de referències o bé a oferir altres serveis relacionats. Totes les que coneixem es poden classificar en alguna d'aquestes tres categories:
+\begin{itemize}
+\item{}
+%\paragraph{}
+En primer lloc, hi ha el que s'anomenen \textit{biblioteques digitals}, bases de dades amb informació sobre articles, els seus autors i, en alguns casos, també sobre les relacions de citació entre ells. Estan disponibles en línia i tothom pot consultar-les. Alguns exemples són \textit{DBLP} o bé \textit{RePEc}.
+\item{}
+%\paragraph{}
+Després, tenim nombroses aplicacions dedicades al maneig de referències com ara \textit{JabRef} \cite{JabRef} o \textit{Mendeley}\cite{Mendeley}. Algunes d'aquestes eines inclouen funcionalitats no tant relacionades amb la gestió sinó amb l'obtenció de referències. Per exemple, n'hi ha que ofereixen la possibilitat de cercar en les biblioteques esmentades al punt anterior. Altres, permeten obtenir informació continguda dins de les meta-dades dels fitxers. A part d'això, no hem trobat cap eina que aprofiti el contingut dels documents per generar la referència.
+
+\item{}
+%\paragraph{}
+Finalment, també hi ha serveis com ara \textit{Google Scholar}, \textit{Microsoft Academic Search} o \textit{CiteSeer} que es dediquen a recol·lectar i indexar informació sobre articles i que comptabilitzen les referències entre diferents publicacions. En el cas de \textit{CiteSeer}, al ser un projecte lliure, sabem que funciona analitzant les diferents parts dels articles, com ara les cites, però que té problemes per obtenir els diferents camps inclosos a les capçaleres dels fitxers \cite{Giles98citeseer}.
+\end{itemize}
+
+\paragraph{}
+El sistema resultant d'aquest projecte intentarà unir, de cara a l'usuari, aquests tres tipus de programari: primer, extraurà referències recolzant-se a les biblioteques digitals i cercadors; un cop extretes, es podran exportar i gestionar amb les eines de maneig descrites al segon punt. 
+
+%%%% ESTRUCTURA DOCUMENT %%%%
+\section{Sobre aquest document}
+La memòria d'aquest projecte està dividida en els capítols següents:
+
+\begin{itemize}
+\item{Capítol \ref{chapter:definition}:}
+Descripció formal del projecte així com un breu repàs sobre el disseny i implementació.
+
+\item{Capítol \ref{chapter:search}:}
+Parla de les tècniques que s'utilitzen per poder aconseguir pàgines que continguin informació sobre els documents pels quals es volen obtenir referències.
+
+\item{Capítol \ref{chapter:refextraction}:}
+Tracta de com ho fem per extreure la informació sobre els articles de les pàgines d'Internet que hem obtingut al tercer capítol.
+
+\item{Capítol \ref{chapter:wrapperinduction}:}
+Està dedicat a les tècniques per generar, de forma automàtica, les regles d'extracció de les referències.
+
+\item{Capítol \ref{chapter:results}:}
+Plantejament de les proves per cadascuna de les parts més importants del sistema i anàlisi dels resultats obtinguts.
+\end{itemize}
+
+Quant al contingut de les diferents seccions, hem procurat centrar-nos, sobretot, en les decisions que s'han hagut de prendre al llarg de la realització del projecte; indicant-ne algunes de les opcions plantejades en un principi, els problemes que aquestes presenten i la descripció de la solució escollida finalment. S'han intentat ometre molts dels aspectes més tècnics sobre la implementació del sistema, així com definicions i descripcions detallades de les tecnologies utilitzades.
+
+\paragraph{}
+S'assumeix que es tenen nocions bàsiques sobre l'estructura dels documents HTML i sobre expressions regulars, dos temes que no es tractaran. Pel que fa a les expressions regulars, cal assenyalar que s'utilitzen les operacions que ofereix el mòdul \texttt{re} de \textit{Python}. Es pot trobar més informació a \cite{pyRegex}.
+

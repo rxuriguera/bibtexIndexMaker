@@ -19,22 +19,25 @@
 
 from bibim.util.helpers import (FileFormat,
                                 ReferenceFormat)
-from bibim.rce import PDFTextExtractor
+from bibim.rce.extraction import (PDFTextExtractor,
+                                  TXTTextExtractor)
 from bibim.ir.search import (Searcher,
-                             GoogleSearch,
                              ScholarSearch,
                              BingSearch,
                              YahooSearch,
                              GoogleJSONSearch)
-from bibim.references.parsers import BibtexParser
-from bibim.references.format import BibtexGenerator
+from bibim.references.parsers.bibtex import BibtexParser
+from bibim.references.format.generator import BibtexGenerator
+
 
 class UtilCreationError(Exception):
     pass
 
+
 class UtilFactory(object):
     
-    _extractors = {FileFormat.TXT:{FileFormat.PDF:PDFTextExtractor}}
+    _extractors = {FileFormat.TXT:{FileFormat.PDF:PDFTextExtractor,
+                                   FileFormat.TXT:TXTTextExtractor}}
     
     def create_extractor(self, source_format, target_format):
         if target_format in self._extractors.keys():
@@ -67,4 +70,3 @@ class UtilFactory(object):
         else:
             raise UtilCreationError('Generator for %s is not available' 
                                     % format)
-

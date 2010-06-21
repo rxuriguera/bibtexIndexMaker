@@ -7,9 +7,9 @@ setup(name='bibim',
       version=version,
       description="Bibtex Bibliography Index Maker",
       license='GPL',
-      packages = find_packages('src',exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-      package_dir = {'':'src'},
-      install_requires=['setuptools','simplejson','sqlalchemy'],
+      packages=find_packages('src', exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+      package_dir={'':'src'},
+      install_requires=['setuptools', 'simplejson', 'sqlalchemy'],
       entry_points="""
       # -*- Entry points: -*-
       """,

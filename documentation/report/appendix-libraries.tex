@@ -1,0 +1,59 @@
+\chapter{Biblioteques utilitzades}
+Per una banda fem servir els següents mòduls de la biblioteca estàndard; no són els únics que utilitzem, però sí els que ofereixen funcionalitats més interessants. De fet, \textit{Python} té una biblioteca estàndard molt extensa per la qual cosa és corrent descriure-la amb les paraules \textit{batteries included}.
+\begin{itemize}
+\item{RE:}
+Ofereix la possibilitat de treballar amb expressions regulars que, com ja hem vist, han tingut molta importància i les hem fet servir àmpliament a tot el sistema.
+\\
+\url{http://docs.python.org/library/re.html}
+
+\item{DiffLib:}
+Ens permet fer \textit{string matching} i obtenir llistes de blocs coincidents així com un índex de similaritat entre dues cadenes de caràcters. L'utilitzem a l'hora de generar regles automàticament, per tal de decidir quan hem de fusionar regles i com ho hem de fer.
+\\
+\url{http://docs.python.org/library/difflib.html}
+
+\item{HeapQ:}
+Defineix mètodes per crear \textit{heaps} representats en llistes estàndards de \textit{Python}. Els fem servir per crear cues amb prioritat a l'hora d'ordenar els resultats retornats pels cercadors.
+\\
+\url{http://docs.python.org/library/heapq.html}
+
+\item{ConfigParser:}
+Mòdul que ens permet llegir el fitxer de configuració de l'aplicació al qual hi ha definits els diferents paràmetres que guien l'aplicació.
+\\
+\url{http://docs.python.org/library/configparser.html}
+
+\end{itemize}
+
+\paragraph{}
+També fem ús de les biblioteques següents:
+\begin{itemize}
+\item{SimpleJSON:}
+L'hem utilitzat per dos objectius diferents: interactuar amb les APIs dels cercadors i per serialitzar i desserialitzar objectes \textit{Python} a l'emmagatzemar-los a la base de dades. Els objectes serialitzats utilitzant aquest mòdul tenen la característica que són llegibles per les persones. Per exemple, el resultat de serialitzar un diccionari és: \texttt{'\{``clau01'': 4, ``clau03'': 15, ``clau02'': 8\}'}. Això permet que sigui fàcil editar-los manualment.
+\\
+\url{http://code.google.com/p/simplejson}
+
+\item{XGoogle:}
+\label{appendix:libraries:xgoogle}
+Es tracta d'una biblioteca força senzilla escrita per Peteris Krumins que facilita les cerques a Internet. L'objectiu del creador era oferir la possibilitat de cercar a \textit{Google} evitant les limitacions de la API oficial, que només deixa obtenir un màxim de 32 resultats. Nosaltres l'hem ampliat per poder obtenir resultats de \textit{Google Scholar} i  posteriorment, també per utilitzar les APIs oficials JSON de \textit{Google}, \textit{Bing} i \textit{Yahoo}. 
+\\
+\url{http://www.catonmat.net/blog/python-library-for-google-search}
+
+\item{BeautifulSoup:}
+Es tracta d'un \textit{parser} d'HTML i XML desenvolupat per Leonard Richardson que genera arbres sintàctics sobre els quals podem operar. Una de les funcionalitats que més fem servir és la de cercar elements segons les etiquetes HTML, els atributs, o bé el text que contenen.
+\\
+\url{http://www.crummy.com/software/BeautifulSoup}
+
+\item{\textit{Parser} de \BibTeX{}:}
+Es tracta d'un \textit{parser} escrit per Raphael Ritz pel projecte Bibliograph.parsing. El fem servir per obtenir els diferents camps de les referències a l'hora d'importar-les a l'aplicació i a l'extreure-les mitjançant \textit{reference wrappers} (veure \ref{refextraction:reference-wrappers}) per tal de poder-les validar.
+\\
+\url{http://pypi.python.org/pypi/bibliograph.parsing}
+
+\item{\textit{SQLAlchemy}:} 
+És un ORM per \textit{Python} que facilita el treball amb la base de dades. A més, ofereix una capa d'abstracció que permet utilitzar la base de dades de forma independent a la tecnologia. Per exemple, nosaltres fem servir \textit{SQLite}, però en teoria podríem fer un canvi del sistema gestor de la base de dades sense haver de tocar res més.
+\\
+\url{http://www.sqlalchemy.org}
+
+\item{PyQt4:}
+Es tracta d'una biblioteca en \textit{Python} que embolcalla el \textit{framework} per la creació d'interfícies gràfiques \textit{Qt} 4.
+\\
+\url{http://www.riverbankcomputing.co.uk/software/pyqt}
+\end{itemize}

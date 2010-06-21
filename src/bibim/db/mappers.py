@@ -16,103 +16,162 @@
 # You should have received a copy of the GNU General Public License
 # along with BibtexIndexMaker. If not, see <http://www.gnu.org/licenses/>.
 
-from sqlalchemy import (Table, #@UnresolvedImport
-                        DateTime, #@UnresolvedImport
+from datetime import datetime
+from sqlalchemy import (DateTime, #@UnresolvedImport
                         Column, #@UnresolvedImport
                         Integer, #@UnresolvedImport
+                        Float, #@UnresolvedImport
                         Boolean, #@UnresolvedImport
                         String, #@UnresolvedImport
                         Unicode, #@UnresolvedImport
-                        MetaData, #@UnresolvedImport
-                        ForeignKey, #@UnresolvedImport
-                        Text)#@UnresolvedImport
+                        ForeignKey) #@UnresolvedImport
 
-from sqlalchemy.orm import (relation, #@UnresolvedImport
-                            mapper, #@UnresolvedImport
-                            relation,
-                            backref)#@UnresolvedImport
+from sqlalchemy.orm import relation #@UnresolvedImport
 
 from sqlalchemy.ext.declarative import declarative_base #@UnresolvedImport
 
 Base = declarative_base()
 
-class QueryString(Base):
-    __tablename__ = 'query_strings'
-
-    id = Column(Integer, primary_key=True)
-    query = Column(Unicode, nullable=False)
-    publication_id = Column(Integer, ForeignKey('publications.id'))
+class WrapperRule(Base):
+    __tablename__ = 'wrapper_rules'
     
-    def __init__(self, query):
-        self.query = query
+    id = Column(Integer, primary_key=True)
+    rule_type = Column(String, nullable=False)
+    pattern = Column(String, nullable=False)
+    order = Column(Integer, nullable=False)
+    wrapper_id = Column(Integer, ForeignKey('wrappers.id'))
 
+    def __init__(self, rule_type, pattern, order=0):
+        self.rule_type = rule_type
+        self.pattern = pattern
+        self.order = order
+    
     def __repr__(self):
-        return "<QueryString('%s')>" % self.query         
+        return 'WrapperRule(type: %s,pattern: %s,order: %d)' % (self.rule_type,
+                                                                self.pattern,
+                                                                self.order)
 
 
-class Result(Base):
-    __tablename__ = 'search_results'
+class Wrapper(Base):
+    __tablename__ = 'wrappers'
     
     id = Column(Integer, primary_key=True)
-    url = Column(String , nullable=False)
-    publication_id = Column(Integer, ForeignKey('publications.id'))
+    rules = relation(WrapperRule, order_by=WrapperRule.order,
+                     cascade="all, delete, delete-orphan")
+    upvotes = Column(Integer, default=0)
+    downvotes = Column(Integer, default=0)
+    score = Column(Float, default=0.0)
+    collection_id = Column(Integer, ForeignKey('wrapper_collections.id'))
+
+    def __init__(self, rules=[]):
+        self.rules = rules
+        self.upvotes = 0
+        self.downvotes = 0
+        self.score = 0.0
     
-    def __init__(self, url):
+    def add_rule_by_info(self, rule_type='', pattern='', order=0):
+        rule = WrapperRule(rule_type, pattern, order)
+        rule.wrapper_id = self.id
+        self.rules.append(rule)
+    
+    def add_rule(self, rule):
+        self.rules.append(rule)
+        
+    def upvote(self, vote=1):
+        self.upvotes += vote
+        self._compute_score()
+    
+    def downvote(self, vote=1):
+        self.downvotes += vote
+        self._compute_score()
+    
+    def _compute_score(self):
+        self.score = self.upvotes - self.downvotes
+    
+    def __repr__(self):
+        return 'Wrapper(upvotes: %d,downvotes: %d,rules: %d)' % (self.upvotes,
+            self.downvotes,
+            len(self.rules))
+
+
+class WrapperCollection(Base):
+    """
+    Groups wrappers depending on the URL and fields for which they can be used
+    """
+    __tablename__ = 'wrapper_collections'
+    
+    id = Column(Integer, primary_key=True)
+    url = Column(Unicode, nullable=False)
+    field = Column(Unicode, nullable=False)
+    wrappers = relation(Wrapper, order_by=Wrapper.score.desc(),
+                       cascade="all, delete, delete-orphan")
+
+    def __init__(self, url='', field=''):
         self.url = url
-
+        self.field = field
+        self.wrappers = []
+        
     def __repr__(self):
-        return "<WebResult('%s')>" % self.url         
+        return 'WrapperCollection(url: %s,field: %s)' % (self.url, self.field)
+
 
 class Person(Base):
     __tablename__ = 'people'
     
     id = Column(Integer, primary_key=True)
-    
     first_name = Column(Unicode, nullable=True)
     middle_name = Column(Unicode, nullable=True)
     last_name = Column(Unicode, nullable=True)
-    
-    
     
     def __init__(self, first_name='', middle_name='', last_name=''):
         self.first_name = first_name
         self.middle_name = middle_name
         self.last_name = last_name
+
+    def to_name_dict(self):
+        return {'first_name':self.first_name, 'middle_name':self.middle_name,
+                'last_name':self.last_name}
     
     def __repr__(self):
-        return "<Person('%s','%s','%s')>" % (self.first_name,
-                                             self.middle_name,
-                                             self.last_name)    
+        return "Person(first: %s,middle: %s,last: %s)" % (self.first_name,
+                                                          self.middle_name,
+                                                          self.last_name)    
 
 
 class Author(Base):
     __tablename__ = 'authors'
     
     id = Column(Integer, primary_key=True)
-    refefence_id = Column(Integer, ForeignKey('publication_references.id'))
+    refefence_id = Column(Integer, ForeignKey('references.id'))
     person_id = Column(Integer, ForeignKey('people.id'))
     person = relation(Person, order_by=Person.id)
     
     def __init__(self, person):
         self.person = person
 
+    def to_name_dict(self):
+        return self.person.to_name_dict()
+
     def __repr__(self):
-        return "<Author>"    
+        return "Author"    
     
     
 class Editor(Base):
     __tablename__ = 'editors'
     
     id = Column(Integer, primary_key=True)
-    refefence_id = Column(Integer, ForeignKey('publication_references.id'))
+    refefence_id = Column(Integer, ForeignKey('references.id'))
     person_id = Column(Integer, ForeignKey('people.id'))    
     person = relation(Person, order_by=Person.id)
     
     def __init__(self, person):
         self.person = person
 
+    def to_name_dict(self):
+        return self.person.to_name_dict()
+
     def __repr__(self):
-        return "<Editor>"    
+        return "Editor"    
 
 
 class ReferenceField(Base):
@@ -123,7 +182,7 @@ class ReferenceField(Base):
     name = Column(String, nullable=False)
     value = Column(Unicode, nullable=False)
     valid = Column(Boolean, default=True)
-    reference_id = Column(Integer, ForeignKey('publication_references.id'))
+    reference_id = Column(Integer, ForeignKey('references.id'))
     
     def __init__(self, name, value, valid):
         self.name = name
@@ -131,33 +190,43 @@ class ReferenceField(Base):
         self.valid = valid
 
     def __repr__(self):
-        return "<ReferenceField('%s','%s','%s')>" % (self.name, self.value,
-                                                     self.valid)         
+        return "ReferenceField(name: %s, value: %s, valid: %s)" % (self.name,
+                                                                   self.value,
+                                                                   self.valid)         
      
      
 class Reference(Base):
-    __tablename__ = 'publication_references'
+    __tablename__ = 'references'
     
     id = Column(Integer, primary_key=True)
     fields = relation(ReferenceField, order_by=ReferenceField.id,
-                      backref='reference')
-    # The url of the page from which the reference was extracted
-    result_id = Column(Integer, ForeignKey('search_results.id'))
-    publication_id = Column(Integer, ForeignKey('publications.id'))
-    authors = relation(Author, order_by=Author.id)
-    editors = relation(Editor, order_by=Editor.id)
-    search_result = relation(Result)
+                      backref='reference',
+                      cascade="all, delete, delete-orphan")
+    validity = Column(Float, default=0.0)
+    authors = relation(Author, order_by=Author.id,
+                       cascade="all, delete, delete-orphan")
+    editors = relation(Editor, order_by=Editor.id,
+                       cascade="all, delete, delete-orphan")
+
+    extraction_id = Column(Integer, ForeignKey('extractions.id'))
     
-    def set_result(self, result):
-        if type(result) is str:
-            result = Result(result)
-        self.search_result = result
-        self.search_result.publication = self.publication
-        
+    def __init__(self, fields=[], validity=0.0, authors=[], editors=[], extraction_id=0):
+        self.fields = fields
+        self.validity = validity
+        self.authors = authors
+        self.editors = editors
+        self.extraction_id = extraction_id
+    
     def add_field(self, name, value, valid):
         self.fields.append(ReferenceField(name, value,
                                           valid))
 
+    def add_author_by_name(self, first_name, middle_name, last_name):
+        self.authors.append(Author(Person(first_name, middle_name, last_name)))
+
+    def add_editor_by_name(self, first_name, middle_name, last_name):
+        self.editors.append(Editor(Person(first_name, middle_name, last_name)))
+        
     def add_author(self, author):
         self.authors.append(author)        
 
@@ -165,40 +234,33 @@ class Reference(Base):
         self.editors.append(editor)            
             
     def __repr__(self):
-        return "<Reference>"
-    
-    
-class Publication(Base):
-    __tablename__ = 'publications'
+        return ("Reference(fields: %d, authors: %d, editors: %d, validity: %f)" 
+                % (len(self.fields), len(self.authors), len(self.editors),
+                   self.validity))
 
+
+class Extraction(Base):
+    __tablename__ = 'extractions'
+    
     id = Column(Integer, primary_key=True)
-    file = Column(Unicode, nullable=True)
-    search_results = relation(Result, order_by=Result.id,
-                           backref='publication')
-    query_strings = relation(QueryString, order_by=QueryString.id,
-                             backref='publication')
-    references = relation(Reference, order_by=Reference.id,
-                          backref='publication')
+    timestamp = Column(DateTime, default=datetime.now())
+    file_path = Column(Unicode, default=u'')
+    result_url = Column(Unicode, default=u'')
+    query_string = Column(Unicode, default=u'')
     
-    def __init__(self, file=''):
-        self.file = file
+    references = relation(Reference, order_by=Reference.id,
+                          backref='extraction',
+                          cascade="all, delete, delete-orphan")
 
-    def add_search_results(self, results):
-        if type(results) is not list:
-            results = [results]
-            
-        for result in results:
-            self.search_results.append(result)
-
-    def add_query_strings(self, query_strings):
-        if type(query_strings) is not list:
-            query_strings = [query_strings]
-            
-        for query_string in query_strings:
-            self.query_strings.append(query_string)
-        
-    def add_reference(self, reference):
-        self.references.append(reference)
-        
+    def __init__(self, file_path=u'', result_url=u'', query_string=u''):
+        self.file_path = file_path
+        self.result_url = result_url
+        self.query_string = query_string
+    
+    def add_reference(self):
+        self.references.append(Reference(extraction_id=self.id))
+    
     def __repr__(self):
-        return "<Publication('%s')>" % self.file        
+        return ('Extraction(file_path: %s, result_url: %s, query_string: %s, '
+                'timestamp: %s)' % (self.file_path, self.result_url,
+                                    self.query_string, self.timestamp))

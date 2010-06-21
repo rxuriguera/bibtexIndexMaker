@@ -1,0 +1,78 @@
+\documentclass[a4paper,oneside]{article}
+\usepackage{geometry}
+\usepackage{doc}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{url} 
+\usepackage{color}
+\usepackage{lscape}
+
+\usepackage[pdfauthor={Ramon Xuriguera Albareda},%
+		pdfsubject={BibTeX Bibliography Index Maker},%
+		pdftitle={BibTeX Bibliography Index Maker: Meeting notes},%
+		pdftex]{hyperref}
+
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,                  % sets default tabsize to 2 spaces
+    captionpos=b,               % sets the caption-position to bottom
+    frame=single,
+    xleftmargin=3em,
+    xrightmargin=3em,
+    backgroundcolor = \color{lightgrey}
+}        
+
+
+\title{\BibTeX{} Bibliography Index Maker: Meeting Notes}
+\author{Ramon Xuriguera}
+\date{14-04-2010}
+
+\setlength{\parindent}{0in}
+\definecolor{lightgrey}{gray}{0.85}
+
+\begin{document}
+\maketitle
+
+\section{Generació de regles}
+El principal problema que he trobat un cop implementada la generació de regles la informació repetida dins de la mateixa pàgina: com més vegades apareix la informació que busquem dins de la pàgina, més probable és agafar una de les etiquetes que no ens convenen. Per exemple, en el cas de la pàgina \textit{Science Direct}, el títol de l'article apareix en el títol de la pàgina, juntament amb troços d'informació que van canviant. Això fa que la regla resultant no sigui tant bona com la que es podria haver obtingut fent servir una de les altres aparicions del títol dins la pàgina:
+\begin{center}
+\begin{lstlisting}
+Path: [[[u'title', {}, 5]]]
+Regex: u'ScienceDirect\ \-\ (?:.*)e\ (?:.*)\ \:\ (.*)(?:.*)\ '
+\end{lstlisting}
+\end{center}
+
+Enlloc de:
+\begin{center}
+\begin{lstlisting}
+Path: [[[u'div', {u'id':'articleTitle'}, 0]]]
+Regex: u'(.*)'
+\end{lstlisting}
+\end{center}
+
+Aquest problema afecta molt en el cas dels anys, sobretot en articles nous on l'any també pot aparéixer al copyright de la pàgina, etc.
+
+\section{Emmagatzemar wrappers a la base de dades}
+Fet
+
+\section{Tasques pendents}
+Llistat de tasques pendents a realitzar:
+\begin{itemize}
+\item{}
+Netejar, encara més, l'HTML abans de fer l'extracció: treure comentaris i etiquetes \texttt{script}, \texttt{style}, etc.
+\item{}
+Afegir els camps especials com ara autors a la generació de wrappers.
+\item{}
+Comprovació de l'estat dels wrappers actuals. (Comparar timestamps)
+\item{}
+Interfície
+\end{itemize}
+\end{document}
+
+

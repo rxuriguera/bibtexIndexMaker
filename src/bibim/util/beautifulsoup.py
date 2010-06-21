@@ -76,22 +76,22 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE, DAMMIT.
 
 """
-from __future__ import generators
+from __future__ import generators #@UnresolvedImport
 
 __author__ = "Leonard Richardson (leonardr@segfault.org)"
 __version__ = "3.0.6"
 __copyright__ = "Copyright (c) 2004-2008 Leonard Richardson"
 __license__ = "New-style BSD"
 
-from sgmllib import SGMLParser, SGMLParseError
+from sgmllib import SGMLParser, SGMLParseError #@UnresolvedImport
 import codecs
 import types
 import re
-import sgmllib
+import sgmllib #@UnresolvedImport
 try:
-  from htmlentitydefs import name2codepoint
+    from htmlentitydefs import name2codepoint
 except ImportError:
-  name2codepoint = {}
+    name2codepoint = {}
 
 #This hack makes Beautiful Soup able to parse XML with namespaces
 sgmllib.tagfind = re.compile('[a-zA-Z][-_.:a-zA-Z0-9]*')
@@ -436,7 +436,7 @@ class Tag(PageElement):
 
     """Represents a found HTML tag with its attributes and contents."""
 
-    def _invert(h):
+    def _invert(h): #@NoSelf
         "Cheap function to invert a hash."
         i = {}
         for k, v in h.items():
@@ -841,9 +841,9 @@ class SoupStrainer:
                 markupAttrMap = None
                 for attr, matchAgainst in self.attrs.items():
                     if not markupAttrMap:
-                         if hasattr(markupAttrs, 'get'):
+                        if hasattr(markupAttrs, 'get'):
                             markupAttrMap = markupAttrs
-                         else:
+                        else:
                             markupAttrMap = {}
                             for k, v in markupAttrs:
                                 markupAttrMap[k] = v
@@ -1144,7 +1144,7 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         self.pushTag(self)
 
     def popTag(self):
-        tag = self.tagStack.pop()
+        tag = self.tagStack.pop() #@UnusedVariable
         # Tags with just one string-owning child get the child as a
         # 'string' property, so that soup.tag.string is shorthand for
         # soup.tag.contents[0]
@@ -1378,12 +1378,12 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         declaration as a CData object."""
         j = None
         if self.rawdata[i:i + 9] == '<![CDATA[':
-             k = self.rawdata.find(']]>', i)
-             if k == -1:
-                 k = len(self.rawdata)
-             data = self.rawdata[i + 9:k]
-             j = k + 3
-             self._toStringSubclass(data, CData)
+            k = self.rawdata.find(']]>', i)
+            if k == -1:
+                k = len(self.rawdata)
+            data = self.rawdata[i + 9:k]
+            j = k + 3
+            self._toStringSubclass(data, CData)
         else:
             try:
                 j = SGMLParser.parse_declaration(self, i)
@@ -1665,11 +1665,11 @@ except ImportError:
 # Both are available from http://cjkpython.i18n.org/
 # They're built in if you use Python 2.4.
 try:
-    import cjkcodecs.aliases
+    import cjkcodecs.aliases #@UnusedImport
 except ImportError:
     pass
 try:
-    import iconv_codec
+    import iconv_codec #@UnusedImport
 except ImportError:
     pass
 
@@ -1750,7 +1750,7 @@ class UnicodeDammit:
             u = self._toUnicode(markup, proposed)
             self.markup = u
             self.originalEncoding = proposed
-        except Exception, e:
+        except Exception:
             # print "That didn't work!"
             # print e
             return None
@@ -1883,7 +1883,7 @@ class UnicodeDammit:
                     82, 238, 239, 240, 241, 242, 243, 92, 159, 83, 84, 85, 86, 87, 88, 89,
                     90, 244, 245, 246, 247, 248, 249, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
                     250, 251, 252, 253, 254, 255)
-            import string
+            import string #@UnresolvedImport
             c.EBCDIC_TO_ASCII_MAP = string.maketrans(\
             ''.join(map(chr, range(256))), ''.join(map(chr, emap)))
         return s.translate(c.EBCDIC_TO_ASCII_MAP)
