@@ -52,14 +52,16 @@ class ReferenceMaker(object):
         
         extraction.query_strings = rce.get_query_strings(raw_text)
         if not extraction.query_strings:
-            log.debug('No query strings') #@UndefinedVariable
+            log.error('No query strings extracted') #@UndefinedVariable
             return extraction
         log.debug("Query strings %s" % str(extraction.query_strings)) #@UndefinedVariable
         
         ir = IRController(self.factory)
-        extraction.top_results, extraction.used_query = ir.get_top_results(extraction.query_strings)
+        extraction.top_results, extraction.used_query = (
+            ir.get_top_results(extraction.query_strings))
         if not extraction.top_results:
-            log.debug('No top results for the given queries') #@UndefinedVariable
+            log.error('No top results after trying all %d queries' % #@UndefinedVariable
+                      len(extraction.query_strings))
             return extraction
         extraction.query_strings.remove(extraction.used_query)
         
@@ -67,7 +69,8 @@ class ReferenceMaker(object):
         log.debug("Query returned %d top results" % len(extraction.top_results)) #@UndefinedVariable
         
         ie = IEController(self.factory, target_format)
-        extraction.entries, extraction.used_result = ie.extract_reference(extraction.top_results, raw_text)
+        extraction.entries, extraction.used_result = (
+            ie.extract_reference(extraction.top_results, raw_text))
         extraction.top_results.remove(extraction.used_result)
         log.info("Used result: %s" % str(extraction.used_result)) #@UndefinedVariable
         
