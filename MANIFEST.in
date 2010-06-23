@@ -1,4 +1,7 @@
 include LICENSE.txt
 include README.txt
+include setup.py
+include ez_setup.py
+recursive-include src/bibim * 
 include config/*.cfg
 recursive-include tools *
