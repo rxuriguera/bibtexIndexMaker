@@ -60,7 +60,8 @@ class ReferenceMaker(object):
         extraction.top_results, extraction.used_query = (
             ir.get_top_results(extraction.query_strings))
         if not extraction.top_results:
-            log.error('No top results after trying all %d queries' % #@UndefinedVariable
+            log.error('No top results to use with the available wrappers ' #@UndefinedVariable
+                      'after trying %d queries' % 
                       len(extraction.query_strings))
             return extraction
         extraction.query_strings.remove(extraction.used_query)

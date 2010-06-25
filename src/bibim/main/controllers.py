@@ -175,7 +175,7 @@ class IRController(Controller):
         for query in query_strings:
             searcher.set_query(query)
             try:
-                log.debug('Searching query %s with engine %d' % (query, engine)) #@UndefinedVariable
+                log.debug('Searching query %s' % (query)) #@UndefinedVariable
                 results = searcher.get_results()
             except SearchError, e:
                 log.error(e.error) #@UndefinedVariable
@@ -184,9 +184,14 @@ class IRController(Controller):
             if searcher.num_results >= self.too_many_results:
                 log.debug('Search with query %s yielded too many results ' #@UndefinedVariable
                           '(%d or more)' % (query, self.too_many_results)) 
+                results = []
                 continue
             
             if results:
+                log.info('Searcher yielded the following results using ' #@UndefinedVariable
+                         'query %s' % (query)) 
+                for result in results:
+                    log.info('    %s' % result.url[:120]) #@UndefinedVariable
                 results = self._sort_results(results)
                 
             if results:
@@ -201,10 +206,7 @@ class IRController(Controller):
         of it, and those with no wrapper are discarded.
         The list is ordered depending on the quality of the wrappers.
         """
-        log.debug('Sorting %d results:' % len(results)) #@UndefinedVariable
-        for result in results:
-            log.debug('\t- %s' % result.url[:120]) #@UndefinedVariable
-            
+
         # Create a list with all the available wrappers ordered by priority
         # Reference wrapper will be at the very beginning of the priority queue
         reference_wrappers = ReferenceWrapper().get_available_wrappers()
