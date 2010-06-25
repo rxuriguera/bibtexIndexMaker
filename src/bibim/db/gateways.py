@@ -210,13 +210,13 @@ class ExampleGateway(Gateway):
     
     last_request = datetime.now()
     
-    def __init__(self, session=None, max_examples=5, max_examples_from_db=15, seconds_between_requests=5):
+    def __init__(self, session=None, max_examples=5, max_examples_from_db=15, seconds_between_requests=2):
         super(ExampleGateway, self).__init__(session)
         self.max_examples = max_examples
         self.max_examples_from_db = max_examples_from_db
         self.seconds_between_requests = seconds_between_requests
     
-    def get_examples(self, nexamples, url=u'', min_validity=0.5, break_on_max=True):
+    def get_examples(self, nexamples, url=u'', min_validity=0.5, break_on_max=False):
         """
         Creates examples from the available references in the database. The
         references to use can be filtered depending on the validity and the 
