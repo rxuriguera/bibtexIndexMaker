@@ -68,7 +68,6 @@ class WrapperTrainer(object):
         if len(examples) < self.num_examples:
             log.warn('Too few examples. Could not train wrappers') #@UndefinedVariable
             return wrappers
-        examples = examples[:self.num_examples]
         rule_sets = self._get_rule_sets(list(self.rulers), examples)
         for rule_set in rule_sets:
             wrapper = Wrapper(rules=rule_set)

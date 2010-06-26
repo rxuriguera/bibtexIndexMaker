@@ -210,13 +210,14 @@ class ExampleGateway(Gateway):
     
     last_request = datetime.now()
     
-    def __init__(self, session=None, max_examples=5, max_examples_from_db=15, seconds_between_requests=2):
+    def __init__(self, session=None, max_examples=8, max_examples_from_db=15, seconds_between_requests=2):
         super(ExampleGateway, self).__init__(session)
         self.max_examples = max_examples
         self.max_examples_from_db = max_examples_from_db
         self.seconds_between_requests = seconds_between_requests
     
-    def get_examples(self, nexamples, url=u'', min_validity=0.5, break_on_max=False):
+    def get_examples(self, nexamples, url=u'', min_validity=0.5,
+                     break_on_min=False):
         """
         Creates examples from the available references in the database. The
         references to use can be filtered depending on the validity and the 
@@ -263,9 +264,11 @@ class ExampleGateway(Gateway):
                 examples['editor'].append(Example(editors, content))
         
             # Break if we already have enough examples for all of the fields
-            if min(map(len, examples.values())) >= nexamples and break_on_max:
-                break    
-           
+            if min(map(len, examples.values())) >= nexamples and break_on_min:
+                break
+            elif min(map(len, examples.values())) >= self.max_examples:
+                break
+            
         return examples
 
     def _get_name_regex_values(self, names):
