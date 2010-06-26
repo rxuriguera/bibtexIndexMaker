@@ -295,7 +295,7 @@ class RegexRuler(Ruler):
             return None
         
         text = re.escape(text)
-        pattern = text.replace(re.escape(value), '(.*)')
+        pattern = text.replace(re.escape(value), '(.*)', 1)
     
         if pattern.count('(.*)') == 0:
             return None
@@ -544,6 +544,9 @@ class PathRuler(Ruler):
         rules = super(PathRuler, self).rule(training)
         for rule in rules:
             rule.pattern.insert(0, self.value_guide)
+            # Clean context
+            rule.pattern[1] = self.context_resolver.clean_context(
+                                                            rule.pattern[1])
         return rules
     
     def _rule_example(self, example):
