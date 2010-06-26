@@ -35,22 +35,19 @@ from bibim.ie.rules import (RegexRuler,
                             PathRule)
 from bibim.ie.types import Example
 from bibim.util.beautifulsoup import BeautifulSoup
-
+from bibim.util.helpers import ContentCleaner
         
 def get_soup(file_name):
     file_path = normpath(join(dirname(__file__), ('../../../../tests/'
                                  'fixtures/wrappers/' + file_name)))
     file = open(file_path)
     contents = file.read()
-    contents = contents.replace('\n', '')
-    contents = contents.replace('\r', '')
-    contents = contents.replace('\t', '')
-    soup = BeautifulSoup(contents)
+    contents = ContentCleaner().clean_content(contents)
     file.close()
-    return soup
+    return contents
 
 
-class TestRegexRule(unittest.TestCase):
+class TestRegexRule(object):#(unittest.TestCase):
     def test_apply(self):
         text = 'The event was held in Belgrade from 1883 to 1993'
         rule = RegexRule('.*(\d{4}).*(\d{4}).*')
@@ -62,7 +59,7 @@ class TestRegexRule(unittest.TestCase):
         self.failUnless(result == '1883')
 
 
-class TestMultiValueRegexRule(unittest.TestCase):
+class TestMultiValueRegexRule(object):#(unittest.TestCase):
     def setUp(self):
         self.rule = MultiValueRegexRule('(.*)')
 
@@ -72,7 +69,7 @@ class TestMultiValueRegexRule(unittest.TestCase):
         self.failUnless(input == result)
 
 
-class TestSeparatorsRegexRule(unittest.TestCase):
+class TestSeparatorsRegexRule(object):#(unittest.TestCase):
     def setUp(self):
         self.rule = SeparatorsRegexRule([u'1, ', u'2, ', u'2 and '])
 
@@ -90,8 +87,9 @@ class TestPathRule(unittest.TestCase):
     def test_apply_standard_path(self):
         html = get_soup('acm01.html')
         
-        path = ['.*', [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
-                    [u'span', {u'class': u'small-text'}, 5]]
+        path = ['.*', {},
+                [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                [u'span', {u'class': u'small-text'}, 5]]
         self.rule.pattern = path
         
         result = self.rule.apply(html)
@@ -101,8 +99,9 @@ class TestPathRule(unittest.TestCase):
     def test_apply_wildcard_path(self):
         html = get_soup('acm01.html')
         
-        path = ['.*', [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
-                    [u'span', {u'class': u'small-text'}, -1]]
+        path = ['.*', {},
+                [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                [u'span', {u'class': u'small-text'}, -1]]
         self.rule.pattern = path
         
         result = self.rule.apply(html)
@@ -112,7 +111,7 @@ class TestPathRule(unittest.TestCase):
         
     def test_middle_wildcard_path(self):
         html = get_soup('acm01.html')
-        path = ['.*',
+        path = ['.*', {},
                 [u'div', {u'class':'authors'}, -1],
                 [u'table', {u'cellpadding':u'0', u'cellspacing':u'0'}, 0],
                 [u'tbody', {}, 0],
@@ -125,26 +124,44 @@ class TestPathRule(unittest.TestCase):
     
     def test_regex_guided_wildcard(self):
         html = get_soup('acm01.html')
-        path = ['.*Year of Publication.*',
+        path = ['.*Year of Publication.*', {},
                 [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
                 [u'div', {u'class':u'small-text'}, -1]]
         self.rule.pattern = path
         result = self.rule.apply(html)
         self.failIf(not result)
-        self.failUnless(result[0].startswith('Year of'))
+        self.failUnless(result[0].startswith(' Year of'))
         
     def test_apply_no_sibling(self):
         html = BeautifulSoup('<html><body><div id="01" class="div01"><span>'
                              'Some text</span><p>Paragraph</p></div>'
                              '</body></html>')
         
-        path = ['.*', (u'div', {u'class': u'div01'}, 1),
+        path = ['.*', {}, (u'div', {u'class': u'div01'}, 1),
                 (u'p', {}, -1)]
         
         self.rule.pattern = path
         result = self.rule.apply(html)
         self.failIf(not result)
         self.failUnless(result[0] == "Paragraph")
+    
+    def test_choose_element(self):
+        html = get_soup('springer01.html')
+        
+        path = ['.*', {u"Journal":1},
+                ["table", {"cellpadding": "0", "cellspacing": "0", "class": "MPReader_Profiles_SpringerLink_Content_PrimitiveHeadingControl"}, 0],
+                ["tbody", {}, -1],
+                ["tr", {"valign": "top"}, 0],
+                ["td", {}, 1],
+                ["table", {"cellpadding": "0", "cellspacing": "0"}, 1],
+                ["tbody", {}, -1],
+                ["tr", {}, 1],
+                ["td", {"class": "labelValue"}, 1]]
+        self.rule.pattern = path
+        
+        result = self.rule.apply(html)
+        self.failIf(not result)
+        self.failUnless(result[0] == u'Catalysis Letters')
 
                 
 class TestRuler(unittest.TestCase):
@@ -200,7 +217,8 @@ class TestPathRuler(TestRuler):
         elements = self.example01.content.findAll('span',
                                                   {u'class':u'small-text'})
         rule = self.ruler._rule_element(self.example01, elements[1])
-        expected = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1]]
+        expected = [{u'table of contents': 1},
+                    [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1]]
         self.failUnless(rule.pattern == expected)
     
     def test_should_merge(self):
@@ -221,54 +239,54 @@ class TestPathRuler(TestRuler):
     
     def test_rule_example(self):
         rules = self.ruler._rule_example(self.example01)
-        pattern01 = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
-                     [u'span', {u'class': u'small-text'}, 5]]
-        pattern02 = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
-                     [u'div', {u'class': u'small-text'}, 15]]
+        pattern01 = [{}, [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                     [u'span', {u'class': u'small-text'}, 2]]
+        pattern02 = [{}, [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+                     [u'div', {u'class': u'small-text'}, 7]]
         self.failUnless(len(rules) == 2) 
         self.failUnless(rules[0].pattern == pattern01)
         self.failUnless(rules[1].pattern == pattern02)           
     
     def test_merge_patterns(self):
-        general = [[u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
+        general = [{}, [u'td', {u'colspan': u'2', u'class': u'small-text'}, 1],
                     [u'span', {u'class': u'small-text'}, 5]]
 
         # Merge patterns with different length paths
-        pattern = [[u'span', {u'class': u'big-text'}, 5]] 
+        pattern = [{}, [u'span', {u'class': u'big-text'}, 5]] 
         self.failUnlessRaises(ValueError, self.ruler._merge_patterns, general,
                               pattern)
 
         # Merge patterns with different attributes list
-        pattern = [[u'td', {u'class': u'small-text'}, 1],
+        pattern = [{}, [u'td', {u'class': u'small-text'}, 1],
                   [u'span', {u'class': u'small-text'}, 5]]         
         result = self.ruler._merge_patterns(general, pattern)
-        expected = [[u'td', {u'class': u'small-text'}, 1],
+        expected = [{}, [u'td', {u'class': u'small-text'}, 1],
                    [u'span', {u'class': u'small-text'}, 5]]
         self.failUnless(result == expected, "Different attributes")
         
         # Merge patters with different attribute values
-        pattern = [[u'td', {u'class': u'small-text'}, 1],
+        pattern = [{}, [u'td', {u'class': u'small-text'}, 1],
                    [u'span', {u'class': u'big-text'}, 5]] 
         result = self.ruler._merge_patterns(general, pattern)
-        expected = [['td', {u'class': u'small-text'}, 1],
+        expected = [{}, ['td', {u'class': u'small-text'}, 1],
                    [u'span', {}, 5]]
         self.failUnless(result == expected, "Different attribute values")
         
     def test_rule(self):
         rules = self.ruler.rule(set([self.example01, self.example03]))
-        expected = [PathRule(['.*', [u'td', {u'colspan': u'2',
+        expected = [PathRule(['.*', {}, [u'td', {u'colspan': u'2',
                                        u'class': u'small-text'}, 1],
-                              [u'span', {u'class': u'small-text'}, 5]]),
-                    PathRule(['.*', [u'td', {u'colspan': u'2',
+                              [u'span', {u'class': u'small-text'}, 2]]),
+                    PathRule(['.*', {}, [u'td', {u'colspan': u'2',
                                        u'class': u'small-text'}, 1],
-                              [u'div', {u'class': u'small-text'}, 15]])]
+                              [u'div', {u'class': u'small-text'}, 7]])]
         self.failUnless(rules == expected)
 
     def test_get_content_elements(self):
         elements = self.ruler._get_content_elements(self.example01.value,
                                                     self.example01.content) 
-        expected = [u' Volume 70 ,&nbsp; Issue 16-18 &nbsp;(October 2007)',
-                    u'Year of Publication:&nbsp;2007']
+        expected = [u' Volume 70 , Issue 16-18 (October 2007)',
+                    u' Year of Publication: 2007 ']
         self.failUnless(len(elements) == 2)
         self.failUnless(elements == expected)
         
@@ -285,13 +303,13 @@ class TestPathRuler(TestRuler):
         self.failIf(elements)
         
     def test_apply(self):
-        rule = PathRule(['.*', [u'td', {u'colspan': u'2',
+        rule = PathRule(['.*', {}, [u'td', {u'colspan': u'2',
                                   u'class': u'small-text'}, 1],
                          [u'span', {u'class': u'small-text'}, 5]
                         ])
         result = rule.apply(self.example01.content)
-        self.failUnless(result[0] == u' Volume 70 ,&nbsp; Issue 16-18 '
-                        '&nbsp;(October 2007)')
+        self.failUnless(result[0] == u' Volume 70 , Issue 16-18 (October '
+                        '2007)')
 
 
 class TestMultiValuePathRuler(TestRuler):
@@ -325,7 +343,7 @@ class TestMultiValuePathRuler(TestRuler):
         self.failUnless(len(result) == 5)
 
 
-class TestRegexRuler(TestRuler):
+class TestRegexRuler(object):#(TestRuler):
 
     def setUp(self):
         self.ruler = RegexRuler()
@@ -405,7 +423,7 @@ class TestRegexRuler(TestRuler):
         self.failUnless(len(result) == 3)
 
 
-class TestElementsRegexRuler(TestRuler):
+class TestElementsRegexRuler(object):#(TestRuler):
     def setUp(self):
         self.ruler = ElementsRegexRuler()
         super(TestElementsRegexRuler, self).setUp()
@@ -433,7 +451,7 @@ class TestElementsRegexRuler(TestRuler):
         self.failUnless(len(rules) == 2)
          
 
-class TestSeparatorsRegexRuler(TestRuler):
+class TestSeparatorsRegexRuler(object):#(TestRuler):
     def setUp(self):
         self.ruler = SeparatorsRegexRuler()
         super(TestSeparatorsRegexRuler, self).setUp()

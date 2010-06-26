@@ -20,6 +20,7 @@ import re
 import difflib #@UnresolvedImport
 
 from bibim import log
+from bibim.ie.context import ContextResolver
 from bibim.ie.types import (Rule,
                             Example)
 from bibim.references.util import split_name
@@ -142,6 +143,7 @@ class PathRule(Rule):
         log.debug('Applying PathRule') #@UndefinedVariable
         pattern = list(self.pattern)
         self.value_guide = pattern.pop(0)
+        self.context = pattern.pop(0)
         elements = self._get_path_element(pattern, input)
         return self._choose_element(elements)
     
@@ -184,7 +186,15 @@ class PathRule(Rule):
     
     def _choose_element(self, elements):
         matches = []
+        context_resolver = ContextResolver()
         for element in elements:
+            
+            # Check field context
+            context = context_resolver.get_context(element)            
+            if not context_resolver.check_context(self.context, context):
+                continue
+            
+            # Use value guide
             texts = element.findAll(name=True, text=True)
             element_text = ''.join(texts) 
             match = re.search(self.value_guide, element_text)
@@ -527,6 +537,7 @@ class PathRuler(Ruler):
     
     def __init__(self, value_guide='.*'):
         super(PathRuler, self).__init__()
+        self.context_resolver = ContextResolver()
         self.value_guide = value_guide
     
     def rule(self, training):
@@ -551,6 +562,8 @@ class PathRuler(Ruler):
     def _rule_element(self, example, element):
         try:
             pattern = self._get_element_path(example.content, element.parent)
+            context = self.context_resolver.get_context(element)
+            pattern.insert(0, context)
             return PathRule(pattern)
         except Exception, e:
             log.warn('Path ruler cannot rule element %s: %s' #@UndefinedVariable 
@@ -576,7 +589,9 @@ class PathRuler(Ruler):
         should be merged if they have the same length with the same elements,
         i.e. they only differ in their attributes.
         """
-        g_pattern, s_pattern = g_rule.pattern, s_rule.pattern
+        g_pattern, s_pattern = list(g_rule.pattern), list(s_rule.pattern)
+        g_pattern.pop(0)
+        s_pattern.pop(0)
         should_merge = True
         if len(g_pattern) != len(s_pattern):
             should_merge = False
@@ -592,7 +607,9 @@ class PathRuler(Ruler):
         """
         Merges two patterns (i.e. paths) of the same length and element names.
         """
-        g_pattern = list(g_pattern)
+        g_pattern, s_pattern = list(g_pattern), list(s_pattern)
+        g_context, s_context = g_pattern.pop(0), s_pattern.pop(0)
+        
         if not len(g_pattern) == len(s_pattern):
             raise ValueError
         
@@ -607,6 +624,8 @@ class PathRuler(Ruler):
             
             if element01[2] != element02[2]:
                 element01[2] = -1
+        context = self.context_resolver.merge_context(g_context, s_context)
+        g_pattern.insert(0, context)
         return g_pattern
 
     def _is_unique(self, document, description):
