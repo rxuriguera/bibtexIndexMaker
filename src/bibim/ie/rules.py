@@ -274,6 +274,12 @@ class RegexRuler(Ruler):
     Content of the examples must be a string.
     """
     
+    def __init__(self, similarity_threshold=SIMILARITY_THRESHOLD,
+                 heuristics=True):
+        Ruler.__init__(self)
+        self.similarity_threshold = similarity_threshold
+        self.heuristics = heuristics
+        
     def _rule_example(self, example):
         log.debug('Ruling example with RegexRuler') #@UndefinedVariable
         rules = []
@@ -307,7 +313,7 @@ class RegexRuler(Ruler):
         
     def _should_merge(self, g_rule, s_rule):
         sm = difflib.SequenceMatcher(None, g_rule.pattern, s_rule.pattern)
-        return sm.quick_ratio() > SIMILARITY_THRESHOLD
+        return sm.quick_ratio() > self.similarity_threshold
     
     def _unscape_pattern(self, pattern):
         pattern = pattern.replace('\\\\', '%%backslash%%')
@@ -333,8 +339,9 @@ class RegexRuler(Ruler):
         while not sm.quick_ratio() == 1.0:
             matching_blocks = sm.get_matching_blocks()
             
-            matching_blocks = self._apply_heuristics(g_pattern,
-                                                     list(matching_blocks))
+            if self.heuristics:
+                matching_blocks = self._apply_heuristics(g_pattern,
+                                                         list(matching_blocks))
             
             g_pattern = self._replace_non_matching_block(g_pattern,
                                                          matching_blocks,
@@ -457,6 +464,7 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
     """
     def __init__(self):
         super(SeparatorsRegexRuler, self).__init__()
+        self.heuristics = False
         
     def _rule_example(self, example):
         log.debug('Ruling example with SeparatorsRegexRuler') #@UndefinedVariable
@@ -507,15 +515,18 @@ class SeparatorsRegexRuler(MultiValueRegexRuler):
                           for sep in raw_separators]
         
         for separator in raw_separators:
-            should_append = True
-            for index in range(len(separators)): 
-                if self.parent_should_merge(Rule(separators[index]),
-                                      Rule(separator)):
-                    separators[index] = self.parent_merge(separators[index],
-                                                          separator)
-                    should_append = False
-                    break
-            if should_append:
+            # TODO: Fix separators merging
+            #should_append = True
+            #for index in range(len(separators)): 
+                #if self.parent_should_merge(Rule(separators[index]),
+                #                      Rule(separator)):
+                #    separators[index] = self.parent_merge(separators[index],
+                #                                          separator)
+                #    should_append = False
+                #    break
+                    
+            #if should_append:
+            if not separator in separators:
                 separators.append(separator)
         return separators
 
