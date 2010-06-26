@@ -18,11 +18,13 @@
 
 import heapq #@UnresolvedImport
 
+MIN_OCURRENCES = 2
+PARENT_RECURS = 2
 TOP_STRINGS = 3
 
 class ContextResolver(object):
     
-    def get_context(self, element):
+    def get_context(self, element, parent_recurs=PARENT_RECURS):
         """
         Gets a beautiful soup element and retrieves its context. 
         
@@ -36,12 +38,19 @@ class ContextResolver(object):
         """
         context = {}
         
+        if not element:
+            return context
+        
         # First, try with element's previous sibling
         context_element = element.previousSibling
         if not context_element:
-            # TODO: As of this version, we only consider direct siblings. In
-            # future versions we might look for parent's previous sibling.
-            return context 
+            if parent_recurs:
+                # TODO: As of this version, we only consider direct siblings. In
+                # future versions we might look for parent's previous sibling.
+                parent = element.parent
+                return self.get_context(parent, parent_recurs - 1)
+            else:
+                return context
 
         strings = context_element.findAll(text=True)
         for string in strings:
@@ -63,7 +72,8 @@ class ContextResolver(object):
         return previous
 
     def get_top_strings(self, context, top_strings=TOP_STRINGS):
-        tuple_list = [(context[string], string) for string in context]
+        tuple_list = [(context[string], string) for string in context 
+                      if context[string] >= MIN_OCURRENCES]
         heap = []
         for item in tuple_list:
             heapq.heappush(heap, item)
@@ -76,7 +86,7 @@ class ContextResolver(object):
         Checks if two contexts share any of the top words
         """
         control_top = self.get_top_strings(control)        
-        if not control:
+        if not control_top:
             return True
 
         valid = False

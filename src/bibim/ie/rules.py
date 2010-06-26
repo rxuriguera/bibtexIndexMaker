@@ -562,7 +562,7 @@ class PathRuler(Ruler):
     def _rule_element(self, example, element):
         try:
             pattern = self._get_element_path(example.content, element.parent)
-            context = self.context_resolver.get_context(element)
+            context = self.context_resolver.get_context(element.parent)
             pattern.insert(0, context)
             return PathRule(pattern)
         except Exception, e:
