@@ -71,6 +71,12 @@ class ContextResolverTest(unittest.TestCase):
         self.failUnless(merged == {u'Field 02:': 1, u'Field 01:': 4,
                                    u'Field 03:': 4})
     
+    def test_clean_context(self):
+        context = {'a':2, 'b':3, 'c':1,
+                   'this string is quite long. yes indeed':4}
+        result = self.cr.clean_context(context)
+        self.failUnless(result == {'a':2, 'b':3})
+        
     def test_get_top_words(self):
         context = {u'a':3, 'b':5, 'c':1, u'd':2, 'e':4}
         expected = ['b', 'e', u'a']

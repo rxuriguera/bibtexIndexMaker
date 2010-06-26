@@ -21,6 +21,7 @@ import heapq #@UnresolvedImport
 MIN_OCURRENCES = 2
 PARENT_RECURS = 2
 TOP_STRINGS = 3
+CONTEXT_MAX_LEN = 25
 
 class ContextResolver(object):
     
@@ -71,6 +72,19 @@ class ContextResolver(object):
             previous[string] = value
         return previous
 
+    def clean_context(self, context):
+        """
+        Removes long strings from the context as well as those that have only
+        appeared once during rule generation.
+        """
+        new_context = {}
+        for string in context:
+            if len(string) > CONTEXT_MAX_LEN:
+                continue
+            elif context[string] > 1:
+                new_context[string] = context[string]
+        return new_context
+            
     def get_top_strings(self, context, top_strings=TOP_STRINGS):
         tuple_list = [(context[string], string) for string in context 
                       if context[string] >= MIN_OCURRENCES]
