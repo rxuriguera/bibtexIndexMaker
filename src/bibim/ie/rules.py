@@ -27,7 +27,7 @@ from bibim.references.util import split_name
 
 # TODO: Load these values from the configuration file
 MINIMUM_RATIO = 0.5 
-SIMILARITY_THRESHOLD = 0.8
+SIMILARITY_THRESHOLD = 0.75
 MAX_SEPARATOR_CHARS = 10
 MAX_REGEX_GROUPS = 30
 MAX_ELEM_CONTENT_LEN = 350
