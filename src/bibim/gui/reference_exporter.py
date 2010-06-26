@@ -165,11 +165,13 @@ class ReferenceExporterpage(QtGui.QWizardPage):
     def _check_all(self):
         log.debug('Check all references') #@UndefinedVariable
         self._change_items_check_state(QtCore.Qt.Checked)
+        self._update_export_edit()
 
     def _uncheck_all(self):
         log.debug('Uncheck all references') #@UndefinedVariable
         self._change_items_check_state(QtCore.Qt.Unchecked)
-            
+        self._update_export_edit()
+        
     def _change_items_check_state(self, value):
         self.enter_populating()
         count = self.ui.references.topLevelItemCount() - 1
