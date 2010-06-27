@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[t]{beamer}
 
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -11,12 +11,23 @@
 \usepackage{url} 
 \usepackage{fancyvrb}
 
+
+\definecolor{light-gray}{gray}{0.3}
+
 \mode<presentation>
+  \usefonttheme{serif}
+  \usecolortheme[RGB={40,40,40}]{structure} 
+  \setbeamercolor{normal text}{fg=light-gray}
+
+  \usetheme{boxes}
   %\usetheme{default}
   %\usetheme{Boadilla}
   %\usetheme{Singapore}
+  %\usetheme{Dresden}
   %\usetheme{Rochester}
-  \usetheme{Malmoe}
+  %\usetheme{Malmoe}
+
+
 
   \setbeamercovered{transparent}
 
@@ -28,8 +39,8 @@
 
 %%% TITLEPAGE %%%%
 \title[{\sc Bib}\TeX{} Index Maker]{{\sc Bib}\TeX{} Bibliography Index Maker}
-\author[] % (optional, use only with lots of authors)
-{Ramon Xuriguera Albareda}
+%\author[] % (optional, use only with lots of authors)
+%{Ramon Xuriguera Albareda}
 \date[ ] % (optional)
 {Primavera 2010}
 \subject{Lectura PFC}
@@ -49,16 +60,16 @@
 \end{frame}
 
 %%%% MOTIVACIÓ %%%%
-\section[Motivació]{Motivació}
+\section[Objectius]{Objectius}
 \begin{frame}[t]{Motivació}
-  
-    \begin{block}{Guió típic en un treball de recerca:}
+    \framesubtitle{Objectius}
+    \begin{block}{Guió típic d'un treball de recerca:}
 			\begin{enumerate}
-				\pause\item
-                Lectura d'articles (PDF)
-				\pause\item
-                S'acumulen els fitxers en un directori
-                \pause\item
+				\item
+                Lectura d'articles
+				\item
+                S'acumulen els fitxers (PDF) en un directori
+                \item
                 A l'hora d'escriure, per poder citar, fa falta tenir un índex bibliogràfic
 			\end{enumerate}
 	\end{block}
@@ -68,8 +79,8 @@
 
 
 %%%% OBJECTIUS %%%%
-\section[Objectiu]{Objectiu}
 \begin{frame}{Objectiu}
+    \framesubtitle{Objectius}
     \begin{block}{Un únic objectiu principal:}
         \begin{itemize}
       		\item
@@ -79,13 +90,10 @@
     \pause
     \begin{block}{Però per aconseguir-lo necessitarem:}
         \begin{itemize}
-            \pause
       		\item
             Cercar referències a Internet pels PDFs que tenim
-            \pause
             \item
             Extreure la informació de les pàgines HTML
-            \pause
             \item
             Crear regles d'extracció automàticament 
         \end{itemize}
@@ -93,8 +101,8 @@
    
 \end{frame}
 
-
-\begin{frame}{Objectiu}
+\section[Procediment]{Procés d'extracció}
+\begin{frame}{Procés d'extracció}
     \framesubtitle{Esquema d'extracció}
     \begin{figure}
 	    \centering 
@@ -103,18 +111,39 @@
     \end{figure}
 \end{frame}
 
-
-%%%% CERCA %%%%
-\section[Cerca]{Cerca de referències}
-\begin{frame}{Cerca de referències}
-    \begin{block}{Passos a seguir:}
+%%%% PDF 2 TEXT %%%%
+\subsection[Text]{PDF to text}
+\begin{frame}{Procés d'extracció}
+    \framesubtitle{\textit{PDF to text}}
+    \begin{block}{Quant a l'extracció de text dels fitxers PDFs:}
         \begin{itemize}
       		\item
-            Extreu el contingut dels fitxers PDF
+            S'utilitza l'eina \textit{xPDF}
             \item
-            Genera consultes a partir del text
+            Resultats relativament bons...
             \item
-            Obté els resultats de les consultes (\textit{Google}, \textit{Bing}, \textit{Yahoo})
+            ...però continua tenint força problemes
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+%%%% CERCA %%%%
+\subsection[Cerca]{Cerca de referències}
+\begin{frame}{Procés d'extracció}
+    \framesubtitle{Cerca de referències}
+    \begin{block}{Passos a seguir per cercar referències:}
+        \begin{itemize}
+            \item
+            Genera consultes a partir del text\\
+            \texttt{([\textbackslash{}w()?!]+\textbackslash{} )\{min,max\}}
+            \\
+            \textit{``and slurry methods and have been tested in the selective''}\\
+            \item
+            Obté els resultats de les consultes (\textit{Google}, \textit{Bing}, \textit{Yahoo})\\
+            \begin{itemize}
+                \item{\texttt{www.springerlink.com/index/G4588X...}}
+                \item{\texttt{www.ingentaconnect.com/content/klu/ca...}}
+            \end{itemize}
             \item
             Filtra i ordena els resultats
         \end{itemize}
@@ -122,9 +151,10 @@
 \end{frame}
 
 %%%% EXTRACCIO %%%%
-\section[Extracció]{Extracció d'informació}
-\begin{frame}{Extracció d'informació}
-    \begin{block}{Dos mètodes d'extracció:}
+\subsection[Extracció]{Extracció d'informació}
+\begin{frame}{Procés d'extracció}
+    \framesubtitle{Extracció d'informació}
+    \begin{block}{Dos tipus de regles d'extracció d'informació:}
         \begin{itemize}
       		\item
             \textit{Reference Wrappers}
@@ -139,7 +169,7 @@
     \begin{block}{Característiques:}
         \begin{itemize}
       		\item
-            Extreuren referències senceres
+            Extreuen referències senceres
             \item
             Només se'n necessita un per cada biblioteca digital
             \item
@@ -148,16 +178,12 @@
             Els resultats solen ser bons
         \end{itemize}
     \end{block}
-\end{frame}
-
-\begin{frame}{Extracció d'informació}
-    \framesubtitle{Reference Wrappers}
     \begin{figure}
-	    \centering 
-	    \includegraphics[width=\textwidth]{figures/refextraction:reference-wrappers.pdf} 
-	    \label{fig:refextraction:reference-wrappers} 
+	    \centering
+	    \includegraphics[width=0.75\textwidth]{figures/refextraction:reference-wrappers.pdf}
     \end{figure}
 \end{frame}
+
 
 \begin{frame}{Extracció d'informació}
     \framesubtitle{Field Wrappers}
@@ -171,37 +197,170 @@
             Implementats automàticament
         \end{itemize}
     \end{block}
-\end{frame}
-
-\begin{frame}{Extracció d'informació}
-    \framesubtitle{Field Wrappers}
     \begin{figure}
-	    \centering 
+	    \centering
 	    \includegraphics[width=\textwidth]{figures/refextraction:field-wrappers.pdf} 
-	    \label{fig:refextraction:field-wrappers} 
     \end{figure}
 \end{frame}
 
 
+\begin{frame}{Extracció d'informació}
+    \framesubtitle{Validació}   
+    \begin{block}{Característiques de la validació:}
+        \begin{itemize}
+      		\item{}
+            Camps com ara el títol i autors: es comprova que es troben dins del document PDF
+            \item{}
+            Camps com ara el número de pàgines o any: es mira que compleixin una expressió regular.
+            \item{}
+            Cada camp té un pes sore la validesa final
+        \end{itemize}
+    \end{block}
+\end{frame}
 
 %%%% WRAPPERGEN %%%%
 \section[Regles]{Generació de regles}
 \begin{frame}{Generació de regles}
-Només es generen \textit{Field Wrappers}\\
-Consisteixen en regles\\
-Trobar l'element que conté la informació\\
-Generar una expressió regular per extreure-la\\
-Avaluar el \textit{wrapper}
+    \framesubtitle{Esquema}
+    \vspace{1mm}
+    \begin{figure}
+	    \centering
+	    \includegraphics[width=0.8\textwidth]{figures/wrappergeneration:wrappergeneration.pdf} 
+    \end{figure}
+    \begin{block}{}
+        \begin{itemize}
+      		\item
+            S'utilitzen (poques) referències com a exemples.
+            \item
+            Corresponen a la mateixa biblioteca digital
+        \end{itemize}
+    \end{block}
+
+
+
+%Només es generen \textit{Field Wrappers}\\
+%Consisteixen en regles\\
+%Trobar l'element que conté la informació\\
+%Generar una expressió regular per extreure-la\\
+%Avaluar el \textit{wrapper}
+\end{frame}
+
+
+\begin{frame}{Generació de regles}
+    \framesubtitle{Estructura dels \textit{Field Wrappers}}
+    \begin{block}{Els \textit{field wrappers} es caracteritzen per:}
+        \begin{itemize}
+      		\item
+            Consisteixen en una seqüència ordenada de regles
+            \item
+            Cada regla està formada per un patró i un procediment per aplicar el patró
+            \item{}
+            Les regles estan connectades en cascada
+        \end{itemize}
+    \end{block}
+    \begin{figure}
+	    \centering
+	    \includegraphics[width=0.8\textwidth]{figures/wrapperinduction:cascaderules.pdf} 
+    \end{figure}
+\end{frame}
+
+\subsection[Tipus de Regles]{Tipus de Regles}
+\begin{frame}{Generació de regles}
+    \framesubtitle{Tipus de regles}
+    \begin{block}{\textit{Path Rule}:}
+        \begin{itemize}        
+            \item{}
+            Localitza l'element del document HTML que conté el valor que busquem
+            \item{}
+            El patró consisteix en una ruta dins de l'arbre que representa el document
+        \end{itemize}
+    \end{block}
+    \pause
+    \begin{block}{\textit{Regex Rule}:}
+        \begin{itemize}        
+            \item{}
+            Localitza el valor dins del contingut de l'element HTML obtingut per una \textit{Path Rule}
+            \item{}
+            El patró consisteix en una expressió regular per extreure el valor desitjat
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+\begin{frame}{Generació de regles}
+    \framesubtitle{Altres regles per a camps multivalor}
+    \begin{block}{\textit{Separators Regex Rule}:}
+        \begin{itemize}        
+            \item{}
+            Separa els diferents valors continguts en un mateix element HTML
+            \item{}
+            El patró consisteix en un conjunt de cadenes de caràcters que separen els valors desitjats
+        \end{itemize}
+    \end{block}
+    \pause
+    \begin{block}{\textit{MultiValue Regex Rule}:}
+        \begin{itemize}        
+            \item{}
+            Consisteix en una \textit{regex rule} que actua sobre diferents valors
+        \end{itemize}
+    \end{block}
+    \pause
+    \begin{block}{\textit{Person Rule}:}
+        \begin{itemize}        
+            \item{}
+            Separen noms en els camps: \texttt{last\_name}, \texttt{middle\_name} i \texttt{first\_name}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\subsection[Avaluació]{Avaluació}
+\begin{frame}{Generació de regles}
+    \framesubtitle{Avaluació de \textit{Wrappers}}
+    \begin{block}{Quant a l'avaluació de \textit{wrappers}:}
+        \begin{itemize}        
+            \item{}
+            Els millors \textit{wrappers} s'han de provar primer
+            \item{}
+            Per escollir un ordre inicial, s'apliquen sobre els mateixos exemples
+            \item{}
+            Cada vegada que s'utilitza un \textit{wrapper} se li dóna un vot
+            \item{}
+            Els bons pugen i els dolents baixen
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 %%%% DEMOSTRACIÓ %%%%
-\section[Demostració]{Demostració}
-\begin{frame}{Demostració}
+\section[Demo]{Demo}
+\begin{frame}{Demo}
 \end{frame}
 
 %%%% CONCLUSIONS %%%%
-\section[Conclusions]{Conclusions i Treball Futur}
-\begin{frame}{Conclusions i Treball Futur}
+\section[Conclusions]{Conclusions}
+\begin{frame}{Conclusions}
+\begin{itemize}
+\item{}
+Hi ha pèrdues a cadascun dels passos
+\newline{}
+\item{}
+L'èxit dels resultats depèn completament de la qualitat dels \textit{wrappers} disponibles
+\newline{}
+\item{}
+Errors fàcilment corregibles manualment
+\newline{}
+\item{}
+La part de generació i extracció, aplicable a qualsevol altre domini
+\newline{}
+\item{}
+Molt per fer i millorar
+\end{itemize}
+\end{frame}
+
+%%%% GRÀCIES %%%%
+\begin{frame}[c]{}
+\begin{center}
+Q\&A
+\end{center}
 \end{frame}
 
 
