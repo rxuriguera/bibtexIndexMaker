@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_wrapper_training.ui'
 #
-# Created: Mon May 10 18:06:23 2010
+# Created: Sun Jun 27 13:50:22 2010
 #      by: PyQt4 UI code generator 4.7.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,6 +37,12 @@ class Ui_WrapperTrainingPage(object):
         self.wrapperTrainingLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.wrapperTrainingLayout.setSpacing(6)
         self.wrapperTrainingLayout.setObjectName("wrapperTrainingLayout")
+        self.urlLabel = QtGui.QLabel(self.verticalLayoutWidget)
+        self.urlLabel.setObjectName("urlLabel")
+        self.wrapperTrainingLayout.addWidget(self.urlLabel)
+        self.urlLine = QtGui.QLineEdit(self.verticalLayoutWidget)
+        self.urlLine.setObjectName("urlLine")
+        self.wrapperTrainingLayout.addWidget(self.urlLine)
         self.instructionsLabel = QtGui.QLabel(self.verticalLayoutWidget)
         self.instructionsLabel.setObjectName("instructionsLabel")
         self.wrapperTrainingLayout.addWidget(self.instructionsLabel)
@@ -46,12 +52,6 @@ class Ui_WrapperTrainingPage(object):
         self.urls.setObjectName("urls")
         self.urls.header().setVisible(True)
         self.wrapperTrainingLayout.addWidget(self.urls)
-        self.urlLabel = QtGui.QLabel(self.verticalLayoutWidget)
-        self.urlLabel.setObjectName("urlLabel")
-        self.wrapperTrainingLayout.addWidget(self.urlLabel)
-        self.urlLine = QtGui.QLineEdit(self.verticalLayoutWidget)
-        self.urlLine.setObjectName("urlLine")
-        self.wrapperTrainingLayout.addWidget(self.urlLine)
         self.verticalLayout_2.addWidget(self.splitter)
 
         self.retranslateUi(WrapperTrainingPage)
@@ -60,7 +60,7 @@ class Ui_WrapperTrainingPage(object):
     def retranslateUi(self, WrapperTrainingPage):
         WrapperTrainingPage.setWindowTitle(QtGui.QApplication.translate("WrapperTrainingPage", "Reference Manager", None, QtGui.QApplication.UnicodeUTF8))
         WrapperTrainingPage.setTitle(QtGui.QApplication.translate("WrapperTrainingPage", "Wrapper Training", None, QtGui.QApplication.UnicodeUTF8))
-        self.instructionsLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "Select a URL of write one yourself:", None, QtGui.QApplication.UnicodeUTF8))
+        self.urlLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "Write a URL:", None, QtGui.QApplication.UnicodeUTF8))
+        self.instructionsLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "Or select one below:", None, QtGui.QApplication.UnicodeUTF8))
         self.urls.headerItem().setText(0, QtGui.QApplication.translate("WrapperTrainingPage", "Available URLs", None, QtGui.QApplication.UnicodeUTF8))
-        self.urlLabel.setText(QtGui.QApplication.translate("WrapperTrainingPage", "URL:", None, QtGui.QApplication.UnicodeUTF8))
 

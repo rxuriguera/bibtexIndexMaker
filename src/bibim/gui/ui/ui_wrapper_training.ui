@@ -52,9 +52,19 @@
         <number>6</number>
        </property>
        <item>
+        <widget class="QLabel" name="urlLabel">
+         <property name="text">
+          <string>Write a URL:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="urlLine"/>
+       </item>
+       <item>
         <widget class="QLabel" name="instructionsLabel">
          <property name="text">
-          <string>Select a URL of write one yourself:</string>
+          <string>Or select one below:</string>
          </property>
         </widget>
        </item>
@@ -75,16 +85,6 @@
           </property>
          </column>
         </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="urlLabel">
-         <property name="text">
-          <string>URL:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="urlLine"/>
        </item>
       </layout>
      </widget>
