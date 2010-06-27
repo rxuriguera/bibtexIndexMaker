@@ -54,12 +54,17 @@ class ReferenceManagerPage(QtGui.QWizardPage):
         self.ui.delete_action.triggered.connect(self._delete_selected_reference)
         self.ui.references.addAction(self.ui.delete_action)
 
+        self.ui.delall_action = QtGui.QAction("Delete All", self.ui.references)
+        self.ui.delall_action.triggered.connect(self._delete_all_references)
+        self.ui.references.addAction(self.ui.delall_action)
+
     def initializePage(self):
         log.debug("Initializing references page.")  #@UndefinedVariable
 
         extractions = self.parent.extraction_gw.find_extractions()
         for extraction in extractions:
             self._add_extraction(extraction)
+        self.ui.references.sortItems(0, QtCore.Qt.AscendingOrder)
     
     def _change_show_string(self, new):
         log.debug('Changing show string for current item') #@UndefinedVariable
@@ -114,6 +119,26 @@ class ReferenceManagerPage(QtGui.QWizardPage):
         self.ui.references.setItemSelected(self.last_selected, False)
         self.ui.references.removeItemWidget(self.last_selected, 0)
         self.last_selected = None
+        
+    def _delete_all_references(self):
+        self.ui.references
+        msg_box = ConfirmMessageBox(self)
+        msg_box.setText('Are you sure you want to delete all references?')
+        result = msg_box.exec_()
+        
+        if result == QtGui.QMessageBox.Cancel:
+            log.debug('Deletion aborted') #@UndefinedVariable
+            return
+        
+        # Reference deletion
+        count = self.ui.references.topLevelItemCount()
+        for index in range(count):
+            item = self.ui.references.takeTopLevelItem(0)
+            log.debug('Deleting reference') #@UndefinedVariable
+            self.parent.extraction_gw.delete(item.extraction)
+            self.ui.references.setItemSelected(item, False)
+        self.last_selected = None        
+        self.editor.clear()
 
     def update_extraction_editor(self):
         # Save current changes
