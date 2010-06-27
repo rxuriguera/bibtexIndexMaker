@@ -86,6 +86,7 @@ class ReferenceExporterpage(QtGui.QWizardPage):
         extractions = self.parent.extraction_gw.find_extractions()
         for extraction in extractions:
             self._add_extraction(extraction)
+        self.ui.references.sortItems(0, QtCore.Qt.AscendingOrder)
         self.exit_populating()
         
         self.thread = ReferenceFormatterThread(self, self.reference_formatter)
