@@ -39,6 +39,7 @@
 
 %%% TITLEPAGE %%%%
 \title[{\sc Bib}\TeX{} Index Maker]{{\sc Bib}\TeX{} Bibliography Index Maker}
+\subtitle{(Bibim)}
 %\author[] % (optional, use only with lots of authors)
 %{Ramon Xuriguera Albareda}
 \date[ ] % (optional)
@@ -61,16 +62,16 @@
 
 %%%% MOTIVACIÓ %%%%
 \section[Objectius]{Objectius}
-\begin{frame}[t]{Motivació}
-    \framesubtitle{Objectius}
+\begin{frame}[t]{Objectius}
+    \framesubtitle{Motivació}
     \begin{block}{Guió típic d'un treball de recerca:}
 			\begin{enumerate}
 				\item
                 Lectura d'articles
-				\item
+				\newline{}\item
                 S'acumulen els fitxers (PDF) en un directori
-                \item
-                A l'hora d'escriure, per poder citar, fa falta tenir un índex bibliogràfic
+                \newline{}\item
+                A l'hora d'escriure, fa falta tenir un índex bibliogràfic per poder citar
 			\end{enumerate}
 	\end{block}
 					
@@ -79,8 +80,8 @@
 
 
 %%%% OBJECTIUS %%%%
-\begin{frame}{Objectiu}
-    \framesubtitle{Objectius}
+\begin{frame}{Objectius}
+    \framesubtitle{Objectiu}
     \begin{block}{Un únic objectiu principal:}
         \begin{itemize}
       		\item
@@ -91,18 +92,19 @@
     \begin{block}{Però per aconseguir-lo necessitarem:}
         \begin{itemize}
       		\item
-            Cercar referències a Internet pels PDFs que tenim
-            \item
+            Cercar referències a Internet\\
+            (Biblioteques digitals)
+            \newline{}\item
             Extreure la informació de les pàgines HTML
-            \item
+            \newline{}\item
             Crear regles d'extracció automàticament 
         \end{itemize}
     \end{block}
    
 \end{frame}
 
-\section[Procediment]{Procés d'extracció}
-\begin{frame}{Procés d'extracció}
+\section[Procediment]{Extracció de referències}
+\begin{frame}{Extracció de referències}
     \framesubtitle{Esquema d'extracció}
     \begin{figure}
 	    \centering 
@@ -113,15 +115,15 @@
 
 %%%% PDF 2 TEXT %%%%
 \subsection[Text]{PDF to text}
-\begin{frame}{Procés d'extracció}
+\begin{frame}{Extracció de referències}
     \framesubtitle{\textit{PDF to text}}
     \begin{block}{Quant a l'extracció de text dels fitxers PDFs:}
         \begin{itemize}
       		\item
             S'utilitza l'eina \textit{xPDF}
-            \item
+            \newline{}\item
             Resultats relativament bons...
-            \item
+            \newline{}\item
             ...però continua tenint força problemes
         \end{itemize}
     \end{block}
@@ -129,7 +131,7 @@
 
 %%%% CERCA %%%%
 \subsection[Cerca]{Cerca de referències}
-\begin{frame}{Procés d'extracció}
+\begin{frame}{Extracció de referències}
     \framesubtitle{Cerca de referències}
     \begin{block}{Passos a seguir per cercar referències:}
         \begin{itemize}
@@ -137,12 +139,13 @@
             Genera consultes a partir del text\\
             \texttt{([\textbackslash{}w()?!]+\textbackslash{} )\{min,max\}}
             \\
-            \textit{``and slurry methods and have been tested in the selective''}\\
-            \item
+            \textit{``and slurry methods and have been tested in the selective''}
+            \newline{}\item{}
             Obté els resultats de les consultes (\textit{Google}, \textit{Bing}, \textit{Yahoo})\\
             \begin{itemize}
                 \item{\texttt{www.springerlink.com/index/G4588X...}}
                 \item{\texttt{www.ingentaconnect.com/content/klu/ca...}}
+                \newline{}
             \end{itemize}
             \item
             Filtra i ordena els resultats
@@ -152,7 +155,7 @@
 
 %%%% EXTRACCIO %%%%
 \subsection[Extracció]{Extracció d'informació}
-\begin{frame}{Procés d'extracció}
+\begin{frame}{Extracció de referències}
     \framesubtitle{Extracció d'informació}
     \begin{block}{Dos tipus de regles d'extracció d'informació:}
         \begin{itemize}
@@ -164,12 +167,12 @@
     \end{block}
 \end{frame}
 
-\begin{frame}{Extracció d'informació}
+\begin{frame}{Extracció de referències}
     \framesubtitle{Reference Wrappers}
     \begin{block}{Característiques:}
         \begin{itemize}
       		\item
-            Extreuen referències senceres
+            Extreuen referències senceres ({\sc Bib}\TeX{})
             \item
             Només se'n necessita un per cada biblioteca digital
             \item
@@ -185,7 +188,7 @@
 \end{frame}
 
 
-\begin{frame}{Extracció d'informació}
+\begin{frame}{Extracció de referències}
     \framesubtitle{Field Wrappers}
     \begin{block}{Característiques:}
         \begin{itemize}
@@ -204,9 +207,17 @@
 \end{frame}
 
 
-\begin{frame}{Extracció d'informació}
+\begin{frame}{Extracció de referències}
     \framesubtitle{Validació}   
-    \begin{block}{Característiques de la validació:}
+    \begin{block}{Per què:}
+        \begin{itemize}
+      		\item{}
+            Informar a l'usuari
+            \item{}
+            Utilitzar les referències per re-generar regles
+        \end{itemize}
+    \end{block}
+    \begin{block}{Com ho fem:}
         \begin{itemize}
       		\item{}
             Camps com ara el títol i autors: es comprova que es troben dins del document PDF
@@ -253,7 +264,7 @@
       		\item
             Consisteixen en una seqüència ordenada de regles
             \item
-            Cada regla està formada per un patró i un procediment per aplicar el patró
+            Cada regla està formada per un procediment guiat per un patró
             \item{}
             Les regles estan connectades en cascada
         \end{itemize}
@@ -270,40 +281,43 @@
     \begin{block}{\textit{Path Rule}:}
         \begin{itemize}        
             \item{}
-            Localitza l'element del document HTML que conté el valor que busquem
+            Localitza elements del document HTML
             \item{}
-            El patró consisteix en una ruta dins de l'arbre que representa el document
+            El patró consisteix en una ruta dins de l'arbre HTML
         \end{itemize}
     \end{block}
+    \vspace{5mm}
     \pause
     \begin{block}{\textit{Regex Rule}:}
         \begin{itemize}        
             \item{}
-            Localitza el valor dins del contingut de l'element HTML obtingut per una \textit{Path Rule}
+            Localitza valors dins d'una cadena de caràcters.
             \item{}
-            El patró consisteix en una expressió regular per extreure el valor desitjat
+            El patró és una expressió regular per extreure el valor desitjat
         \end{itemize}
     \end{block}
 \end{frame}
 
 
 \begin{frame}{Generació de regles}
-    \framesubtitle{Altres regles per a camps multivalor}
+    \framesubtitle{Altres regles}
     \begin{block}{\textit{Separators Regex Rule}:}
         \begin{itemize}        
             \item{}
-            Separa els diferents valors continguts en un mateix element HTML
+            Separa valors continguts en un mateix text
             \item{}
-            El patró consisteix en un conjunt de cadenes de caràcters que separen els valors desitjats
+            El patró és un conjunt de cadenes que actuen de separadors
         \end{itemize}
     \end{block}
+    \vspace{5mm}
     \pause
     \begin{block}{\textit{MultiValue Regex Rule}:}
         \begin{itemize}        
             \item{}
-            Consisteix en una \textit{regex rule} que actua sobre diferents valors
+            \textit{Regex rule} que actua sobre diferents valors
         \end{itemize}
     \end{block}
+    \vspace{5mm}
     \pause
     \begin{block}{\textit{Person Rule}:}
         \begin{itemize}        
@@ -320,11 +334,11 @@
         \begin{itemize}        
             \item{}
             Els millors \textit{wrappers} s'han de provar primer
-            \item{}
+            \newline{}\item{}
             Per escollir un ordre inicial, s'apliquen sobre els mateixos exemples
-            \item{}
+            \newline{}\item{}
             Cada vegada que s'utilitza un \textit{wrapper} se li dóna un vot
-            \item{}
+            \newline{}\item{}
             Els bons pugen i els dolents baixen
         \end{itemize}
     \end{block}
