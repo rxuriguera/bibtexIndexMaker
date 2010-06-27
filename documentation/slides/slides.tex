@@ -10,9 +10,10 @@
 \usepackage[T1]{fontenc}
 \usepackage{url} 
 \usepackage{fancyvrb}
-
+\usepackage{listings}
 
 \definecolor{light-gray}{gray}{0.3}
+\definecolor{lighter-gray}{gray}{0.95}
 
 \mode<presentation>
   \usefonttheme{serif}
@@ -36,6 +37,17 @@
 \def\bS{{\mathbb S}}
 
 
+\lstset{%
+    numbers=none,               %
+    breaklines=true,            %
+    fancyvrb=false,             %
+    tabsize=2,                  % sets default tabsize to 2 spaces
+    captionpos=b,               % sets the caption-position to bottom
+    frame=single,
+    xleftmargin=3em,
+    xrightmargin=3em,
+    backgroundcolor = \color{lighter-gray}
+}        
 
 %%% TITLEPAGE %%%%
 \title[{\sc Bib}\TeX{} Index Maker]{{\sc Bib}\TeX{} Bibliography Index Maker}
@@ -165,6 +177,11 @@
             \textit{Field Wrappers}
         \end{itemize}
     \end{block}
+    \begin{figure}
+	    \centering
+	    \includegraphics[width=0.8\textwidth]{figures/wrapper_sample.pdf} 
+    \end{figure}
+
 \end{frame}
 
 \begin{frame}{Extracció de referències}
@@ -246,14 +263,6 @@
             Corresponen a la mateixa biblioteca digital
         \end{itemize}
     \end{block}
-
-
-
-%Només es generen \textit{Field Wrappers}\\
-%Consisteixen en regles\\
-%Trobar l'element que conté la informació\\
-%Generar una expressió regular per extreure-la\\
-%Avaluar el \textit{wrapper}
 \end{frame}
 
 
@@ -287,7 +296,15 @@
         \end{itemize}
     \end{block}
     \vspace{5mm}
-    \pause
+    \begin{figure}
+	    \centering
+	    \includegraphics[width=0.8\textwidth]{figures/wrapperinduction:pathrule.pdf} 
+    \end{figure}
+\end{frame}
+
+%%% REGEX RULES %%%%
+\begin{frame}{Generació de regles}
+    \framesubtitle{Tipus de regles}
     \begin{block}{\textit{Regex Rule}:}
         \begin{itemize}        
             \item{}
@@ -296,9 +313,18 @@
             El patró és una expressió regular per extreure el valor desitjat
         \end{itemize}
     \end{block}
+
+    \begin{center}
+    \begin{tabular}{ll}      
+        Text: & \textbf{\texttt{Vol. 27, pp. 1204-1209.}} \\
+        Patró: & \textbf{\texttt{(?:.*), pp. (.*).}} \\
+        &\\
+        Resultat: &\textbf{\texttt{1204-1209}}\\
+    \end{tabular}
+    \end{center}
 \end{frame}
 
-
+%%% SEPARATORS RULES %%%%
 \begin{frame}{Generació de regles}
     \framesubtitle{Altres regles}
     \begin{block}{\textit{Separators Regex Rule}:}
@@ -309,8 +335,21 @@
             El patró és un conjunt de cadenes que actuen de separadors
         \end{itemize}
     \end{block}
-    \vspace{5mm}
-    \pause
+
+    \begin{center}
+    \begin{tabular}{ll}      
+        Text: & \textbf{\texttt{Value A, Value B and Value C}} \\
+        Patró: & \textbf{\texttt{``, ''}} i  \textbf{\texttt{`` and ''}}\\
+        &\\
+        Resultat: &\textbf{\texttt{[Value A, Value B, Value C]}}\\
+    \end{tabular}
+    \end{center}
+
+\end{frame}
+
+%%%% Altres %%%%
+\begin{frame}{Generació de regles}
+    \framesubtitle{Altres regles}
     \begin{block}{\textit{MultiValue Regex Rule}:}
         \begin{itemize}        
             \item{}
@@ -322,9 +361,16 @@
     \begin{block}{\textit{Person Rule}:}
         \begin{itemize}        
             \item{}
-            Separen noms en els camps: \texttt{last\_name}, \texttt{middle\_name} i \texttt{first\_name}
+            Separen noms en els camps: \texttt{last\_name}, \texttt{middle\_name} i \texttt{first\_name}. Sense patró.
         \end{itemize}
     \end{block}
+    \begin{center}
+    \begin{tabular}{ll}      
+        Nom: & \textbf{\texttt{Anders And}} \\
+        & \\
+        Resultat: &\textbf{\texttt{[``And'', ``'',``Anders'']}}\\
+    \end{tabular}
+    \end{center}
 \end{frame}
 
 \subsection[Avaluació]{Avaluació}
