@@ -57,6 +57,7 @@ class ReferenceEditor(QtGui.QWidget):
         """
         Clears all the information of the reference editor
         """
+        self.editor.filePathLine.setText('')
         self.editor.resultLine.setText('')
         self.editor.queryLine.setText('')
         self.editor.validitySpin.setValue(0.0)
