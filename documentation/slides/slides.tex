@@ -37,7 +37,12 @@
 \def\bS{{\mathbb S}}
 
 
+\lstdefinelanguage{mylanguage}
+         {key=@article}
+
+
 \lstset{%
+    basicstyle=\ttfamily,
     numbers=none,               %
     breaklines=true,            %
     fancyvrb=false,             %
@@ -85,11 +90,54 @@
                 \newline{}\item
                 A l'hora d'escriure, fa falta tenir un índex bibliogràfic per poder citar
 			\end{enumerate}
-	\end{block}
-					
+	\end{block}			
 
 \end{frame}
 
+
+\begin{frame}{Objectius}
+    \framesubtitle{Exemple d'un article}
+    \begin{figure}
+	    \centering 
+	    \includegraphics[width=0.7\textwidth]{figures/pdf2text:02.pdf} 
+	    \label{fig:definition:extraction-diagram} 
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Objectius}
+    \framesubtitle{Exemple d'un article}
+    \begin{figure}
+	    \centering 
+	    \includegraphics[width=0.7\textwidth]{figures/pdf2text:01.pdf} 
+	    \label{fig:definition:extraction-diagram} 
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile]{Objectius}
+    \framesubtitle{Exemple de referència}
+{\scriptsize
+    \begin{lstlisting}[xleftmargin=1em, xrightmargin=1em]
+@article{1063619,
+  author = 
+    {Ganter, Bernhard and Krau\sse, R\"{u}diger},
+
+  title = 
+    {Pseudo-models and propositional Horn inference},
+
+  journal =
+    {Discrete Appl. Math.},
+
+  volume = 
+    {147},
+
+  year = 
+    {2005},
+  ...
+ }
+    \end{lstlisting}
+}
+\end{frame}
 
 %%%% OBJECTIUS %%%%
 \begin{frame}{Objectius}
@@ -99,8 +147,7 @@
       		\item
             La creació d'índexs bibliogràfics de forma automàtica
         \end{itemize}
-    \end{block}
-    \pause
+    \end{block}		
     \begin{block}{Però per aconseguir-lo necessitarem:}
         \begin{itemize}
       		\item
@@ -112,7 +159,15 @@
             Crear regles d'extracció automàticament 
         \end{itemize}
     \end{block}
-   
+\end{frame}
+
+\begin{frame}{Objectius}
+    \framesubtitle{Esquema del sistema}
+    \begin{figure}
+	    \centering 
+	    \includegraphics[width=0.65\textwidth]{figures/definition:wrapperinduction-architecture.pdf} 
+	    \label{fig:definition:extraction-diagram} 
+    \end{figure}
 \end{frame}
 
 \section[Procediment]{Extracció de referències}
@@ -241,14 +296,14 @@
             \item{}
             Camps com ara el número de pàgines o any: es mira que compleixin una expressió regular.
             \item{}
-            Cada camp té un pes sore la validesa final
+            Cada camp té un pes sobre la validesa final
         \end{itemize}
     \end{block}
 \end{frame}
 
 %%%% WRAPPERGEN %%%%
-\section[Regles]{Generació de regles}
-\begin{frame}{Generació de regles}
+\section[Regles]{Generació de wrappers}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Esquema}
     \vspace{1mm}
     \begin{figure}
@@ -266,7 +321,7 @@
 \end{frame}
 
 
-\begin{frame}{Generació de regles}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Estructura dels \textit{Field Wrappers}}
     \begin{block}{Els \textit{field wrappers} es caracteritzen per:}
         \begin{itemize}
@@ -285,7 +340,7 @@
 \end{frame}
 
 \subsection[Tipus de Regles]{Tipus de Regles}
-\begin{frame}{Generació de regles}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Tipus de regles}
     \begin{block}{\textit{Path Rule}:}
         \begin{itemize}        
@@ -303,7 +358,7 @@
 \end{frame}
 
 %%% REGEX RULES %%%%
-\begin{frame}{Generació de regles}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Tipus de regles}
     \begin{block}{\textit{Regex Rule}:}
         \begin{itemize}        
@@ -324,8 +379,34 @@
     \end{center}
 \end{frame}
 
+\begin{frame}{Generació de \textit{wrappers}}
+    \framesubtitle{Tipus de regles}
+    \begin{block}{Exemple de generació d'un patró:}
+        \begin{itemize}
+            \item{}
+            Dos elements de pàgines HTML d'exemple:\\
+            \textbf{\texttt{Vol. 27, pp. 1204-1209.}} \\
+            \textbf{\texttt{Vol. 14, pp. 33-43.}}
+            \newline{}
+            \item{}
+            Extraiem la informació que ens interessa:\\
+            \textbf{\texttt{Vol. 27, pp. (.*).}} \\
+            \textbf{\texttt{Vol. 14, pp. (.*).}}      
+            \newline{}
+            \item{}
+            Obtenim la similaritat de les dues cadenes:\\
+            \textbf{\texttt{0.88}}
+            \newline{}
+            \item{}
+            Fusionem els blocs de caràcters no coincidents:\\
+            \textbf{\texttt{Vol. (?:.*), pp. (.*).}} \\
+
+        \end{itemize}
+    \end{block}
+\end{frame}
+
 %%% SEPARATORS RULES %%%%
-\begin{frame}{Generació de regles}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Altres regles}
     \begin{block}{\textit{Separators Regex Rule}:}
         \begin{itemize}        
@@ -348,7 +429,7 @@
 \end{frame}
 
 %%%% Altres %%%%
-\begin{frame}{Generació de regles}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Altres regles}
     \begin{block}{\textit{MultiValue Regex Rule}:}
         \begin{itemize}        
@@ -374,7 +455,7 @@
 \end{frame}
 
 \subsection[Avaluació]{Avaluació}
-\begin{frame}{Generació de regles}
+\begin{frame}{Generació de \textit{wrappers}}
     \framesubtitle{Avaluació de \textit{Wrappers}}
     \begin{block}{Quant a l'avaluació de \textit{wrappers}:}
         \begin{itemize}        
@@ -393,7 +474,52 @@
 %%%% DEMOSTRACIÓ %%%%
 \section[Demo]{Demo}
 \begin{frame}{Demo}
+    \begin{block}{Què veurem:}
+        \begin{itemize}        
+            \item{}
+            Extracció utilitzant només \textit{Reference Wrappers}
+            \newline{}\item{}
+            Importació de referències
+            \newline{}\item{}
+            Generació de \textit{Field Wrappers}            
+            \newline{}\item{}
+            Extracció utilitzant tots els \textit{wrappers}
+            \newline{}\item{}
+            Correcció manual de regles
+            \newline{}\item{}
+            Extracció amb les regles corregides
+        \end{itemize}
+    \end{block}
 \end{frame}
+
+%%%% TASQUES %%%%
+\section[Conclusions]{Conclusions}
+\begin{frame}{Tasques i Estimació Temporal}
+
+\begin{center}
+\begin{tabular}{|l r|}
+
+\hline
+\textbf{Tasca}                                                              & \textbf{Temps estimat}\\
+\hline
+\hline
+Recerca i proves de concepte                                                & 20 dies\\
+Configuració de la infraestructura                                          & 4 dies\\
+Extracció del text dels PDF                                                 & 8 dies\\
+Obtenció de pàgines amb la referència                                       & 13.5 dies\\
+Extracció d'informació                                                      & 14 dies\\
+Generació automàtica de \textit{wrappers}                                   & \textbf{32.5 dies}\\
+Tractament de referències                                                   & 5 dies\\
+Base de dades                                                               & 5 dies\\
+Mòdul principal                                                             & 11 dies\\
+Interfície d'usuari                                                         & 4 dies\\
+Proves                                                                      & 12 dies\\
+\hline
+\hline
+\end{tabular}
+\end{center}
+\end{frame}
+
 
 %%%% CONCLUSIONS %%%%
 \section[Conclusions]{Conclusions}
@@ -412,7 +538,7 @@ Errors fàcilment corregibles
 La part de generació i extracció, aplicable a qualsevol altre domini
 \newline{}
 \item{}
-Molt per fer i millorar
+Treball futur: afegir millores i noves funcionalitats
 \end{itemize}
 \end{frame}
 
